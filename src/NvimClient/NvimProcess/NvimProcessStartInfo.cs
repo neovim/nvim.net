@@ -31,18 +31,9 @@ namespace NvimClient.NvimProcess
     /// </param>
     /// <param name="arguments">The arguments to pass to Nvim.</param>
     /// <param name="startOptions">The options for starting Nvim.</param>
-    public NvimProcessStartInfo(string nvimPath,
-      string arguments, StartOption startOptions = StartOption.None) : this(
-      new ProcessStartInfo(
-        nvimPath, string.Join(" ",
-          GetFlagsForOptions(startOptions).Append(arguments)
-            .Where(argument => !string.IsNullOrEmpty(argument))))
-      {
-        CreateNoWindow = startOptions.HasFlag(StartOption.Headless) ||
-                         startOptions.HasFlag(StartOption.Embed),
-        RedirectStandardInput = startOptions.HasFlag(StartOption.ApiInfo) ||
-                                startOptions.HasFlag(StartOption.Embed)
-      })
+    public NvimProcessStartInfo(string nvimPath, string arguments,
+      StartOption startOptions = StartOption.None) : this(
+      GetProcessStartInfo(nvimPath, arguments, startOptions))
     {
     }
 
@@ -81,6 +72,24 @@ namespace NvimClient.NvimProcess
 
     public static implicit operator ProcessStartInfo(
       NvimProcessStartInfo startInfo) => startInfo.ProcessStartInfo;
+
+    private static ProcessStartInfo GetProcessStartInfo(string nvimPath,
+      string arguments, StartOption startOptions = StartOption.None)
+    {
+      var redirectStandardIO = startOptions.HasFlag(StartOption.ApiInfo) ||
+                               startOptions.HasFlag(StartOption.Embed);
+      return new ProcessStartInfo(
+        nvimPath, string.Join(" ",
+          GetFlagsForOptions(startOptions).Append(arguments)
+            .Where(argument => !string.IsNullOrEmpty(argument))))
+      {
+        CreateNoWindow = startOptions.HasFlag(StartOption.Headless) ||
+                         startOptions.HasFlag(StartOption.Embed),
+        RedirectStandardInput  = redirectStandardIO,
+        RedirectStandardOutput = redirectStandardIO,
+        RedirectStandardError  = redirectStandardIO
+      };
+    }
 
     private static IEnumerable<string>
       GetFlagsForOptions(StartOption startOptions)
