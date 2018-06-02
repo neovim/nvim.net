@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MsgPack;
 using MsgPack.Serialization;
+using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.NvimProcess;
 
@@ -52,6 +54,32 @@ namespace NvimClient.Test
                     && apiMetadata.UIEvents.Any()
                     && apiMetadata.Types.Any()
                     && apiMetadata.ErrorTypes.Any());
+    }
+
+    [TestMethod]
+    public void TestMessageDeserialization()
+    {
+      var process = Process.Start(
+        new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless));
+
+      var context = new SerializationContext();
+      context.Serializers.Register(new NvimMessageSerializer(context));
+      var serializer = MessagePackSerializer.Get<NvimMessage>(context);
+
+      const string testString = "hello world";
+      var request = new NvimRequest
+      {
+        MessageId = 42,
+        Method    = "nvim_eval",
+        Arguments = new MessagePackObject(new MessagePackObject[] {$"'{testString}'"})
+      };
+      serializer.Pack(process.StandardInput.BaseStream, request);
+
+      var response = (NvimResponse) serializer.Unpack(process.StandardOutput.BaseStream);
+
+      Assert.IsTrue(response.MessageId == request.MessageId
+                    && response.Error == MessagePackObject.Nil
+                    && response.Result == testString);
     }
   }
 }
