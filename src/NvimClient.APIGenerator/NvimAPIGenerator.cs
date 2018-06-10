@@ -11,6 +11,13 @@ namespace NvimClient
 {
   public class NvimAPIGenerator
   {
+    private const int OldestSupportedAPILevel = 4;
+
+    private static IEnumerable<NvimFunction> GetNonDeprecatedFunctions(
+      IEnumerable<NvimFunction> functions) => functions.Where(function =>
+      !function.DeprecatedSince.HasValue
+      || function.DeprecatedSince >= OldestSupportedAPILevel);
+
     public static NvimAPIMetadata GetAPIMetadata()
     {
       var process = Process.Start(
@@ -41,7 +48,8 @@ namespace NvimClient.API
   public partial class NvimAPI
   {
 " + GetNvimMethods(
-      apiMetadata.Functions.Where(function => !function.Method), null) + @"
+      GetNonDeprecatedFunctions(apiMetadata.Functions)
+        .Where(function => !function.Method), null) + @"
 " + GenerateNvimTypes(apiMetadata) + @"
   }
 }";
@@ -57,8 +65,11 @@ namespace NvimClient.API
     private readonly NvimAPI _api;
     public {name}(NvimAPI api) => _api = api;
     {
-    GetNvimMethods(apiMetadata.Functions.Where(function =>
-      function.Method && function.Name.StartsWith(type.Value.Prefix)), type.Value.Prefix)
+    GetNvimMethods(
+      GetNonDeprecatedFunctions(apiMetadata.Functions)
+        .Where(function => function.Method
+                           && function.Name.StartsWith(type.Value.Prefix)),
+      type.Value.Prefix)
     }
   }}";
       }));
