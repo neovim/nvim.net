@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NvimClient.API\NvimClient.API.csproj" />
     <ProjectReference Include="..\..\src\NvimClient\NvimClient.csproj" />
   </ItemGroup>
 

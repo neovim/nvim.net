@@ -69,5 +69,69 @@ namespace NvimClient
 
       return stringBuilder.ToString();
     }
+
+    /// <summary>
+    /// Converts a snake_case string to camelCase.
+    /// </summary>
+    /// <param name="str">The string to convert.</param>
+    /// <param name="capitalizeFirstChar">
+    /// Whether or not the first character should be capitalized.
+    /// </param>
+    public static string ConvertToCamelCase(string str,
+      bool capitalizeFirstChar)
+    {
+      if (string.IsNullOrEmpty(str))
+      {
+        return str;
+      }
+
+      var enumerator    = str.GetEnumerator();
+      var stringBuilder = new StringBuilder(str.Length);
+
+      AppendFirstChar();
+
+      void AppendFirstChar()
+      {
+        if (!enumerator.MoveNext())
+        {
+          return;
+        }
+
+        var currentChar  = enumerator.Current;
+        var isUnderscore = currentChar == '_';
+        if (!isUnderscore)
+        {
+          stringBuilder.Append(capitalizeFirstChar
+            ? char.ToUpper(currentChar)
+            : char.ToLower(currentChar));
+          return;
+        }
+
+        AppendFirstChar();
+      }
+
+      AppendWithUpperChars(false);
+
+      void AppendWithUpperChars(bool previousUnderscore)
+      {
+        if (!enumerator.MoveNext())
+        {
+          return;
+        }
+
+        var currentChar  = enumerator.Current;
+        var isUnderscore = currentChar == '_';
+        if (!isUnderscore)
+        {
+          stringBuilder.Append(previousUnderscore
+            ? char.ToUpper(currentChar)
+            : char.ToLower(currentChar));
+        }
+
+        AppendWithUpperChars(isUnderscore);
+      }
+
+      return stringBuilder.ToString();
+    }
   }
 }

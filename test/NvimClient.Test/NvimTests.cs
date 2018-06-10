@@ -1,8 +1,11 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
 using MsgPack.Serialization;
+using NvimClient.API;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.NvimProcess;
@@ -80,6 +83,30 @@ namespace NvimClient.Test
       Assert.IsTrue(response.MessageId == request.MessageId
                     && response.Error == MessagePackObject.Nil
                     && response.Result == testString);
+    }
+
+    [DataTestMethod]
+    [DataRow("aaaa", "Aaaa", true)]
+    [DataRow("aaaa", "aaaa", false)]
+    [DataRow("_aaaa_", "Aaaa", true)]
+    [DataRow("_aaaa_", "aaaa", false)]
+    [DataRow("aa_aa", "AaAa", true)]
+    [DataRow("aa_aa", "aaAa", false)]
+    [DataRow("aaa_a", "AaaA", true)]
+    [DataRow("aaa_a", "aaaA", false)]
+    public void TestConvertToCamelCase(string input, string expected,
+      bool capitalizeFirstChar)
+    {
+      Assert.AreEqual(expected,
+        StringUtil.ConvertToCamelCase(input, capitalizeFirstChar));
+    }
+
+    [TestMethod]
+    public async Task TestAsyncAPICall()
+    {
+      var api = new NvimAPI();
+      var result = await api.NvimEval("2 + 2");
+      Assert.AreEqual(4, result);
     }
   }
 }
