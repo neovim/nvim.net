@@ -108,13 +108,13 @@ namespace NvimClient.API
         })
       });
 
-    public Task<string> NvimCommandOutput(string @str) =>
+    public Task<string> NvimCommandOutput(string @command) =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_command_output",
         Arguments = new MessagePackObject(new MessagePackObject[]
         {
-            MessagePackObject.FromObject(@str)
+            MessagePackObject.FromObject(@command)
         })
       });
 
@@ -128,16 +128,6 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimCallFunction(string @fname, MessagePackObject[] @args) =>
-      SendAndReceive<object>(new NvimRequest
-      {
-        Method = "nvim_call_function",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@fname), MessagePackObject.FromObject(@args)
-        })
-      });
-
     public Task<object> NvimExecuteLua(string @code, MessagePackObject[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
@@ -145,6 +135,26 @@ namespace NvimClient.API
         Arguments = new MessagePackObject(new MessagePackObject[]
         {
             MessagePackObject.FromObject(@code), MessagePackObject.FromObject(@args)
+        })
+      });
+
+    public Task<object> NvimCallFunction(string @fn, MessagePackObject[] @args) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_call_function",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@fn), MessagePackObject.FromObject(@args)
+        })
+      });
+
+    public Task<object> NvimCallDictFunction(object @dict, string @fn, MessagePackObject[] @args) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_call_dict_function",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@dict), MessagePackObject.FromObject(@fn), MessagePackObject.FromObject(@args)
         })
       });
 
@@ -448,10 +458,50 @@ namespace NvimClient.API
         })
       });
 
+    public Task<MessagePackObject> NvimGetCommands(MessagePackObject @opts) =>
+      SendAndReceive<MessagePackObject>(new NvimRequest
+      {
+        Method = "nvim_get_commands",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@opts)
+        })
+      });
+
     public Task<MessagePackObject[]> NvimGetApiInfo() =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_get_api_info",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            
+        })
+      });
+
+    public Task NvimSetClientInfo(string @name, MessagePackObject @version, string @type, MessagePackObject @methods, MessagePackObject @attributes) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_set_client_info",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@version), MessagePackObject.FromObject(@type), MessagePackObject.FromObject(@methods), MessagePackObject.FromObject(@attributes)
+        })
+      });
+
+    public Task<MessagePackObject> NvimGetChanInfo(long @chan) =>
+      SendAndReceive<MessagePackObject>(new NvimRequest
+      {
+        Method = "nvim_get_chan_info",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@chan)
+        })
+      });
+
+    public Task<MessagePackObject[]> NvimListChans() =>
+      SendAndReceive<MessagePackObject[]>(new NvimRequest
+      {
+        Method = "nvim_list_chans",
         Arguments = new MessagePackObject(new MessagePackObject[]
         {
             
@@ -468,6 +518,46 @@ namespace NvimClient.API
         })
       });
 
+    public Task<MessagePackObject> NvimParseExpression(string @expr, string @flags, bool @highlight) =>
+      SendAndReceive<MessagePackObject>(new NvimRequest
+      {
+        Method = "nvim_parse_expression",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@expr), MessagePackObject.FromObject(@flags), MessagePackObject.FromObject(@highlight)
+        })
+      });
+
+    public Task<MessagePackObject[]> NvimListUis() =>
+      SendAndReceive<MessagePackObject[]>(new NvimRequest
+      {
+        Method = "nvim_list_uis",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            
+        })
+      });
+
+    public Task<MessagePackObject[]> NvimGetProcChildren(long @pid) =>
+      SendAndReceive<MessagePackObject[]>(new NvimRequest
+      {
+        Method = "nvim_get_proc_children",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@pid)
+        })
+      });
+
+    public Task<object> NvimGetProc(long @pid) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_get_proc",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@pid)
+        })
+      });
+
 
   public class NvimBuffer
   {
@@ -478,6 +568,26 @@ namespace NvimClient.API
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_buf_line_count",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@buffer)
+        })
+      });
+
+    public Task<bool> Attach(NvimBuffer @buffer, bool @sendBuffer, MessagePackObject @opts) =>
+      _api.SendAndReceive<bool>(new NvimRequest
+      {
+        Method = "nvim_buf_attach",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@sendBuffer), MessagePackObject.FromObject(@opts)
+        })
+      });
+
+    public Task<bool> Detach(NvimBuffer @buffer) =>
+      _api.SendAndReceive<bool>(new NvimRequest
+      {
+        Method = "nvim_buf_detach",
         Arguments = new MessagePackObject(new MessagePackObject[]
         {
             MessagePackObject.FromObject(@buffer)
@@ -531,6 +641,16 @@ namespace NvimClient.API
         Arguments = new MessagePackObject(new MessagePackObject[]
         {
             MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@mode)
+        })
+      });
+
+    public Task<MessagePackObject> GetCommands(NvimBuffer @buffer, MessagePackObject @opts) =>
+      _api.SendAndReceive<MessagePackObject>(new NvimRequest
+      {
+        Method = "nvim_buf_get_commands",
+        Arguments = new MessagePackObject(new MessagePackObject[]
+        {
+            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@opts)
         })
       });
 
