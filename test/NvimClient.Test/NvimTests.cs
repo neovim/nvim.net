@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -107,6 +107,29 @@ namespace NvimClient.Test
       var api = new NvimAPI();
       var result = await api.NvimEval("2 + 2");
       Assert.AreEqual(4, result);
+    }
+
+    [TestMethod]
+    public async Task TestCallAndReply()
+    {
+      T[] ConvertToArray<T>(IEnumerable<MessagePackObject> msgPackObj) =>
+        msgPackObj.Select(i => (T)i.ToObject()).ToArray();
+
+      var api = new NvimAPI();
+      api.AddRequestHandler("client-call", args =>
+      {
+        var intArray = ConvertToArray<int>(args.AsEnumerable());
+        CollectionAssert.AreEqual(new[]{1, 2, 3}, intArray);
+        return new[]{4, 5, 6}.Select(i => MessagePackObject.FromObject(i))
+          .ToArray();
+      });
+      var channelID = (int)(await api.NvimGetApiInfo())[0];
+      await api.NvimCommand(
+        $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
+      var result =
+        ConvertToArray<int>(
+          (MessagePackObject[]) await api.NvimGetVar("result"));
+      CollectionAssert.AreEqual(new[]{4, 5, 6}, result);
     }
   }
 }

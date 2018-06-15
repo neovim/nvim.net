@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using MsgPack;
 using MsgPack.Serialization;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
@@ -16,9 +17,13 @@ namespace NvimClient.API
     private readonly Stream _inputStream;
     private readonly Stream _outputStream;
     private readonly MessagePackSerializer<NvimMessage> _serializer;
-    private readonly BlockingCollection<NvimRequest> _outstandingRequests;
+    private readonly BlockingCollection<NvimMessage> _messageQueue;
     private readonly ConcurrentDictionary<long, PendingRequest>
-      _outstandingResponses;
+      _pendingRequests;
+    private readonly ConcurrentDictionary<string,
+      Func<MessagePackObject, MessagePackObject>> _requestHandlers;
+    private readonly ConcurrentDictionary<string, Action<MessagePackObject>>
+      _notificationHandlers;
     private long _messageIdCounter;
 
     public NvimAPI()
@@ -31,21 +36,32 @@ namespace NvimClient.API
       _serializer   = MessagePackSerializer.Get<NvimMessage>(context);
       _inputStream  = process.StandardInput.BaseStream;
       _outputStream = process.StandardOutput.BaseStream;
-      _outstandingRequests  = new BlockingCollection<NvimRequest>();
-      _outstandingResponses = new ConcurrentDictionary<long, PendingRequest>();
+      _messageQueue  = new BlockingCollection<NvimMessage>();
+      _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
+      _requestHandlers =
+        new ConcurrentDictionary<string,
+          Func<MessagePackObject, MessagePackObject>>();
+      _notificationHandlers =
+        new ConcurrentDictionary<string, Action<MessagePackObject>>();
 
       StartSendLoop();
       StartReceiveLoop();
+    }
+
+    public void AddRequestHandler(string name,
+      Func<MessagePackObject, MessagePackObject> handler)
+    {
+      _requestHandlers[name] = handler;
     }
 
     private Task<NvimResponse> SendAndReceive(NvimRequest request)
     {
       request.MessageId = _messageIdCounter++;
       var pendingRequest = new PendingRequest();
-      _outstandingResponses[request.MessageId] = pendingRequest;
-      _outstandingRequests.Add(request);
+      _pendingRequests[request.MessageId] = pendingRequest;
+      _messageQueue.Add(request);
       return pendingRequest.GetResponse();
-    }                    
+    }
 
     private Task<TResult> SendAndReceive<TResult>(NvimRequest request)
     {
@@ -61,7 +77,7 @@ namespace NvimClient.API
     {
       Task.Run(async () =>
       {
-        foreach (var request in _outstandingRequests.GetConsumingEnumerable())
+        foreach (var request in _messageQueue.GetConsumingEnumerable())
         {
           await _serializer.PackAsync(_inputStream, request);
         }
@@ -78,14 +94,48 @@ namespace NvimClient.API
         switch (message)
         {
           case NvimNotification notification:
-            // TODO: Handle notifications
+          {
+            if (!_notificationHandlers.TryGetValue(notification.Method,
+              out var handler))
+            {
+              throw new Exception(
+                $"No notification handler for \"{notification.Method}\"");
+            }
+
+            handler(notification.Arguments);
             break;
+          }
+          case NvimRequest request:
+          {
+            if (!_requestHandlers.TryGetValue(request.Method, out var handler))
+            {
+              throw new Exception(
+                $"No request handler for \"{request.Method}\"");
+            }
+
+            var response = new NvimResponse
+                           {
+                             MessageId = request.MessageId,
+                           };
+            try
+            {
+              response.Result = handler(request.Arguments);
+            }
+            catch (Exception exception)
+            {
+              response.Error = exception.ToString();
+            }
+
+            _messageQueue.Add(response);
+            break;
+          }
           case NvimResponse response:
-            if (!_outstandingResponses.TryRemove(response.MessageId,
+            if (!_pendingRequests.TryRemove(response.MessageId,
               out var pendingRequest))
             {
               throw new Exception("Received response with unknown message ID");
             }
+
             pendingRequest.Complete(response);
             break;
           default:
@@ -101,10 +151,10 @@ namespace NvimClient.API
       private readonly ManualResetEvent _receivedResponseEvent;
       private NvimResponse _response;          
 
-      public PendingRequest() =>
+      internal PendingRequest() =>
         _receivedResponseEvent = new ManualResetEvent(false);
 
-      public Task<NvimResponse> GetResponse()
+      internal Task<NvimResponse> GetResponse()
       {
         var taskCompletionSource = new TaskCompletionSource<NvimResponse>();
         ThreadPool.RegisterWaitForSingleObject(_receivedResponseEvent,
@@ -114,7 +164,7 @@ namespace NvimClient.API
         return taskCompletionSource.Task;
       }
 
-      public void Complete(NvimResponse response)
+      internal void Complete(NvimResponse response)
       {
         _response = response;
         _receivedResponseEvent.Set();

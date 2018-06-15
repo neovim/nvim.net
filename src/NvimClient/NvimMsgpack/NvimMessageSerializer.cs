@@ -35,6 +35,9 @@ namespace NvimClient.NvimMsgpack
 
     protected override void PackToCore(Packer packer, NvimMessage message)
     {
+      message.TypeId = message.GetType()
+        .GetCustomAttribute<NvimMessageTypeAttribute>().Id;
+
       packer.PackObject(message);
       packer.Flush();
     }
