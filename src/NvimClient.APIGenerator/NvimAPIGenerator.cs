@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -47,9 +48,9 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
-" + GetNvimMethods(
+" + GenerateNvimMethods(
       GetNonDeprecatedFunctions(apiMetadata.Functions)
-        .Where(function => !function.Method), null) + @"
+        .Where(function => !function.Method), "nvim_") + @"
 " + GenerateNvimTypes(apiMetadata) + @"
   }
 }";
@@ -65,7 +66,7 @@ namespace NvimClient.API
     private readonly NvimAPI _api;
     public {name}(NvimAPI api) => _api = api;
     {
-    GetNvimMethods(
+    GenerateNvimMethods(
       GetNonDeprecatedFunctions(apiMetadata.Functions)
         .Where(function => function.Method
                            && function.Name.StartsWith(type.Value.Prefix)),
@@ -75,17 +76,23 @@ namespace NvimClient.API
       }));
     }
 
-    private static string GetNvimMethods(
-      IEnumerable<NvimFunction> functions, string prefix) =>
+    private static string GenerateNvimMethods(
+      IEnumerable<NvimFunction> functions, string prefixToRemove) =>
       string.Join("", functions.Select(function =>
       {
+        if (!function.Name.StartsWith(prefixToRemove))
+        {
+          throw new Exception(
+            $"Function {function.Name} does not "
+            + $"have expected prefix \"{prefixToRemove}\"");
+        }
+        var camelCaseName =
+          StringUtil.ConvertToCamelCase(
+            function.Name.Substring(prefixToRemove.Length), true);
         var sendAccess = function.Method ? "_api." : string.Empty;
         var returnType = NvimTypesMap.GetCSharpType(function.ReturnType);
         var genericTypeParam =
           returnType == "void" ? string.Empty : $"<{returnType}>";
-        var camelCaseName =
-          StringUtil.ConvertToCamelCase(
-            function.Name.Substring(prefix?.Length ?? 0), true);
         var parameters = function.Parameters.Select(param =>
           new
           {

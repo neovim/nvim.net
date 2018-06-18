@@ -8,7 +8,7 @@ namespace NvimClient.API
   public partial class NvimAPI
   {
 
-    public Task NvimUiAttach(long @width, long @height, MessagePackObject @options) =>
+    public Task UiAttach(long @width, long @height, MessagePackObject @options) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_attach",
@@ -18,7 +18,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimUiDetach() =>
+    public Task UiDetach() =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_detach",
@@ -28,7 +28,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimUiTryResize(long @width, long @height) =>
+    public Task UiTryResize(long @width, long @height) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_try_resize",
@@ -38,7 +38,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimUiSetOption(string @name, object @value) =>
+    public Task UiSetOption(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_set_option",
@@ -48,7 +48,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimCommand(string @command) =>
+    public Task Command(string @command) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_command",
@@ -58,7 +58,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetHlByName(string @name, bool @rgb) =>
+    public Task<MessagePackObject> GetHlByName(string @name, bool @rgb) =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_hl_by_name",
@@ -68,7 +68,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetHlById(long @hlId, bool @rgb) =>
+    public Task<MessagePackObject> GetHlById(long @hlId, bool @rgb) =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_hl_by_id",
@@ -78,7 +78,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimFeedkeys(string @keys, string @mode, bool @escapeCsi) =>
+    public Task Feedkeys(string @keys, string @mode, bool @escapeCsi) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_feedkeys",
@@ -88,7 +88,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<long> NvimInput(string @keys) =>
+    public Task<long> Input(string @keys) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_input",
@@ -98,7 +98,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<string> NvimReplaceTermcodes(string @str, bool @fromPart, bool @doLt, bool @special) =>
+    public Task<string> ReplaceTermcodes(string @str, bool @fromPart, bool @doLt, bool @special) =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_replace_termcodes",
@@ -108,7 +108,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<string> NvimCommandOutput(string @command) =>
+    public Task<string> CommandOutput(string @command) =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_command_output",
@@ -118,7 +118,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimEval(string @expr) =>
+    public Task<object> Eval(string @expr) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_eval",
@@ -128,7 +128,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimExecuteLua(string @code, MessagePackObject[] @args) =>
+    public Task<object> ExecuteLua(string @code, MessagePackObject[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_execute_lua",
@@ -138,7 +138,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimCallFunction(string @fn, MessagePackObject[] @args) =>
+    public Task<object> CallFunction(string @fn, MessagePackObject[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_call_function",
@@ -148,7 +148,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimCallDictFunction(object @dict, string @fn, MessagePackObject[] @args) =>
+    public Task<object> CallDictFunction(object @dict, string @fn, MessagePackObject[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_call_dict_function",
@@ -158,7 +158,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<long> NvimStrwidth(string @text) =>
+    public Task<long> Strwidth(string @text) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_strwidth",
@@ -168,7 +168,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<string[]> NvimListRuntimePaths() =>
+    public Task<string[]> ListRuntimePaths() =>
       SendAndReceive<string[]>(new NvimRequest
       {
         Method = "nvim_list_runtime_paths",
@@ -178,7 +178,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetCurrentDir(string @dir) =>
+    public Task SetCurrentDir(string @dir) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_dir",
@@ -188,7 +188,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<string> NvimGetCurrentLine() =>
+    public Task<string> GetCurrentLine() =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_get_current_line",
@@ -198,7 +198,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetCurrentLine(string @line) =>
+    public Task SetCurrentLine(string @line) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_line",
@@ -208,7 +208,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimDelCurrentLine() =>
+    public Task DelCurrentLine() =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_del_current_line",
@@ -218,7 +218,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimGetVar(string @name) =>
+    public Task<object> GetVar(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_var",
@@ -228,7 +228,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetVar(string @name, object @value) =>
+    public Task SetVar(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_var",
@@ -238,7 +238,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimDelVar(string @name) =>
+    public Task DelVar(string @name) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_del_var",
@@ -248,7 +248,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimGetVvar(string @name) =>
+    public Task<object> GetVvar(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_vvar",
@@ -258,7 +258,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimGetOption(string @name) =>
+    public Task<object> GetOption(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_option",
@@ -268,7 +268,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetOption(string @name, object @value) =>
+    public Task SetOption(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_option",
@@ -278,7 +278,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimOutWrite(string @str) =>
+    public Task OutWrite(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_out_write",
@@ -288,7 +288,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimErrWrite(string @str) =>
+    public Task ErrWrite(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_err_write",
@@ -298,7 +298,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimErrWriteln(string @str) =>
+    public Task ErrWriteln(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_err_writeln",
@@ -308,7 +308,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimBuffer[]> NvimListBufs() =>
+    public Task<NvimBuffer[]> ListBufs() =>
       SendAndReceive<NvimBuffer[]>(new NvimRequest
       {
         Method = "nvim_list_bufs",
@@ -318,7 +318,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimBuffer> NvimGetCurrentBuf() =>
+    public Task<NvimBuffer> GetCurrentBuf() =>
       SendAndReceive<NvimBuffer>(new NvimRequest
       {
         Method = "nvim_get_current_buf",
@@ -328,7 +328,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetCurrentBuf(NvimBuffer @buffer) =>
+    public Task SetCurrentBuf(NvimBuffer @buffer) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_buf",
@@ -338,7 +338,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimWindow[]> NvimListWins() =>
+    public Task<NvimWindow[]> ListWins() =>
       SendAndReceive<NvimWindow[]>(new NvimRequest
       {
         Method = "nvim_list_wins",
@@ -348,7 +348,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimWindow> NvimGetCurrentWin() =>
+    public Task<NvimWindow> GetCurrentWin() =>
       SendAndReceive<NvimWindow>(new NvimRequest
       {
         Method = "nvim_get_current_win",
@@ -358,7 +358,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetCurrentWin(NvimWindow @window) =>
+    public Task SetCurrentWin(NvimWindow @window) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_win",
@@ -368,7 +368,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimTabpage[]> NvimListTabpages() =>
+    public Task<NvimTabpage[]> ListTabpages() =>
       SendAndReceive<NvimTabpage[]>(new NvimRequest
       {
         Method = "nvim_list_tabpages",
@@ -378,7 +378,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<NvimTabpage> NvimGetCurrentTabpage() =>
+    public Task<NvimTabpage> GetCurrentTabpage() =>
       SendAndReceive<NvimTabpage>(new NvimRequest
       {
         Method = "nvim_get_current_tabpage",
@@ -388,7 +388,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetCurrentTabpage(NvimTabpage @tabpage) =>
+    public Task SetCurrentTabpage(NvimTabpage @tabpage) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_tabpage",
@@ -398,7 +398,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSubscribe(string @event) =>
+    public Task Subscribe(string @event) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_subscribe",
@@ -408,7 +408,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimUnsubscribe(string @event) =>
+    public Task Unsubscribe(string @event) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_unsubscribe",
@@ -418,7 +418,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<long> NvimGetColorByName(string @name) =>
+    public Task<long> GetColorByName(string @name) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_get_color_by_name",
@@ -428,7 +428,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetColorMap() =>
+    public Task<MessagePackObject> GetColorMap() =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_color_map",
@@ -438,7 +438,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetMode() =>
+    public Task<MessagePackObject> GetMode() =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_mode",
@@ -448,7 +448,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimGetKeymap(string @mode) =>
+    public Task<MessagePackObject[]> GetKeymap(string @mode) =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_get_keymap",
@@ -458,7 +458,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetCommands(MessagePackObject @opts) =>
+    public Task<MessagePackObject> GetCommands(MessagePackObject @opts) =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_commands",
@@ -468,7 +468,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimGetApiInfo() =>
+    public Task<MessagePackObject[]> GetApiInfo() =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_get_api_info",
@@ -478,7 +478,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task NvimSetClientInfo(string @name, MessagePackObject @version, string @type, MessagePackObject @methods, MessagePackObject @attributes) =>
+    public Task SetClientInfo(string @name, MessagePackObject @version, string @type, MessagePackObject @methods, MessagePackObject @attributes) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_client_info",
@@ -488,7 +488,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimGetChanInfo(long @chan) =>
+    public Task<MessagePackObject> GetChanInfo(long @chan) =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_get_chan_info",
@@ -498,7 +498,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimListChans() =>
+    public Task<MessagePackObject[]> ListChans() =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_list_chans",
@@ -508,7 +508,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimCallAtomic(MessagePackObject[] @calls) =>
+    public Task<MessagePackObject[]> CallAtomic(MessagePackObject[] @calls) =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_call_atomic",
@@ -518,7 +518,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject> NvimParseExpression(string @expr, string @flags, bool @highlight) =>
+    public Task<MessagePackObject> ParseExpression(string @expr, string @flags, bool @highlight) =>
       SendAndReceive<MessagePackObject>(new NvimRequest
       {
         Method = "nvim_parse_expression",
@@ -528,7 +528,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimListUis() =>
+    public Task<MessagePackObject[]> ListUis() =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_list_uis",
@@ -538,7 +538,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<MessagePackObject[]> NvimGetProcChildren(long @pid) =>
+    public Task<MessagePackObject[]> GetProcChildren(long @pid) =>
       SendAndReceive<MessagePackObject[]>(new NvimRequest
       {
         Method = "nvim_get_proc_children",
@@ -548,7 +548,7 @@ namespace NvimClient.API
         })
       });
 
-    public Task<object> NvimGetProc(long @pid) =>
+    public Task<object> GetProc(long @pid) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_proc",

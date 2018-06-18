@@ -105,7 +105,7 @@ namespace NvimClient.Test
     public async Task TestAsyncAPICall()
     {
       var api = new NvimAPI();
-      var result = await api.NvimEval("2 + 2");
+      var result = await api.Eval("2 + 2");
       Assert.AreEqual(4, result);
     }
 
@@ -123,12 +123,12 @@ namespace NvimClient.Test
         return new[]{4, 5, 6}.Select(i => MessagePackObject.FromObject(i))
           .ToArray();
       });
-      var channelID = (int)(await api.NvimGetApiInfo())[0];
-      await api.NvimCommand(
+      var channelID = (int)(await api.GetApiInfo())[0];
+      await api.Command(
         $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
       var result =
         ConvertToArray<int>(
-          (MessagePackObject[]) await api.NvimGetVar("result"));
+          (MessagePackObject[]) await api.GetVar("result"));
       CollectionAssert.AreEqual(new[]{4, 5, 6}, result);
     }
   }
