@@ -1,4 +1,5 @@
 
+using System;
 using System.Threading.Tasks;
 using MsgPack;
 using NvimClient.NvimMsgpack.Models;
@@ -7,6 +8,46 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
+    public event EventHandler<ResizeEventArgs> Resize;
+    public event EventHandler Clear;
+    public event EventHandler EolClear;
+    public event EventHandler<CursorGotoEventArgs> CursorGoto;
+    public event EventHandler<ModeInfoSetEventArgs> ModeInfoSet;
+    public event EventHandler UpdateMenu;
+    public event EventHandler BusyStart;
+    public event EventHandler BusyStop;
+    public event EventHandler MouseOn;
+    public event EventHandler MouseOff;
+    public event EventHandler<ModeChangeEventArgs> ModeChange;
+    public event EventHandler<SetScrollRegionEventArgs> SetScrollRegion;
+    public event EventHandler<ScrollEventArgs> Scroll;
+    public event EventHandler<HighlightSetEventArgs> HighlightSet;
+    public event EventHandler<PutEventArgs> Put;
+    public event EventHandler Bell;
+    public event EventHandler VisualBell;
+    public event EventHandler Flush;
+    public event EventHandler<UpdateFgEventArgs> UpdateFg;
+    public event EventHandler<UpdateBgEventArgs> UpdateBg;
+    public event EventHandler<UpdateSpEventArgs> UpdateSp;
+    public event EventHandler<DefaultColorsSetEventArgs> DefaultColorsSet;
+    public event EventHandler Suspend;
+    public event EventHandler<SetTitleEventArgs> SetTitle;
+    public event EventHandler<SetIconEventArgs> SetIcon;
+    public event EventHandler<OptionSetEventArgs> OptionSet;
+    public event EventHandler<PopupmenuShowEventArgs> PopupmenuShow;
+    public event EventHandler PopupmenuHide;
+    public event EventHandler<PopupmenuSelectEventArgs> PopupmenuSelect;
+    public event EventHandler<TablineUpdateEventArgs> TablineUpdate;
+    public event EventHandler<CmdlineShowEventArgs> CmdlineShow;
+    public event EventHandler<CmdlinePosEventArgs> CmdlinePos;
+    public event EventHandler<CmdlineSpecialCharEventArgs> CmdlineSpecialChar;
+    public event EventHandler<CmdlineHideEventArgs> CmdlineHide;
+    public event EventHandler<CmdlineBlockShowEventArgs> CmdlineBlockShow;
+    public event EventHandler<CmdlineBlockAppendEventArgs> CmdlineBlockAppend;
+    public event EventHandler CmdlineBlockHide;
+    public event EventHandler<WildmenuShowEventArgs> WildmenuShow;
+    public event EventHandler<WildmenuSelectEventArgs> WildmenuSelect;
+    public event EventHandler WildmenuHide;
 
     public Task UiAttach(long @width, long @height, MessagePackObject @options) =>
       SendAndReceive(new NvimRequest
@@ -997,5 +1038,429 @@ namespace NvimClient.API
       });
 
   }
+
+  public class ResizeEventArgs : EventArgs
+  {
+    public long Width { get; set; }
+    public long Height { get; set; }
+
+  }
+  public class CursorGotoEventArgs : EventArgs
+  {
+    public long Row { get; set; }
+    public long Col { get; set; }
+
+  }
+  public class ModeInfoSetEventArgs : EventArgs
+  {
+    public bool Enabled { get; set; }
+    public MessagePackObject[] CursorStyles { get; set; }
+
+  }
+  public class ModeChangeEventArgs : EventArgs
+  {
+    public string Mode { get; set; }
+    public long ModeIdx { get; set; }
+
+  }
+  public class SetScrollRegionEventArgs : EventArgs
+  {
+    public long Top { get; set; }
+    public long Bot { get; set; }
+    public long Left { get; set; }
+    public long Right { get; set; }
+
+  }
+  public class ScrollEventArgs : EventArgs
+  {
+    public long Count { get; set; }
+
+  }
+  public class HighlightSetEventArgs : EventArgs
+  {
+    public MessagePackObject Attrs { get; set; }
+
+  }
+  public class PutEventArgs : EventArgs
+  {
+    public string Str { get; set; }
+
+  }
+  public class UpdateFgEventArgs : EventArgs
+  {
+    public long Fg { get; set; }
+
+  }
+  public class UpdateBgEventArgs : EventArgs
+  {
+    public long Bg { get; set; }
+
+  }
+  public class UpdateSpEventArgs : EventArgs
+  {
+    public long Sp { get; set; }
+
+  }
+  public class DefaultColorsSetEventArgs : EventArgs
+  {
+    public long RgbFg { get; set; }
+    public long RgbBg { get; set; }
+    public long RgbSp { get; set; }
+    public long CtermFg { get; set; }
+    public long CtermBg { get; set; }
+
+  }
+  public class SetTitleEventArgs : EventArgs
+  {
+    public string Title { get; set; }
+
+  }
+  public class SetIconEventArgs : EventArgs
+  {
+    public string Icon { get; set; }
+
+  }
+  public class OptionSetEventArgs : EventArgs
+  {
+    public string Name { get; set; }
+    public object Value { get; set; }
+
+  }
+  public class PopupmenuShowEventArgs : EventArgs
+  {
+    public MessagePackObject[] Items { get; set; }
+    public long Selected { get; set; }
+    public long Row { get; set; }
+    public long Col { get; set; }
+
+  }
+  public class PopupmenuSelectEventArgs : EventArgs
+  {
+    public long Selected { get; set; }
+
+  }
+  public class TablineUpdateEventArgs : EventArgs
+  {
+    public NvimTabpage Current { get; set; }
+    public MessagePackObject[] Tabs { get; set; }
+
+  }
+  public class CmdlineShowEventArgs : EventArgs
+  {
+    public MessagePackObject[] Content { get; set; }
+    public long Pos { get; set; }
+    public string Firstc { get; set; }
+    public string Prompt { get; set; }
+    public long Indent { get; set; }
+    public long Level { get; set; }
+
+  }
+  public class CmdlinePosEventArgs : EventArgs
+  {
+    public long Pos { get; set; }
+    public long Level { get; set; }
+
+  }
+  public class CmdlineSpecialCharEventArgs : EventArgs
+  {
+    public string C { get; set; }
+    public bool Shift { get; set; }
+    public long Level { get; set; }
+
+  }
+  public class CmdlineHideEventArgs : EventArgs
+  {
+    public long Level { get; set; }
+
+  }
+  public class CmdlineBlockShowEventArgs : EventArgs
+  {
+    public MessagePackObject[] Lines { get; set; }
+
+  }
+  public class CmdlineBlockAppendEventArgs : EventArgs
+  {
+    public MessagePackObject[] Lines { get; set; }
+
+  }
+  public class WildmenuShowEventArgs : EventArgs
+  {
+    public MessagePackObject[] Items { get; set; }
+
+  }
+  public class WildmenuSelectEventArgs : EventArgs
+  {
+    public long Selected { get; set; }
+
+  }
+  private void CallUIEventHandler(string eventName, MessagePackObject[] args)
+  {
+    switch (eventName)
+    {
+
+      case "resize":
+          Resize?.Invoke(this, new ResizeEventArgs
+          {
+            Width = Cast<long>(args[0]),
+            Height = Cast<long>(args[1])
+          });
+          break;
+
+      case "clear":
+          Clear?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "eol_clear":
+          EolClear?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "cursor_goto":
+          CursorGoto?.Invoke(this, new CursorGotoEventArgs
+          {
+            Row = Cast<long>(args[0]),
+            Col = Cast<long>(args[1])
+          });
+          break;
+
+      case "mode_info_set":
+          ModeInfoSet?.Invoke(this, new ModeInfoSetEventArgs
+          {
+            Enabled = Cast<bool>(args[0]),
+            CursorStyles = Cast<MessagePackObject[]>(args[1])
+          });
+          break;
+
+      case "update_menu":
+          UpdateMenu?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "busy_start":
+          BusyStart?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "busy_stop":
+          BusyStop?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "mouse_on":
+          MouseOn?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "mouse_off":
+          MouseOff?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "mode_change":
+          ModeChange?.Invoke(this, new ModeChangeEventArgs
+          {
+            Mode = Cast<string>(args[0]),
+            ModeIdx = Cast<long>(args[1])
+          });
+          break;
+
+      case "set_scroll_region":
+          SetScrollRegion?.Invoke(this, new SetScrollRegionEventArgs
+          {
+            Top = Cast<long>(args[0]),
+            Bot = Cast<long>(args[1]),
+            Left = Cast<long>(args[2]),
+            Right = Cast<long>(args[3])
+          });
+          break;
+
+      case "scroll":
+          Scroll?.Invoke(this, new ScrollEventArgs
+          {
+            Count = Cast<long>(args[0])
+          });
+          break;
+
+      case "highlight_set":
+          HighlightSet?.Invoke(this, new HighlightSetEventArgs
+          {
+            Attrs = Cast<MessagePackObject>(args[0])
+          });
+          break;
+
+      case "put":
+          Put?.Invoke(this, new PutEventArgs
+          {
+            Str = Cast<string>(args[0])
+          });
+          break;
+
+      case "bell":
+          Bell?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "visual_bell":
+          VisualBell?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "flush":
+          Flush?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "update_fg":
+          UpdateFg?.Invoke(this, new UpdateFgEventArgs
+          {
+            Fg = Cast<long>(args[0])
+          });
+          break;
+
+      case "update_bg":
+          UpdateBg?.Invoke(this, new UpdateBgEventArgs
+          {
+            Bg = Cast<long>(args[0])
+          });
+          break;
+
+      case "update_sp":
+          UpdateSp?.Invoke(this, new UpdateSpEventArgs
+          {
+            Sp = Cast<long>(args[0])
+          });
+          break;
+
+      case "default_colors_set":
+          DefaultColorsSet?.Invoke(this, new DefaultColorsSetEventArgs
+          {
+            RgbFg = Cast<long>(args[0]),
+            RgbBg = Cast<long>(args[1]),
+            RgbSp = Cast<long>(args[2]),
+            CtermFg = Cast<long>(args[3]),
+            CtermBg = Cast<long>(args[4])
+          });
+          break;
+
+      case "suspend":
+          Suspend?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "set_title":
+          SetTitle?.Invoke(this, new SetTitleEventArgs
+          {
+            Title = Cast<string>(args[0])
+          });
+          break;
+
+      case "set_icon":
+          SetIcon?.Invoke(this, new SetIconEventArgs
+          {
+            Icon = Cast<string>(args[0])
+          });
+          break;
+
+      case "option_set":
+          OptionSet?.Invoke(this, new OptionSetEventArgs
+          {
+            Name = Cast<string>(args[0]),
+            Value = Cast<object>(args[1])
+          });
+          break;
+
+      case "popupmenu_show":
+          PopupmenuShow?.Invoke(this, new PopupmenuShowEventArgs
+          {
+            Items = Cast<MessagePackObject[]>(args[0]),
+            Selected = Cast<long>(args[1]),
+            Row = Cast<long>(args[2]),
+            Col = Cast<long>(args[3])
+          });
+          break;
+
+      case "popupmenu_hide":
+          PopupmenuHide?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "popupmenu_select":
+          PopupmenuSelect?.Invoke(this, new PopupmenuSelectEventArgs
+          {
+            Selected = Cast<long>(args[0])
+          });
+          break;
+
+      case "tabline_update":
+          TablineUpdate?.Invoke(this, new TablineUpdateEventArgs
+          {
+            Current = Cast<NvimTabpage>(args[0]),
+            Tabs = Cast<MessagePackObject[]>(args[1])
+          });
+          break;
+
+      case "cmdline_show":
+          CmdlineShow?.Invoke(this, new CmdlineShowEventArgs
+          {
+            Content = Cast<MessagePackObject[]>(args[0]),
+            Pos = Cast<long>(args[1]),
+            Firstc = Cast<string>(args[2]),
+            Prompt = Cast<string>(args[3]),
+            Indent = Cast<long>(args[4]),
+            Level = Cast<long>(args[5])
+          });
+          break;
+
+      case "cmdline_pos":
+          CmdlinePos?.Invoke(this, new CmdlinePosEventArgs
+          {
+            Pos = Cast<long>(args[0]),
+            Level = Cast<long>(args[1])
+          });
+          break;
+
+      case "cmdline_special_char":
+          CmdlineSpecialChar?.Invoke(this, new CmdlineSpecialCharEventArgs
+          {
+            C = Cast<string>(args[0]),
+            Shift = Cast<bool>(args[1]),
+            Level = Cast<long>(args[2])
+          });
+          break;
+
+      case "cmdline_hide":
+          CmdlineHide?.Invoke(this, new CmdlineHideEventArgs
+          {
+            Level = Cast<long>(args[0])
+          });
+          break;
+
+      case "cmdline_block_show":
+          CmdlineBlockShow?.Invoke(this, new CmdlineBlockShowEventArgs
+          {
+            Lines = Cast<MessagePackObject[]>(args[0])
+          });
+          break;
+
+      case "cmdline_block_append":
+          CmdlineBlockAppend?.Invoke(this, new CmdlineBlockAppendEventArgs
+          {
+            Lines = Cast<MessagePackObject[]>(args[0])
+          });
+          break;
+
+      case "cmdline_block_hide":
+          CmdlineBlockHide?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "wildmenu_show":
+          WildmenuShow?.Invoke(this, new WildmenuShowEventArgs
+          {
+            Items = Cast<MessagePackObject[]>(args[0])
+          });
+          break;
+
+      case "wildmenu_select":
+          WildmenuSelect?.Invoke(this, new WildmenuSelectEventArgs
+          {
+            Selected = Cast<long>(args[0])
+          });
+          break;
+
+      case "wildmenu_hide":
+          WildmenuHide?.Invoke(this, EventArgs.Empty);
+          break;
+
+      }
+    }
   }
 }

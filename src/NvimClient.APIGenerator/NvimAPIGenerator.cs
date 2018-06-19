@@ -14,10 +14,9 @@ namespace NvimClient
   {
     private const int OldestSupportedAPILevel = 4;
 
-    private static IEnumerable<NvimFunction> GetNonDeprecatedFunctions(
-      IEnumerable<NvimFunction> functions) => functions.Where(function =>
-      !function.DeprecatedSince.HasValue
-      || function.DeprecatedSince >= OldestSupportedAPILevel);
+    private static bool IsDeprecated<T>(T functionOrEvent)
+      where T : NvimFunctionEventBase =>
+      functionOrEvent.DeprecatedSince < OldestSupportedAPILevel;
 
     public static NvimAPIMetadata GetAPIMetadata()
     {
@@ -40,6 +39,7 @@ namespace NvimClient
     }
 
     private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) => @"
+using System;
 using System.Threading.Tasks;
 using MsgPack;
 using NvimClient.NvimMsgpack.Models;
@@ -48,12 +48,82 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
+" +
+    GenerateNvimUIEvents(
+      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
 " + GenerateNvimMethods(
-      GetNonDeprecatedFunctions(apiMetadata.Functions)
-        .Where(function => !function.Method), "nvim_") + @"
+      apiMetadata.Functions.Where(function =>
+        !IsDeprecated(function) && !function.Method),
+      "nvim_") + @"
 " + GenerateNvimTypes(apiMetadata) + @"
+" + GenerateNvimUIEventArgs(
+      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+  private void CallUIEventHandler(string eventName, MessagePackObject[] args)
+  {
+    switch (eventName)
+    {
+" + GenerateNvimUIEventCalls(
+      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+      }
+    }
   }
 }";
+
+    private static string GenerateNvimUIEventCalls(
+      IEnumerable<NvimUIEvent> uiEvents) =>
+      string.Join("", uiEvents.Select(uiEvent =>
+      {
+        var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+        var eventArgs = uiEvent.Parameters.Any()
+          ? $@"new {camelCaseName}EventArgs
+          {{
+{
+              string.Join(",\n", uiEvent.Parameters.Select((param, index) =>
+              {
+                var name = StringUtil.ConvertToCamelCase(param.Name, true);
+                var type = NvimTypesMap.GetCSharpType(param.Type);
+                return $@"            {name} = Cast<{type}>(args[{index}])";
+              }))
+            }
+          }}"
+          : "EventArgs.Empty";
+        return $@"
+      case ""{uiEvent.Name}"":
+          {camelCaseName}?.Invoke(this, {eventArgs});
+          break;
+";
+      }));
+
+    private static string GenerateNvimUIEvents(
+      IEnumerable<NvimUIEvent> uiEvents) =>
+      string.Join("\n",
+        uiEvents.Select(uiEvent =>
+        {
+          var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+          var genericTypeParam = uiEvent.Parameters.Any()
+            ? $"<{camelCaseName}EventArgs>"
+            : string.Empty;
+          return $"    public event EventHandler{genericTypeParam} {camelCaseName};";
+        }));
+
+    private static string GenerateNvimUIEventArgs(
+      IEnumerable<NvimUIEvent> uiEvents) =>
+      string.Join("", uiEvents.Where(uiEvent => uiEvent.Parameters.Any())
+                              .Select(uiEvent =>
+      {
+        var eventName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+        return $@"
+  public class {eventName}EventArgs : EventArgs
+  {{
+{
+      string.Join("", uiEvent.Parameters.Select(param => {
+        var type = NvimTypesMap.GetCSharpType(param.Type);
+        var paramName = StringUtil.ConvertToCamelCase(param.Name, true);
+        return $"    public {type} {paramName} {{ get; set; }}\n";
+      }))
+}
+  }}";
+      }));
 
     private static string GenerateNvimTypes(NvimAPIMetadata apiMetadata)
     {
@@ -67,9 +137,9 @@ namespace NvimClient.API
     public {name}(NvimAPI api) => _api = api;
     {
     GenerateNvimMethods(
-      GetNonDeprecatedFunctions(apiMetadata.Functions)
-        .Where(function => function.Method
-                           && function.Name.StartsWith(type.Value.Prefix)),
+      apiMetadata.Functions.Where(function =>
+        !IsDeprecated(function) && function.Method
+        && function.Name.StartsWith(type.Value.Prefix)),
       type.Value.Prefix)
     }
   }}";

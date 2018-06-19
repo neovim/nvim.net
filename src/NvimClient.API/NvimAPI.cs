@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MsgPack;
@@ -95,14 +96,29 @@ namespace NvimClient.API
         {
           case NvimNotification notification:
           {
-            if (!_notificationHandlers.TryGetValue(notification.Method,
-              out var handler))
+            if (notification.Method == "redraw")
             {
-              throw new Exception(
-                $"No notification handler for \"{notification.Method}\"");
+              var uiEvents = notification.Arguments.AsEnumerable().SelectMany(
+                uiEvent =>
+                {
+                  var data = uiEvent.AsList();
+                  var name = data.First().AsString();
+                  return data.Select(args => new {Name = name, Args = args})
+                             .Skip(1);
+                });
+              foreach (var uiEvent in uiEvents)
+              {
+                CallUIEventHandler(uiEvent.Name,
+                  (MessagePackObject[]) uiEvent.Args.ToObject());
+              }
             }
 
-            handler(notification.Arguments);
+            if (_notificationHandlers.TryGetValue(notification.Method,
+              out var handler))
+            {
+              handler(notification.Arguments);
+            }
+
             break;
           }
           case NvimRequest request:
@@ -169,6 +185,19 @@ namespace NvimClient.API
         _response = response;
         _receivedResponseEvent.Set();
       }
+    }
+
+    private static T Cast<T>(MessagePackObject msgPackObject)
+    {
+      if (typeof(T) == typeof(long))
+      {
+        return (T) (object) msgPackObject.AsInt64();
+      }
+      if (typeof(T) == typeof(double))
+      {
+        return (T) (object) msgPackObject.AsDouble();
+      }
+      return (T) msgPackObject.ToObject();
     }
   }
 }

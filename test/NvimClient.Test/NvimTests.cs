@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
@@ -130,6 +132,25 @@ namespace NvimClient.Test
         ConvertToArray<int>(
           (MessagePackObject[]) await api.GetVar("result"));
       CollectionAssert.AreEqual(new[]{4, 5, 6}, result);
+    }
+
+    [TestMethod]
+    public async Task TestNvimUIEvent()
+    {
+      const string testString = "hello_world";
+      var titleSetEvent = new ManualResetEvent(false);
+      var api = new NvimAPI();
+      await api.UiAttach(100, 200,
+        MessagePackObject.FromObject(new MessagePackObjectDictionary()));
+      api.SetTitle += (sender, args) =>
+      {
+        if (args.Title == testString)
+        {
+          titleSetEvent.Set();
+        }
+      };
+      await api.Command($"set titlestring={testString} | set title");
+      Assert.IsTrue(titleSetEvent.WaitOne(TimeSpan.FromSeconds(5)));
     }
   }
 }
