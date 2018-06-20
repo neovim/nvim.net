@@ -164,6 +164,7 @@ namespace NvimClient.API
 
     private class PendingRequest
     {
+      private readonly TimeSpan _responseTimeout = TimeSpan.FromSeconds(10);
       private readonly ManualResetEvent _receivedResponseEvent;
       private NvimResponse _response;          
 
@@ -173,10 +174,28 @@ namespace NvimClient.API
       internal Task<NvimResponse> GetResponse()
       {
         var taskCompletionSource = new TaskCompletionSource<NvimResponse>();
-        ThreadPool.RegisterWaitForSingleObject(_receivedResponseEvent,
-          (state, timeout) =>
-            taskCompletionSource.SetResult(((PendingRequest) state)._response),
-          this, Timeout.Infinite, true);
+
+        void RegisterResponseEvent(TimeSpan timeout) =>
+          ThreadPool.RegisterWaitForSingleObject(_receivedResponseEvent,
+            (state, timedOut) =>
+            {
+              if (timedOut)
+              {
+                Debug.WriteLine("Warning: response was not received "
+                                + $"within {timeout.TotalSeconds} seconds");
+                // Continue waiting without a timeout
+                RegisterResponseEvent(Timeout.InfiniteTimeSpan);
+              }
+              else
+              {
+                taskCompletionSource.SetResult(
+                  ((PendingRequest) state)._response);
+              }
+            },
+            this, timeout, true);
+
+        RegisterResponseEvent(_responseTimeout);
+
         return taskCompletionSource.Task;
       }
 
