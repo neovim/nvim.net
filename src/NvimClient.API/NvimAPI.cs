@@ -149,13 +149,16 @@ namespace NvimClient.API
             if (!_pendingRequests.TryRemove(response.MessageId,
               out var pendingRequest))
             {
-              throw new Exception("Received response with unknown message ID");
+              throw new Exception(
+                "Received response with "
+                + $"unknown message ID \"{response.MessageId}\"");
             }
 
             pendingRequest.Complete(response);
             break;
           default:
-            throw new TypeLoadException("Unknown message type");
+            throw new TypeLoadException(
+              $"Unknown message type \"{message.GetType()}\"");
         }
 
         Receive();
