@@ -10,6 +10,7 @@ using MsgPack.Serialization;
 using NvimClient.API;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
+using NvimClient.NvimPlugin;
 using NvimClient.NvimProcess;
 
 namespace NvimClient.Test
@@ -151,6 +152,17 @@ namespace NvimClient.Test
       };
       await api.Command($"set titlestring={testString} | set title");
       Assert.IsTrue(titleSetEvent.WaitOne(TimeSpan.FromSeconds(5)));
+    }
+
+    [TestMethod]
+    public async Task TestPluginFunction()
+    {
+      const string functionName = nameof(TestPlugin.AddNumbers);
+      var api = new NvimAPI();
+      await PluginHost.RegisterPlugin<TestPlugin>(api);
+      await api.Command($"let g:result = {functionName}(1, 2)");
+      var result = await api.GetVar("result");
+      Assert.AreEqual(3, result);
     }
   }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MsgPack;
 
 namespace NvimClient.NvimMsgpack
 {
@@ -42,6 +43,20 @@ namespace NvimClient.NvimMsgpack
       }
 
       return "Nvim" + nvimType;
+    }
+
+    public static object ConvertMessagePackObject(
+      MessagePackObject msgPackObject, Type targetType)
+    {
+      if (targetType == typeof(long))
+      {
+        return msgPackObject.AsInt64();
+      }
+      if (targetType == typeof(double))
+      {
+        return msgPackObject.AsDouble();
+      }
+      return msgPackObject.ToObject();
     }
   }
 }

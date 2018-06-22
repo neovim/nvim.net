@@ -22,7 +22,7 @@ namespace NvimClient.API
     private readonly ConcurrentDictionary<long, PendingRequest>
       _pendingRequests;
     private readonly ConcurrentDictionary<string,
-      Func<MessagePackObject, MessagePackObject>> _requestHandlers;
+      Func<MessagePackObject[], MessagePackObject>> _requestHandlers;
     private readonly ConcurrentDictionary<string, Action<MessagePackObject>>
       _notificationHandlers;
     private long _messageIdCounter;
@@ -41,7 +41,7 @@ namespace NvimClient.API
       _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
       _requestHandlers =
         new ConcurrentDictionary<string,
-          Func<MessagePackObject, MessagePackObject>>();
+          Func<MessagePackObject[], MessagePackObject>>();
       _notificationHandlers =
         new ConcurrentDictionary<string, Action<MessagePackObject>>();
 
@@ -50,7 +50,7 @@ namespace NvimClient.API
     }
 
     public void AddRequestHandler(string name,
-      Func<MessagePackObject, MessagePackObject> handler)
+      Func<MessagePackObject[], MessagePackObject> handler)
     {
       _requestHandlers[name] = handler;
     }
@@ -135,7 +135,8 @@ namespace NvimClient.API
                            };
             try
             {
-              response.Result = handler(request.Arguments);
+              response.Result =
+                handler((MessagePackObject[]) request.Arguments.ToObject());
             }
             catch (Exception exception)
             {
@@ -209,17 +210,7 @@ namespace NvimClient.API
       }
     }
 
-    private static T Cast<T>(MessagePackObject msgPackObject)
-    {
-      if (typeof(T) == typeof(long))
-      {
-        return (T) (object) msgPackObject.AsInt64();
-      }
-      if (typeof(T) == typeof(double))
-      {
-        return (T) (object) msgPackObject.AsDouble();
-      }
-      return (T) msgPackObject.ToObject();
-    }
+    private static T Cast<T>(MessagePackObject msgPackObject) =>
+      (T) NvimTypesMap.ConvertMessagePackObject(msgPackObject, typeof(T));
   }
 }
