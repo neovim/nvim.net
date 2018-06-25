@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using MsgPack;
 using NvimClient.API;
-using NvimClient.NvimMsgpack;
 using NvimClient.NvimPlugin.Attributes;
 
 namespace NvimClient.NvimPlugin
@@ -31,33 +30,31 @@ namespace NvimClient.NvimPlugin
                               method
                                 .GetCustomAttribute<NvimFunctionAttribute>()
                           }).Where(method => method.Attribute != null);
-      var methodsDictionary = new MessagePackObjectDictionary();
+      var methodsDictionary = new Dictionary<string, Dictionary<string, object>>();
       foreach (var exposedFunction in exposedFunctions)
       {
         await RegisterFunction(api, pluginInstance, exposedFunction.Method,
           exposedFunction.Attribute);
         methodsDictionary[exposedFunction.Method.Name] =
-          MessagePackObject.FromObject(
-            new MessagePackObjectDictionary
-            {
-              {"async", exposedFunction.Attribute.Sync},
-              {"nargs", exposedFunction.Method.GetParameters().Length}
-            });
+          new Dictionary<string, object>
+          {
+            {"async", exposedFunction.Attribute.Sync},
+            {"nargs", exposedFunction.Method.GetParameters().Length}
+          };
       }
 
       await api.SetClientInfo(pluginAttribute.Name ?? typeof(T).Name,
-        pluginAttribute.Version, "plugin",
-        MessagePackObject.FromObject(methodsDictionary),
-        MessagePackObject.FromObject(new MessagePackObjectDictionary
-                                     {
-                                       {"website", pluginAttribute.Website},
-                                       {"license", pluginAttribute.License},
-                                       {"logo", pluginAttribute.Logo}
-                                     }));
+        pluginAttribute.Version, "plugin", methodsDictionary,
+        new Dictionary<string, string>
+        {
+          {"website", pluginAttribute.Website},
+          {"license", pluginAttribute.License},
+          {"logo", pluginAttribute.Logo}
+        });
 
       var channelID = (long) (await api.GetApiInfo())[0];
       await api.CallFunction("remote#host#Register",
-        new MessagePackObject[]
+        new object[]
         {
           PluginHostName, "*", channelID
         });
@@ -70,34 +67,28 @@ namespace NvimClient.NvimPlugin
       api.AddRequestHandler($"{pluginPath}:function:{method.Name}",
         args =>
         {
-          var functionArguments =
-            (MessagePackObject[]) args.AsEnumerable().First().ToObject();
-          var convertedArgs = functionArguments.Zip(method.GetParameters(),
-              (arg, param) =>
-                NvimTypesMap.ConvertMessagePackObject(arg, param.ParameterType))
-            .ToArray();
-          var returnValue = method.Invoke(pluginInstance, convertedArgs);
-          return MessagePackObject.FromObject(returnValue);
+          var functionArguments = (object[]) args.First();
+          var returnValue = method.Invoke(pluginInstance, functionArguments);
+          return returnValue;
         });
-      var opts = new MessagePackObjectDictionary();
+      var opts = new Dictionary<string, string>();
       if (!string.IsNullOrEmpty(attribute.Eval))
       {
         opts["eval"] = attribute.Eval;
       }
       await api.CallFunction("remote#host#RegisterPlugin",
-        new MessagePackObject[]
+        new object[]
         {
           PluginHostName, pluginPath,
           new[]
           {
-            MessagePackObject.FromObject(
-              new MessagePackObjectDictionary
-              {
-                {"type", "function"},
-                {"name", attribute.Name ?? method.Name},
-                {"sync", attribute.Sync ? "1" : "0"},
-                {"opts", MessagePackObject.FromObject(opts)}
-              })
+            new Dictionary<string, object>
+            {
+              {"type", "function"},
+              {"name", attribute.Name ?? method.Name},
+              {"sync", attribute.Sync ? "1" : "0"},
+              {"opts", opts}
+            }
           }
         });
     }

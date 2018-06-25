@@ -9,9 +9,9 @@ namespace NvimClient.NvimMsgpack
     private static Dictionary<string, string> _nvimTypesMap =>
       new Dictionary<string, string>
       {
-        {"Array",      "MessagePackObject[]"},
+        {"Array",      "object[]"},
         {"Boolean",    "bool"},
-        {"Dictionary", "MessagePackObject"},
+        {"Dictionary", "IDictionary"},
         {"Float",      "double"},
         {"Integer",    "long"},
         {"Object",     "object"},
@@ -26,37 +26,23 @@ namespace NvimClient.NvimMsgpack
         return csharpType;
       }
 
-      var splitCollection =
-        (Func<string, string[]>) (str => str.Split('(', ',', ')'));
+      string[] SplitCollection(string str) => str.Split('(', ',', ')');
+
       if (nvimType.StartsWith("ArrayOf(") && nvimType.EndsWith(")"))
       {
-        var elementType = splitCollection(nvimType)[1];
+        var elementType = SplitCollection(nvimType)[1];
         return GetCSharpType(elementType) + "[]";
       }
 
       if (nvimType.StartsWith("DictionaryOf(") && nvimType.EndsWith(")"))
       {
-        var split     = nvimType.Split('(', ',', ')');
+        var split     = SplitCollection(nvimType);
         var keyType   = GetCSharpType(split[1]);
         var valueType = GetCSharpType(split[2]);
-        return $"Dictionary<{keyType}, {valueType}>";
+        return $"IDictionary<{keyType}, {valueType}>";
       }
 
       return "Nvim" + nvimType;
-    }
-
-    public static object ConvertMessagePackObject(
-      MessagePackObject msgPackObject, Type targetType)
-    {
-      if (targetType == typeof(long))
-      {
-        return msgPackObject.AsInt64();
-      }
-      if (targetType == typeof(double))
-      {
-        return msgPackObject.AsDouble();
-      }
-      return msgPackObject.ToObject();
     }
   }
 }

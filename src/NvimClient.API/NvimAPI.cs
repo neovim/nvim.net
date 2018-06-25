@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,9 +23,9 @@ namespace NvimClient.API
     private readonly BlockingCollection<NvimMessage> _messageQueue;
     private readonly ConcurrentDictionary<long, PendingRequest>
       _pendingRequests;
-    private readonly ConcurrentDictionary<string,
-      Func<MessagePackObject[], MessagePackObject>> _requestHandlers;
-    private readonly ConcurrentDictionary<string, Action<MessagePackObject>>
+    private readonly ConcurrentDictionary<string, Func<object[], object>>
+      _requestHandlers;
+    private readonly ConcurrentDictionary<string, Action<object[]>>
       _notificationHandlers;
     private long _messageIdCounter;
 
@@ -40,19 +42,21 @@ namespace NvimClient.API
       _messageQueue  = new BlockingCollection<NvimMessage>();
       _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
       _requestHandlers =
-        new ConcurrentDictionary<string,
-          Func<MessagePackObject[], MessagePackObject>>();
+        new ConcurrentDictionary<string, Func<object[], object>>();
       _notificationHandlers =
-        new ConcurrentDictionary<string, Action<MessagePackObject>>();
+        new ConcurrentDictionary<string, Action<object[]>>();
 
       StartSendLoop();
       StartReceiveLoop();
     }
 
-    public void AddRequestHandler(string name,
-      Func<MessagePackObject[], MessagePackObject> handler)
+    public void AddRequestHandler(string name, Func<object[], object> handler)
     {
-      _requestHandlers[name] = handler;
+      if (!_requestHandlers.TryAdd(name, handler))
+      {
+        throw new Exception(
+          $"Request handler for \"{name}\" is already registered");
+      }
     }
 
     private Task<NvimResponse> SendAndReceive(NvimRequest request)
@@ -70,7 +74,7 @@ namespace NvimClient.API
         .ContinueWith(task =>
         {
           var response = task.Result;
-          return (TResult) response.Result.ToObject();
+          return (TResult) ConvertFromMessagePackObject(response.Result);
         });
     }
 
@@ -109,7 +113,7 @@ namespace NvimClient.API
               foreach (var uiEvent in uiEvents)
               {
                 CallUIEventHandler(uiEvent.Name,
-                  (MessagePackObject[]) uiEvent.Args.ToObject());
+                  (object[]) ConvertFromMessagePackObject(uiEvent.Args));
               }
             }
 
@@ -135,8 +139,10 @@ namespace NvimClient.API
                            };
             try
             {
-              response.Result =
-                handler((MessagePackObject[]) request.Arguments.ToObject());
+              var result = handler(
+                  (object[]) ConvertFromMessagePackObject(request.Arguments));
+
+              response.Result = ConvertToMessagePackObject(result);
             }
             catch (Exception exception)
             {
@@ -210,7 +216,66 @@ namespace NvimClient.API
       }
     }
 
-    private static T Cast<T>(MessagePackObject msgPackObject) =>
-      (T) NvimTypesMap.ConvertMessagePackObject(msgPackObject, typeof(T));
+    private static object
+      ConvertFromMessagePackObject(MessagePackObject msgPackObject)
+    {
+      if (msgPackObject.IsTypeOf(typeof(long)) ?? false)
+      {
+        return msgPackObject.AsInt64();
+      }
+
+      if (msgPackObject.IsTypeOf(typeof(double)) ?? false)
+      {
+        return msgPackObject.AsDouble();
+      }
+
+      if (msgPackObject.IsArray)
+      {
+        return msgPackObject.AsEnumerable().Select(ConvertFromMessagePackObject)
+          .ToArray();
+      }
+
+      if (msgPackObject.IsDictionary)
+      {
+        var msgPackDictionary = msgPackObject.AsDictionary();
+        return msgPackDictionary.ToDictionary(
+          keyValuePair => ConvertFromMessagePackObject(keyValuePair.Key),
+          keyValuePair => ConvertFromMessagePackObject(keyValuePair.Value));
+      }
+
+      return msgPackObject.ToObject();
+    }
+
+    private static MessagePackObject ConvertToMessagePackObject(object obj)
+    {
+      IEnumerable<MessagePackObject>
+      ConvertEnumerable(IEnumerable enumerable) =>
+        enumerable.Cast<object>().Select(ConvertToMessagePackObject);
+
+      if (obj is Array array)
+      {
+        return MessagePackObject.FromObject(ConvertEnumerable(array));
+      }
+
+      if (obj is IDictionary dictionary)
+      {
+        var msgPackDictionary = new MessagePackObjectDictionary();
+        var keyValuePairs = ConvertEnumerable(dictionary.Keys).Zip(
+          ConvertEnumerable(dictionary.Values),
+          KeyValuePair.Create);
+        foreach (var keyValuePair in keyValuePairs)
+        {
+          msgPackDictionary.Add(keyValuePair.Key, keyValuePair.Value);
+        }
+
+        return MessagePackObject.FromObject(msgPackDictionary);
+      }
+
+      return MessagePackObject.FromObject(obj);
+    }
+
+    private static MessagePackObject GetRequestArguments(
+      params object[] parameters) =>
+      ConvertToMessagePackObject(parameters);
   }
 }

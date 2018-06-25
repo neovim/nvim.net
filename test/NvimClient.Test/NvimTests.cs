@@ -109,30 +109,24 @@ namespace NvimClient.Test
     {
       var api = new NvimAPI();
       var result = await api.Eval("2 + 2");
-      Assert.AreEqual(4, result);
+      Assert.AreEqual(4L, result);
     }
 
     [TestMethod]
     public async Task TestCallAndReply()
     {
-      T[] ConvertToArray<T>(IEnumerable<MessagePackObject> msgPackObj) =>
-        msgPackObj.Select(i => (T)i.ToObject()).ToArray();
-
       var api = new NvimAPI();
       api.AddRequestHandler("client-call", args =>
       {
-        var intArray = ConvertToArray<int>(args.AsEnumerable());
-        CollectionAssert.AreEqual(new[]{1, 2, 3}, intArray);
-        return new[]{4, 5, 6}.Select(i => MessagePackObject.FromObject(i))
-          .ToArray();
+        CollectionAssert.AreEqual(new[] {1L, 2L, 3L}, args);
+        return new[]{4, 5, 6};
       });
-      var channelID = (int)(await api.GetApiInfo())[0];
+      var objects = await api.GetApiInfo();
+      var channelID = (long) objects.First();
       await api.Command(
         $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
-      var result =
-        ConvertToArray<int>(
-          (MessagePackObject[]) await api.GetVar("result"));
-      CollectionAssert.AreEqual(new[]{4, 5, 6}, result);
+      var result = (object[]) await api.GetVar("result");
+      CollectionAssert.AreEqual(new[]{4L, 5L, 6L}, result);
     }
 
     [TestMethod]
@@ -141,8 +135,7 @@ namespace NvimClient.Test
       const string testString = "hello_world";
       var titleSetEvent = new ManualResetEvent(false);
       var api = new NvimAPI();
-      await api.UiAttach(100, 200,
-        MessagePackObject.FromObject(new MessagePackObjectDictionary()));
+      await api.UiAttach(100, 200, new Dictionary<string, string>());
       api.SetTitle += (sender, args) =>
       {
         if (args.Title == testString)
@@ -162,7 +155,7 @@ namespace NvimClient.Test
       await PluginHost.RegisterPlugin<TestPlugin>(api);
       await api.Command($"let g:result = {functionName}(1, 2)");
       var result = await api.GetVar("result");
-      Assert.AreEqual(3, result);
+      Assert.AreEqual(3L, result);
     }
   }
 }

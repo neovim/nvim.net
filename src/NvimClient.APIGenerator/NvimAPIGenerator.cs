@@ -40,6 +40,8 @@ namespace NvimClient
 
     private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) => @"
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MsgPack;
 using NvimClient.NvimMsgpack.Models;
@@ -58,7 +60,7 @@ namespace NvimClient.API
 " + GenerateNvimTypes(apiMetadata) + @"
 " + GenerateNvimUIEventArgs(
       apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
-  private void CallUIEventHandler(string eventName, MessagePackObject[] args)
+  private void CallUIEventHandler(string eventName, object[] args)
   {
     switch (eventName)
     {
@@ -82,7 +84,7 @@ namespace NvimClient.API
               {
                 var name = StringUtil.ConvertToCamelCase(param.Name, true);
                 var type = NvimTypesMap.GetCSharpType(param.Type);
-                return $@"            {name} = Cast<{type}>(args[{index}])";
+                return $@"            {name} = ({type}) args[{index}]";
               }))
             }
           }}"
@@ -181,12 +183,8 @@ namespace NvimClient.API
       {sendAccess}SendAndReceive{genericTypeParam}(new NvimRequest
       {{
         Method = ""{function.Name}"",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {{
-            {string.Join(", ",
-              parameters.Select(param =>
-                $"MessagePackObject.FromObject({param.Name})"))}
-        }})
+        Arguments = GetRequestArguments(
+            {string.Join(", ", parameters.Select(param => param.Name))})
       }});
 ";
       }));

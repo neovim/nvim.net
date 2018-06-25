@@ -1,4 +1,3 @@
-using MsgPack;
 using NvimClient.API;
 using NvimClient.NvimPlugin;
 using NvimClient.NvimPlugin.Attributes;
@@ -13,10 +12,10 @@ namespace NvimClient.Test
     public TestPlugin(NvimAPI nvim) => _nvim = nvim;
 
     [NvimFunction(Sync = true)]
-    public long AddNumbers(int num1, int num2) => num1 + num2;
+    public long AddNumbers(long num1, long num2) => num1 + num2;
 
     [NvimCommand]
-    public void TestCommand(string range, params MessagePackObject[] args)
+    public void TestCommand(string range, params object[] args)
     {
       _nvim.SetCurrentLine($"Command with args: {args}, range: {range}");
     }
