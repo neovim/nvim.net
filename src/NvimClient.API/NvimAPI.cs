@@ -59,6 +59,10 @@ namespace NvimClient.API
       }
     }
 
+    public void AddRequestHandler(string name,
+      Func<object[], Task<object>> handler) =>
+      AddRequestHandler(name, (Func<object[], object>) handler);
+
     private Task<NvimResponse> SendAndReceive(NvimRequest request)
     {
       request.MessageId = _messageIdCounter++;
@@ -120,7 +124,9 @@ namespace NvimClient.API
             if (_notificationHandlers.TryGetValue(notification.Method,
               out var handler))
             {
-              handler(notification.Arguments);
+              var args =
+                (object[]) ConvertFromMessagePackObject(notification.Arguments);
+              handler(args);
             }
 
             break;
@@ -137,19 +143,36 @@ namespace NvimClient.API
                            {
                              MessageId = request.MessageId,
                            };
-            try
-            {
-              var result = handler(
-                  (object[]) ConvertFromMessagePackObject(request.Arguments));
 
-              response.Result = ConvertToMessagePackObject(result);
-            }
-            catch (Exception exception)
+            void CallHandlerAndSendResponse(Func<object> syncHandler)
             {
-              response.Error = exception.ToString();
+              try
+              {
+                var result = syncHandler();
+                response.Result = ConvertToMessagePackObject(result);
+              }
+              catch (Exception exception)
+              {
+                response.Error = exception.ToString();
+              }
+
+              _messageQueue.Add(response);
             }
 
-            _messageQueue.Add(response);
+            var args =
+              (object[]) ConvertFromMessagePackObject(request.Arguments);
+            if (handler is Func<object[], Task<object>> asyncHandler)
+            {
+              // The handler returns a Task so run it asynchronously
+              var handlerTask = Task.Run(() =>
+              {
+                CallHandlerAndSendResponse(() => asyncHandler(args).Result);
+              });
+            }
+            else
+            {
+              CallHandlerAndSendResponse(() => handler(args));
+            }
             break;
           }
           case NvimResponse response:
