@@ -13,6 +13,6 @@ namespace NvimClient.NvimPlugin.Attributes
     public bool   Register { get; set; }
     public string NArgs    { get; set; }
     public string Name     { get; set; }
-    public bool   Sync     { get; set; }
+    public bool   Bar      { get; set; }
   }
 }

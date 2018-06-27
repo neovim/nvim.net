@@ -116,7 +116,7 @@ namespace NvimClient.Test
     public async Task TestCallAndReply()
     {
       var api = new NvimAPI();
-      api.AddRequestHandler("client-call", args =>
+      api.RegisterHandler("client-call", args =>
       {
         CollectionAssert.AreEqual(new[] {1L, 2L, 3L}, args);
         return new[]{4, 5, 6};

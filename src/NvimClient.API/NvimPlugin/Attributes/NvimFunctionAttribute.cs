@@ -7,6 +7,5 @@ namespace NvimClient.NvimPlugin
     public string Name  { get; set; }
     public string Eval  { get; set; }
     public string Range { get; set; }
-    public bool   Sync  { get; set; }
   }
 }

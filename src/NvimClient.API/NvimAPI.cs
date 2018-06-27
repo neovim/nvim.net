@@ -23,10 +23,8 @@ namespace NvimClient.API
     private readonly BlockingCollection<NvimMessage> _messageQueue;
     private readonly ConcurrentDictionary<long, PendingRequest>
       _pendingRequests;
-    private readonly ConcurrentDictionary<string, Func<object[], object>>
-      _requestHandlers;
-    private readonly ConcurrentDictionary<string, Action<object[]>>
-      _notificationHandlers;
+    private delegate void NvimHandler(long? requestId, object[] arguments);
+    private readonly ConcurrentDictionary<string, NvimHandler> _handlers;
     private long _messageIdCounter;
 
     public NvimAPI()
@@ -41,27 +39,73 @@ namespace NvimClient.API
       _outputStream = process.StandardOutput.BaseStream;
       _messageQueue  = new BlockingCollection<NvimMessage>();
       _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
-      _requestHandlers =
-        new ConcurrentDictionary<string, Func<object[], object>>();
-      _notificationHandlers =
-        new ConcurrentDictionary<string, Action<object[]>>();
+      _handlers = new ConcurrentDictionary<string, NvimHandler>();
 
       StartSendLoop();
       StartReceiveLoop();
     }
 
-    public void AddRequestHandler(string name, Func<object[], object> handler)
+    public void RegisterHandler(string name, Func<object[], object> handler) =>
+      RegisterHandler(name, (Delegate) handler);
+
+    public void RegisterHandler(string name, Action<object[]> handler) =>
+      RegisterHandler(name, (Delegate) handler);
+
+    public void RegisterHandler(string name,
+      Func<object[], Task<object>> handler) => RegisterHandler(name,
+      (requestId, args) =>
+      {
+        Task.Run(() =>
+        {
+          if (requestId.HasValue)
+          {
+            CallHandlerAndSendResponse(requestId.Value, handler, args);
+          }
+          else
+          {
+            handler(args);
+          }
+        });
+      });
+
+    private void RegisterHandler(string name, Delegate handler) =>
+      RegisterHandler(name, (requestId, args) =>
+      {
+        if (requestId.HasValue)
+        {
+          CallHandlerAndSendResponse(requestId.Value, handler, args);
+        }
+        else
+        {
+          handler.DynamicInvoke(args);
+        }
+      });
+
+    private void RegisterHandler(string name, NvimHandler handler)
     {
-      if (!_requestHandlers.TryAdd(name, handler))
+      if (!_handlers.TryAdd(name, handler))
       {
         throw new Exception(
-          $"Request handler for \"{name}\" is already registered");
+          $"Handler for \"{name}\" is already registered");
       }
     }
 
-    public void AddRequestHandler(string name,
-      Func<object[], Task<object>> handler) =>
-      AddRequestHandler(name, (Func<object[], object>) handler);
+    private void CallHandlerAndSendResponse(long requestId, Delegate handler,
+      object[] args)
+    {
+      var response = new NvimResponse {MessageId = requestId};
+      try
+      {
+        var result = handler.DynamicInvoke(new object[] {args});
+        response.Result = ConvertToMessagePackObject(result);
+      }
+      catch (Exception exception)
+      {
+        response.Error = exception.ToString();
+      }
+
+      _messageQueue.Add(response);
+    }
 
     private Task<NvimResponse> SendAndReceive(NvimRequest request)
     {
@@ -121,58 +165,27 @@ namespace NvimClient.API
               }
             }
 
-            if (_notificationHandlers.TryGetValue(notification.Method,
-              out var handler))
+            if (_handlers.TryGetValue(notification.Method, out var handler))
             {
               var args =
                 (object[]) ConvertFromMessagePackObject(notification.Arguments);
-              handler(args);
+              handler(null, args);
             }
 
             break;
           }
           case NvimRequest request:
           {
-            if (!_requestHandlers.TryGetValue(request.Method, out var handler))
+            if (!_handlers.TryGetValue(request.Method, out var handler))
             {
               throw new Exception(
                 $"No request handler for \"{request.Method}\"");
             }
 
-            var response = new NvimResponse
-                           {
-                             MessageId = request.MessageId,
-                           };
-
-            void CallHandlerAndSendResponse(Func<object> syncHandler)
-            {
-              try
-              {
-                var result = syncHandler();
-                response.Result = ConvertToMessagePackObject(result);
-              }
-              catch (Exception exception)
-              {
-                response.Error = exception.ToString();
-              }
-
-              _messageQueue.Add(response);
-            }
-
             var args =
               (object[]) ConvertFromMessagePackObject(request.Arguments);
-            if (handler is Func<object[], Task<object>> asyncHandler)
-            {
-              // The handler returns a Task so run it asynchronously
-              var handlerTask = Task.Run(() =>
-              {
-                CallHandlerAndSendResponse(() => asyncHandler(args).Result);
-              });
-            }
-            else
-            {
-              CallHandlerAndSendResponse(() => handler(args));
-            }
+            handler(request.MessageId, args);
+
             break;
           }
           case NvimResponse response:
