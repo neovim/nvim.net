@@ -8,22 +8,27 @@ namespace NvimClient.Test
   internal class TestPlugin
   {
     private readonly NvimAPI _nvim;
+    public static bool AutocmdCalled;
+    public static bool CommandCalled;
 
     public TestPlugin(NvimAPI nvim) => _nvim = nvim;
 
-    [NvimFunction(Sync = true)]
+    [NvimFunction]
     public long AddNumbers(long num1, long num2) => num1 + num2;
 
-    [NvimCommand]
-    public void TestCommand(string range, params object[] args)
+    [NvimCommand(Range = ".", NArgs = "*")]
+    public void TestCommand(long[] range, params object[] args)
     {
-      _nvim.SetCurrentLine($"Command with args: {args}, range: {range}");
+      _nvim.SetCurrentLine(
+        $"Command with args: {args}, range: {range[0]}-{range[1]}");
+      CommandCalled = true;
     }
 
     [NvimAutocmd("BufEnter", Pattern = "*.cs", Eval = "expand('<afile>')")]
     public void OnBufEnter(string filename)
     {
       _nvim.OutWrite($"testplugin is in '{filename}'\n");
+      AutocmdCalled = true;
     }
   }
 }

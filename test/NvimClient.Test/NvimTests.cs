@@ -8,9 +8,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
 using MsgPack.Serialization;
 using NvimClient.API;
+using NvimClient.API.NvimPlugin;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
-using NvimClient.NvimPlugin;
 using NvimClient.NvimProcess;
 
 namespace NvimClient.Test
@@ -148,14 +148,23 @@ namespace NvimClient.Test
     }
 
     [TestMethod]
-    public async Task TestPluginFunction()
+    public async Task TestPluginExports()
     {
+      const string pluginPath = "/path/to/plugin.sln";
       const string functionName = nameof(TestPlugin.AddNumbers);
+      const string commandName = nameof(TestPlugin.TestCommand);
       var api = new NvimAPI();
-      await PluginHost.RegisterPlugin<TestPlugin>(api);
+      await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
+
       await api.Command($"let g:result = {functionName}(1, 2)");
       var result = await api.GetVar("result");
       Assert.AreEqual(3L, result);
+
+      await api.Command($":.{commandName} asdf");
+      Assert.IsTrue(TestPlugin.CommandCalled);
+
+      await api.Command("edit test.cs");
+      Assert.IsTrue(TestPlugin.AutocmdCalled);
     }
   }
 }
