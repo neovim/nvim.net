@@ -17,6 +17,10 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
+    public event EventHandler<NvimUnhandledRequestEventArgs> OnUnhandledRequest;
+    public event EventHandler<NvimUnhandledNotificationEventArgs>
+      OnUnhandledNotification;
+
     private readonly Stream _inputStream;
     private readonly Stream _outputStream;
     private readonly MessagePackSerializer<NvimMessage> _serializer;
@@ -26,17 +30,40 @@ namespace NvimClient.API
     private delegate void NvimHandler(long? requestId, object[] arguments);
     private readonly ConcurrentDictionary<string, NvimHandler> _handlers;
     private long _messageIdCounter;
+    private readonly ManualResetEvent _waitEvent = new ManualResetEvent(false);
 
-    public NvimAPI()
+    /// <summary>
+    /// Starts a new Nvim process and communicates
+    /// with it through stdin and stdout streams.
+    /// </summary>
+    public NvimAPI() : this(Process.Start(
+        new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless)))
     {
-      var process = Process.Start(
-        new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless));
+    }
 
+    /// <summary>
+    /// Communicates with an already-running Nvim
+    /// process through its stdin and stdout streams.
+    /// </summary>
+    /// <param name="process"></param>
+    public NvimAPI(Process process) : this(process.StandardInput.BaseStream,
+      process.StandardOutput.BaseStream)
+    {
+    }
+
+    /// <summary>
+    /// Communicates with Nvim through the
+    /// provided input and output streams.
+    /// </summary>
+    /// <param name="inputStream">The input stream to use.</param>
+    /// <param name="outputStream">The output stream to use.</param>
+    public NvimAPI(Stream inputStream, Stream outputStream)
+    {
       var context = new SerializationContext();
       context.Serializers.Register(new NvimMessageSerializer(context));
       _serializer   = MessagePackSerializer.Get<NvimMessage>(context);
-      _inputStream  = process.StandardInput.BaseStream;
-      _outputStream = process.StandardOutput.BaseStream;
+      _inputStream  = inputStream;
+      _outputStream = outputStream;
       _messageQueue  = new BlockingCollection<NvimMessage>();
       _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
       _handlers = new ConcurrentDictionary<string, NvimHandler>();
@@ -107,6 +134,19 @@ namespace NvimClient.API
       _messageQueue.Add(response);
     }
 
+
+    internal void SendResponse(NvimUnhandledRequestEventArgs args, object result,
+      object error)
+    {
+      var response = new NvimResponse
+                     {
+                       MessageId = args.RequestId,
+                       Result    = ConvertToMessagePackObject(result),
+                       Error     = ConvertToMessagePackObject(error)
+                     };
+      _messageQueue.Add(response);
+    }
+
     private Task<NvimResponse> SendAndReceive(NvimRequest request)
     {
       request.MessageId = _messageIdCounter++;
@@ -134,7 +174,7 @@ namespace NvimClient.API
         {
           await _serializer.PackAsync(_inputStream, request);
         }
-      });
+      }).ContinueWith(t => _waitEvent.Set());
     }
 
     private void StartReceiveLoop()
@@ -143,7 +183,18 @@ namespace NvimClient.API
 
       async void Receive()
       {
-        var message = await _serializer.UnpackAsync(_outputStream);
+        NvimMessage message;
+        try
+        {
+          message = await _serializer.UnpackAsync(_outputStream);
+
+        }
+        catch
+        {
+          _waitEvent.Set();
+          throw;
+        }
+
         switch (message)
         {
           case NvimNotification notification:
@@ -165,26 +216,35 @@ namespace NvimClient.API
               }
             }
 
+            var arguments =
+              (object[]) ConvertFromMessagePackObject(notification.Arguments);
             if (_handlers.TryGetValue(notification.Method, out var handler))
             {
-              var args =
-                (object[]) ConvertFromMessagePackObject(notification.Arguments);
-              handler(null, args);
+              handler(null, arguments);
+            }
+            else
+            {
+              OnUnhandledNotification?.Invoke(this,
+                new NvimUnhandledNotificationEventArgs(notification.Method,
+                  arguments));
             }
 
             break;
           }
           case NvimRequest request:
           {
-            if (!_handlers.TryGetValue(request.Method, out var handler))
-            {
-              throw new Exception(
-                $"No request handler for \"{request.Method}\"");
-            }
-
-            var args =
+            var arguments =
               (object[]) ConvertFromMessagePackObject(request.Arguments);
-            handler(request.MessageId, args);
+            if (_handlers.TryGetValue(request.Method, out var handler))
+            {
+              handler(request.MessageId, arguments);
+            }
+            else
+            {
+              OnUnhandledRequest?.Invoke(this,
+                new NvimUnhandledRequestEventArgs(this, request.MessageId,
+                  request.Method, arguments));
+            }
 
             break;
           }
@@ -207,6 +267,8 @@ namespace NvimClient.API
         Receive();
       }
     }
+
+    public void WaitForDisconnect() => _waitEvent.WaitOne();
 
     private class PendingRequest
     {

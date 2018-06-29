@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NvimClient.API", "src\NvimC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NvimClient.APIGenerator", "src\NvimClient.APIGenerator\NvimClient.APIGenerator.csproj", "{1569812F-AEC1-4B73-A15C-8C3AE26DB2BF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NvimPluginHost", "src\NvimPluginHost\NvimPluginHost.csproj", "{A51CEDA9-712A-4FD3-8412-76A251DFDD2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1569812F-AEC1-4B73-A15C-8C3AE26DB2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1569812F-AEC1-4B73-A15C-8C3AE26DB2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1569812F-AEC1-4B73-A15C-8C3AE26DB2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51CEDA9-712A-4FD3-8412-76A251DFDD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51CEDA9-712A-4FD3-8412-76A251DFDD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51CEDA9-712A-4FD3-8412-76A251DFDD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51CEDA9-712A-4FD3-8412-76A251DFDD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,1 @@
+call provider#dotnet#Register()
