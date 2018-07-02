@@ -15,6 +15,8 @@ namespace NvimPluginHost
   {
     private static void Main()
     {
+      Log.WriteLine("Plugin host started");
+
       var nvim = new NvimAPI(Console.OpenStandardOutput(),
         Console.OpenStandardInput());
       nvim.OnUnhandledRequest += (sender, request) =>
@@ -25,11 +27,14 @@ namespace NvimPluginHost
           var handler = GetPluginHandler(nvim, request.MethodName);
           if (handler == null)
           {
-            request.SendResponse(null,
-              $"Could not find request handler for {request.MethodName}");
+            var error =
+              $"Could not find request handler for {request.MethodName}";
+            request.SendResponse(null, error);
+            Log.WriteLine(error);
             return;
           }
 
+          Log.WriteLine($"Loaded handler for \"{request.MethodName}\"");
           try
           {
             var result = handler(request.Arguments);
@@ -63,6 +68,8 @@ namespace NvimPluginHost
       });
 
       nvim.WaitForDisconnect();
+
+      Log.WriteLine("Plugin host stopping");
     }
 
     private static Func<object[], object> GetPluginHandler(NvimAPI nvim,
