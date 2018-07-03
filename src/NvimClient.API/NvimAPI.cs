@@ -314,8 +314,7 @@ namespace NvimClient.API
       }
     }
 
-    private static object
-      ConvertFromMessagePackObject(MessagePackObject msgPackObject)
+    private object ConvertFromMessagePackObject(MessagePackObject msgPackObject)
     {
       if (msgPackObject.IsTypeOf(typeof(long)) ?? false)
       {
@@ -341,7 +340,13 @@ namespace NvimClient.API
           keyValuePair => ConvertFromMessagePackObject(keyValuePair.Value));
       }
 
-      return msgPackObject.ToObject();
+      var obj = msgPackObject.ToObject();
+      if (obj is MessagePackExtendedTypeObject msgpackExtObj)
+      {
+        return GetExtensionType(msgpackExtObj);
+      }
+
+      return obj;
     }
 
     private static MessagePackObject ConvertToMessagePackObject(object obj)

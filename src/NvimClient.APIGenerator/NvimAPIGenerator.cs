@@ -43,6 +43,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 using MsgPack;
 using NvimClient.NvimMsgpack.Models;
 
@@ -56,16 +57,27 @@ namespace NvimClient.API
 " + GenerateNvimMethods(
       apiMetadata.Functions.Where(function =>
         !IsDeprecated(function) && !function.Method),
-      "nvim_") + @"
+      "nvim_", false) + @"
 " + GenerateNvimTypes(apiMetadata) + @"
 " + GenerateNvimUIEventArgs(
       apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
-  private void CallUIEventHandler(string eventName, object[] args)
-  {
-    switch (eventName)
+    private void CallUIEventHandler(string eventName, object[] args)
     {
-" + GenerateNvimUIEventCalls(
-      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+      switch (eventName)
+      {
+  " + GenerateNvimUIEventCalls(
+        apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+      }
+    }
+
+    private object GetExtensionType(MessagePackExtendedTypeObject msgPackExtObj)
+    {
+      switch (msgPackExtObj.TypeCode)
+      {
+" + GenerateNvimTypeCases(apiMetadata.Types) + @"
+        default:
+          throw new SerializationException(
+            $""Unknown extension type id {msgPackExtObj.TypeCode}"");
       }
     }
   }
@@ -136,20 +148,26 @@ namespace NvimClient.API
   public class {name}
   {{
     private readonly NvimAPI _api;
-    public {name}(NvimAPI api) => _api = api;
+    private readonly MessagePackExtendedTypeObject _msgPackExtObj;
+    internal {name}(NvimAPI api, MessagePackExtendedTypeObject msgPackExtObj)
+    {{
+      _api = api;
+      _msgPackExtObj = msgPackExtObj;
+    }}
     {
     GenerateNvimMethods(
       apiMetadata.Functions.Where(function =>
         !IsDeprecated(function) && function.Method
         && function.Name.StartsWith(type.Value.Prefix)),
-      type.Value.Prefix)
+      type.Value.Prefix, true)
     }
   }}";
       }));
     }
 
     private static string GenerateNvimMethods(
-      IEnumerable<NvimFunction> functions, string prefixToRemove) =>
+      IEnumerable<NvimFunction> functions, string prefixToRemove,
+      bool isVirtualMethod) =>
       string.Join("", functions.Select(function =>
       {
         if (!function.Name.StartsWith(prefixToRemove))
@@ -165,7 +183,9 @@ namespace NvimClient.API
         var returnType = NvimTypesMap.GetCSharpType(function.ReturnType);
         var genericTypeParam =
           returnType == "void" ? string.Empty : $"<{returnType}>";
-        var parameters = function.Parameters.Select(param =>
+        var parameters =
+          (isVirtualMethod ? function.Parameters.Skip(1) : function.Parameters)
+          .Select(param =>
           new
           {
             param.Type,
@@ -184,9 +204,20 @@ namespace NvimClient.API
       {{
         Method = ""{function.Name}"",
         Arguments = GetRequestArguments(
-            {string.Join(", ", parameters.Select(param => param.Name))})
+          {string.Join(", ",
+            (isVirtualMethod ? new[] {"_msgPackExtObj"} : Enumerable.Empty<string>())
+            .Concat(parameters.Select(param => param.Name)))})
       }});
 ";
       }));
+
+    private static string
+      GenerateNvimTypeCases(Dictionary<string, NvimType> apiMetadata) =>
+      string.Join(string.Empty, apiMetadata.Select(type => $@"
+        case {type.Value.Id}:
+          return new Nvim{
+            StringUtil.ConvertToCamelCase(type.Key, true)
+            }(this, msgPackExtObj);")
+      );
   }
 }
