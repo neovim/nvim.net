@@ -2,6 +2,7 @@ using System;
 
 namespace NvimClient.NvimProcess
 {
+  [AttributeUsage(AttributeTargets.Field)]
   internal class ArgumentAttribute : Attribute
   {
     public ArgumentAttribute(string flag) => Flag = flag;

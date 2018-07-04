@@ -2,6 +2,7 @@ using System;
 
 namespace NvimClient.NvimPlugin.Attributes
 {
+  [AttributeUsage(AttributeTargets.Method)]
   public class NvimCommandAttribute : Attribute
   {
     public string Addr     { get; set; }

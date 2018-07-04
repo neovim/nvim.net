@@ -2,6 +2,7 @@ using System;
 
 namespace NvimClient.NvimPlugin.Attributes
 {
+  [AttributeUsage(AttributeTargets.Method)]
   public class NvimAutocmdAttribute : Attribute
   {
     public NvimAutocmdAttribute(string name) => Name = name;
