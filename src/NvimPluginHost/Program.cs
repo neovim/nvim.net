@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NvimClient.API;
 using NvimClient.API.NvimPlugin;
-using NvimClient.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Attributes;
 
 namespace NvimPluginHost
 {

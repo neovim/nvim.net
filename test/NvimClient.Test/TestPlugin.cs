@@ -1,6 +1,6 @@
 using NvimClient.API;
-using NvimClient.NvimPlugin;
-using NvimClient.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Parameters;
 
 namespace NvimClient.Test
 {
@@ -9,19 +9,35 @@ namespace NvimClient.Test
   {
     private readonly NvimAPI _nvim;
     public static bool AutocmdCalled;
-    public static bool CommandCalled;
+    public static string[] Command1Args;
+    public static string Command2Args;
+    public static long CountLinesReturn;
 
     public TestPlugin(NvimAPI nvim) => _nvim = nvim;
 
     [NvimFunction]
     public long AddNumbers(long num1, long num2) => num1 + num2;
 
-    [NvimCommand(Range = ".", NArgs = "*")]
-    public void TestCommand(long[] range, params object[] args)
+    [NvimFunction]
+    public long CountLines(NvimRange range)
     {
-      _nvim.SetCurrentLine(
-        $"Command with args: {args}, range: {range[0]}-{range[1]}");
-      CommandCalled = true;
+      var lineCount = range.LastLine - range.FirstLine + 1;
+      _nvim.OutWrite(
+        $"Function {nameof(CountLines)} called with {lineCount} lines in range");
+      CountLinesReturn = lineCount;
+      return lineCount;
+    }
+
+    [NvimCommand(NArgs = "*")]
+    public void TestCommand1(string[] args)
+    {
+      Command1Args = args;
+    }
+
+    [NvimCommand(NArgs = "?")]
+    public void TestCommand2(string optionalArg)
+    {
+      Command2Args = optionalArg;
     }
 
     [NvimAutocmd("BufEnter", Pattern = "*.cs", Eval = "expand('<afile>')")]

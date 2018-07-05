@@ -151,20 +151,25 @@ namespace NvimClient.Test
     public async Task TestPluginExports()
     {
       const string pluginPath = "/path/to/plugin.sln";
-      const string functionName = nameof(TestPlugin.AddNumbers);
-      const string commandName = nameof(TestPlugin.TestCommand);
       var api = new NvimAPI();
       await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
 
-      await api.Command($"let g:result = {functionName}(1, 2)");
+      await api.Command(
+        $"let g:result = {nameof(TestPlugin.AddNumbers)}(1, 2)");
       var result = await api.GetVar("result");
       Assert.AreEqual(3L, result);
 
-      await api.Command($":.{commandName} asdf");
-      Assert.IsTrue(TestPlugin.CommandCalled);
+      await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
+      CollectionAssert.AreEqual(new[] {"a", "b", "c"}, TestPlugin.Command1Args);
+
+      await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
+      Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
 
       await api.Command("edit test.cs");
       Assert.IsTrue(TestPlugin.AutocmdCalled);
+
+      await api.Command($"call {nameof(TestPlugin.CountLines)}()");
+      Assert.IsTrue(TestPlugin.CountLinesReturn == 1);
     }
   }
 }

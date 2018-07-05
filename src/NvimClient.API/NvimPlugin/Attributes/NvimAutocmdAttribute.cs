@@ -1,6 +1,6 @@
 using System;
 
-namespace NvimClient.NvimPlugin.Attributes
+namespace NvimClient.API.NvimPlugin.Attributes
 {
   [AttributeUsage(AttributeTargets.Method)]
   public class NvimAutocmdAttribute : Attribute

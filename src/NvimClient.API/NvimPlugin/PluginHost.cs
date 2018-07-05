@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NvimClient.NvimPlugin;
-using NvimClient.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Attributes;
 
 namespace NvimClient.API.NvimPlugin
 {
