@@ -26,7 +26,15 @@ namespace NvimClient.API.NvimPlugin
           index => { functionParameterIndices.Add(index); }
         }
       };
-      VisitParameters(parameterVisitors);
+      var evalParameterIndices = new List<int>(Method.GetParameters().Length);
+      var attributeVisitors = new Dictionary<Type, Action<int, object>>
+      {
+        {
+          typeof(NvimEvalAttribute),
+          (index, attr) => evalParameterIndices.Add(index)
+        }
+      };
+      VisitParameters(parameterVisitors, attributeVisitors);
 
       var argumentConverters = new List<ArgumentConverter>
       {
@@ -58,6 +66,19 @@ namespace NvimClient.API.NvimPlugin
         });
       }
 
+      if (evalParameterIndices.Any())
+      {
+        argumentConverters.Add(
+          nvimArg => evalParameterIndices.Zip(
+            (object[]) nvimArg, (index, arg) =>
+              new PluginArgument
+              {
+                Value = arg,
+                Index = index
+              })
+        );
+      }
+
       ArgumentConverters = argumentConverters;
       Attribute = attribute;
     }
@@ -75,6 +96,8 @@ namespace NvimClient.API.NvimPlugin
       {
         opts["range"] = string.Empty;
       }
+
+      AddEvalOption(opts);
 
       return new Dictionary<string, object>
       {

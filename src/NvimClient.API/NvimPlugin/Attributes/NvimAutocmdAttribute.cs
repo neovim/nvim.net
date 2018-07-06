@@ -11,6 +11,5 @@ namespace NvimClient.API.NvimPlugin.Attributes
     public string Group       { get; set; }
     public bool   AllowNested { get; set; }
     public string Pattern     { get; set; }
-    public string Eval        { get; set; }
   }
 }

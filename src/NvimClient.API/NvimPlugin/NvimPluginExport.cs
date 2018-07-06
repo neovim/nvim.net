@@ -52,8 +52,21 @@ namespace NvimClient.API.NvimPlugin
         .SelectMany(arg => arg).OrderBy(arg => arg.Index)
         .Select(arg => arg.Value);
 
+    protected void AddEvalOption(Dictionary<string, string> opts)
+    {
+      var evalExpressions = string.Join(',', Method.GetParameters().Select(
+          param =>
+            param.GetCustomAttribute<NvimEvalAttribute>()?.Value)
+        .Where(eval => eval != null));
+      if (!string.IsNullOrEmpty(evalExpressions))
+      {
+        opts["eval"] = $"[{evalExpressions}]";
+      }
+    }
+
     protected void VisitParameters(
-      IReadOnlyDictionary<Type, Action<int>> typeVisitors)
+      IReadOnlyDictionary<Type, Action<int>> typeVisitors,
+      IReadOnlyDictionary<Type, Action<int, object>> attributeVisitors)
     {
       foreach (var param in Method.GetParameters()
         .Select((param, index) =>
@@ -68,6 +81,15 @@ namespace NvimClient.API.NvimPlugin
             typeVisitors.TryGetValue(typeof(object), out visitor))
         {
           visitor(param.Index);
+        }
+
+        foreach (var attribute in param.Attributes)
+        {
+          if (attributeVisitors.TryGetValue(attribute.GetType(),
+            out var attributeVisitor))
+          {
+            attributeVisitor(param.Index, attribute);
+          }
         }
       }
     }

@@ -15,8 +15,32 @@ namespace NvimClient.API.NvimPlugin
       attribute.Name ?? method.Name, method, pluginPath,
       pluginInstance)
     {
+      var evalParameterIndices = new List<int>(Method.GetParameters().Length);
+      var attributeVisitors = new Dictionary<Type, Action<int, object>>
+      {
+        {
+          typeof(NvimEvalAttribute),
+          (index, attr) => evalParameterIndices.Add(index)
+        }
+      };
+      VisitParameters(new Dictionary<Type, Action<int>>(), attributeVisitors);
+
+      var argumentConverters = new List<ArgumentConverter>();
+      if (evalParameterIndices.Any())
+      {
+        argumentConverters.Add(
+          nvimArg => evalParameterIndices.Zip(
+            (object[]) nvimArg, (index, arg) =>
+              new PluginArgument
+              {
+                Value = arg,
+                Index = index
+              })
+        );
+      }
+
       Attribute = attribute;
-      ArgumentConverters = new List<ArgumentConverter>();
+      ArgumentConverters = argumentConverters;
     }
 
 
@@ -41,6 +65,8 @@ namespace NvimClient.API.NvimPlugin
       {
         opts["nested"] = "1";
       }
+
+      AddEvalOption(opts);
 
       return new Dictionary<string, object>
              {

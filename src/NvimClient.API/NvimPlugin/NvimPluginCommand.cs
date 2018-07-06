@@ -32,7 +32,15 @@ namespace NvimClient.API.NvimPlugin
         {typeof(NvimRegister), index => RegisterParameterIndex = index},
         {typeof(object), index => functionParameterIndex = index}
       };
-      VisitParameters(parameterVisitors);
+      var evalParameterIndices = new List<int>(Method.GetParameters().Length);
+      var attributeVisitors = new Dictionary<Type, Action<int, object>>
+      {
+        {
+          typeof(NvimEvalAttribute),
+          (index, attr) => evalParameterIndices.Add(index)
+        }
+      };
+      VisitParameters(parameterVisitors, attributeVisitors);
 
       if (CountParameterIndex.HasValue && RangeParameterIndex.HasValue)
       {
@@ -137,6 +145,19 @@ namespace NvimClient.API.NvimPlugin
         });
       }
 
+      if (evalParameterIndices.Any())
+      {
+        argumentConverters.Add(
+          nvimArg => evalParameterIndices.Zip(
+            (object[]) nvimArg, (index, arg) =>
+              new PluginArgument
+              {
+                Value = arg,
+                Index = index
+              })
+        );
+      }
+
       ArgumentConverters = argumentConverters;
       Attribute = attribute;
     }
@@ -196,6 +217,8 @@ namespace NvimClient.API.NvimPlugin
       {
         opts["complete"] = Attribute.Complete;
       }
+
+      AddEvalOption(opts);
 
       return new Dictionary<string, object>
       {

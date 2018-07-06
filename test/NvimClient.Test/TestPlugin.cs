@@ -40,10 +40,13 @@ namespace NvimClient.Test
       Command2Args = optionalArg;
     }
 
-    [NvimAutocmd("BufEnter", Pattern = "*.cs", Eval = "expand('<afile>')")]
-    public void OnBufEnter(string filename)
+    [NvimAutocmd("BufEnter", Pattern = "*.cs")]
+    public void OnBufEnter([NvimEval("expand('<afile>')")] string filename,
+      [NvimEval("&shiftwidth")] long shiftWidth)
     {
-      _nvim.OutWrite($"testplugin is in '{filename}'\n");
+      var indent = new string(' ', (int) shiftWidth);
+      _nvim.SetCurrentLine(
+        indent + $"{nameof(OnBufEnter)} called with {filename}");
       AutocmdCalled = true;
     }
   }
