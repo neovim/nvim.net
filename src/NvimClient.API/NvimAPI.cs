@@ -27,9 +27,9 @@ namespace NvimClient.API
     private readonly BlockingCollection<NvimMessage> _messageQueue;
     private readonly ConcurrentDictionary<long, PendingRequest>
       _pendingRequests;
-    private delegate void NvimHandler(long? requestId, object[] arguments);
+    private delegate void NvimHandler(uint? requestId, object[] arguments);
     private readonly ConcurrentDictionary<string, NvimHandler> _handlers;
-    private long _messageIdCounter;
+    private uint _messageIdCounter;
     private readonly ManualResetEvent _waitEvent = new ManualResetEvent(false);
 
     /// <summary>
@@ -117,7 +117,7 @@ namespace NvimClient.API
       }
     }
 
-    private void CallHandlerAndSendResponse(long requestId, Delegate handler,
+    private void CallHandlerAndSendResponse(uint requestId, Delegate handler,
       object[] args)
     {
       var response = new NvimResponse {MessageId = requestId};
