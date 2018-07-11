@@ -1,0 +1,50 @@
+image: Visual Studio 2017
+platform: Any CPU
+configuration: Release
+shallow_clone: true
+cache:
+  - '%ChocolateyInstall%\bin -> appveyor.yml'
+  - '%ChocolateyInstall%\lib -> appveyor.yml'
+  - 'C:\tools\neovim -> appveyor.yml'
+  - packages -> **\*.csproj
+install:
+  - choco upgrade neovim
+  # nvim.exe may not be in the PATH if it was restored from the cache
+  - set PATH=C:\tools\neovim\Neovim\bin;%PATH%
+  # dotnet restore should be ran implicity, however, running it explicitly
+  # allows the packages directory to be specified for caching
+  - dotnet restore --packages packages
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+build_script:
+  - dotnet run --project
+    src\NvimClient.APIGenerator\NvimClient.APIGenerator.csproj
+    src\NvimClient.API\NvimAPI.generated.cs
+  - dotnet pack src\NvimClient\NvimClient.csproj
+  - dotnet pack src\NvimClient.API\NvimClient.API.csproj
+  - dotnet publish src\NvimPluginHost\NvimPluginHost.csproj --output publish
+test_script:
+  - dotnet test test\NvimClient.Test\NvimClient.Test.csproj
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: UdGDW0NK3JKmkt0FGS4r70zl1PaKjJ9Sphn9m9v6kTWD00rjR0RlsvrLuuPiFHf4
+    on:
+      branch: master
+      appveyor_repo_tag: true
+    artifact: /src.*\.nupkg/
+  - provider: GitHub
+    on:
+      branch: master
+      appveyor_repo_tag: true
+    artifact: /src.*\.nupkg/
+artifacts:
+  - path: src\**\*.nupkg
+  - path: src\NvimPluginHost\publish
+    name: NvimPluginHost
