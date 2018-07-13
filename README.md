@@ -13,9 +13,12 @@ Plug 'b-r-o-c-k/neovim-dotnet-client'
 	mkdir my-plugin
 	dotnet new sln
 	dotnet new classlib --output my-plugin
-	dotnet sln add my-plugin\my-plugin.csproj
+	dotnet sln add my-plugin/my-plugin.csproj
 	```  
-1. Add a reference to `NvimClient.API.dll`.
+1. Install the `NvimClient.API` NuGet package.  
+	```powershell
+	dotnet add my-plugin/my-plugin.csproj package NvimClient.API
+	```  
 1. Create a class similar to the following:  
 	```csharp
 	// Make sure the class is public and has the NvimPlugin attribute.
