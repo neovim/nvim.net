@@ -1,4 +1,7 @@
 # neovim-dotnet-client
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/b-r-o-c-k/neovim-dotnet-client?branch=master&svg=true)](https://ci.appveyor.com/project/b-r-o-c-k/neovim-dotnet-client/branch/master)
+[![Travis Build Status](https://travis-ci.org/b-r-o-c-k/neovim-dotnet-client.svg?branch=master)](https://travis-ci.org/b-r-o-c-k/neovim-dotnet-client)
+
 .NET client for [Neovim](https://github.com/neovim/neovim)
 
 ## Plugin Host Installation
