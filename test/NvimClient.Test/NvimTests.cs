@@ -171,5 +171,16 @@ namespace NvimClient.Test
       await api.Command($"call {nameof(TestPlugin.CountLines)}()");
       Assert.IsTrue(TestPlugin.CountLinesReturn == 1);
     }
+
+    [TestMethod]
+    public async Task TestTCPSocket()
+    {
+      var nvimStdio = new NvimAPI();
+      var serverAddress = (string) await nvimStdio.CallFunction("serverstart",
+        new object[] {System.Net.IPAddress.Loopback + ":"});
+
+      var nvimTCPSocket = new NvimAPI(serverAddress);
+      Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
+    }
   }
 }

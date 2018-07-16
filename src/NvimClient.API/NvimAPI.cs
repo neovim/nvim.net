@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using MsgPack;
@@ -49,6 +50,42 @@ namespace NvimClient.API
     public NvimAPI(Process process) : this(process.StandardInput.BaseStream,
       process.StandardOutput.BaseStream)
     {
+    }
+
+    /// <summary>
+    /// Communicates with Nvim through the specified server address.
+    /// </summary>
+    /// <param name="serverAddress"></param>
+    public NvimAPI(string serverAddress)
+    {
+      var lastColonIndex = serverAddress.LastIndexOf(':');
+      if (lastColonIndex != -1 && lastColonIndex != 0
+                               && int.TryParse(
+                                    serverAddress.Substring(lastColonIndex + 1),
+                                    out var port))
+      {
+        // TCP socket
+        var tcpClient = new TcpClient();
+        var hostname = serverAddress.Substring(0, lastColonIndex);
+        tcpClient.Connect(hostname, port);
+
+        var context = new SerializationContext();
+        context.Serializers.Register(new NvimMessageSerializer(context));
+        _serializer      = MessagePackSerializer.Get<NvimMessage>(context);
+        _inputStream     = tcpClient.GetStream();
+        _outputStream    = tcpClient.GetStream();
+        _messageQueue    = new BlockingCollection<NvimMessage>();
+        _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
+        _handlers        = new ConcurrentDictionary<string, NvimHandler>();
+
+        StartSendLoop();
+        StartReceiveLoop();
+      }
+      else
+      {
+        // Interprocess communication socket
+        throw new NotImplementedException();
+      }
     }
 
     /// <summary>
