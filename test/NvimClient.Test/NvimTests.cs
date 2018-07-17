@@ -182,5 +182,16 @@ namespace NvimClient.Test
       var nvimTCPSocket = new NvimAPI(serverAddress);
       Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
     }
+
+    [TestMethod]
+    public async Task TestLocalSocket()
+    {
+      var nvimStdio = new NvimAPI();
+      var serverAddress =
+        (string) await nvimStdio.CallFunction("serverstart", new object[0]);
+
+      var nvimLocalSocket = new NvimAPI(serverAddress);
+      Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
+    }
   }
 }

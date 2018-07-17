@@ -4,8 +4,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MsgPack;
@@ -58,6 +61,7 @@ namespace NvimClient.API
     /// <param name="serverAddress"></param>
     public NvimAPI(string serverAddress)
     {
+      Stream stream;
       var lastColonIndex = serverAddress.LastIndexOf(':');
       if (lastColonIndex != -1 && lastColonIndex != 0
                                && int.TryParse(
@@ -68,24 +72,41 @@ namespace NvimClient.API
         var tcpClient = new TcpClient();
         var hostname = serverAddress.Substring(0, lastColonIndex);
         tcpClient.Connect(hostname, port);
-
-        var context = new SerializationContext();
-        context.Serializers.Register(new NvimMessageSerializer(context));
-        _serializer      = MessagePackSerializer.Get<NvimMessage>(context);
-        _inputStream     = tcpClient.GetStream();
-        _outputStream    = tcpClient.GetStream();
-        _messageQueue    = new BlockingCollection<NvimMessage>();
-        _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
-        _handlers        = new ConcurrentDictionary<string, NvimHandler>();
-
-        StartSendLoop();
-        StartReceiveLoop();
+        stream = tcpClient.GetStream();
       }
       else
       {
         // Interprocess communication socket
-        throw new NotImplementedException();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+          // Named Pipe on Windows
+          var match = Regex.Match(serverAddress,
+            @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)");
+          var serverName = match.Groups["serverName"].Value;
+          var pipeName   = match.Groups["pipeName"].Value;
+          var pipeStream = new NamedPipeClientStream(serverName, pipeName,
+            PipeDirection.InOut, PipeOptions.Asynchronous);
+          pipeStream.Connect();
+          stream = pipeStream;
+        }
+        else
+        {
+          // Unix Domain Socket
+          throw new NotImplementedException();
+        }
       }
+
+      var context = new SerializationContext();
+      context.Serializers.Register(new NvimMessageSerializer(context));
+      _serializer      = MessagePackSerializer.Get<NvimMessage>(context);
+      _inputStream     = stream;
+      _outputStream    = stream;
+      _messageQueue    = new BlockingCollection<NvimMessage>();
+      _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
+      _handlers        = new ConcurrentDictionary<string, NvimHandler>();
+
+      StartSendLoop();
+      StartReceiveLoop();
     }
 
     /// <summary>
