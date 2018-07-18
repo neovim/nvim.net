@@ -220,7 +220,18 @@ namespace NvimClient.API
         .ContinueWith(task =>
         {
           var response = task.Result;
-          return (TResult) ConvertFromMessagePackObject(response.Result);
+          var result = ConvertFromMessagePackObject(response.Result);
+          if (typeof(TResult).IsArray)
+          {
+            var objectArray = (object[]) result;
+            var resultArray = Array.CreateInstance(
+              typeof(TResult).GetElementType(),
+              objectArray.Length);
+            Array.Copy(objectArray, resultArray, resultArray.Length);
+            return (TResult) (object) resultArray;
+          }
+
+          return (TResult) result;
         });
     }
 
