@@ -1,23 +1,30 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using MsgPack;
+using System.Linq;
 
 namespace NvimClient.NvimMsgpack
 {
   public static class NvimTypesMap
   {
-    private static Dictionary<string, string> _nvimTypesMap =>
-      new Dictionary<string, string>
+    private static readonly
+      (string NvimTypeName, string CSharpTypeName, Type CSharpType)[] _types =
       {
-        {"Array",      "object[]"},
-        {"Boolean",    "bool"},
-        {"Dictionary", "IDictionary"},
-        {"Float",      "double"},
-        {"Integer",    "long"},
-        {"Object",     "object"},
-        {"String",     "string"},
-        {"void",       "void"}
+        ("Array",           "object[]",            typeof(object[])),
+        ("Boolean",         "bool",                typeof(bool)),
+        ("Dictionary",      "IDictionary",         typeof(IDictionary)),
+        ("Float",           "double",              typeof(double)),
+        ("Integer",         "long",                typeof(long)),
+        ("Object",          "object",              typeof(object)),
+        ("String",          "string",              typeof(string)),
+        ("void",            "void",                typeof(void))
       };
+
+    private static Dictionary<string, string> _nvimTypesMap =>
+      _types.ToDictionary(type => type.NvimTypeName, type => type.CSharpTypeName);
+
+    private static readonly HashSet<Type> _validCSharpTypes =
+      new HashSet<Type>(_types.Select(type => type.CSharpType));
 
     public static string GetCSharpType(string nvimType)
     {
@@ -44,5 +51,12 @@ namespace NvimClient.NvimMsgpack
 
       return "Nvim" + nvimType;
     }
+
+    public static bool IsValidType(Type type) =>
+      _validCSharpTypes.Contains(type)
+      || type.IsArray && IsValidType(type.GetElementType())
+      || type.IsGenericType
+      && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+      && type.GetGenericArguments().All(IsValidType);
   }
 }

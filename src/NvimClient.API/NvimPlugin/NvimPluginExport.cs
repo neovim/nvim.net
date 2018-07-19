@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NvimClient.API.NvimPlugin.Attributes;
+using NvimClient.NvimMsgpack;
 
 namespace NvimClient.API.NvimPlugin
 {
@@ -64,6 +65,16 @@ namespace NvimClient.API.NvimPlugin
       }
     }
 
+    /// <summary>
+    /// Allows the types and attributes of plugin export parameters
+    /// to be enumerated and simultaneously validated.
+    /// </summary>
+    /// <param name="typeVisitors">
+    /// A dictionary of handlers for the parameter types.
+    /// </param>
+    /// <param name="attributeVisitors">
+    /// A dictionary of handlers for the parameter attributes.
+    /// </param>
     protected void VisitParameters(
       IReadOnlyDictionary<Type, Action<int>> typeVisitors,
       IReadOnlyDictionary<Type, Action<int, object>> attributeVisitors)
@@ -77,8 +88,19 @@ namespace NvimClient.API.NvimPlugin
             Attributes = param.GetCustomAttributes()
           }))
       {
-        if (typeVisitors.TryGetValue(param.Type, out var visitor) ||
-            typeVisitors.TryGetValue(typeof(object), out visitor))
+        var isValidAPIType = NvimTypesMap.IsValidType(param.Type);
+        var isValidPluginType =
+          typeVisitors.TryGetValue(param.Type, out var visitor);
+        if (!isValidAPIType && !isValidPluginType)
+        {
+          throw new Exception(
+            $"Plugin export has invalid parameter type \"{param.Type.Name}\"");
+        }
+
+        if (visitor != null
+            // If there is not a visitor for the specific type,
+            // try to use the "object" visitor as a default
+            || typeVisitors.TryGetValue(typeof(object), out visitor))
         {
           visitor(param.Index);
         }

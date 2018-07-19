@@ -39,7 +39,7 @@ Plug 'b-r-o-c-k/neovim-dotnet-client'
 	
 	  // Use attributes to expose functions, commands, and autocommands.
 	  // Valid parameter types and return types are:
-	  //   string, bool, long, double, T[], and Dictionary<T, T>
+	  //   string, bool, long, double, T[], and IDictionary<T, T>
 	  [NvimFunction]
 	  public long MyFunction(long num1, long num2)
 	  {

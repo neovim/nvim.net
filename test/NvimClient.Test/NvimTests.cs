@@ -193,5 +193,24 @@ namespace NvimClient.Test
       var nvimLocalSocket = new NvimAPI(serverAddress);
       Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
     }
+
+    [DataTestMethod]
+    [DataRow(typeof(bool),                          true)]
+    [DataRow(typeof(Boolean),                       true)]
+    [DataRow(typeof(int),                           false)]
+    [DataRow(typeof(Int32),                         false)]
+    [DataRow(typeof(long),                          true)]
+    [DataRow(typeof(Int64),                         true)]
+    [DataRow(typeof(object[]),                      true)]
+    [DataRow(typeof(long[]),                        true)]
+    [DataRow(typeof(int[]),                         false)]
+    [DataRow(typeof(IDictionary<object, object>),   true)]
+    [DataRow(typeof(IDictionary<long, string>),     true)]
+    [DataRow(typeof(IDictionary<string, DateTime>), false)]
+    [DataRow(typeof(IDictionary<Random, long>),     false)]
+    public void TestNvimTypeValidation(Type type, bool shouldBeValid)
+    {
+      Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));
+    }
   }
 }
