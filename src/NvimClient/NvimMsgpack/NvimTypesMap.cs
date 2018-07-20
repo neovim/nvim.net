@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NvimClient.NvimMsgpack
 {
@@ -33,19 +34,22 @@ namespace NvimClient.NvimMsgpack
         return csharpType;
       }
 
-      string[] SplitCollection(string str) => str.Split('(', ',', ')');
-
-      if (nvimType.StartsWith("ArrayOf(") && nvimType.EndsWith(")"))
+      var arrayRegexMatch = Regex.Match(nvimType,
+        @"^ArrayOf\((?:(?<ElementType>.+), (?<Size>\d+)|(?<ElementType>.+))\)$");
+      if (arrayRegexMatch.Success)
       {
-        var elementType = SplitCollection(nvimType)[1];
+        var elementType = arrayRegexMatch.Groups["ElementType"].Value;
         return GetCSharpType(elementType) + "[]";
       }
 
-      if (nvimType.StartsWith("DictionaryOf(") && nvimType.EndsWith(")"))
+      var dictionaryRegexMatch = Regex.Match(nvimType,
+        @"^DictionaryOf\((?<KeyType>.+), (?<ValueType>.+)?\)$");
+      if (dictionaryRegexMatch.Success)
       {
-        var split     = SplitCollection(nvimType);
-        var keyType   = GetCSharpType(split[1]);
-        var valueType = GetCSharpType(split[2]);
+        var keyType =
+          GetCSharpType(dictionaryRegexMatch.Groups["KeyType"].Value);
+        var valueType =
+          GetCSharpType(dictionaryRegexMatch.Groups["ValueType"].Value);
         return $"IDictionary<{keyType}, {valueType}>";
       }
 

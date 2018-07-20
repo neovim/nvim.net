@@ -212,5 +212,19 @@ namespace NvimClient.Test
     {
       Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));
     }
+
+    [DataTestMethod]
+    [DataRow("Boolean", "bool")]
+    [DataRow("Array", "object[]")]
+    [DataRow("Dictionary", "IDictionary")]
+    [DataRow("ArrayOf(Float)", "double[]")]
+    [DataRow("ArrayOf(Integer, 2)", "long[]")]
+    [DataRow("ArrayOf(Buffer)", "NvimBuffer[]")]
+    [DataRow("ArrayOf(DictionaryOf(String, String))", "IDictionary<string, string>[]")]
+    [DataRow("DictionaryOf(Integer, ArrayOf(String))", "IDictionary<long, string[]>")]
+    public void TestCSharpTypeConversion(string nvimType, string csharpType)
+    {
+      Assert.AreEqual(csharpType, NvimTypesMap.GetCSharpType(nvimType));
+    }
   }
 }
