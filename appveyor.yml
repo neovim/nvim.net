@@ -8,7 +8,9 @@ cache:
   - 'C:\tools\neovim -> appveyor.yml'
   - packages -> **\*.csproj
 install:
-  - choco upgrade neovim
+  # Ignore the exit code when upgrading Neovim
+  # because it is set to 1 even when it succeeds
+  - choco upgrade neovim || set errorlevel=0
   # nvim.exe may not be in the PATH if it was restored from the cache
   - set PATH=C:\tools\neovim\Neovim\bin;%PATH%
   # dotnet restore should be ran implicity, however, running it explicitly
