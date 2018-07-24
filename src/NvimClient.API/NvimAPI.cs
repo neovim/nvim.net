@@ -91,8 +91,11 @@ namespace NvimClient.API
         }
         else
         {
-          // Unix Domain Socket
-          throw new NotImplementedException();
+          // Unix Domain Socket on other OSes
+          var unixDomainSocket = new Socket(AddressFamily.Unix,
+            SocketType.Stream, ProtocolType.Unspecified);
+          unixDomainSocket.Connect(new UnixDomainSocketEndPoint(serverAddress));
+          stream = new NetworkStream(unixDomainSocket, true);
         }
       }
 
