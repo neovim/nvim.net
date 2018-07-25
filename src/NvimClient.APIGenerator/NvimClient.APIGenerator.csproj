@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="doxygen.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NvimClient\NvimClient.csproj" />
   </ItemGroup>
 

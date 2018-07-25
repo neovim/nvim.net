@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security;
 using MsgPack.Serialization;
+using NvimClient.APIGenerator.Docs;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.NvimProcess;
@@ -12,6 +14,7 @@ namespace NvimClient
 {
   public class NvimAPIGenerator
   {
+    private static Dictionary<string, FunctionDoc> _functionDocs;
     private const int OldestSupportedAPILevel = 4;
 
     private static bool IsDeprecated<T>(T functionOrEvent)
@@ -31,8 +34,11 @@ namespace NvimClient
       return apiMetadata;
     }
 
-    public static void GenerateCSharpFile(string outputPath)
+    public static void GenerateCSharpFile(string outputPath,
+      IEnumerable<FunctionDoc> functionDocs)
     {
+      _functionDocs = functionDocs?.ToDictionary(functionDoc => functionDoc.Function,
+        funcDoc => funcDoc);
       var apiMetadata = GetAPIMetadata();
       var csharpClass = GenerateCSharpClass(apiMetadata);
       File.WriteAllText(outputPath, csharpClass);
@@ -176,6 +182,9 @@ namespace NvimClient.API
             $"Function {function.Name} does not "
             + $"have expected prefix \"{prefixToRemove}\"");
         }
+
+        FunctionDoc doc = null;
+        _functionDocs?.TryGetValue(function.Name, out doc);
         var camelCaseName =
           StringUtil.ConvertToCamelCase(
             function.Name.Substring(prefixToRemove.Length), true);
@@ -196,7 +205,22 @@ namespace NvimClient.API
             // names that are in the list.
             Name = "@" + StringUtil.ConvertToCamelCase(param.Name, false)
           }).ToArray();
-        return $@"
+
+        return $@"{string.Join(string.Empty,
+          GetDocElement("summary", doc?.Summary).Concat(
+            doc?.Parameters
+              .Where(param =>
+                function.Parameters.Any(p => p.Name == param.Name)
+                && (!isVirtualMethod
+                    || param.Name != function.Parameters.First().Name))
+              .SelectMany(param =>
+                GetDocElement("param", param.Description,
+                  $@"name=""{
+                    StringUtil.ConvertToCamelCase(param.Name, false)}"""))
+            ?? Enumerable.Empty<string>()).Concat(
+            GetDocElement("returns", doc?.Return)).Concat(
+            GetDocElement("remarks", doc?.Notes)).Select(docLine => $@"
+    /// {docLine}"))}
     public Task{genericTypeParam} {camelCaseName}({string.Join(", ",
           parameters.Select(param =>
             $"{NvimTypesMap.GetCSharpType(param.Type)} {param.Name}"))}) =>
@@ -210,6 +234,76 @@ namespace NvimClient.API
       }});
 ";
       }));
+
+    private static IEnumerable<string> GetDocElement(string tag,
+      IEnumerable<IDocElement> elements, string tagAttributes = null)
+    {
+      if (elements == null)
+      {
+        yield break;
+      }
+
+      using (var lineEnumerator =
+        elements.SelectMany(GetDocLines).GetEnumerator())
+      {
+        if (!lineEnumerator.MoveNext())
+        {
+          // Do not output a tag when it would be empty
+          yield break;
+        }
+
+        yield return string.IsNullOrEmpty(tagAttributes)
+          ? $"<{tag}>"
+          : $"<{tag} {tagAttributes}>";
+        do
+        {
+          yield return lineEnumerator.Current;
+        } while (lineEnumerator.MoveNext());
+
+        yield return $"</{tag}>";
+      }
+    }
+
+    private static IEnumerable<string> GetDocLines(IDocElement element)
+    {
+      switch (element)
+      {
+        case Paragraph paragraph:
+          yield return "<para>";
+          foreach (var child in paragraph.Children.SelectMany(GetDocLines))
+          {
+            yield return child;
+          }
+
+          yield return "</para>";
+          yield break;
+        case InlineCode inlineCode:
+          yield return
+            $"<c>${SecurityElement.Escape(inlineCode.ToString())}</c>";
+          yield break;
+        case DocList list:
+          yield return
+            "<list type=\""
+            + (list.ListType == DocListType.ItemizedList ? "bullet" : "number")
+            + "\">";
+          foreach (var listItemLines in list.Children.Select(GetDocLines))
+          {
+            yield return "<item><description>";
+            foreach (var line in listItemLines)
+            {
+              yield return line;
+            }
+
+            yield return "</description></item>";
+          }
+
+          yield return "</list>";
+          yield break;
+        default:
+          yield return SecurityElement.Escape(element.ToString());
+          yield break;
+      }
+    }
 
     private static string
       GenerateNvimTypeCases(Dictionary<string, NvimType> apiMetadata) =>
