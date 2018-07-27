@@ -59,9 +59,13 @@ namespace NvimClient.API
     /// Communicates with Nvim through the specified server address.
     /// </summary>
     /// <param name="serverAddress"></param>
-    public NvimAPI(string serverAddress)
+    public NvimAPI(string serverAddress) : this(
+      GetStreamFromServerAddress(serverAddress))
     {
-      Stream stream;
+    }
+
+    private static Stream GetStreamFromServerAddress(string serverAddress)
+    {
       var lastColonIndex = serverAddress.LastIndexOf(':');
       if (lastColonIndex != -1 && lastColonIndex != 0
                                && int.TryParse(
@@ -72,44 +76,37 @@ namespace NvimClient.API
         var tcpClient = new TcpClient();
         var hostname = serverAddress.Substring(0, lastColonIndex);
         tcpClient.Connect(hostname, port);
-        stream = tcpClient.GetStream();
+        return tcpClient.GetStream();
       }
-      else
+
+      // Interprocess communication socket
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
-        // Interprocess communication socket
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-          // Named Pipe on Windows
-          var match = Regex.Match(serverAddress,
-            @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)");
-          var serverName = match.Groups["serverName"].Value;
-          var pipeName   = match.Groups["pipeName"].Value;
-          var pipeStream = new NamedPipeClientStream(serverName, pipeName,
-            PipeDirection.InOut, PipeOptions.Asynchronous);
-          pipeStream.Connect();
-          stream = pipeStream;
-        }
-        else
-        {
-          // Unix Domain Socket on other OSes
-          var unixDomainSocket = new Socket(AddressFamily.Unix,
-            SocketType.Stream, ProtocolType.Unspecified);
-          unixDomainSocket.Connect(new UnixDomainSocketEndPoint(serverAddress));
-          stream = new NetworkStream(unixDomainSocket, true);
-        }
+        // Named Pipe on Windows
+        var match = Regex.Match(serverAddress,
+          @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)");
+        var serverName = match.Groups["serverName"].Value;
+        var pipeName   = match.Groups["pipeName"].Value;
+        var pipeStream = new NamedPipeClientStream(serverName, pipeName,
+          PipeDirection.InOut, PipeOptions.Asynchronous);
+        pipeStream.Connect();
+        return pipeStream;
       }
 
-      var context = new SerializationContext();
-      context.Serializers.Register(new NvimMessageSerializer(context));
-      _serializer      = MessagePackSerializer.Get<NvimMessage>(context);
-      _inputStream     = stream;
-      _outputStream    = stream;
-      _messageQueue    = new BlockingCollection<NvimMessage>();
-      _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
-      _handlers        = new ConcurrentDictionary<string, NvimHandler>();
+      // Unix Domain Socket on other OSes
+      var unixDomainSocket = new Socket(AddressFamily.Unix,
+        SocketType.Stream, ProtocolType.Unspecified);
+      unixDomainSocket.Connect(new UnixDomainSocketEndPoint(serverAddress));
+      return new NetworkStream(unixDomainSocket, true);
+    }
 
-      StartSendLoop();
-      StartReceiveLoop();
+    /// <summary>
+    /// Communicates with Nvim through the provided stream.
+    /// </summary>
+    /// <param name="inputOutputStream">The stream to use.</param>
+    public NvimAPI(Stream inputOutputStream) : this(inputOutputStream,
+      inputOutputStream)
+    {
     }
 
     /// <summary>
