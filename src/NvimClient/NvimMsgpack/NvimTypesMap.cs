@@ -1,23 +1,31 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using MsgPack;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NvimClient.NvimMsgpack
 {
   public static class NvimTypesMap
   {
-    private static Dictionary<string, string> _nvimTypesMap =>
-      new Dictionary<string, string>
+    private static readonly
+      (string NvimTypeName, string CSharpTypeName, Type CSharpType)[] _types =
       {
-        {"Array",      "MessagePackObject[]"},
-        {"Boolean",    "bool"},
-        {"Dictionary", "MessagePackObject"},
-        {"Float",      "double"},
-        {"Integer",    "long"},
-        {"Object",     "object"},
-        {"String",     "string"},
-        {"void",       "void"}
+        ("Array",           "object[]",            typeof(object[])),
+        ("Boolean",         "bool",                typeof(bool)),
+        ("Dictionary",      "IDictionary",         typeof(IDictionary)),
+        ("Float",           "double",              typeof(double)),
+        ("Integer",         "long",                typeof(long)),
+        ("Object",          "object",              typeof(object)),
+        ("String",          "string",              typeof(string)),
+        ("void",            "void",                typeof(void))
       };
+
+    private static Dictionary<string, string> _nvimTypesMap =>
+      _types.ToDictionary(type => type.NvimTypeName, type => type.CSharpTypeName);
+
+    private static readonly HashSet<Type> _validCSharpTypes =
+      new HashSet<Type>(_types.Select(type => type.CSharpType));
 
     public static string GetCSharpType(string nvimType)
     {
@@ -26,37 +34,33 @@ namespace NvimClient.NvimMsgpack
         return csharpType;
       }
 
-      var splitCollection =
-        (Func<string, string[]>) (str => str.Split('(', ',', ')'));
-      if (nvimType.StartsWith("ArrayOf(") && nvimType.EndsWith(")"))
+      var arrayRegexMatch = Regex.Match(nvimType,
+        @"^ArrayOf\((?:(?<ElementType>.+), (?<Size>\d+)|(?<ElementType>.+))\)$");
+      if (arrayRegexMatch.Success)
       {
-        var elementType = splitCollection(nvimType)[1];
+        var elementType = arrayRegexMatch.Groups["ElementType"].Value;
         return GetCSharpType(elementType) + "[]";
       }
 
-      if (nvimType.StartsWith("DictionaryOf(") && nvimType.EndsWith(")"))
+      var dictionaryRegexMatch = Regex.Match(nvimType,
+        @"^DictionaryOf\((?<KeyType>.+), (?<ValueType>.+)?\)$");
+      if (dictionaryRegexMatch.Success)
       {
-        var split     = nvimType.Split('(', ',', ')');
-        var keyType   = GetCSharpType(split[1]);
-        var valueType = GetCSharpType(split[2]);
-        return $"Dictionary<{keyType}, {valueType}>";
+        var keyType =
+          GetCSharpType(dictionaryRegexMatch.Groups["KeyType"].Value);
+        var valueType =
+          GetCSharpType(dictionaryRegexMatch.Groups["ValueType"].Value);
+        return $"IDictionary<{keyType}, {valueType}>";
       }
 
       return "Nvim" + nvimType;
     }
 
-    public static object ConvertMessagePackObject(
-      MessagePackObject msgPackObject, Type targetType)
-    {
-      if (targetType == typeof(long))
-      {
-        return msgPackObject.AsInt64();
-      }
-      if (targetType == typeof(double))
-      {
-        return msgPackObject.AsDouble();
-      }
-      return msgPackObject.ToObject();
-    }
+    public static bool IsValidType(Type type) =>
+      _validCSharpTypes.Contains(type)
+      || type.IsArray && IsValidType(type.GetElementType())
+      || type.IsGenericType
+      && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+      && type.GetGenericArguments().All(IsValidType);
   }
 }

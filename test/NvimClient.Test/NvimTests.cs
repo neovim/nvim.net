@@ -8,9 +8,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
 using MsgPack.Serialization;
 using NvimClient.API;
+using NvimClient.API.NvimPlugin;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
-using NvimClient.NvimPlugin;
 using NvimClient.NvimProcess;
 
 namespace NvimClient.Test
@@ -109,30 +109,24 @@ namespace NvimClient.Test
     {
       var api = new NvimAPI();
       var result = await api.Eval("2 + 2");
-      Assert.AreEqual(4, result);
+      Assert.AreEqual(4L, result);
     }
 
     [TestMethod]
     public async Task TestCallAndReply()
     {
-      T[] ConvertToArray<T>(IEnumerable<MessagePackObject> msgPackObj) =>
-        msgPackObj.Select(i => (T)i.ToObject()).ToArray();
-
       var api = new NvimAPI();
-      api.AddRequestHandler("client-call", args =>
+      api.RegisterHandler("client-call", args =>
       {
-        var intArray = ConvertToArray<int>(args.AsEnumerable());
-        CollectionAssert.AreEqual(new[]{1, 2, 3}, intArray);
-        return new[]{4, 5, 6}.Select(i => MessagePackObject.FromObject(i))
-          .ToArray();
+        CollectionAssert.AreEqual(new[] {1L, 2L, 3L}, args);
+        return new[]{4, 5, 6};
       });
-      var channelID = (int)(await api.GetApiInfo())[0];
+      var objects = await api.GetApiInfo();
+      var channelID = (long) objects.First();
       await api.Command(
         $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
-      var result =
-        ConvertToArray<int>(
-          (MessagePackObject[]) await api.GetVar("result"));
-      CollectionAssert.AreEqual(new[]{4, 5, 6}, result);
+      var result = (object[]) await api.GetVar("result");
+      CollectionAssert.AreEqual(new[]{4L, 5L, 6L}, result);
     }
 
     [TestMethod]
@@ -141,8 +135,7 @@ namespace NvimClient.Test
       const string testString = "hello_world";
       var titleSetEvent = new ManualResetEvent(false);
       var api = new NvimAPI();
-      await api.UiAttach(100, 200,
-        MessagePackObject.FromObject(new MessagePackObjectDictionary()));
+      await api.UiAttach(100, 200, new Dictionary<string, string>());
       api.SetTitle += (sender, args) =>
       {
         if (args.Title == testString)
@@ -155,14 +148,83 @@ namespace NvimClient.Test
     }
 
     [TestMethod]
-    public async Task TestPluginFunction()
+    public async Task TestPluginExports()
     {
-      const string functionName = nameof(TestPlugin.AddNumbers);
+      const string pluginPath = "/path/to/plugin.sln";
       var api = new NvimAPI();
-      await PluginHost.RegisterPlugin<TestPlugin>(api);
-      await api.Command($"let g:result = {functionName}(1, 2)");
+      await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
+
+      await api.Command(
+        $"let g:result = {nameof(TestPlugin.AddNumbers)}(1, 2)");
       var result = await api.GetVar("result");
-      Assert.AreEqual(3, result);
+      Assert.AreEqual(3L, result);
+
+      await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
+      CollectionAssert.AreEqual(new[] {"a", "b", "c"}, TestPlugin.Command1Args);
+
+      await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
+      Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
+
+      await api.Command("edit test.cs");
+      Assert.IsTrue(TestPlugin.AutocmdCalled);
+
+      await api.Command($"call {nameof(TestPlugin.CountLines)}()");
+      Assert.IsTrue(TestPlugin.CountLinesReturn == 1);
+    }
+
+    [TestMethod]
+    public async Task TestTCPSocket()
+    {
+      var nvimStdio = new NvimAPI();
+      var serverAddress = (string) await nvimStdio.CallFunction("serverstart",
+        new object[] {System.Net.IPAddress.Loopback + ":"});
+
+      var nvimTCPSocket = new NvimAPI(serverAddress);
+      Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
+    }
+
+    [TestMethod]
+    public async Task TestLocalSocket()
+    {
+      var nvimStdio = new NvimAPI();
+      var serverAddress =
+        (string) await nvimStdio.CallFunction("serverstart", new object[0]);
+
+      var nvimLocalSocket = new NvimAPI(serverAddress);
+      Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
+    }
+
+    [DataTestMethod]
+    [DataRow(typeof(bool),                          true)]
+    [DataRow(typeof(Boolean),                       true)]
+    [DataRow(typeof(int),                           false)]
+    [DataRow(typeof(Int32),                         false)]
+    [DataRow(typeof(long),                          true)]
+    [DataRow(typeof(Int64),                         true)]
+    [DataRow(typeof(object[]),                      true)]
+    [DataRow(typeof(long[]),                        true)]
+    [DataRow(typeof(int[]),                         false)]
+    [DataRow(typeof(IDictionary<object, object>),   true)]
+    [DataRow(typeof(IDictionary<long, string>),     true)]
+    [DataRow(typeof(IDictionary<string, DateTime>), false)]
+    [DataRow(typeof(IDictionary<Random, long>),     false)]
+    public void TestNvimTypeValidation(Type type, bool shouldBeValid)
+    {
+      Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));
+    }
+
+    [DataTestMethod]
+    [DataRow("Boolean", "bool")]
+    [DataRow("Array", "object[]")]
+    [DataRow("Dictionary", "IDictionary")]
+    [DataRow("ArrayOf(Float)", "double[]")]
+    [DataRow("ArrayOf(Integer, 2)", "long[]")]
+    [DataRow("ArrayOf(Buffer)", "NvimBuffer[]")]
+    [DataRow("ArrayOf(DictionaryOf(String, String))", "IDictionary<string, string>[]")]
+    [DataRow("DictionaryOf(Integer, ArrayOf(String))", "IDictionary<long, string[]>")]
+    public void TestCSharpTypeConversion(string nvimType, string csharpType)
+    {
+      Assert.AreEqual(csharpType, NvimTypesMap.GetCSharpType(nvimType));
     }
   }
 }

@@ -1,7 +1,6 @@
-using MsgPack;
 using NvimClient.API;
-using NvimClient.NvimPlugin;
-using NvimClient.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Attributes;
+using NvimClient.API.NvimPlugin.Parameters;
 
 namespace NvimClient.Test
 {
@@ -9,22 +8,46 @@ namespace NvimClient.Test
   internal class TestPlugin
   {
     private readonly NvimAPI _nvim;
+    public static bool AutocmdCalled;
+    public static string[] Command1Args;
+    public static string Command2Args;
+    public static long CountLinesReturn;
 
     public TestPlugin(NvimAPI nvim) => _nvim = nvim;
 
-    [NvimFunction(Sync = true)]
-    public long AddNumbers(int num1, int num2) => num1 + num2;
+    [NvimFunction]
+    public long AddNumbers(long num1, long num2) => num1 + num2;
 
-    [NvimCommand]
-    public void TestCommand(string range, params MessagePackObject[] args)
+    [NvimFunction]
+    public long CountLines(NvimRange range)
     {
-      _nvim.SetCurrentLine($"Command with args: {args}, range: {range}");
+      var lineCount = range.LastLine - range.FirstLine + 1;
+      _nvim.OutWrite(
+        $"Function {nameof(CountLines)} called with {lineCount} lines in range");
+      CountLinesReturn = lineCount;
+      return lineCount;
     }
 
-    [NvimAutocmd("BufEnter", Pattern = "*.cs", Eval = "expand('<afile>')")]
-    public void OnBufEnter(string filename)
+    [NvimCommand(NArgs = "*")]
+    public void TestCommand1(string[] args)
     {
-      _nvim.OutWrite($"testplugin is in '{filename}'\n");
+      Command1Args = args;
+    }
+
+    [NvimCommand(NArgs = "?")]
+    public void TestCommand2(string optionalArg)
+    {
+      Command2Args = optionalArg;
+    }
+
+    [NvimAutocmd("BufEnter", Pattern = "*.cs")]
+    public void OnBufEnter([NvimEval("expand('<afile>')")] string filename,
+      [NvimEval("&shiftwidth")] long shiftWidth)
+    {
+      var indent = new string(' ', (int) shiftWidth);
+      _nvim.SetCurrentLine(
+        indent + $"{nameof(OnBufEnter)} called with {filename}");
+      AutocmdCalled = true;
     }
   }
 }

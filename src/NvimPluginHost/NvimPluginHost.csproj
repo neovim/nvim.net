@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="doxygen.config" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NvimClient\NvimClient.csproj" />
+    <ProjectReference Include="..\NvimClient.API\NvimClient.API.csproj" />
   </ItemGroup>
 
 </Project>

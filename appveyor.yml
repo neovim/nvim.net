@@ -1,0 +1,64 @@
+image: Visual Studio 2017
+platform: Any CPU
+configuration: Release
+shallow_clone: true
+cache:
+  - '%ChocolateyInstall%\bin -> appveyor.yml'
+  - '%ChocolateyInstall%\lib -> appveyor.yml'
+  - 'C:\tools\neovim -> appveyor.yml'
+  - 'C:\projects\neovim -> C:\tools\neovim'
+  - packages -> **\*.csproj
+install:
+  # Ignore the exit code when upgrading Neovim
+  # because it is set to 1 even when it succeeds
+  - choco upgrade neovim || set errorlevel=0
+  # nvim.exe may not be in the PATH if it was restored from the cache
+  - set PATH=C:\tools\neovim\Neovim\bin;%PATH%
+  # Clone the source for the installed version of Neovim
+  - ps: |
+      refreshenv
+      $nvimVersion = $nvimVersion = ((nvim --version) -split ' ')[1]
+      $nvimTag = git -C C:\projects\neovim describe --tags 2>$null
+      if ($nvimVersion -ne $nvimTag)
+      {
+        (git clone --branch $nvimVersion --depth 1 --quiet `
+          https://github.com/neovim/neovim.git C:\projects\neovim) 2>$null
+      }
+  - choco upgrade doxygen.portable
+  # dotnet restore should be ran implicity, however, running it explicitly
+  # allows the packages directory to be specified for caching
+  - dotnet restore --packages packages
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+build_script:
+  - dotnet run --project
+    src\NvimClient.APIGenerator\NvimClient.APIGenerator.csproj
+    src\NvimClient.API\NvimAPI.generated.cs C:\projects\neovim
+  - dotnet pack src\NvimClient\NvimClient.csproj
+  - dotnet pack src\NvimClient.API\NvimClient.API.csproj
+  - dotnet publish src\NvimPluginHost\NvimPluginHost.csproj --output publish
+test_script:
+  - dotnet test test\NvimClient.Test\NvimClient.Test.csproj
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: UdGDW0NK3JKmkt0FGS4r70zl1PaKjJ9Sphn9m9v6kTWD00rjR0RlsvrLuuPiFHf4
+    on:
+      branch: master
+      appveyor_repo_tag: true
+    artifact: /src.*\.nupkg/
+  - provider: GitHub
+    on:
+      branch: master
+      appveyor_repo_tag: true
+    artifact: /src.*\.nupkg/
+artifacts:
+  - path: src\**\*.nupkg
+  - path: src\NvimPluginHost\publish
+    name: NvimPluginHost

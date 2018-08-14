@@ -1,6 +1,9 @@
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 using MsgPack;
 using NvimClient.NvimMsgpack.Models;
 
@@ -49,992 +52,2031 @@ namespace NvimClient.API
     public event EventHandler<WildmenuSelectEventArgs> WildmenuSelect;
     public event EventHandler WildmenuHide;
 
-    public Task UiAttach(long @width, long @height, MessagePackObject @options) =>
+    public Task UiAttach(long @width, long @height, IDictionary @options) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_attach",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@width), MessagePackObject.FromObject(@height), MessagePackObject.FromObject(@options)
-        })
+        Arguments = GetRequestArguments(
+          @width, @height, @options)
       });
 
     public Task UiDetach() =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_detach",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
     public Task UiTryResize(long @width, long @height) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_try_resize",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@width), MessagePackObject.FromObject(@height)
-        })
+        Arguments = GetRequestArguments(
+          @width, @height)
       });
 
     public Task UiSetOption(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_ui_set_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          @name, @value)
       });
 
+    /// <summary>
+    /// <para>
+    /// Executes an ex-command.
+    /// </para>
+    /// </summary>
+    /// <param name="command">
+    /// <para>
+    /// Ex-command string 
+    /// </para>
+    /// </param>
     public Task Command(string @command) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_command",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@command)
-        })
+        Arguments = GetRequestArguments(
+          @command)
       });
 
-    public Task<MessagePackObject> GetHlByName(string @name, bool @rgb) =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a highlight definition by name.
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Highlight group name 
+    /// </para>
+    /// </param>
+    /// <param name="rgb">
+    /// <para>
+    /// Export RGB colors 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Highlight definition map 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetHlByName(string @name, bool @rgb) =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_hl_by_name",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@rgb)
-        })
+        Arguments = GetRequestArguments(
+          @name, @rgb)
       });
 
-    public Task<MessagePackObject> GetHlById(long @hlId, bool @rgb) =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a highlight definition by id. |hlID()|
+    /// </para>
+    /// </summary>
+    /// <param name="hlId">
+    /// <para>
+    /// Highlight id as returned by |hlID()| 
+    /// </para>
+    /// </param>
+    /// <param name="rgb">
+    /// <para>
+    /// Export RGB colors 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Highlight definition map 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetHlById(long @hlId, bool @rgb) =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_hl_by_id",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@hlId), MessagePackObject.FromObject(@rgb)
-        })
+        Arguments = GetRequestArguments(
+          @hlId, @rgb)
       });
 
+    /// <summary>
+    /// <para>
+    /// Sends input-keys to Nvim, subject to various quirks controlled by 
+    /// </para>
+    /// </summary>
+    /// <param name="keys">
+    /// <para>
+    /// to be typed 
+    /// </para>
+    /// </param>
+    /// <param name="mode">
+    /// <para>
+    /// behavior flags, see |feedkeys()| 
+    /// </para>
+    /// </param>
+    /// <param name="escapeCsi">
+    /// <para>
+    /// If true, escape K_SPECIAL/CSI bytes in 
+    /// </para>
+    /// </param>
     public Task Feedkeys(string @keys, string @mode, bool @escapeCsi) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_feedkeys",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@keys), MessagePackObject.FromObject(@mode), MessagePackObject.FromObject(@escapeCsi)
-        })
+        Arguments = GetRequestArguments(
+          @keys, @mode, @escapeCsi)
       });
 
+    /// <summary>
+    /// <para>
+    /// Queues raw user-input. Unlike |nvim_feedkeys()|, this uses a low-level input buffer and the call is non-blocking (input is processed asynchronously by the eventloop).
+    /// </para>
+    /// </summary>
+    /// <param name="keys">
+    /// <para>
+    /// to be typed 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Number of bytes actually written (can be fewer than requested if the buffer becomes full). 
+    /// </para>
+    /// </returns>
+    /// <remarks>
+    /// |keycodes| like &lt;CR&gt; are translated, so &quot;&lt;&quot; is special. To input a literal &quot;&lt;&quot;, send &lt;LT&gt;.
+    /// </remarks>
     public Task<long> Input(string @keys) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_input",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@keys)
-        })
+        Arguments = GetRequestArguments(
+          @keys)
       });
 
+    /// <summary>
+    /// <para>
+    /// Replaces terminal codes and |keycodes| (&lt;CR&gt;, &lt;Esc&gt;, ...) in a string with the internal representation.
+    /// </para>
+    /// </summary>
+    /// <param name="str">
+    /// <para>
+    /// String to be converted. 
+    /// </para>
+    /// </param>
+    /// <param name="fromPart">
+    /// <para>
+    /// Legacy Vim parameter. Usually true. 
+    /// </para>
+    /// </param>
+    /// <param name="doLt">
+    /// <para>
+    /// Also translate &lt;lt&gt;. Ignored if 
+    /// </para>
+    /// </param>
+    /// <param name="special">
+    /// <para>
+    /// Replace |keycodes|, e.g. &lt;CR&gt; becomes a &quot;\n&quot; char. 
+    /// </para>
+    /// </param>
     public Task<string> ReplaceTermcodes(string @str, bool @fromPart, bool @doLt, bool @special) =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_replace_termcodes",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@str), MessagePackObject.FromObject(@fromPart), MessagePackObject.FromObject(@doLt), MessagePackObject.FromObject(@special)
-        })
+        Arguments = GetRequestArguments(
+          @str, @fromPart, @doLt, @special)
       });
 
+    /// <summary>
+    /// <para>
+    /// Executes an ex-command and returns its (non-error) output. Shell |:!| output is not captured.
+    /// </para>
+    /// </summary>
+    /// <param name="command">
+    /// <para>
+    /// Ex-command string 
+    /// </para>
+    /// </param>
     public Task<string> CommandOutput(string @command) =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_command_output",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@command)
-        })
+        Arguments = GetRequestArguments(
+          @command)
       });
 
+    /// <summary>
+    /// <para>
+    /// Evaluates a VimL expression (:help expression). Dictionaries and Lists are recursively expanded.
+    /// </para>
+    /// </summary>
+    /// <param name="expr">
+    /// <para>
+    /// VimL expression string 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Evaluation result or expanded object 
+    /// </para>
+    /// </returns>
     public Task<object> Eval(string @expr) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_eval",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@expr)
-        })
+        Arguments = GetRequestArguments(
+          @expr)
       });
 
-    public Task<object> ExecuteLua(string @code, MessagePackObject[] @args) =>
+    /// <summary>
+    /// <para>
+    /// Execute lua code. Parameters (if any) are available as 
+    /// </para>
+    /// </summary>
+    /// <param name="code">
+    /// <para>
+    /// lua code to execute 
+    /// </para>
+    /// </param>
+    /// <param name="args">
+    /// <para>
+    /// Arguments to the code 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Return value of lua code if present or NIL. 
+    /// </para>
+    /// </returns>
+    public Task<object> ExecuteLua(string @code, object[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_execute_lua",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@code), MessagePackObject.FromObject(@args)
-        })
+        Arguments = GetRequestArguments(
+          @code, @args)
       });
 
-    public Task<object> CallFunction(string @fn, MessagePackObject[] @args) =>
+    /// <summary>
+    /// <para>
+    /// Calls a VimL function with the given arguments.
+    /// </para>
+    /// </summary>
+    /// <param name="fn">
+    /// <para>
+    /// Function to call 
+    /// </para>
+    /// </param>
+    /// <param name="args">
+    /// <para>
+    /// Function arguments packed in an Array 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Result of the function call 
+    /// </para>
+    /// </returns>
+    public Task<object> CallFunction(string @fn, object[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_call_function",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@fn), MessagePackObject.FromObject(@args)
-        })
+        Arguments = GetRequestArguments(
+          @fn, @args)
       });
 
-    public Task<object> CallDictFunction(object @dict, string @fn, MessagePackObject[] @args) =>
+    /// <summary>
+    /// <para>
+    /// Calls a VimL |Dictionary-function| with the given arguments.
+    /// </para>
+    /// </summary>
+    /// <param name="dict">
+    /// <para>
+    /// Dictionary, or String evaluating to a VimL |self| dict 
+    /// </para>
+    /// </param>
+    /// <param name="fn">
+    /// <para>
+    /// Name of the function defined on the VimL dict 
+    /// </para>
+    /// </param>
+    /// <param name="args">
+    /// <para>
+    /// Function arguments packed in an Array 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Result of the function call 
+    /// </para>
+    /// </returns>
+    public Task<object> CallDictFunction(object @dict, string @fn, object[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_call_dict_function",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@dict), MessagePackObject.FromObject(@fn), MessagePackObject.FromObject(@args)
-        })
+        Arguments = GetRequestArguments(
+          @dict, @fn, @args)
       });
 
+    /// <summary>
+    /// <para>
+    /// Calculates the number of display cells occupied by 
+    /// </para>
+    /// </summary>
+    /// <param name="text">
+    /// <para>
+    /// Some text 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Number of cells 
+    /// </para>
+    /// </returns>
     public Task<long> Strwidth(string @text) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_strwidth",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@text)
-        })
+        Arguments = GetRequestArguments(
+          @text)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the paths contained in &apos;runtimepath&apos;.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// List of paths 
+    /// </para>
+    /// </returns>
     public Task<string[]> ListRuntimePaths() =>
       SendAndReceive<string[]>(new NvimRequest
       {
         Method = "nvim_list_runtime_paths",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Changes the global working directory.
+    /// </para>
+    /// </summary>
+    /// <param name="dir">
+    /// <para>
+    /// Directory path 
+    /// </para>
+    /// </param>
     public Task SetCurrentDir(string @dir) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_dir",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@dir)
-        })
+        Arguments = GetRequestArguments(
+          @dir)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current line
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Current line string 
+    /// </para>
+    /// </returns>
     public Task<string> GetCurrentLine() =>
       SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_get_current_line",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets the current line
+    /// </para>
+    /// </summary>
+    /// <param name="line">
+    /// <para>
+    /// Line contents 
+    /// </para>
+    /// </param>
     public Task SetCurrentLine(string @line) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_line",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@line)
-        })
+        Arguments = GetRequestArguments(
+          @line)
       });
 
+    /// <summary>
+    /// <para>
+    /// Deletes the current line
+    /// </para>
+    /// </summary>
     public Task DelCurrentLine() =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_del_current_line",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets a global (g:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </returns>
     public Task<object> GetVar(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          @name)
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets a global (g:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </param>
     public Task SetVar(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          @name, @value)
       });
 
+    /// <summary>
+    /// <para>
+    /// Removes a global (g:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
     public Task DelVar(string @name) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_del_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          @name)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets a v: variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </returns>
     public Task<object> GetVvar(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_vvar",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          @name)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets an option value string
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Option value (global) 
+    /// </para>
+    /// </returns>
     public Task<object> GetOption(string @name) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          @name)
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets an option value
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// New option value 
+    /// </para>
+    /// </param>
     public Task SetOption(string @name, object @value) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          @name, @value)
       });
 
+    /// <summary>
+    /// <para>
+    /// Writes a message to the Vim output buffer. Does not append &quot;\n&quot;, the message is buffered (won&apos;t display) until a linefeed is written.
+    /// </para>
+    /// </summary>
+    /// <param name="str">
+    /// <para>
+    /// Message 
+    /// </para>
+    /// </param>
     public Task OutWrite(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_out_write",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@str)
-        })
+        Arguments = GetRequestArguments(
+          @str)
       });
 
+    /// <summary>
+    /// <para>
+    /// Writes a message to the Vim error buffer. Does not append &quot;\n&quot;, the message is buffered (won&apos;t display) until a linefeed is written.
+    /// </para>
+    /// </summary>
+    /// <param name="str">
+    /// <para>
+    /// Message 
+    /// </para>
+    /// </param>
     public Task ErrWrite(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_err_write",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@str)
-        })
+        Arguments = GetRequestArguments(
+          @str)
       });
 
+    /// <summary>
+    /// <para>
+    /// Writes a message to the Vim error buffer. Appends &quot;\n&quot;, so the buffer is flushed (and displayed).
+    /// </para>
+    /// </summary>
+    /// <param name="str">
+    /// <para>
+    /// Message 
+    /// </para>
+    /// </param>
     public Task ErrWriteln(string @str) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_err_writeln",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@str)
-        })
+        Arguments = GetRequestArguments(
+          @str)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current list of buffer handles
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// List of buffer handles 
+    /// </para>
+    /// </returns>
     public Task<NvimBuffer[]> ListBufs() =>
       SendAndReceive<NvimBuffer[]>(new NvimRequest
       {
         Method = "nvim_list_bufs",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current buffer
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Buffer handle 
+    /// </para>
+    /// </returns>
     public Task<NvimBuffer> GetCurrentBuf() =>
       SendAndReceive<NvimBuffer>(new NvimRequest
       {
         Method = "nvim_get_current_buf",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets the current buffer
+    /// </para>
+    /// </summary>
+    /// <param name="buffer">
+    /// <para>
+    /// Buffer handle 
+    /// </para>
+    /// </param>
     public Task SetCurrentBuf(NvimBuffer @buffer) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_buf",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          @buffer)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current list of window handles
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// List of window handles 
+    /// </para>
+    /// </returns>
     public Task<NvimWindow[]> ListWins() =>
       SendAndReceive<NvimWindow[]>(new NvimRequest
       {
         Method = "nvim_list_wins",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current window
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Window handle 
+    /// </para>
+    /// </returns>
     public Task<NvimWindow> GetCurrentWin() =>
       SendAndReceive<NvimWindow>(new NvimRequest
       {
         Method = "nvim_get_current_win",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets the current window
+    /// </para>
+    /// </summary>
+    /// <param name="window">
+    /// <para>
+    /// Window handle 
+    /// </para>
+    /// </param>
     public Task SetCurrentWin(NvimWindow @window) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_win",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          @window)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current list of tabpage handles
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// List of tabpage handles 
+    /// </para>
+    /// </returns>
     public Task<NvimTabpage[]> ListTabpages() =>
       SendAndReceive<NvimTabpage[]>(new NvimRequest
       {
         Method = "nvim_list_tabpages",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets the current tabpage
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Tabpage handle 
+    /// </para>
+    /// </returns>
     public Task<NvimTabpage> GetCurrentTabpage() =>
       SendAndReceive<NvimTabpage>(new NvimRequest
       {
         Method = "nvim_get_current_tabpage",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
+    /// <summary>
+    /// <para>
+    /// Sets the current tabpage
+    /// </para>
+    /// </summary>
+    /// <param name="tabpage">
+    /// <para>
+    /// Tabpage handle 
+    /// </para>
+    /// </param>
     public Task SetCurrentTabpage(NvimTabpage @tabpage) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_current_tabpage",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage)
-        })
+        Arguments = GetRequestArguments(
+          @tabpage)
       });
 
+    /// <summary>
+    /// <para>
+    /// Subscribes to event broadcasts
+    /// </para>
+    /// </summary>
+    /// <param name="event">
+    /// <para>
+    /// Event type string 
+    /// </para>
+    /// </param>
     public Task Subscribe(string @event) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_subscribe",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@event)
-        })
+        Arguments = GetRequestArguments(
+          @event)
       });
 
+    /// <summary>
+    /// <para>
+    /// Unsubscribes to event broadcasts
+    /// </para>
+    /// </summary>
+    /// <param name="event">
+    /// <para>
+    /// Event type string 
+    /// </para>
+    /// </param>
     public Task Unsubscribe(string @event) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_unsubscribe",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@event)
-        })
+        Arguments = GetRequestArguments(
+          @event)
       });
 
     public Task<long> GetColorByName(string @name) =>
       SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_get_color_by_name",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          @name)
       });
 
-    public Task<MessagePackObject> GetColorMap() =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    public Task<IDictionary> GetColorMap() =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_color_map",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
-    public Task<MessagePackObject> GetMode() =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets the current mode. |mode()| &quot;blocking&quot; is true if Nvim is waiting for input.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Dictionary { &quot;mode&quot;: String, &quot;blocking&quot;: Boolean } 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetMode() =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_mode",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
-    public Task<MessagePackObject[]> GetKeymap(string @mode) =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a list of global (non-buffer-local) |mapping| definitions.
+    /// </para>
+    /// </summary>
+    /// <param name="mode">
+    /// <para>
+    /// Mode short-name (&quot;n&quot;, &quot;i&quot;, &quot;v&quot;, ...) 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Array of maparg()-like dictionaries describing mappings. The &quot;buffer&quot; key is always zero. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary[]> GetKeymap(string @mode) =>
+      SendAndReceive<IDictionary[]>(new NvimRequest
       {
         Method = "nvim_get_keymap",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@mode)
-        })
+        Arguments = GetRequestArguments(
+          @mode)
       });
 
-    public Task<MessagePackObject> GetCommands(MessagePackObject @opts) =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a map of global (non-buffer-local) Ex commands.
+    /// </para>
+    /// </summary>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Currently only supports {&quot;builtin&quot;:false} 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Map of maps describing commands. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetCommands(IDictionary @opts) =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_commands",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@opts)
-        })
+        Arguments = GetRequestArguments(
+          @opts)
       });
 
-    public Task<MessagePackObject[]> GetApiInfo() =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Returns a 2-tuple (Array), where item 0 is the current channel id and item 1 is the |api-metadata| map (Dictionary).
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// 2-tuple [{channel-id}, {api-metadata}] 
+    /// </para>
+    /// </returns>
+    public Task<object[]> GetApiInfo() =>
+      SendAndReceive<object[]>(new NvimRequest
       {
         Method = "nvim_get_api_info",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
-    public Task SetClientInfo(string @name, MessagePackObject @version, string @type, MessagePackObject @methods, MessagePackObject @attributes) =>
+    /// <summary>
+    /// <para>
+    /// Identify the client for nvim. Can be called more than once, but subsequent calls will remove earlier info, which should be resent if it is still valid. (This could happen if a library first identifies the channel, and a plugin using that library later overrides that info)
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// short name for the connected client 
+    /// </para>
+    /// </param>
+    /// <param name="version">
+    /// <para>
+    /// Dictionary describing the version, with the following possible keys (all optional)
+    /// </para>
+    /// </param>
+    /// <param name="type">
+    /// <para>
+    /// Must be one of the following values. A client library should use &quot;remote&quot; if the library user hasn&apos;t specified other value.
+    /// </para>
+    /// </param>
+    /// <param name="methods">
+    /// <para>
+    /// Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later. The key should be the method name, the values are dicts with the following (optional) keys:
+    /// </para>
+    /// </param>
+    /// <param name="attributes">
+    /// <para>
+    /// Informal attributes describing the client. Clients might define their own keys, but the following are suggested:
+    /// </para>
+    /// </param>
+    public Task SetClientInfo(string @name, IDictionary @version, string @type, IDictionary @methods, IDictionary @attributes) =>
       SendAndReceive(new NvimRequest
       {
         Method = "nvim_set_client_info",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@version), MessagePackObject.FromObject(@type), MessagePackObject.FromObject(@methods), MessagePackObject.FromObject(@attributes)
-        })
+        Arguments = GetRequestArguments(
+          @name, @version, @type, @methods, @attributes)
       });
 
-    public Task<MessagePackObject> GetChanInfo(long @chan) =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Get information about a channel.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// a Dictionary, describing a channel with the following keys:
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetChanInfo(long @chan) =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_chan_info",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@chan)
-        })
+        Arguments = GetRequestArguments(
+          @chan)
       });
 
-    public Task<MessagePackObject[]> ListChans() =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Get information about all open channels.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Array of Dictionaries, each describing a channel with the format specified at |nvim_get_chan_info|. 
+    /// </para>
+    /// </returns>
+    public Task<object[]> ListChans() =>
+      SendAndReceive<object[]>(new NvimRequest
       {
         Method = "nvim_list_chans",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
-    public Task<MessagePackObject[]> CallAtomic(MessagePackObject[] @calls) =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Calls many API methods atomically.
+    /// </para>
+    /// </summary>
+    /// <param name="calls">
+    /// <para>
+    /// an array of calls, where each call is described by an array with two elements: the request name, and an array of arguments. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// an array with two elements. The first is an array of return values. The second is NIL if all calls succeeded. If a call resulted in an error, it is a three-element array with the zero-based index of the call which resulted in an error, the error type and the error message. If an error occurred, the values from all preceding calls will still be returned. 
+    /// </para>
+    /// </returns>
+    public Task<object[]> CallAtomic(object[] @calls) =>
+      SendAndReceive<object[]>(new NvimRequest
       {
         Method = "nvim_call_atomic",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@calls)
-        })
+        Arguments = GetRequestArguments(
+          @calls)
       });
 
-    public Task<MessagePackObject> ParseExpression(string @expr, string @flags, bool @highlight) =>
-      SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Parse a VimL expression
+    /// </para>
+    /// </summary>
+    /// <param name="expr">
+    /// <para>
+    /// Expression to parse. Is always treated as a single line. 
+    /// </para>
+    /// </param>
+    /// <param name="flags">
+    /// <para>
+    /// Flags: 
+    /// </para>
+    /// </param>
+    /// <param name="highlight">
+    /// <para>
+    /// If true, return value will also include &quot;highlight&quot; key containing array of 4-tuples (arrays) (Integer, Integer, Integer, String), where first three numbers define the highlighted region and represent line, starting column and ending column (latter exclusive: one should highlight region [start_col, end_col)).
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// AST: top-level dictionary with these keys: 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> ParseExpression(string @expr, string @flags, bool @highlight) =>
+      SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_parse_expression",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@expr), MessagePackObject.FromObject(@flags), MessagePackObject.FromObject(@highlight)
-        })
+        Arguments = GetRequestArguments(
+          @expr, @flags, @highlight)
       });
 
-    public Task<MessagePackObject[]> ListUis() =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a list of dictionaries representing attached UIs.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Array of UI dictionaries
+    /// </para>
+    /// </returns>
+    public Task<object[]> ListUis() =>
+      SendAndReceive<object[]>(new NvimRequest
       {
         Method = "nvim_list_uis",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            
-        })
+        Arguments = GetRequestArguments(
+          )
       });
 
-    public Task<MessagePackObject[]> GetProcChildren(long @pid) =>
-      SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets the immediate children of process 
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Array of child process ids, empty if process not found. 
+    /// </para>
+    /// </returns>
+    public Task<object[]> GetProcChildren(long @pid) =>
+      SendAndReceive<object[]>(new NvimRequest
       {
         Method = "nvim_get_proc_children",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@pid)
-        })
+        Arguments = GetRequestArguments(
+          @pid)
       });
 
+    /// <summary>
+    /// <para>
+    /// Gets info describing process 
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Map of process properties, or NIL if process not found. 
+    /// </para>
+    /// </returns>
     public Task<object> GetProc(long @pid) =>
       SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_get_proc",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@pid)
-        })
+        Arguments = GetRequestArguments(
+          @pid)
       });
 
 
   public class NvimBuffer
   {
     private readonly NvimAPI _api;
-    public NvimBuffer(NvimAPI api) => _api = api;
+    private readonly MessagePackExtendedTypeObject _msgPackExtObj;
+    internal NvimBuffer(NvimAPI api, MessagePackExtendedTypeObject msgPackExtObj)
+    {
+      _api = api;
+      _msgPackExtObj = msgPackExtObj;
+    }
     
-    public Task<long> LineCount(NvimBuffer @buffer) =>
+    /// <summary>
+    /// <para>
+    /// Gets the buffer line count
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Line count 
+    /// </para>
+    /// </returns>
+    public Task<long> LineCount() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_buf_line_count",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<bool> Attach(NvimBuffer @buffer, bool @sendBuffer, MessagePackObject @opts) =>
+    /// <summary>
+    /// <para>
+    /// Activate updates from this buffer to the current channel.
+    /// </para>
+    /// </summary>
+    /// <param name="sendBuffer">
+    /// <para>
+    /// Set to true if the initial notification should contain the whole buffer. If so, the first notification will be a 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Currently not used. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// False when updates couldn&apos;t be enabled because the buffer isn&apos;t loaded or 
+    /// </para>
+    /// </returns>
+    public Task<bool> Attach(bool @sendBuffer, IDictionary @opts) =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
         Method = "nvim_buf_attach",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@sendBuffer), MessagePackObject.FromObject(@opts)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @sendBuffer, @opts)
       });
 
-    public Task<bool> Detach(NvimBuffer @buffer) =>
+    /// <summary>
+    /// <para>
+    /// Deactivate updates from this buffer to the current channel.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// False when updates couldn&apos;t be disabled because the buffer isn&apos;t loaded; otherwise True. 
+    /// </para>
+    /// </returns>
+    public Task<bool> Detach() =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
         Method = "nvim_buf_detach",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<string[]> GetLines(NvimBuffer @buffer, long @start, long @end, bool @strictIndexing) =>
+    /// <summary>
+    /// <para>
+    /// Gets a line-range from the buffer.
+    /// </para>
+    /// </summary>
+    /// <param name="start">
+    /// <para>
+    /// First line index 
+    /// </para>
+    /// </param>
+    /// <param name="end">
+    /// <para>
+    /// Last line index (exclusive) 
+    /// </para>
+    /// </param>
+    /// <param name="strictIndexing">
+    /// <para>
+    /// Whether out-of-bounds should be an error. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Array of lines 
+    /// </para>
+    /// </returns>
+    public Task<string[]> GetLines(long @start, long @end, bool @strictIndexing) =>
       _api.SendAndReceive<string[]>(new NvimRequest
       {
         Method = "nvim_buf_get_lines",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@start), MessagePackObject.FromObject(@end), MessagePackObject.FromObject(@strictIndexing)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @start, @end, @strictIndexing)
       });
 
-    public Task SetLines(NvimBuffer @buffer, long @start, long @end, bool @strictIndexing, string[] @replacement) =>
+    /// <summary>
+    /// <para>
+    /// Sets (replaces) a line-range in the buffer.
+    /// </para>
+    /// </summary>
+    /// <param name="start">
+    /// <para>
+    /// First line index 
+    /// </para>
+    /// </param>
+    /// <param name="end">
+    /// <para>
+    /// Last line index (exclusive) 
+    /// </para>
+    /// </param>
+    /// <param name="strictIndexing">
+    /// <para>
+    /// Whether out-of-bounds should be an error. 
+    /// </para>
+    /// </param>
+    /// <param name="replacement">
+    /// <para>
+    /// Array of lines to use as replacement 
+    /// </para>
+    /// </param>
+    public Task SetLines(long @start, long @end, bool @strictIndexing, string[] @replacement) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_set_lines",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@start), MessagePackObject.FromObject(@end), MessagePackObject.FromObject(@strictIndexing), MessagePackObject.FromObject(@replacement)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @start, @end, @strictIndexing, @replacement)
       });
 
-    public Task<object> GetVar(NvimBuffer @buffer, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Gets a buffer-scoped (b:) variable.
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </returns>
+    public Task<object> GetVar(string @name) =>
       _api.SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_buf_get_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<long> GetChangedtick(NvimBuffer @buffer) =>
+    /// <summary>
+    /// <para>
+    /// Gets a changed tick of a buffer
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// <c>$b:changedtick</c>
+    /// </para>
+    /// </returns>
+    public Task<long> GetChangedtick() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_buf_get_changedtick",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<MessagePackObject[]> GetKeymap(NvimBuffer @buffer, string @mode) =>
-      _api.SendAndReceive<MessagePackObject[]>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a list of buffer-local |mapping| definitions.
+    /// </para>
+    /// </summary>
+    /// <param name="mode">
+    /// <para>
+    /// Mode short-name (&quot;n&quot;, &quot;i&quot;, &quot;v&quot;, ...) 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Array of maparg()-like dictionaries describing mappings. The &quot;buffer&quot; key holds the associated buffer handle. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary[]> GetKeymap(string @mode) =>
+      _api.SendAndReceive<IDictionary[]>(new NvimRequest
       {
         Method = "nvim_buf_get_keymap",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@mode)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @mode)
       });
 
-    public Task<MessagePackObject> GetCommands(NvimBuffer @buffer, MessagePackObject @opts) =>
-      _api.SendAndReceive<MessagePackObject>(new NvimRequest
+    /// <summary>
+    /// <para>
+    /// Gets a map of buffer-local |user-commands|.
+    /// </para>
+    /// </summary>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Currently not used. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Map of maps describing commands. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetCommands(IDictionary @opts) =>
+      _api.SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_buf_get_commands",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@opts)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @opts)
       });
 
-    public Task SetVar(NvimBuffer @buffer, string @name, object @value) =>
+    /// <summary>
+    /// <para>
+    /// Sets a buffer-scoped (b:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </param>
+    public Task SetVar(string @name, object @value) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_set_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name, @value)
       });
 
-    public Task DelVar(NvimBuffer @buffer, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Removes a buffer-scoped (b:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    public Task DelVar(string @name) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_del_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<object> GetOption(NvimBuffer @buffer, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Gets a buffer option value
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Option value 
+    /// </para>
+    /// </returns>
+    public Task<object> GetOption(string @name) =>
       _api.SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_buf_get_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task SetOption(NvimBuffer @buffer, string @name, object @value) =>
+    /// <summary>
+    /// <para>
+    /// Sets a buffer option value. Passing &apos;nil&apos; as value deletes the option (only works if there&apos;s a global fallback)
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Option value 
+    /// </para>
+    /// </param>
+    public Task SetOption(string @name, object @value) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_set_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name, @value)
       });
 
-    public Task<string> GetName(NvimBuffer @buffer) =>
+    /// <summary>
+    /// <para>
+    /// Gets the full file name for the buffer
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Buffer name 
+    /// </para>
+    /// </returns>
+    public Task<string> GetName() =>
       _api.SendAndReceive<string>(new NvimRequest
       {
         Method = "nvim_buf_get_name",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task SetName(NvimBuffer @buffer, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Sets the full file name for a buffer
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Buffer name 
+    /// </para>
+    /// </param>
+    public Task SetName(string @name) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_set_name",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<bool> IsValid(NvimBuffer @buffer) =>
+    /// <summary>
+    /// <para>
+    /// Checks if a buffer is valid
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// true if the buffer is valid, false otherwise 
+    /// </para>
+    /// </returns>
+    public Task<bool> IsValid() =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
         Method = "nvim_buf_is_valid",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<long[]> GetMark(NvimBuffer @buffer, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Return a tuple (row,col) representing the position of the named mark
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Mark name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// (row, col) tuple 
+    /// </para>
+    /// </returns>
+    public Task<long[]> GetMark(string @name) =>
       _api.SendAndReceive<long[]>(new NvimRequest
       {
         Method = "nvim_buf_get_mark",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<long> AddHighlight(NvimBuffer @buffer, long @srcId, string @hlGroup, long @line, long @colStart, long @colEnd) =>
+    /// <summary>
+    /// <para>
+    /// Adds a highlight to buffer.
+    /// </para>
+    /// </summary>
+    /// <param name="srcId">
+    /// <para>
+    /// Source group to use or 0 to use a new group, or -1 for ungrouped highlight 
+    /// </para>
+    /// </param>
+    /// <param name="hlGroup">
+    /// <para>
+    /// Name of the highlight group to use 
+    /// </para>
+    /// </param>
+    /// <param name="line">
+    /// <para>
+    /// Line to highlight (zero-indexed) 
+    /// </para>
+    /// </param>
+    /// <param name="colStart">
+    /// <para>
+    /// Start of (byte-indexed) column range to highlight 
+    /// </para>
+    /// </param>
+    /// <param name="colEnd">
+    /// <para>
+    /// End of (byte-indexed) column range to highlight, or -1 to highlight to end of line 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// The src_id that was used 
+    /// </para>
+    /// </returns>
+    public Task<long> AddHighlight(long @srcId, string @hlGroup, long @line, long @colStart, long @colEnd) =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_buf_add_highlight",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@srcId), MessagePackObject.FromObject(@hlGroup), MessagePackObject.FromObject(@line), MessagePackObject.FromObject(@colStart), MessagePackObject.FromObject(@colEnd)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @srcId, @hlGroup, @line, @colStart, @colEnd)
       });
 
-    public Task ClearHighlight(NvimBuffer @buffer, long @srcId, long @lineStart, long @lineEnd) =>
+    /// <summary>
+    /// <para>
+    /// Clears highlights from a given source group and a range of lines
+    /// </para>
+    /// </summary>
+    /// <param name="srcId">
+    /// <para>
+    /// Highlight source group to clear, or -1 to clear all. 
+    /// </para>
+    /// </param>
+    /// <param name="lineStart">
+    /// <para>
+    /// Start of range of lines to clear 
+    /// </para>
+    /// </param>
+    /// <param name="lineEnd">
+    /// <para>
+    /// End of range of lines to clear (exclusive) or -1 to clear to end of file. 
+    /// </para>
+    /// </param>
+    public Task ClearHighlight(long @srcId, long @lineStart, long @lineEnd) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_clear_highlight",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@buffer), MessagePackObject.FromObject(@srcId), MessagePackObject.FromObject(@lineStart), MessagePackObject.FromObject(@lineEnd)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @srcId, @lineStart, @lineEnd)
       });
 
   }
   public class NvimWindow
   {
     private readonly NvimAPI _api;
-    public NvimWindow(NvimAPI api) => _api = api;
+    private readonly MessagePackExtendedTypeObject _msgPackExtObj;
+    internal NvimWindow(NvimAPI api, MessagePackExtendedTypeObject msgPackExtObj)
+    {
+      _api = api;
+      _msgPackExtObj = msgPackExtObj;
+    }
     
-    public Task<NvimBuffer> GetBuf(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the current buffer in a window
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Buffer handle 
+    /// </para>
+    /// </returns>
+    public Task<NvimBuffer> GetBuf() =>
       _api.SendAndReceive<NvimBuffer>(new NvimRequest
       {
         Method = "nvim_win_get_buf",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<long[]> GetCursor(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the cursor position in the window
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// (row, col) tuple 
+    /// </para>
+    /// </returns>
+    public Task<long[]> GetCursor() =>
       _api.SendAndReceive<long[]>(new NvimRequest
       {
         Method = "nvim_win_get_cursor",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task SetCursor(NvimWindow @window, long[] @pos) =>
+    /// <summary>
+    /// <para>
+    /// Sets the cursor position in the window
+    /// </para>
+    /// </summary>
+    /// <param name="pos">
+    /// <para>
+    /// (row, col) tuple representing the new position 
+    /// </para>
+    /// </param>
+    public Task SetCursor(long[] @pos) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_set_cursor",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@pos)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @pos)
       });
 
-    public Task<long> GetHeight(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the window height
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Height as a count of rows 
+    /// </para>
+    /// </returns>
+    public Task<long> GetHeight() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_win_get_height",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task SetHeight(NvimWindow @window, long @height) =>
+    /// <summary>
+    /// <para>
+    /// Sets the window height. This will only succeed if the screen is split horizontally.
+    /// </para>
+    /// </summary>
+    /// <param name="height">
+    /// <para>
+    /// Height as a count of rows 
+    /// </para>
+    /// </param>
+    public Task SetHeight(long @height) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_set_height",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@height)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @height)
       });
 
-    public Task<long> GetWidth(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the window width
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Width as a count of columns 
+    /// </para>
+    /// </returns>
+    public Task<long> GetWidth() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_win_get_width",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task SetWidth(NvimWindow @window, long @width) =>
+    /// <summary>
+    /// <para>
+    /// Sets the window width. This will only succeed if the screen is split vertically.
+    /// </para>
+    /// </summary>
+    /// <param name="width">
+    /// <para>
+    /// Width as a count of columns 
+    /// </para>
+    /// </param>
+    public Task SetWidth(long @width) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_set_width",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@width)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @width)
       });
 
-    public Task<object> GetVar(NvimWindow @window, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Gets a window-scoped (w:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </returns>
+    public Task<object> GetVar(string @name) =>
       _api.SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_win_get_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task SetVar(NvimWindow @window, string @name, object @value) =>
+    /// <summary>
+    /// <para>
+    /// Sets a window-scoped (w:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </param>
+    public Task SetVar(string @name, object @value) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_set_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name, @value)
       });
 
-    public Task DelVar(NvimWindow @window, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Removes a window-scoped (w:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    public Task DelVar(string @name) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_del_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<object> GetOption(NvimWindow @window, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Gets a window option value
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Option value 
+    /// </para>
+    /// </returns>
+    public Task<object> GetOption(string @name) =>
       _api.SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_win_get_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task SetOption(NvimWindow @window, string @name, object @value) =>
+    /// <summary>
+    /// <para>
+    /// Sets a window option value. Passing &apos;nil&apos; as value deletes the option(only works if there&apos;s a global fallback)
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Option value 
+    /// </para>
+    /// </param>
+    public Task SetOption(string @name, object @value) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_win_set_option",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window), MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name, @value)
       });
 
-    public Task<long[]> GetPosition(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the window position in display cells. First position is zero.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// (row, col) tuple with the window position 
+    /// </para>
+    /// </returns>
+    public Task<long[]> GetPosition() =>
       _api.SendAndReceive<long[]>(new NvimRequest
       {
         Method = "nvim_win_get_position",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<NvimTabpage> GetTabpage(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the window tabpage
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Tabpage that contains the window 
+    /// </para>
+    /// </returns>
+    public Task<NvimTabpage> GetTabpage() =>
       _api.SendAndReceive<NvimTabpage>(new NvimRequest
       {
         Method = "nvim_win_get_tabpage",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<long> GetNumber(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Gets the window number
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Window number 
+    /// </para>
+    /// </returns>
+    public Task<long> GetNumber() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_win_get_number",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<bool> IsValid(NvimWindow @window) =>
+    /// <summary>
+    /// <para>
+    /// Checks if a window is valid
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// true if the window is valid, false otherwise 
+    /// </para>
+    /// </returns>
+    public Task<bool> IsValid() =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
         Method = "nvim_win_is_valid",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@window)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
   }
   public class NvimTabpage
   {
     private readonly NvimAPI _api;
-    public NvimTabpage(NvimAPI api) => _api = api;
+    private readonly MessagePackExtendedTypeObject _msgPackExtObj;
+    internal NvimTabpage(NvimAPI api, MessagePackExtendedTypeObject msgPackExtObj)
+    {
+      _api = api;
+      _msgPackExtObj = msgPackExtObj;
+    }
     
-    public Task<NvimWindow[]> ListWins(NvimTabpage @tabpage) =>
+    /// <summary>
+    /// <para>
+    /// Gets the windows in a tabpage
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// List of windows in 
+    /// </para>
+    /// </returns>
+    public Task<NvimWindow[]> ListWins() =>
       _api.SendAndReceive<NvimWindow[]>(new NvimRequest
       {
         Method = "nvim_tabpage_list_wins",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<object> GetVar(NvimTabpage @tabpage, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Gets a tab-scoped (t:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </returns>
+    public Task<object> GetVar(string @name) =>
       _api.SendAndReceive<object>(new NvimRequest
       {
         Method = "nvim_tabpage_get_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task SetVar(NvimTabpage @tabpage, string @name, object @value) =>
+    /// <summary>
+    /// <para>
+    /// Sets a tab-scoped (t:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </param>
+    public Task SetVar(string @name, object @value) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_tabpage_set_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage), MessagePackObject.FromObject(@name), MessagePackObject.FromObject(@value)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name, @value)
       });
 
-    public Task DelVar(NvimTabpage @tabpage, string @name) =>
+    /// <summary>
+    /// <para>
+    /// Removes a tab-scoped (t:) variable
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    public Task DelVar(string @name) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_tabpage_del_var",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage), MessagePackObject.FromObject(@name)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @name)
       });
 
-    public Task<NvimWindow> GetWin(NvimTabpage @tabpage) =>
+    /// <summary>
+    /// <para>
+    /// Gets the current window in a tabpage
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Window handle 
+    /// </para>
+    /// </returns>
+    public Task<NvimWindow> GetWin() =>
       _api.SendAndReceive<NvimWindow>(new NvimRequest
       {
         Method = "nvim_tabpage_get_win",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<long> GetNumber(NvimTabpage @tabpage) =>
+    /// <summary>
+    /// <para>
+    /// Gets the tabpage number
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Tabpage number 
+    /// </para>
+    /// </returns>
+    public Task<long> GetNumber() =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_tabpage_get_number",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
-    public Task<bool> IsValid(NvimTabpage @tabpage) =>
+    /// <summary>
+    /// <para>
+    /// Checks if a tabpage is valid
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// true if the tabpage is valid, false otherwise 
+    /// </para>
+    /// </returns>
+    public Task<bool> IsValid() =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
         Method = "nvim_tabpage_is_valid",
-        Arguments = new MessagePackObject(new MessagePackObject[]
-        {
-            MessagePackObject.FromObject(@tabpage)
-        })
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
       });
 
   }
@@ -1054,7 +2096,7 @@ namespace NvimClient.API
   public class ModeInfoSetEventArgs : EventArgs
   {
     public bool Enabled { get; set; }
-    public MessagePackObject[] CursorStyles { get; set; }
+    public object[] CursorStyles { get; set; }
 
   }
   public class ModeChangeEventArgs : EventArgs
@@ -1078,7 +2120,7 @@ namespace NvimClient.API
   }
   public class HighlightSetEventArgs : EventArgs
   {
-    public MessagePackObject Attrs { get; set; }
+    public IDictionary Attrs { get; set; }
 
   }
   public class PutEventArgs : EventArgs
@@ -1128,7 +2170,7 @@ namespace NvimClient.API
   }
   public class PopupmenuShowEventArgs : EventArgs
   {
-    public MessagePackObject[] Items { get; set; }
+    public object[] Items { get; set; }
     public long Selected { get; set; }
     public long Row { get; set; }
     public long Col { get; set; }
@@ -1142,12 +2184,12 @@ namespace NvimClient.API
   public class TablineUpdateEventArgs : EventArgs
   {
     public NvimTabpage Current { get; set; }
-    public MessagePackObject[] Tabs { get; set; }
+    public object[] Tabs { get; set; }
 
   }
   public class CmdlineShowEventArgs : EventArgs
   {
-    public MessagePackObject[] Content { get; set; }
+    public object[] Content { get; set; }
     public long Pos { get; set; }
     public string Firstc { get; set; }
     public string Prompt { get; set; }
@@ -1175,17 +2217,17 @@ namespace NvimClient.API
   }
   public class CmdlineBlockShowEventArgs : EventArgs
   {
-    public MessagePackObject[] Lines { get; set; }
+    public object[] Lines { get; set; }
 
   }
   public class CmdlineBlockAppendEventArgs : EventArgs
   {
-    public MessagePackObject[] Lines { get; set; }
+    public object[] Lines { get; set; }
 
   }
   public class WildmenuShowEventArgs : EventArgs
   {
-    public MessagePackObject[] Items { get; set; }
+    public object[] Items { get; set; }
 
   }
   public class WildmenuSelectEventArgs : EventArgs
@@ -1193,16 +2235,16 @@ namespace NvimClient.API
     public long Selected { get; set; }
 
   }
-  private void CallUIEventHandler(string eventName, MessagePackObject[] args)
-  {
-    switch (eventName)
+    private void CallUIEventHandler(string eventName, object[] args)
     {
-
+      switch (eventName)
+      {
+  
       case "resize":
           Resize?.Invoke(this, new ResizeEventArgs
           {
-            Width = Cast<long>(args[0]),
-            Height = Cast<long>(args[1])
+            Width = (long) args[0],
+            Height = (long) args[1]
           });
           break;
 
@@ -1217,16 +2259,16 @@ namespace NvimClient.API
       case "cursor_goto":
           CursorGoto?.Invoke(this, new CursorGotoEventArgs
           {
-            Row = Cast<long>(args[0]),
-            Col = Cast<long>(args[1])
+            Row = (long) args[0],
+            Col = (long) args[1]
           });
           break;
 
       case "mode_info_set":
           ModeInfoSet?.Invoke(this, new ModeInfoSetEventArgs
           {
-            Enabled = Cast<bool>(args[0]),
-            CursorStyles = Cast<MessagePackObject[]>(args[1])
+            Enabled = (bool) args[0],
+            CursorStyles = (object[]) args[1]
           });
           break;
 
@@ -1253,39 +2295,39 @@ namespace NvimClient.API
       case "mode_change":
           ModeChange?.Invoke(this, new ModeChangeEventArgs
           {
-            Mode = Cast<string>(args[0]),
-            ModeIdx = Cast<long>(args[1])
+            Mode = (string) args[0],
+            ModeIdx = (long) args[1]
           });
           break;
 
       case "set_scroll_region":
           SetScrollRegion?.Invoke(this, new SetScrollRegionEventArgs
           {
-            Top = Cast<long>(args[0]),
-            Bot = Cast<long>(args[1]),
-            Left = Cast<long>(args[2]),
-            Right = Cast<long>(args[3])
+            Top = (long) args[0],
+            Bot = (long) args[1],
+            Left = (long) args[2],
+            Right = (long) args[3]
           });
           break;
 
       case "scroll":
           Scroll?.Invoke(this, new ScrollEventArgs
           {
-            Count = Cast<long>(args[0])
+            Count = (long) args[0]
           });
           break;
 
       case "highlight_set":
           HighlightSet?.Invoke(this, new HighlightSetEventArgs
           {
-            Attrs = Cast<MessagePackObject>(args[0])
+            Attrs = (IDictionary) args[0]
           });
           break;
 
       case "put":
           Put?.Invoke(this, new PutEventArgs
           {
-            Str = Cast<string>(args[0])
+            Str = (string) args[0]
           });
           break;
 
@@ -1304,32 +2346,32 @@ namespace NvimClient.API
       case "update_fg":
           UpdateFg?.Invoke(this, new UpdateFgEventArgs
           {
-            Fg = Cast<long>(args[0])
+            Fg = (long) args[0]
           });
           break;
 
       case "update_bg":
           UpdateBg?.Invoke(this, new UpdateBgEventArgs
           {
-            Bg = Cast<long>(args[0])
+            Bg = (long) args[0]
           });
           break;
 
       case "update_sp":
           UpdateSp?.Invoke(this, new UpdateSpEventArgs
           {
-            Sp = Cast<long>(args[0])
+            Sp = (long) args[0]
           });
           break;
 
       case "default_colors_set":
           DefaultColorsSet?.Invoke(this, new DefaultColorsSetEventArgs
           {
-            RgbFg = Cast<long>(args[0]),
-            RgbBg = Cast<long>(args[1]),
-            RgbSp = Cast<long>(args[2]),
-            CtermFg = Cast<long>(args[3]),
-            CtermBg = Cast<long>(args[4])
+            RgbFg = (long) args[0],
+            RgbBg = (long) args[1],
+            RgbSp = (long) args[2],
+            CtermFg = (long) args[3],
+            CtermBg = (long) args[4]
           });
           break;
 
@@ -1340,32 +2382,32 @@ namespace NvimClient.API
       case "set_title":
           SetTitle?.Invoke(this, new SetTitleEventArgs
           {
-            Title = Cast<string>(args[0])
+            Title = (string) args[0]
           });
           break;
 
       case "set_icon":
           SetIcon?.Invoke(this, new SetIconEventArgs
           {
-            Icon = Cast<string>(args[0])
+            Icon = (string) args[0]
           });
           break;
 
       case "option_set":
           OptionSet?.Invoke(this, new OptionSetEventArgs
           {
-            Name = Cast<string>(args[0]),
-            Value = Cast<object>(args[1])
+            Name = (string) args[0],
+            Value = (object) args[1]
           });
           break;
 
       case "popupmenu_show":
           PopupmenuShow?.Invoke(this, new PopupmenuShowEventArgs
           {
-            Items = Cast<MessagePackObject[]>(args[0]),
-            Selected = Cast<long>(args[1]),
-            Row = Cast<long>(args[2]),
-            Col = Cast<long>(args[3])
+            Items = (object[]) args[0],
+            Selected = (long) args[1],
+            Row = (long) args[2],
+            Col = (long) args[3]
           });
           break;
 
@@ -1376,65 +2418,65 @@ namespace NvimClient.API
       case "popupmenu_select":
           PopupmenuSelect?.Invoke(this, new PopupmenuSelectEventArgs
           {
-            Selected = Cast<long>(args[0])
+            Selected = (long) args[0]
           });
           break;
 
       case "tabline_update":
           TablineUpdate?.Invoke(this, new TablineUpdateEventArgs
           {
-            Current = Cast<NvimTabpage>(args[0]),
-            Tabs = Cast<MessagePackObject[]>(args[1])
+            Current = (NvimTabpage) args[0],
+            Tabs = (object[]) args[1]
           });
           break;
 
       case "cmdline_show":
           CmdlineShow?.Invoke(this, new CmdlineShowEventArgs
           {
-            Content = Cast<MessagePackObject[]>(args[0]),
-            Pos = Cast<long>(args[1]),
-            Firstc = Cast<string>(args[2]),
-            Prompt = Cast<string>(args[3]),
-            Indent = Cast<long>(args[4]),
-            Level = Cast<long>(args[5])
+            Content = (object[]) args[0],
+            Pos = (long) args[1],
+            Firstc = (string) args[2],
+            Prompt = (string) args[3],
+            Indent = (long) args[4],
+            Level = (long) args[5]
           });
           break;
 
       case "cmdline_pos":
           CmdlinePos?.Invoke(this, new CmdlinePosEventArgs
           {
-            Pos = Cast<long>(args[0]),
-            Level = Cast<long>(args[1])
+            Pos = (long) args[0],
+            Level = (long) args[1]
           });
           break;
 
       case "cmdline_special_char":
           CmdlineSpecialChar?.Invoke(this, new CmdlineSpecialCharEventArgs
           {
-            C = Cast<string>(args[0]),
-            Shift = Cast<bool>(args[1]),
-            Level = Cast<long>(args[2])
+            C = (string) args[0],
+            Shift = (bool) args[1],
+            Level = (long) args[2]
           });
           break;
 
       case "cmdline_hide":
           CmdlineHide?.Invoke(this, new CmdlineHideEventArgs
           {
-            Level = Cast<long>(args[0])
+            Level = (long) args[0]
           });
           break;
 
       case "cmdline_block_show":
           CmdlineBlockShow?.Invoke(this, new CmdlineBlockShowEventArgs
           {
-            Lines = Cast<MessagePackObject[]>(args[0])
+            Lines = (object[]) args[0]
           });
           break;
 
       case "cmdline_block_append":
           CmdlineBlockAppend?.Invoke(this, new CmdlineBlockAppendEventArgs
           {
-            Lines = Cast<MessagePackObject[]>(args[0])
+            Lines = (object[]) args[0]
           });
           break;
 
@@ -1445,14 +2487,14 @@ namespace NvimClient.API
       case "wildmenu_show":
           WildmenuShow?.Invoke(this, new WildmenuShowEventArgs
           {
-            Items = Cast<MessagePackObject[]>(args[0])
+            Items = (object[]) args[0]
           });
           break;
 
       case "wildmenu_select":
           WildmenuSelect?.Invoke(this, new WildmenuSelectEventArgs
           {
-            Selected = Cast<long>(args[0])
+            Selected = (long) args[0]
           });
           break;
 
@@ -1460,6 +2502,23 @@ namespace NvimClient.API
           WildmenuHide?.Invoke(this, EventArgs.Empty);
           break;
 
+      }
+    }
+
+    private object GetExtensionType(MessagePackExtendedTypeObject msgPackExtObj)
+    {
+      switch (msgPackExtObj.TypeCode)
+      {
+
+        case 0:
+          return new NvimBuffer(this, msgPackExtObj);
+        case 1:
+          return new NvimWindow(this, msgPackExtObj);
+        case 2:
+          return new NvimTabpage(this, msgPackExtObj);
+        default:
+          throw new SerializationException(
+            $"Unknown extension type id {msgPackExtObj.TypeCode}");
       }
     }
   }
