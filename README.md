@@ -1,17 +1,20 @@
-# neovim-dotnet-client
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/neovim/nvim.net?branch=master&svg=true)](https://ci.appveyor.com/project/neovim/nvim.net/branch/master)
+Nvim.NET
+========
+
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/8c2dw5gc2knhvqjc/branch/master?svg=true)](https://ci.appveyor.com/project/neovim/nvim-net/branch/master)
 [![Travis Build Status](https://travis-ci.org/neovim/nvim.net.svg?branch=master)](https://travis-ci.org/neovim/nvim.net)
 
 .NET client for [Neovim](https://github.com/neovim/neovim)
 
-## Plugin Host Installation
+Plugin Host Install
+------------------------
+
 Using [vim-plug](https://github.com/junegunn/vim-plug):
-```vim
-Plug 'neovim/nvim.net'
-```
+
+    Plug 'neovim/nvim.net'
 
 Quickstart for Linux
-------------------------
+--------------------
 
 1. [Install dotnet](https://www.microsoft.com/net/download/linux-package-manager/ubuntu16-04/sdk-current)
 2. Clone the Nvim .NET client (this repo):
@@ -79,18 +82,18 @@ Plugin Development with C#
         ```
 5. Start `nvim` and run `:UpdateRemotePlugins`.
 
-## Build
-```
-dotnet build
-```
+Build
+-----
 
-## Test
+    dotnet build
+
+Test
+----
+
 Run all tests (`nvim` must be in the `PATH`):
-```
-dotnet test test/NvimClient.Test/NvimClient.Test.csproj
-```
+
+    dotnet test test/NvimClient.Test/NvimClient.Test.csproj
 
 Run only the `TestMessageDeserialization` test.
-```
-dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
-```
+
+    dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
