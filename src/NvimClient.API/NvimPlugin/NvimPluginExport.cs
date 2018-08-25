@@ -55,7 +55,7 @@ namespace NvimClient.API.NvimPlugin
 
     protected void AddEvalOption(Dictionary<string, string> opts)
     {
-      var evalExpressions = string.Join(',', Method.GetParameters().Select(
+      var evalExpressions = string.Join(",", Method.GetParameters().Select(
           param =>
             param.GetCustomAttribute<NvimEvalAttribute>()?.Value)
         .Where(eval => eval != null));

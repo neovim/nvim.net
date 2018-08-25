@@ -432,12 +432,11 @@ namespace NvimClient.API
       if (obj is IDictionary dictionary)
       {
         var msgPackDictionary = new MessagePackObjectDictionary();
-        var keyValuePairs = ConvertEnumerable(dictionary.Keys).Zip(
-          ConvertEnumerable(dictionary.Values),
-          KeyValuePair.Create);
-        foreach (var keyValuePair in keyValuePairs)
+        var keysAndValues = ConvertEnumerable(dictionary.Keys).Zip(
+          ConvertEnumerable(dictionary.Values), (key, value) => (key, value));
+        foreach (var (key, value) in keysAndValues)
         {
-          msgPackDictionary.Add(keyValuePair.Key, keyValuePair.Value);
+          msgPackDictionary.Add(key, value);
         }
 
         return MessagePackObject.FromObject(msgPackDictionary);
