@@ -76,8 +76,12 @@ Plugin Development with C#
    }
    ```
 4. Make the directory `rplugin/dotnet` in the same directory as the solution file.
+   If you are using git, you will need to create a file inside the directory
+   so it can be tracked.
    ```
    mkdir rplugin/dotnet
+   echo '' > rplugin/dotnet/.keep
+   git add rplugin/dotnet
    ```
 5. Start `nvim` and run `:UpdateRemotePlugins`.
 
@@ -86,6 +90,17 @@ Build
 
     dotnet build
 
+Generate API
+-----
+
+The API generator takes two arguments: the output path of the generated C# class
+file and the path to the Neovim source directory. `nvim` and `doxygen` must be
+in the `PATH`.
+
+     dotnet run --project src/NvimClient.APIGenerator/NvimClient.APIGenerator.csproj
+       src/NvimClient.API/NvimAPI.generated.cs
+       /usr/local/src/neovim/
+
 Test
 ----
 
@@ -93,6 +108,6 @@ Run all tests (`nvim` must be in the `PATH`):
 
     dotnet test test/NvimClient.Test/NvimClient.Test.csproj
 
-Run only the `TestMessageDeserialization` test.
+Run only the `TestMessageDeserialization` test:
 
     dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
