@@ -15,10 +15,10 @@ install:
   # because it is set to 1 even when it succeeds
   - choco upgrade neovim || set errorlevel=0
   # nvim.exe may not be in the PATH if it was restored from the cache
+  - refreshenv
   - set PATH=C:\tools\neovim\Neovim\bin;%PATH%
   # Clone the source for the installed version of Neovim
   - ps: |
-      refreshenv
       $nvimVersion = $nvimVersion = ((nvim --version) -split ' ')[1]
       $nvimTag = git -C C:\projects\neovim describe --tags 2>$null
       if ($nvimVersion -ne $nvimTag)
