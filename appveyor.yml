@@ -1,6 +1,8 @@
 image: Visual Studio 2017
 platform: Any CPU
 configuration: Release
+pull_requests:
+  do_not_increment_build_number: true
 shallow_clone: true
 cache:
   - '%ChocolateyInstall%\bin -> appveyor.yml'
@@ -51,12 +53,10 @@ deploy:
       secure: UdGDW0NK3JKmkt0FGS4r70zl1PaKjJ9Sphn9m9v6kTWD00rjR0RlsvrLuuPiFHf4
     on:
       branch: master
-      appveyor_repo_tag: true
     artifact: /src.*\.nupkg/
   - provider: GitHub
     on:
       branch: master
-      appveyor_repo_tag: true
     artifact: /src.*\.nupkg/
 artifacts:
   - path: src\**\*.nupkg
