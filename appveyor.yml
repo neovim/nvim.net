@@ -50,7 +50,9 @@ test_script:
 deploy:
   - provider: NuGet
     api_key:
-      secure: UdGDW0NK3JKmkt0FGS4r70zl1PaKjJ9Sphn9m9v6kTWD00rjR0RlsvrLuuPiFHf4
+      # NuGet API key. Expires after 1 year!
+      # Encrypted with https://ci.appveyor.com/tools/encrypt
+      secure: o7G/fUkI3TtvqM8LmOFZntcdz2KrjNg5c2aZgPb6oBQ2iJJd9wtLAcAddOkX3guC
     on:
       branch: master
     artifact: /src.*\.nupkg/
