@@ -52,7 +52,8 @@ deploy:
     api_key:
       # NuGet API key. Expires after 1 year!
       # Encrypted with https://ci.appveyor.com/tools/encrypt
-      secure: o7G/fUkI3TtvqM8LmOFZntcdz2KrjNg5c2aZgPb6oBQ2iJJd9wtLAcAddOkX3guC
+      # NuGet org: https://docs.microsoft.com/en-us/nuget/nuget-org/organizations-on-nuget-org
+      secure: Ij7WCqJWiozYXyN2KPoFa2dWLRXpznP0lwtYi9Vysdvdtl2L+UdkABuf0YPX5ka9
     on:
       branch: master
     artifact: /src.*\.nupkg/
