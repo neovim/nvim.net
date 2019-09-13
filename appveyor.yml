@@ -26,7 +26,7 @@ install:
         (git clone --branch $nvimVersion --depth 1 --quiet `
           https://github.com/neovim/neovim.git C:\projects\neovim) 2>$null
       }
-  - choco upgrade doxygen.portable
+  - choco upgrade doxygen.install
   # dotnet restore should be ran implicity, however, running it explicitly
   # allows the packages directory to be specified for caching
   - dotnet restore --packages packages
@@ -39,6 +39,7 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 build_script:
+  - refreshenv
   - dotnet run --project
     src\NvimClient.APIGenerator\NvimClient.APIGenerator.csproj
     src\NvimClient.API\NvimAPI.generated.cs C:\projects\neovim
