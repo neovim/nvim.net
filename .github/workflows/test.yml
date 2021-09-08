@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install nvim binary
+      uses: rhysd/action-setup-vim@v1
+      if: steps.cache-nvim.outputs.cache-hit != 'true' || steps.cache-nvim-windows.outputs.cache-hit != 'true'
+      with:
+        neovim: true
+        version: nightly
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal test/NvimClient.Test/NvimClient.Test.csproj

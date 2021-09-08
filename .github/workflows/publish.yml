@@ -1,0 +1,39 @@
+name: Publish GitHub NuGet package
+
+on:
+  # no triggers (manual)
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install nvim binary
+        uses: rhysd/action-setup-vim@v1
+        if: steps.cache-nvim.outputs.cache-hit != 'true' || steps.cache-nvim-windows.outputs.cache-hit != 'true'
+        with:
+          neovim: true
+          version: nightly
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1.8.1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal test/NvimClient.Test/NvimClient.Test.csproj
+
+      - name: Publish
+        run: |
+          dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/neovim/index.json"
+          dotnet pack src/NvimClient.API/NvimClient.API.csproj --configuration Release
+          dotnet nuget push "src/NvimClient.API/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source github
