@@ -40,6 +40,10 @@ namespace NvimClient
       _functionDocs = functionDocs?.ToDictionary(functionDoc => functionDoc.Function,
         funcDoc => funcDoc);
       var apiMetadata = GetAPIMetadata();
+
+      // Filter out functions only callable from Lua.
+      apiMetadata.Functions = apiMetadata.Functions.Where(f => !f.Parameters.Where(p => p.Type == "LuaRef").Any()).ToArray();
+
       var csharpClass = GenerateCSharpClass(apiMetadata);
       File.WriteAllText(outputPath, csharpClass);
     }

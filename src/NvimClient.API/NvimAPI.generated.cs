@@ -11,10 +11,6 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
-    public event EventHandler<ResizeEventArgs> Resize;
-    public event EventHandler Clear;
-    public event EventHandler EolClear;
-    public event EventHandler<CursorGotoEventArgs> CursorGoto;
     public event EventHandler<ModeInfoSetEventArgs> ModeInfoSet;
     public event EventHandler UpdateMenu;
     public event EventHandler BusyStart;
@@ -22,21 +18,41 @@ namespace NvimClient.API
     public event EventHandler MouseOn;
     public event EventHandler MouseOff;
     public event EventHandler<ModeChangeEventArgs> ModeChange;
-    public event EventHandler<SetScrollRegionEventArgs> SetScrollRegion;
-    public event EventHandler<ScrollEventArgs> Scroll;
-    public event EventHandler<HighlightSetEventArgs> HighlightSet;
-    public event EventHandler<PutEventArgs> Put;
     public event EventHandler Bell;
     public event EventHandler VisualBell;
     public event EventHandler Flush;
-    public event EventHandler<UpdateFgEventArgs> UpdateFg;
-    public event EventHandler<UpdateBgEventArgs> UpdateBg;
-    public event EventHandler<UpdateSpEventArgs> UpdateSp;
-    public event EventHandler<DefaultColorsSetEventArgs> DefaultColorsSet;
     public event EventHandler Suspend;
     public event EventHandler<SetTitleEventArgs> SetTitle;
     public event EventHandler<SetIconEventArgs> SetIcon;
+    public event EventHandler<ScreenshotEventArgs> Screenshot;
     public event EventHandler<OptionSetEventArgs> OptionSet;
+    public event EventHandler<UpdateFgEventArgs> UpdateFg;
+    public event EventHandler<UpdateBgEventArgs> UpdateBg;
+    public event EventHandler<UpdateSpEventArgs> UpdateSp;
+    public event EventHandler<ResizeEventArgs> Resize;
+    public event EventHandler Clear;
+    public event EventHandler EolClear;
+    public event EventHandler<CursorGotoEventArgs> CursorGoto;
+    public event EventHandler<HighlightSetEventArgs> HighlightSet;
+    public event EventHandler<PutEventArgs> Put;
+    public event EventHandler<SetScrollRegionEventArgs> SetScrollRegion;
+    public event EventHandler<ScrollEventArgs> Scroll;
+    public event EventHandler<DefaultColorsSetEventArgs> DefaultColorsSet;
+    public event EventHandler<HlAttrDefineEventArgs> HlAttrDefine;
+    public event EventHandler<HlGroupSetEventArgs> HlGroupSet;
+    public event EventHandler<GridResizeEventArgs> GridResize;
+    public event EventHandler<GridClearEventArgs> GridClear;
+    public event EventHandler<GridCursorGotoEventArgs> GridCursorGoto;
+    public event EventHandler<GridLineEventArgs> GridLine;
+    public event EventHandler<GridScrollEventArgs> GridScroll;
+    public event EventHandler<GridDestroyEventArgs> GridDestroy;
+    public event EventHandler<WinPosEventArgs> WinPos;
+    public event EventHandler<WinFloatPosEventArgs> WinFloatPos;
+    public event EventHandler<WinExternalPosEventArgs> WinExternalPos;
+    public event EventHandler<WinHideEventArgs> WinHide;
+    public event EventHandler<WinCloseEventArgs> WinClose;
+    public event EventHandler<MsgSetPosEventArgs> MsgSetPos;
+    public event EventHandler<WinViewportEventArgs> WinViewport;
     public event EventHandler<PopupmenuShowEventArgs> PopupmenuShow;
     public event EventHandler PopupmenuHide;
     public event EventHandler<PopupmenuSelectEventArgs> PopupmenuSelect;
@@ -51,7 +67,62 @@ namespace NvimClient.API
     public event EventHandler<WildmenuShowEventArgs> WildmenuShow;
     public event EventHandler<WildmenuSelectEventArgs> WildmenuSelect;
     public event EventHandler WildmenuHide;
+    public event EventHandler<MsgShowEventArgs> MsgShow;
+    public event EventHandler MsgClear;
+    public event EventHandler<MsgShowcmdEventArgs> MsgShowcmd;
+    public event EventHandler<MsgShowmodeEventArgs> MsgShowmode;
+    public event EventHandler<MsgRulerEventArgs> MsgRuler;
+    public event EventHandler<MsgHistoryShowEventArgs> MsgHistoryShow;
 
+    /// <summary>
+    /// <para>
+    /// Deprecated
+    /// </para>
+    /// </summary>
+    public Task<string> CommandOutput(string @command) =>
+      SendAndReceive<string>(new NvimRequest
+      {
+        Method = "nvim_command_output",
+        Arguments = GetRequestArguments(
+          @command)
+      });
+
+    /// <summary>
+    /// <para>
+    /// DeprecatedUse nvim_exec_lua() instead. 
+    /// </para>
+    /// </summary>
+    public Task<object> ExecuteLua(string @code, object[] @args) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_execute_lua",
+        Arguments = GetRequestArguments(
+          @code, @args)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Activates UI events on the channel.
+    /// </para>
+    /// </summary>
+    /// <param name="width">
+    /// <para>
+    /// Requested screen columns 
+    /// </para>
+    /// </param>
+    /// <param name="height">
+    /// <para>
+    /// Requested screen rows 
+    /// </para>
+    /// </param>
+    /// <param name="options">
+    /// <para>
+    /// |ui-option| map 
+    /// </para>
+    /// </param>
+    /// <remarks>
+    /// If multiple UI clients are attached, the global screen dimensions degrade to the smallest client. E.g. if client A requests 80x40 but client B requests 200x100, the global screen has size 80x40.
+    /// </remarks>
     public Task UiAttach(long @width, long @height, IDictionary @options) =>
       SendAndReceive(new NvimRequest
       {
@@ -60,6 +131,11 @@ namespace NvimClient.API
           @width, @height, @options)
       });
 
+    /// <summary>
+    /// <para>
+    /// Deactivates UI events on the channel.
+    /// </para>
+    /// </summary>
     public Task UiDetach() =>
       SendAndReceive(new NvimRequest
       {
@@ -82,6 +158,113 @@ namespace NvimClient.API
         Method = "nvim_ui_set_option",
         Arguments = GetRequestArguments(
           @name, @value)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Tell Nvim to resize a grid. Triggers a grid_resize event with the requested grid size or the maximum size if it exceeds size limits.
+    /// </para>
+    /// </summary>
+    /// <param name="grid">
+    /// <para>
+    /// The handle of the grid to be changed. 
+    /// </para>
+    /// </param>
+    /// <param name="width">
+    /// <para>
+    /// The new requested width. 
+    /// </para>
+    /// </param>
+    /// <param name="height">
+    /// <para>
+    /// The new requested height. 
+    /// </para>
+    /// </param>
+    public Task UiTryResizeGrid(long @grid, long @width, long @height) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_ui_try_resize_grid",
+        Arguments = GetRequestArguments(
+          @grid, @width, @height)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Tells Nvim the number of elements displaying in the popumenu, to decide &lt;PageUp&gt; and &lt;PageDown&gt; movement.
+    /// </para>
+    /// </summary>
+    /// <param name="height">
+    /// <para>
+    /// Popupmenu height, must be greater than zero. 
+    /// </para>
+    /// </param>
+    public Task UiPumSetHeight(long @height) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_ui_pum_set_height",
+        Arguments = GetRequestArguments(
+          @height)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Tells Nvim the geometry of the popumenu, to align floating windows with an external popup menu.
+    /// </para>
+    /// </summary>
+    /// <param name="width">
+    /// <para>
+    /// Popupmenu width. 
+    /// </para>
+    /// </param>
+    /// <param name="height">
+    /// <para>
+    /// Popupmenu height. 
+    /// </para>
+    /// </param>
+    /// <param name="row">
+    /// <para>
+    /// Popupmenu row. 
+    /// </para>
+    /// </param>
+    /// <param name="col">
+    /// <para>
+    /// Popupmenu height. 
+    /// </para>
+    /// </param>
+    public Task UiPumSetBounds(double @width, double @height, double @row, double @col) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_ui_pum_set_bounds",
+        Arguments = GetRequestArguments(
+          @width, @height, @row, @col)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Executes Vimscript (multiline block of Ex-commands), like anonymous |:source|.
+    /// </para>
+    /// </summary>
+    /// <param name="src">
+    /// <para>
+    /// Vimscript code 
+    /// </para>
+    /// </param>
+    /// <param name="output">
+    /// <para>
+    /// Capture and return all (non-error, non-shell |:!|) output 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Output (non-error, non-shell |:!|) if 
+    /// </para>
+    /// </returns>
+    public Task<string> Exec(string @src, bool @output) =>
+      SendAndReceive<string>(new NvimRequest
+      {
+        Method = "nvim_exec",
+        Arguments = GetRequestArguments(
+          @src, @output)
       });
 
     /// <summary>
@@ -160,6 +343,47 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
+    /// Gets a highlight group by name
+    /// </para>
+    /// </summary>
+    public Task<long> GetHlIdByName(string @name) =>
+      SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_get_hl_id_by_name",
+        Arguments = GetRequestArguments(
+          @name)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Set a highlight group.
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// number of namespace for this highlight 
+    /// </para>
+    /// </param>
+    /// <param name="name">
+    /// <para>
+    /// highlight group name, like ErrorMsg 
+    /// </para>
+    /// </param>
+    /// <param name="val">
+    /// <para>
+    /// highlight definition map, like |nvim_get_hl_by_name|. in addition the following keys are also recognized: 
+    /// </para>
+    /// </param>
+    public Task SetHl(long @nsId, string @name, IDictionary @val) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_set_hl",
+        Arguments = GetRequestArguments(
+          @nsId, @name, @val)
+      });
+
+    /// <summary>
+    /// <para>
     /// Sends input-keys to Nvim, subject to various quirks controlled by 
     /// </para>
     /// </summary>
@@ -214,6 +438,52 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
+    /// Send mouse event from GUI.
+    /// </para>
+    /// </summary>
+    /// <param name="button">
+    /// <para>
+    /// Mouse button: one of &quot;left&quot;, &quot;right&quot;, &quot;middle&quot;, &quot;wheel&quot;. 
+    /// </para>
+    /// </param>
+    /// <param name="action">
+    /// <para>
+    /// For ordinary buttons, one of &quot;press&quot;, &quot;drag&quot;, &quot;release&quot;. For the wheel, one of &quot;up&quot;, &quot;down&quot;, &quot;left&quot;, &quot;right&quot;. 
+    /// </para>
+    /// </param>
+    /// <param name="modifier">
+    /// <para>
+    /// String of modifiers each represented by a single char. The same specifiers are used as for a key press, except that the &quot;-&quot; separator is optional, so &quot;C-A-&quot;, &quot;c-a&quot; and &quot;CA&quot; can all be used to specify Ctrl+Alt+click. 
+    /// </para>
+    /// </param>
+    /// <param name="grid">
+    /// <para>
+    /// Grid number if the client uses |ui-multigrid|, else 0. 
+    /// </para>
+    /// </param>
+    /// <param name="row">
+    /// <para>
+    /// Mouse row-position (zero-based, like redraw events) 
+    /// </para>
+    /// </param>
+    /// <param name="col">
+    /// <para>
+    /// Mouse column-position (zero-based, like redraw events) 
+    /// </para>
+    /// </param>
+    /// <remarks>
+    /// Currently this doesn&apos;t support &quot;scripting&quot; multiple mouse events by calling it multiple times in a loop: the intermediate mouse positions will be ignored. It should be used to implement real-time mouse input in a GUI. The deprecated pseudokey form (&quot;&lt;LeftMouse&gt;&lt;col,row&gt;&quot;) of |nvim_input()| has the same limitation.
+    /// </remarks>
+    public Task InputMouse(string @button, string @action, string @modifier, long @grid, long @row, long @col) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_input_mouse",
+        Arguments = GetRequestArguments(
+          @button, @action, @modifier, @grid, @row, @col)
+      });
+
+    /// <summary>
+    /// <para>
     /// Replaces terminal codes and |keycodes| (&lt;CR&gt;, &lt;Esc&gt;, ...) in a string with the internal representation.
     /// </para>
     /// </summary>
@@ -247,25 +517,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Executes an ex-command and returns its (non-error) output. Shell |:!| output is not captured.
-    /// </para>
-    /// </summary>
-    /// <param name="command">
-    /// <para>
-    /// Ex-command string 
-    /// </para>
-    /// </param>
-    public Task<string> CommandOutput(string @command) =>
-      SendAndReceive<string>(new NvimRequest
-      {
-        Method = "nvim_command_output",
-        Arguments = GetRequestArguments(
-          @command)
-      });
-
-    /// <summary>
-    /// <para>
-    /// Evaluates a VimL expression (:help expression). Dictionaries and Lists are recursively expanded.
+    /// Evaluates a VimL |expression|. Dictionaries and Lists are recursively expanded.
     /// </para>
     /// </summary>
     /// <param name="expr">
@@ -288,12 +540,12 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Execute lua code. Parameters (if any) are available as 
+    /// Execute Lua code. Parameters (if any) are available as 
     /// </para>
     /// </summary>
     /// <param name="code">
     /// <para>
-    /// lua code to execute 
+    /// Lua code to execute 
     /// </para>
     /// </param>
     /// <param name="args">
@@ -303,15 +555,43 @@ namespace NvimClient.API
     /// </param>
     /// <returns>
     /// <para>
-    /// Return value of lua code if present or NIL. 
+    /// Return value of Lua code if present or NIL. 
     /// </para>
     /// </returns>
-    public Task<object> ExecuteLua(string @code, object[] @args) =>
+    public Task<object> ExecLua(string @code, object[] @args) =>
       SendAndReceive<object>(new NvimRequest
       {
-        Method = "nvim_execute_lua",
+        Method = "nvim_exec_lua",
         Arguments = GetRequestArguments(
           @code, @args)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Notify the user with a message
+    /// </para>
+    /// </summary>
+    /// <param name="msg">
+    /// <para>
+    /// Message to display to the user 
+    /// </para>
+    /// </param>
+    /// <param name="logLevel">
+    /// <para>
+    /// The log level 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Reserved for future use. 
+    /// </para>
+    /// </param>
+    public Task<object> Notify(string @msg, long @logLevel, IDictionary @opts) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_notify",
+        Arguments = GetRequestArguments(
+          @msg, @logLevel, @opts)
       });
 
     /// <summary>
@@ -418,6 +698,34 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
+    /// Find files in runtime directories
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// pattern of files to search for 
+    /// </para>
+    /// </param>
+    /// <param name="all">
+    /// <para>
+    /// whether to return all matches or only the first 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// list of absolute paths to the found files 
+    /// </para>
+    /// </returns>
+    public Task<string[]> GetRuntimeFile(string @name, bool @all) =>
+      SendAndReceive<string[]>(new NvimRequest
+      {
+        Method = "nvim_get_runtime_file",
+        Arguments = GetRequestArguments(
+          @name, @all)
+      });
+
+    /// <summary>
+    /// <para>
     /// Changes the global working directory.
     /// </para>
     /// </summary>
@@ -436,7 +744,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current line
+    /// Gets the current line.
     /// </para>
     /// </summary>
     /// <returns>
@@ -454,7 +762,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets the current line
+    /// Sets the current line.
     /// </para>
     /// </summary>
     /// <param name="line">
@@ -472,7 +780,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Deletes the current line
+    /// Deletes the current line.
     /// </para>
     /// </summary>
     public Task DelCurrentLine() =>
@@ -485,7 +793,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets a global (g:) variable
+    /// Gets a global (g:) variable.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -508,7 +816,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets a global (g:) variable
+    /// Sets a global (g:) variable.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -531,7 +839,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Removes a global (g:) variable
+    /// Removes a global (g:) variable.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -549,7 +857,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets a v: variable
+    /// Gets a v: variable.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -572,7 +880,30 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets an option value string
+    /// Sets a v: variable, if it is not readonly.
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Variable name 
+    /// </para>
+    /// </param>
+    /// <param name="value">
+    /// <para>
+    /// Variable value 
+    /// </para>
+    /// </param>
+    public Task SetVvar(string @name, object @value) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_set_vvar",
+        Arguments = GetRequestArguments(
+          @name, @value)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets an option value string.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -595,7 +926,48 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets an option value
+    /// Gets the option information for all options.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// dictionary of all options 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetAllOptionsInfo() =>
+      SendAndReceive<IDictionary>(new NvimRequest
+      {
+        Method = "nvim_get_all_options_info",
+        Arguments = GetRequestArguments(
+          )
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets the option information for one option
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Option name 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Option Information 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetOptionInfo(string @name) =>
+      SendAndReceive<IDictionary>(new NvimRequest
+      {
+        Method = "nvim_get_option_info",
+        Arguments = GetRequestArguments(
+          @name)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Sets an option value.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -614,6 +986,34 @@ namespace NvimClient.API
         Method = "nvim_set_option",
         Arguments = GetRequestArguments(
           @name, @value)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Echo a message.
+    /// </para>
+    /// </summary>
+    /// <param name="chunks">
+    /// <para>
+    /// A list of [text, hl_group] arrays, each representing a text chunk with specified highlight. 
+    /// </para>
+    /// </param>
+    /// <param name="history">
+    /// <para>
+    /// if true, add to |message-history|. 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Reserved for future use. 
+    /// </para>
+    /// </param>
+    public Task Echo(object[] @chunks, bool @history, IDictionary @opts) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_echo",
+        Arguments = GetRequestArguments(
+          @chunks, @history, @opts)
       });
 
     /// <summary>
@@ -690,7 +1090,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current buffer
+    /// Gets the current buffer.
     /// </para>
     /// </summary>
     /// <returns>
@@ -708,7 +1108,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets the current buffer
+    /// Sets the current buffer.
     /// </para>
     /// </summary>
     /// <param name="buffer">
@@ -726,7 +1126,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current list of window handles
+    /// Gets the current list of window handles.
     /// </para>
     /// </summary>
     /// <returns>
@@ -744,7 +1144,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current window
+    /// Gets the current window.
     /// </para>
     /// </summary>
     /// <returns>
@@ -762,7 +1162,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets the current window
+    /// Sets the current window.
     /// </para>
     /// </summary>
     /// <param name="window">
@@ -780,7 +1180,119 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current list of tabpage handles
+    /// Creates a new, empty, unnamed buffer.
+    /// </para>
+    /// </summary>
+    /// <param name="listed">
+    /// <para>
+    /// Sets &apos;buflisted&apos; 
+    /// </para>
+    /// </param>
+    /// <param name="scratch">
+    /// <para>
+    /// Creates a &quot;throwaway&quot; |scratch-buffer| for temporary work (always &apos;nomodified&apos;). Also sets &apos;nomodeline&apos; on the buffer. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Buffer handle, or 0 on error
+    /// </para>
+    /// </returns>
+    public Task<NvimBuffer> CreateBuf(bool @listed, bool @scratch) =>
+      SendAndReceive<NvimBuffer>(new NvimRequest
+      {
+        Method = "nvim_create_buf",
+        Arguments = GetRequestArguments(
+          @listed, @scratch)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Open a terminal instance in a buffer
+    /// </para>
+    /// </summary>
+    /// <param name="buffer">
+    /// <para>
+    /// the buffer to use (expected to be empty) 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Reserved for future use. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Channel id, or 0 on error 
+    /// </para>
+    /// </returns>
+    public Task<long> OpenTerm(NvimBuffer @buffer, IDictionary @opts) =>
+      SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_open_term",
+        Arguments = GetRequestArguments(
+          @buffer, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Send data to channel 
+    /// </para>
+    /// </summary>
+    /// <param name="chan">
+    /// <para>
+    /// id of the channel 
+    /// </para>
+    /// </param>
+    /// <param name="data">
+    /// <para>
+    /// data to write. 8-bit clean: can contain NUL bytes. 
+    /// </para>
+    /// </param>
+    public Task ChanSend(long @chan, string @data) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_chan_send",
+        Arguments = GetRequestArguments(
+          @chan, @data)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Open a new window.
+    /// </para>
+    /// </summary>
+    /// <param name="buffer">
+    /// <para>
+    /// Buffer to display, or 0 for current buffer 
+    /// </para>
+    /// </param>
+    /// <param name="enter">
+    /// <para>
+    /// Enter the window (make it the current window) 
+    /// </para>
+    /// </param>
+    /// <param name="config">
+    /// <para>
+    /// Map defining the window configuration. Keys:
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Window handle, or 0 on error 
+    /// </para>
+    /// </returns>
+    public Task<NvimWindow> OpenWin(NvimBuffer @buffer, bool @enter, IDictionary @config) =>
+      SendAndReceive<NvimWindow>(new NvimRequest
+      {
+        Method = "nvim_open_win",
+        Arguments = GetRequestArguments(
+          @buffer, @enter, @config)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets the current list of tabpage handles.
     /// </para>
     /// </summary>
     /// <returns>
@@ -798,7 +1310,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the current tabpage
+    /// Gets the current tabpage.
     /// </para>
     /// </summary>
     /// <returns>
@@ -816,7 +1328,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets the current tabpage
+    /// Sets the current tabpage.
     /// </para>
     /// </summary>
     /// <param name="tabpage">
@@ -834,7 +1346,118 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Subscribes to event broadcasts
+    /// Creates a new namespace, or gets an existing one.
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Namespace name or empty string 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Namespace id 
+    /// </para>
+    /// </returns>
+    public Task<long> CreateNamespace(string @name) =>
+      SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_create_namespace",
+        Arguments = GetRequestArguments(
+          @name)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets existing, non-anonymous namespaces.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// dict that maps from names to namespace ids. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetNamespaces() =>
+      SendAndReceive<IDictionary>(new NvimRequest
+      {
+        Method = "nvim_get_namespaces",
+        Arguments = GetRequestArguments(
+          )
+      });
+
+    /// <summary>
+    /// <para>
+    /// Pastes at cursor, in any mode.
+    /// </para>
+    /// </summary>
+    /// <param name="data">
+    /// <para>
+    /// Multiline input. May be binary (containing NUL bytes). 
+    /// </para>
+    /// </param>
+    /// <param name="crlf">
+    /// <para>
+    /// Also break lines at CR and CRLF. 
+    /// </para>
+    /// </param>
+    /// <param name="phase">
+    /// <para>
+    /// -1: paste in a single call (i.e. without streaming). To &quot;stream&quot; a paste, call 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// <list type="bullet">
+    /// <item><description>
+    /// true: Client may continue pasting.
+    /// </description></item>
+    /// </list>
+    /// </para>
+    /// </returns>
+    public Task<bool> Paste(string @data, bool @crlf, long @phase) =>
+      SendAndReceive<bool>(new NvimRequest
+      {
+        Method = "nvim_paste",
+        Arguments = GetRequestArguments(
+          @data, @crlf, @phase)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Puts text at cursor, in any mode.
+    /// </para>
+    /// </summary>
+    /// <param name="lines">
+    /// <para>
+    /// |readfile()|-style list of lines. |channel-lines| 
+    /// </para>
+    /// </param>
+    /// <param name="type">
+    /// <para>
+    /// Edit behavior: any |getregtype()| result, or:
+    /// </para>
+    /// </param>
+    /// <param name="after">
+    /// <para>
+    /// If true insert after cursor (like |p|), or before (like |P|). 
+    /// </para>
+    /// </param>
+    /// <param name="follow">
+    /// <para>
+    /// If true place cursor at end of inserted text. 
+    /// </para>
+    /// </param>
+    public Task Put(string[] @lines, string @type, bool @after, bool @follow) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_put",
+        Arguments = GetRequestArguments(
+          @lines, @type, @after, @follow)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Subscribes to event broadcasts.
     /// </para>
     /// </summary>
     /// <param name="event">
@@ -852,7 +1475,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Unsubscribes to event broadcasts
+    /// Unsubscribes to event broadcasts.
     /// </para>
     /// </summary>
     /// <param name="event">
@@ -868,6 +1491,21 @@ namespace NvimClient.API
           @event)
       });
 
+    /// <summary>
+    /// <para>
+    /// Returns the 24-bit RGB value of a |nvim_get_color_map()| color name or &quot;#rrggbb&quot; hexadecimal string.
+    /// </para>
+    /// </summary>
+    /// <param name="name">
+    /// <para>
+    /// Color name or &quot;#rrggbb&quot; string 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// 24-bit RGB value, or -1 for invalid argument. 
+    /// </para>
+    /// </returns>
     public Task<long> GetColorByName(string @name) =>
       SendAndReceive<long>(new NvimRequest
       {
@@ -876,12 +1514,63 @@ namespace NvimClient.API
           @name)
       });
 
+    /// <summary>
+    /// <para>
+    /// Returns a map of color names and RGB values.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Map of color names and RGB values. 
+    /// </para>
+    /// </returns>
     public Task<IDictionary> GetColorMap() =>
       SendAndReceive<IDictionary>(new NvimRequest
       {
         Method = "nvim_get_color_map",
         Arguments = GetRequestArguments(
           )
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets a map of the current editor state.
+    /// </para>
+    /// </summary>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters.
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// map of global |context|. 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetContext(IDictionary @opts) =>
+      SendAndReceive<IDictionary>(new NvimRequest
+      {
+        Method = "nvim_get_context",
+        Arguments = GetRequestArguments(
+          @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Sets the current editor state from the given |context| map.
+    /// </para>
+    /// </summary>
+    /// <param name="dict">
+    /// <para>
+    /// |Context| map. 
+    /// </para>
+    /// </param>
+    public Task<object> LoadContext(IDictionary @dict) =>
+      SendAndReceive<object>(new NvimRequest
+      {
+        Method = "nvim_load_context",
+        Arguments = GetRequestArguments(
+          @dict)
       });
 
     /// <summary>
@@ -927,6 +1616,52 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
+    /// Sets a global |mapping| for the given mode.
+    /// </para>
+    /// </summary>
+    /// <param name="mode">
+    /// <para>
+    /// Mode short-name (map command prefix: &quot;n&quot;, &quot;i&quot;, &quot;v&quot;, &quot;x&quot;, …) or &quot;!&quot; for |:map!|, or empty string for |:map|. 
+    /// </para>
+    /// </param>
+    /// <param name="lhs">
+    /// <para>
+    /// Left-hand-side |{lhs}| of the mapping. 
+    /// </para>
+    /// </param>
+    /// <param name="rhs">
+    /// <para>
+    /// Right-hand-side |{rhs}| of the mapping. 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters map. Accepts all |:map-arguments| as keys excluding |&lt;buffer&gt;| but including |noremap|. Values are Booleans. Unknown key is an error. 
+    /// </para>
+    /// </param>
+    public Task SetKeymap(string @mode, string @lhs, string @rhs, IDictionary @opts) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_set_keymap",
+        Arguments = GetRequestArguments(
+          @mode, @lhs, @rhs, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Unmaps a global |mapping| for the given mode.
+    /// </para>
+    /// </summary>
+    public Task DelKeymap(string @mode, string @lhs) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_del_keymap",
+        Arguments = GetRequestArguments(
+          @mode, @lhs)
+      });
+
+    /// <summary>
+    /// <para>
     /// Gets a map of global (non-buffer-local) Ex commands.
     /// </para>
     /// </summary>
@@ -968,34 +1703,37 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Identify the client for nvim. Can be called more than once, but subsequent calls will remove earlier info, which should be resent if it is still valid. (This could happen if a library first identifies the channel, and a plugin using that library later overrides that info)
+    /// Self-identifies the client.
     /// </para>
     /// </summary>
     /// <param name="name">
     /// <para>
-    /// short name for the connected client 
+    /// Short name for the connected client 
     /// </para>
     /// </param>
     /// <param name="version">
     /// <para>
-    /// Dictionary describing the version, with the following possible keys (all optional)
+    /// Dictionary describing the version, with these (optional) keys:
     /// </para>
     /// </param>
     /// <param name="type">
     /// <para>
-    /// Must be one of the following values. A client library should use &quot;remote&quot; if the library user hasn&apos;t specified other value.
+    /// Must be one of the following values. Client libraries should default to &quot;remote&quot; unless overridden by the user.
     /// </para>
     /// </param>
     /// <param name="methods">
     /// <para>
-    /// Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later. The key should be the method name, the values are dicts with the following (optional) keys:
+    /// Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later. The key should be the method name, the values are dicts with these (optional) keys (more keys may be added in future versions of Nvim, thus unknown keys are ignored. Clients must only use keys defined in this or later versions of Nvim):
     /// </para>
     /// </param>
     /// <param name="attributes">
     /// <para>
-    /// Informal attributes describing the client. Clients might define their own keys, but the following are suggested:
+    /// Arbitrary string:string map of informal client properties. Suggested keys:
     /// </para>
     /// </param>
+    /// <remarks>
+    /// &quot;Something is better than nothing&quot;. You don&apos;t need to include all the fields.
+    /// </remarks>
     public Task SetClientInfo(string @name, IDictionary @version, string @type, IDictionary @methods, IDictionary @attributes) =>
       SendAndReceive(new NvimRequest
       {
@@ -1011,7 +1749,7 @@ namespace NvimClient.API
     /// </summary>
     /// <returns>
     /// <para>
-    /// a Dictionary, describing a channel with the following keys:
+    /// Dictionary describing a channel, with these keys:
     /// </para>
     /// </returns>
     public Task<IDictionary> GetChanInfo(long @chan) =>
@@ -1029,7 +1767,7 @@ namespace NvimClient.API
     /// </summary>
     /// <returns>
     /// <para>
-    /// Array of Dictionaries, each describing a channel with the format specified at |nvim_get_chan_info|. 
+    /// Array of Dictionaries, each describing a channel with the format specified at |nvim_get_chan_info()|. 
     /// </para>
     /// </returns>
     public Task<object[]> ListChans() =>
@@ -1052,7 +1790,7 @@ namespace NvimClient.API
     /// </param>
     /// <returns>
     /// <para>
-    /// an array with two elements. The first is an array of return values. The second is NIL if all calls succeeded. If a call resulted in an error, it is a three-element array with the zero-based index of the call which resulted in an error, the error type and the error message. If an error occurred, the values from all preceding calls will still be returned. 
+    /// Array of two elements. The first is an array of return values. The second is NIL if all calls succeeded. If a call resulted in an error, it is a three-element array with the zero-based index of the call which resulted in an error, the error type and the error message. If an error occurred, the values from all preceding calls will still be returned. 
     /// </para>
     /// </returns>
     public Task<object[]> CallAtomic(object[] @calls) =>
@@ -1065,17 +1803,17 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Parse a VimL expression
+    /// Parse a VimL expression.
     /// </para>
     /// </summary>
     /// <param name="expr">
     /// <para>
-    /// Expression to parse. Is always treated as a single line. 
+    /// Expression to parse. Always treated as a single line. 
     /// </para>
     /// </param>
     /// <param name="flags">
     /// <para>
-    /// Flags: 
+    /// Flags:
     /// </para>
     /// </param>
     /// <param name="highlight">
@@ -1085,7 +1823,11 @@ namespace NvimClient.API
     /// </param>
     /// <returns>
     /// <para>
-    /// AST: top-level dictionary with these keys: 
+    /// <list type="bullet">
+    /// <item><description>
+    /// AST: top-level dictionary with these keys:&quot;error&quot;: Dictionary with error, present only if parser saw some error. Contains the following keys:&quot;message&quot;: String, error message in printf format, translated. Must contain exactly one &quot;%.*s&quot;.&quot;arg&quot;: String, error message argument.&quot;len&quot;: Amount of bytes successfully parsed. With flags equal to &quot;&quot; that should be equal to the length of expr string. (“Successfully parsed” here means “participated in AST creation”, not “till the first error”.)&quot;ast&quot;: AST, either nil or a dictionary with these keys:&quot;type&quot;: node type, one of the value names from ExprASTNodeType stringified without &quot;kExprNode&quot; prefix.&quot;start&quot;: a pair [line, column] describing where node is &quot;started&quot; where &quot;line&quot; is always 0 (will not be 0 if you will be using nvim_parse_viml() on e.g. &quot;:let&quot;, but that is not present yet). Both elements are Integers.&quot;len&quot;: “length” of the node. This and &quot;start&quot; are there for debugging purposes primary (debugging parser and providing debug information).&quot;children&quot;: a list of nodes described in top/&quot;ast&quot;. There always is zero, one or two children, key will not be present if node has no children. Maximum number of children may be found in node_maxchildren array.
+    /// </description></item>
+    /// </list>
     /// </para>
     /// </returns>
     public Task<IDictionary> ParseExpression(string @expr, string @flags, bool @highlight) =>
@@ -1103,7 +1845,7 @@ namespace NvimClient.API
     /// </summary>
     /// <returns>
     /// <para>
-    /// Array of UI dictionaries
+    /// Array of UI dictionaries, each with these keys:
     /// </para>
     /// </returns>
     public Task<object[]> ListUis() =>
@@ -1150,6 +1892,62 @@ namespace NvimClient.API
           @pid)
       });
 
+    /// <summary>
+    /// <para>
+    /// Selects an item in the completion popupmenu.
+    /// </para>
+    /// </summary>
+    /// <param name="item">
+    /// <para>
+    /// Index (zero-based) of the item to select. Value of -1 selects nothing and restores the original text. 
+    /// </para>
+    /// </param>
+    /// <param name="insert">
+    /// <para>
+    /// Whether the selection should be inserted in the buffer. 
+    /// </para>
+    /// </param>
+    /// <param name="finish">
+    /// <para>
+    /// Finish the completion and dismiss the popupmenu. Implies 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Reserved for future use. 
+    /// </para>
+    /// </param>
+    public Task SelectPopupmenuItem(long @item, bool @insert, bool @finish, IDictionary @opts) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_select_popupmenu_item",
+        Arguments = GetRequestArguments(
+          @item, @insert, @finish, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Set or change decoration provider for a namespace
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace id from |nvim_create_namespace()| 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Callbacks invoked during redraw:
+    /// </para>
+    /// </param>
+    public Task SetDecorationProvider(long @nsId, IDictionary @opts) =>
+      SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_set_decoration_provider",
+        Arguments = GetRequestArguments(
+          @nsId, @opts)
+      });
+
 
   public class NvimBuffer
   {
@@ -1168,7 +1966,7 @@ namespace NvimClient.API
     /// </summary>
     /// <returns>
     /// <para>
-    /// Line count 
+    /// Line count, or 0 for unloaded buffer. |api-buffer| 
     /// </para>
     /// </returns>
     public Task<long> LineCount() =>
@@ -1181,22 +1979,22 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Activate updates from this buffer to the current channel.
+    /// Activates buffer-update events on a channel, or as Lua callbacks.
     /// </para>
     /// </summary>
     /// <param name="sendBuffer">
     /// <para>
-    /// Set to true if the initial notification should contain the whole buffer. If so, the first notification will be a 
+    /// True if the initial notification should contain the whole buffer: first notification will be 
     /// </para>
     /// </param>
     /// <param name="opts">
     /// <para>
-    /// Optional parameters. Currently not used. 
+    /// Optional parameters.
     /// </para>
     /// </param>
     /// <returns>
     /// <para>
-    /// False when updates couldn&apos;t be enabled because the buffer isn&apos;t loaded or 
+    /// False if attach failed (invalid parameter, or buffer isn&apos;t loaded); otherwise True. TODO: LUA_API_NO_EVAL 
     /// </para>
     /// </returns>
     public Task<bool> Attach(bool @sendBuffer, IDictionary @opts) =>
@@ -1209,12 +2007,12 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Deactivate updates from this buffer to the current channel.
+    /// Deactivates buffer-update events on the channel.
     /// </para>
     /// </summary>
     /// <returns>
     /// <para>
-    /// False when updates couldn&apos;t be disabled because the buffer isn&apos;t loaded; otherwise True. 
+    /// False if detach failed (because the buffer isn&apos;t loaded); otherwise True. 
     /// </para>
     /// </returns>
     public Task<bool> Detach() =>
@@ -1247,7 +2045,7 @@ namespace NvimClient.API
     /// </param>
     /// <returns>
     /// <para>
-    /// Array of lines 
+    /// Array of lines, or empty array for unloaded buffer. 
     /// </para>
     /// </returns>
     public Task<string[]> GetLines(long @start, long @end, bool @strictIndexing) =>
@@ -1289,6 +2087,57 @@ namespace NvimClient.API
         Method = "nvim_buf_set_lines",
         Arguments = GetRequestArguments(
           _msgPackExtObj, @start, @end, @strictIndexing, @replacement)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Sets (replaces) a range in the buffer
+    /// </para>
+    /// </summary>
+    /// <param name="startRow">
+    /// <para>
+    /// First line index 
+    /// </para>
+    /// </param>
+    /// <param name="endRow">
+    /// <para>
+    /// Last line index 
+    /// </para>
+    /// </param>
+    /// <param name="replacement">
+    /// <para>
+    /// Array of lines to use as replacement 
+    /// </para>
+    /// </param>
+    public Task SetText(long @startRow, long @startCol, long @endRow, long @endCol, string[] @replacement) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_buf_set_text",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @startRow, @startCol, @endRow, @endCol, @replacement)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Returns the byte offset of a line (0-indexed). |api-indexing|
+    /// </para>
+    /// </summary>
+    /// <param name="index">
+    /// <para>
+    /// Line index 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Integer byte offset, or -1 for unloaded buffer. 
+    /// </para>
+    /// </returns>
+    public Task<long> GetOffset(long @index) =>
+      _api.SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_buf_get_offset",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @index)
       });
 
     /// <summary>
@@ -1353,6 +2202,32 @@ namespace NvimClient.API
         Method = "nvim_buf_get_keymap",
         Arguments = GetRequestArguments(
           _msgPackExtObj, @mode)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Sets a buffer-local |mapping| for the given mode.
+    /// </para>
+    /// </summary>
+    public Task SetKeymap(string @mode, string @lhs, string @rhs, IDictionary @opts) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_buf_set_keymap",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @mode, @lhs, @rhs, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Unmaps a buffer-local |mapping| for the given mode.
+    /// </para>
+    /// </summary>
+    public Task DelKeymap(string @mode, string @lhs) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_buf_del_keymap",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @mode, @lhs)
       });
 
     /// <summary>
@@ -1503,14 +2378,53 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Checks if a buffer is valid
+    /// Checks if a buffer is valid and loaded. See |api-buffer| for more info about unloaded buffers.
     /// </para>
     /// </summary>
     /// <returns>
     /// <para>
-    /// true if the buffer is valid, false otherwise 
+    /// true if the buffer is valid and loaded, false otherwise. 
     /// </para>
     /// </returns>
+    public Task<bool> IsLoaded() =>
+      _api.SendAndReceive<bool>(new NvimRequest
+      {
+        Method = "nvim_buf_is_loaded",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Deletes the buffer. See |:bwipeout|
+    /// </para>
+    /// </summary>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Keys:
+    /// </para>
+    /// </param>
+    public Task Delete(IDictionary @opts) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_buf_delete",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Checks if a buffer is valid.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// true if the buffer is valid, false otherwise. 
+    /// </para>
+    /// </returns>
+    /// <remarks>
+    /// Even if a buffer is valid it may have been unloaded. See |api-buffer| for more info about unloaded buffers.
+    /// </remarks>
     public Task<bool> IsValid() =>
       _api.SendAndReceive<bool>(new NvimRequest
       {
@@ -1521,7 +2435,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Return a tuple (row,col) representing the position of the named mark
+    /// Return a tuple (row,col) representing the position of the named mark.
     /// </para>
     /// </summary>
     /// <param name="name">
@@ -1544,12 +2458,149 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
+    /// Returns position for a given extmark id
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace id from |nvim_create_namespace()| 
+    /// </para>
+    /// </param>
+    /// <param name="id">
+    /// <para>
+    /// Extmark id 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Keys:
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// (row, col) tuple or empty list () if extmark id was absent 
+    /// </para>
+    /// </returns>
+    public Task<long[]> GetExtmarkById(long @nsId, long @id, IDictionary @opts) =>
+      _api.SendAndReceive<long[]>(new NvimRequest
+      {
+        Method = "nvim_buf_get_extmark_by_id",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @nsId, @id, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets extmarks in &quot;traversal order&quot; from a |charwise| region defined by buffer positions (inclusive, 0-indexed |api-indexing|).
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace id from |nvim_create_namespace()| 
+    /// </para>
+    /// </param>
+    /// <param name="start">
+    /// <para>
+    /// Start of range, given as (row, col) or valid extmark id (whose position defines the bound) 
+    /// </para>
+    /// </param>
+    /// <param name="end">
+    /// <para>
+    /// End of range, given as (row, col) or valid extmark id (whose position defines the bound) 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Keys:
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// List of [extmark_id, row, col] tuples in &quot;traversal order&quot;. 
+    /// </para>
+    /// </returns>
+    public Task<object[]> GetExtmarks(long @nsId, object @start, object @end, IDictionary @opts) =>
+      _api.SendAndReceive<object[]>(new NvimRequest
+      {
+        Method = "nvim_buf_get_extmarks",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @nsId, @start, @end, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Creates or updates an extmark.
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace id from |nvim_create_namespace()| 
+    /// </para>
+    /// </param>
+    /// <param name="line">
+    /// <para>
+    /// Line where to place the mark, 0-based 
+    /// </para>
+    /// </param>
+    /// <param name="col">
+    /// <para>
+    /// Column where to place the mark, 0-based 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters.
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// Id of the created/updated extmark 
+    /// </para>
+    /// </returns>
+    public Task<long> SetExtmark(long @nsId, long @line, long @col, IDictionary @opts) =>
+      _api.SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_buf_set_extmark",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @nsId, @line, @col, @opts)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Removes an extmark.
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace id from |nvim_create_namespace()| 
+    /// </para>
+    /// </param>
+    /// <param name="id">
+    /// <para>
+    /// Extmark id 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// true if the extmark was found, else false 
+    /// </para>
+    /// </returns>
+    public Task<bool> DelExtmark(long @nsId, long @id) =>
+      _api.SendAndReceive<bool>(new NvimRequest
+      {
+        Method = "nvim_buf_del_extmark",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @nsId, @id)
+      });
+
+    /// <summary>
+    /// <para>
     /// Adds a highlight to buffer.
     /// </para>
     /// </summary>
-    /// <param name="srcId">
+    /// <param name="nsId">
     /// <para>
-    /// Source group to use or 0 to use a new group, or -1 for ungrouped highlight 
+    /// namespace to use or -1 for ungrouped highlight 
     /// </para>
     /// </param>
     /// <param name="hlGroup">
@@ -1574,25 +2625,53 @@ namespace NvimClient.API
     /// </param>
     /// <returns>
     /// <para>
-    /// The src_id that was used 
+    /// The ns_id that was used 
     /// </para>
     /// </returns>
-    public Task<long> AddHighlight(long @srcId, string @hlGroup, long @line, long @colStart, long @colEnd) =>
+    public Task<long> AddHighlight(long @nsId, string @hlGroup, long @line, long @colStart, long @colEnd) =>
       _api.SendAndReceive<long>(new NvimRequest
       {
         Method = "nvim_buf_add_highlight",
         Arguments = GetRequestArguments(
-          _msgPackExtObj, @srcId, @hlGroup, @line, @colStart, @colEnd)
+          _msgPackExtObj, @nsId, @hlGroup, @line, @colStart, @colEnd)
       });
 
     /// <summary>
     /// <para>
-    /// Clears highlights from a given source group and a range of lines
+    /// Clears namespaced objects (highlights, extmarks, virtual text) from a region.
     /// </para>
     /// </summary>
-    /// <param name="srcId">
+    /// <param name="nsId">
     /// <para>
-    /// Highlight source group to clear, or -1 to clear all. 
+    /// Namespace to clear, or -1 to clear all namespaces. 
+    /// </para>
+    /// </param>
+    /// <param name="lineStart">
+    /// <para>
+    /// Start of range of lines to clear 
+    /// </para>
+    /// </param>
+    /// <param name="lineEnd">
+    /// <para>
+    /// End of range of lines to clear (exclusive) or -1 to clear to end of buffer. 
+    /// </para>
+    /// </param>
+    public Task ClearNamespace(long @nsId, long @lineStart, long @lineEnd) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_buf_clear_namespace",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @nsId, @lineStart, @lineEnd)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Clears highlights and virtual text from namespace and range of lines
+    /// </para>
+    /// </summary>
+    /// <param name="nsId">
+    /// <para>
+    /// Namespace to clear, or -1 to clear all. 
     /// </para>
     /// </param>
     /// <param name="lineStart">
@@ -1605,12 +2684,45 @@ namespace NvimClient.API
     /// End of range of lines to clear (exclusive) or -1 to clear to end of file. 
     /// </para>
     /// </param>
-    public Task ClearHighlight(long @srcId, long @lineStart, long @lineEnd) =>
+    public Task ClearHighlight(long @nsId, long @lineStart, long @lineEnd) =>
       _api.SendAndReceive(new NvimRequest
       {
         Method = "nvim_buf_clear_highlight",
         Arguments = GetRequestArguments(
-          _msgPackExtObj, @srcId, @lineStart, @lineEnd)
+          _msgPackExtObj, @nsId, @lineStart, @lineEnd)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Set the virtual text (annotation) for a buffer line.
+    /// </para>
+    /// </summary>
+    /// <param name="line">
+    /// <para>
+    /// Line to annotate with virtual text (zero-indexed) 
+    /// </para>
+    /// </param>
+    /// <param name="chunks">
+    /// <para>
+    /// A list of [text, hl_group] arrays, each representing a text chunk with specified highlight. 
+    /// </para>
+    /// </param>
+    /// <param name="opts">
+    /// <para>
+    /// Optional parameters. Currently not used. 
+    /// </para>
+    /// </param>
+    /// <returns>
+    /// <para>
+    /// The ns_id that was used 
+    /// </para>
+    /// </returns>
+    public Task<long> SetVirtualText(long @srcId, long @line, object[] @chunks, IDictionary @opts) =>
+      _api.SendAndReceive<long>(new NvimRequest
+      {
+        Method = "nvim_buf_set_virtual_text",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @srcId, @line, @chunks, @opts)
       });
 
   }
@@ -1644,7 +2756,25 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Gets the cursor position in the window
+    /// Sets the current buffer in a window, without side-effects
+    /// </para>
+    /// </summary>
+    /// <param name="buffer">
+    /// <para>
+    /// Buffer handle 
+    /// </para>
+    /// </param>
+    public Task SetBuf(NvimBuffer @buffer) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_win_set_buf",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @buffer)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets the (1,0)-indexed cursor position in the window. |api-indexing|
     /// </para>
     /// </summary>
     /// <returns>
@@ -1662,7 +2792,7 @@ namespace NvimClient.API
 
     /// <summary>
     /// <para>
-    /// Sets the cursor position in the window
+    /// Sets the (1,0)-indexed cursor position in the window. |api-indexing|
     /// </para>
     /// </summary>
     /// <param name="pos">
@@ -1932,6 +3062,73 @@ namespace NvimClient.API
           _msgPackExtObj)
       });
 
+    /// <summary>
+    /// <para>
+    /// Configures window layout. Currently only for floating and external windows (including changing a split window to those layouts).
+    /// </para>
+    /// </summary>
+    /// <param name="config">
+    /// <para>
+    /// Map defining the window configuration, see |nvim_open_win()| 
+    /// </para>
+    /// </param>
+    public Task SetConfig(IDictionary @config) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_win_set_config",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @config)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Gets window configuration.
+    /// </para>
+    /// </summary>
+    /// <returns>
+    /// <para>
+    /// Map defining the window configuration, see |nvim_open_win()| 
+    /// </para>
+    /// </returns>
+    public Task<IDictionary> GetConfig() =>
+      _api.SendAndReceive<IDictionary>(new NvimRequest
+      {
+        Method = "nvim_win_get_config",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Closes the window and hide the buffer it contains (like |:hide| with a |window-ID|).
+    /// </para>
+    /// </summary>
+    public Task Hide() =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_win_hide",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj)
+      });
+
+    /// <summary>
+    /// <para>
+    /// Closes the window (like |:close| with a |window-ID|).
+    /// </para>
+    /// </summary>
+    /// <param name="force">
+    /// <para>
+    /// Behave like 
+    /// </para>
+    /// </param>
+    public Task Close(bool @force) =>
+      _api.SendAndReceive(new NvimRequest
+      {
+        Method = "nvim_win_close",
+        Arguments = GetRequestArguments(
+          _msgPackExtObj, @force)
+      });
+
   }
   public class NvimTabpage
   {
@@ -2081,18 +3278,6 @@ namespace NvimClient.API
 
   }
 
-  public class ResizeEventArgs : EventArgs
-  {
-    public long Width { get; set; }
-    public long Height { get; set; }
-
-  }
-  public class CursorGotoEventArgs : EventArgs
-  {
-    public long Row { get; set; }
-    public long Col { get; set; }
-
-  }
   public class ModeInfoSetEventArgs : EventArgs
   {
     public bool Enabled { get; set; }
@@ -2105,27 +3290,25 @@ namespace NvimClient.API
     public long ModeIdx { get; set; }
 
   }
-  public class SetScrollRegionEventArgs : EventArgs
+  public class SetTitleEventArgs : EventArgs
   {
-    public long Top { get; set; }
-    public long Bot { get; set; }
-    public long Left { get; set; }
-    public long Right { get; set; }
+    public string Title { get; set; }
 
   }
-  public class ScrollEventArgs : EventArgs
+  public class SetIconEventArgs : EventArgs
   {
-    public long Count { get; set; }
+    public string Icon { get; set; }
 
   }
-  public class HighlightSetEventArgs : EventArgs
+  public class ScreenshotEventArgs : EventArgs
   {
-    public IDictionary Attrs { get; set; }
+    public string Path { get; set; }
 
   }
-  public class PutEventArgs : EventArgs
+  public class OptionSetEventArgs : EventArgs
   {
-    public string Str { get; set; }
+    public string Name { get; set; }
+    public object Value { get; set; }
 
   }
   public class UpdateFgEventArgs : EventArgs
@@ -2143,6 +3326,41 @@ namespace NvimClient.API
     public long Sp { get; set; }
 
   }
+  public class ResizeEventArgs : EventArgs
+  {
+    public long Width { get; set; }
+    public long Height { get; set; }
+
+  }
+  public class CursorGotoEventArgs : EventArgs
+  {
+    public long Row { get; set; }
+    public long Col { get; set; }
+
+  }
+  public class HighlightSetEventArgs : EventArgs
+  {
+    public IDictionary Attrs { get; set; }
+
+  }
+  public class PutEventArgs : EventArgs
+  {
+    public string Str { get; set; }
+
+  }
+  public class SetScrollRegionEventArgs : EventArgs
+  {
+    public long Top { get; set; }
+    public long Bot { get; set; }
+    public long Left { get; set; }
+    public long Right { get; set; }
+
+  }
+  public class ScrollEventArgs : EventArgs
+  {
+    public long Count { get; set; }
+
+  }
   public class DefaultColorsSetEventArgs : EventArgs
   {
     public long RgbFg { get; set; }
@@ -2152,20 +3370,117 @@ namespace NvimClient.API
     public long CtermBg { get; set; }
 
   }
-  public class SetTitleEventArgs : EventArgs
+  public class HlAttrDefineEventArgs : EventArgs
   {
-    public string Title { get; set; }
+    public long Id { get; set; }
+    public IDictionary RgbAttrs { get; set; }
+    public IDictionary CtermAttrs { get; set; }
+    public object[] Info { get; set; }
 
   }
-  public class SetIconEventArgs : EventArgs
-  {
-    public string Icon { get; set; }
-
-  }
-  public class OptionSetEventArgs : EventArgs
+  public class HlGroupSetEventArgs : EventArgs
   {
     public string Name { get; set; }
-    public object Value { get; set; }
+    public long Id { get; set; }
+
+  }
+  public class GridResizeEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public long Width { get; set; }
+    public long Height { get; set; }
+
+  }
+  public class GridClearEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+
+  }
+  public class GridCursorGotoEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public long Row { get; set; }
+    public long Col { get; set; }
+
+  }
+  public class GridLineEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public long Row { get; set; }
+    public long ColStart { get; set; }
+    public object[] Data { get; set; }
+
+  }
+  public class GridScrollEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public long Top { get; set; }
+    public long Bot { get; set; }
+    public long Left { get; set; }
+    public long Right { get; set; }
+    public long Rows { get; set; }
+    public long Cols { get; set; }
+
+  }
+  public class GridDestroyEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+
+  }
+  public class WinPosEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public NvimWindow Win { get; set; }
+    public long Startrow { get; set; }
+    public long Startcol { get; set; }
+    public long Width { get; set; }
+    public long Height { get; set; }
+
+  }
+  public class WinFloatPosEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public NvimWindow Win { get; set; }
+    public string Anchor { get; set; }
+    public long AnchorGrid { get; set; }
+    public double AnchorRow { get; set; }
+    public double AnchorCol { get; set; }
+    public bool Focusable { get; set; }
+    public long Zindex { get; set; }
+
+  }
+  public class WinExternalPosEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public NvimWindow Win { get; set; }
+
+  }
+  public class WinHideEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+
+  }
+  public class WinCloseEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+
+  }
+  public class MsgSetPosEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public long Row { get; set; }
+    public bool Scrolled { get; set; }
+    public string SepChar { get; set; }
+
+  }
+  public class WinViewportEventArgs : EventArgs
+  {
+    public long Grid { get; set; }
+    public NvimWindow Win { get; set; }
+    public long Topline { get; set; }
+    public long Botline { get; set; }
+    public long Curline { get; set; }
+    public long Curcol { get; set; }
 
   }
   public class PopupmenuShowEventArgs : EventArgs
@@ -2174,6 +3489,7 @@ namespace NvimClient.API
     public long Selected { get; set; }
     public long Row { get; set; }
     public long Col { get; set; }
+    public long Grid { get; set; }
 
   }
   public class PopupmenuSelectEventArgs : EventArgs
@@ -2185,6 +3501,8 @@ namespace NvimClient.API
   {
     public NvimTabpage Current { get; set; }
     public object[] Tabs { get; set; }
+    public NvimBuffer CurrentBuffer { get; set; }
+    public object[] Buffers { get; set; }
 
   }
   public class CmdlineShowEventArgs : EventArgs
@@ -2235,35 +3553,38 @@ namespace NvimClient.API
     public long Selected { get; set; }
 
   }
+  public class MsgShowEventArgs : EventArgs
+  {
+    public string Kind { get; set; }
+    public object[] Content { get; set; }
+    public bool ReplaceLast { get; set; }
+
+  }
+  public class MsgShowcmdEventArgs : EventArgs
+  {
+    public object[] Content { get; set; }
+
+  }
+  public class MsgShowmodeEventArgs : EventArgs
+  {
+    public object[] Content { get; set; }
+
+  }
+  public class MsgRulerEventArgs : EventArgs
+  {
+    public object[] Content { get; set; }
+
+  }
+  public class MsgHistoryShowEventArgs : EventArgs
+  {
+    public object[] Entries { get; set; }
+
+  }
     private void CallUIEventHandler(string eventName, object[] args)
     {
       switch (eventName)
       {
   
-      case "resize":
-          Resize?.Invoke(this, new ResizeEventArgs
-          {
-            Width = (long) args[0],
-            Height = (long) args[1]
-          });
-          break;
-
-      case "clear":
-          Clear?.Invoke(this, EventArgs.Empty);
-          break;
-
-      case "eol_clear":
-          EolClear?.Invoke(this, EventArgs.Empty);
-          break;
-
-      case "cursor_goto":
-          CursorGoto?.Invoke(this, new CursorGotoEventArgs
-          {
-            Row = (long) args[0],
-            Col = (long) args[1]
-          });
-          break;
-
       case "mode_info_set":
           ModeInfoSet?.Invoke(this, new ModeInfoSetEventArgs
           {
@@ -2300,37 +3621,6 @@ namespace NvimClient.API
           });
           break;
 
-      case "set_scroll_region":
-          SetScrollRegion?.Invoke(this, new SetScrollRegionEventArgs
-          {
-            Top = (long) args[0],
-            Bot = (long) args[1],
-            Left = (long) args[2],
-            Right = (long) args[3]
-          });
-          break;
-
-      case "scroll":
-          Scroll?.Invoke(this, new ScrollEventArgs
-          {
-            Count = (long) args[0]
-          });
-          break;
-
-      case "highlight_set":
-          HighlightSet?.Invoke(this, new HighlightSetEventArgs
-          {
-            Attrs = (IDictionary) args[0]
-          });
-          break;
-
-      case "put":
-          Put?.Invoke(this, new PutEventArgs
-          {
-            Str = (string) args[0]
-          });
-          break;
-
       case "bell":
           Bell?.Invoke(this, EventArgs.Empty);
           break;
@@ -2341,6 +3631,39 @@ namespace NvimClient.API
 
       case "flush":
           Flush?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "suspend":
+          Suspend?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "set_title":
+          SetTitle?.Invoke(this, new SetTitleEventArgs
+          {
+            Title = (string) args[0]
+          });
+          break;
+
+      case "set_icon":
+          SetIcon?.Invoke(this, new SetIconEventArgs
+          {
+            Icon = (string) args[0]
+          });
+          break;
+
+      case "screenshot":
+          Screenshot?.Invoke(this, new ScreenshotEventArgs
+          {
+            Path = (string) args[0]
+          });
+          break;
+
+      case "option_set":
+          OptionSet?.Invoke(this, new OptionSetEventArgs
+          {
+            Name = (string) args[0],
+            Value = (object) args[1]
+          });
           break;
 
       case "update_fg":
@@ -2364,6 +3687,61 @@ namespace NvimClient.API
           });
           break;
 
+      case "resize":
+          Resize?.Invoke(this, new ResizeEventArgs
+          {
+            Width = (long) args[0],
+            Height = (long) args[1]
+          });
+          break;
+
+      case "clear":
+          Clear?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "eol_clear":
+          EolClear?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "cursor_goto":
+          CursorGoto?.Invoke(this, new CursorGotoEventArgs
+          {
+            Row = (long) args[0],
+            Col = (long) args[1]
+          });
+          break;
+
+      case "highlight_set":
+          HighlightSet?.Invoke(this, new HighlightSetEventArgs
+          {
+            Attrs = (IDictionary) args[0]
+          });
+          break;
+
+      case "put":
+          Put?.Invoke(this, new PutEventArgs
+          {
+            Str = (string) args[0]
+          });
+          break;
+
+      case "set_scroll_region":
+          SetScrollRegion?.Invoke(this, new SetScrollRegionEventArgs
+          {
+            Top = (long) args[0],
+            Bot = (long) args[1],
+            Left = (long) args[2],
+            Right = (long) args[3]
+          });
+          break;
+
+      case "scroll":
+          Scroll?.Invoke(this, new ScrollEventArgs
+          {
+            Count = (long) args[0]
+          });
+          break;
+
       case "default_colors_set":
           DefaultColorsSet?.Invoke(this, new DefaultColorsSetEventArgs
           {
@@ -2375,29 +3753,146 @@ namespace NvimClient.API
           });
           break;
 
-      case "suspend":
-          Suspend?.Invoke(this, EventArgs.Empty);
-          break;
-
-      case "set_title":
-          SetTitle?.Invoke(this, new SetTitleEventArgs
+      case "hl_attr_define":
+          HlAttrDefine?.Invoke(this, new HlAttrDefineEventArgs
           {
-            Title = (string) args[0]
+            Id = (long) args[0],
+            RgbAttrs = (IDictionary) args[1],
+            CtermAttrs = (IDictionary) args[2],
+            Info = (object[]) args[3]
           });
           break;
 
-      case "set_icon":
-          SetIcon?.Invoke(this, new SetIconEventArgs
-          {
-            Icon = (string) args[0]
-          });
-          break;
-
-      case "option_set":
-          OptionSet?.Invoke(this, new OptionSetEventArgs
+      case "hl_group_set":
+          HlGroupSet?.Invoke(this, new HlGroupSetEventArgs
           {
             Name = (string) args[0],
-            Value = (object) args[1]
+            Id = (long) args[1]
+          });
+          break;
+
+      case "grid_resize":
+          GridResize?.Invoke(this, new GridResizeEventArgs
+          {
+            Grid = (long) args[0],
+            Width = (long) args[1],
+            Height = (long) args[2]
+          });
+          break;
+
+      case "grid_clear":
+          GridClear?.Invoke(this, new GridClearEventArgs
+          {
+            Grid = (long) args[0]
+          });
+          break;
+
+      case "grid_cursor_goto":
+          GridCursorGoto?.Invoke(this, new GridCursorGotoEventArgs
+          {
+            Grid = (long) args[0],
+            Row = (long) args[1],
+            Col = (long) args[2]
+          });
+          break;
+
+      case "grid_line":
+          GridLine?.Invoke(this, new GridLineEventArgs
+          {
+            Grid = (long) args[0],
+            Row = (long) args[1],
+            ColStart = (long) args[2],
+            Data = (object[]) args[3]
+          });
+          break;
+
+      case "grid_scroll":
+          GridScroll?.Invoke(this, new GridScrollEventArgs
+          {
+            Grid = (long) args[0],
+            Top = (long) args[1],
+            Bot = (long) args[2],
+            Left = (long) args[3],
+            Right = (long) args[4],
+            Rows = (long) args[5],
+            Cols = (long) args[6]
+          });
+          break;
+
+      case "grid_destroy":
+          GridDestroy?.Invoke(this, new GridDestroyEventArgs
+          {
+            Grid = (long) args[0]
+          });
+          break;
+
+      case "win_pos":
+          WinPos?.Invoke(this, new WinPosEventArgs
+          {
+            Grid = (long) args[0],
+            Win = (NvimWindow) args[1],
+            Startrow = (long) args[2],
+            Startcol = (long) args[3],
+            Width = (long) args[4],
+            Height = (long) args[5]
+          });
+          break;
+
+      case "win_float_pos":
+          WinFloatPos?.Invoke(this, new WinFloatPosEventArgs
+          {
+            Grid = (long) args[0],
+            Win = (NvimWindow) args[1],
+            Anchor = (string) args[2],
+            AnchorGrid = (long) args[3],
+            AnchorRow = (double) args[4],
+            AnchorCol = (double) args[5],
+            Focusable = (bool) args[6],
+            Zindex = (long) args[7]
+          });
+          break;
+
+      case "win_external_pos":
+          WinExternalPos?.Invoke(this, new WinExternalPosEventArgs
+          {
+            Grid = (long) args[0],
+            Win = (NvimWindow) args[1]
+          });
+          break;
+
+      case "win_hide":
+          WinHide?.Invoke(this, new WinHideEventArgs
+          {
+            Grid = (long) args[0]
+          });
+          break;
+
+      case "win_close":
+          WinClose?.Invoke(this, new WinCloseEventArgs
+          {
+            Grid = (long) args[0]
+          });
+          break;
+
+      case "msg_set_pos":
+          MsgSetPos?.Invoke(this, new MsgSetPosEventArgs
+          {
+            Grid = (long) args[0],
+            Row = (long) args[1],
+            Scrolled = (bool) args[2],
+            SepChar = (string) args[3]
+          });
+          break;
+
+      case "win_viewport":
+          WinViewport?.Invoke(this, new WinViewportEventArgs
+          {
+            Grid = (long) args[0],
+            Win = (NvimWindow) args[1],
+            Topline = (long) args[2],
+            Botline = (long) args[3],
+            Curline = (long) args[4],
+            Curcol = (long) args[5]
           });
           break;
 
@@ -2407,7 +3902,8 @@ namespace NvimClient.API
             Items = (object[]) args[0],
             Selected = (long) args[1],
             Row = (long) args[2],
-            Col = (long) args[3]
+            Col = (long) args[3],
+            Grid = (long) args[4]
           });
           break;
 
@@ -2426,7 +3922,9 @@ namespace NvimClient.API
           TablineUpdate?.Invoke(this, new TablineUpdateEventArgs
           {
             Current = (NvimTabpage) args[0],
-            Tabs = (object[]) args[1]
+            Tabs = (object[]) args[1],
+            CurrentBuffer = (NvimBuffer) args[2],
+            Buffers = (object[]) args[3]
           });
           break;
 
@@ -2500,6 +3998,47 @@ namespace NvimClient.API
 
       case "wildmenu_hide":
           WildmenuHide?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "msg_show":
+          MsgShow?.Invoke(this, new MsgShowEventArgs
+          {
+            Kind = (string) args[0],
+            Content = (object[]) args[1],
+            ReplaceLast = (bool) args[2]
+          });
+          break;
+
+      case "msg_clear":
+          MsgClear?.Invoke(this, EventArgs.Empty);
+          break;
+
+      case "msg_showcmd":
+          MsgShowcmd?.Invoke(this, new MsgShowcmdEventArgs
+          {
+            Content = (object[]) args[0]
+          });
+          break;
+
+      case "msg_showmode":
+          MsgShowmode?.Invoke(this, new MsgShowmodeEventArgs
+          {
+            Content = (object[]) args[0]
+          });
+          break;
+
+      case "msg_ruler":
+          MsgRuler?.Invoke(this, new MsgRulerEventArgs
+          {
+            Content = (object[]) args[0]
+          });
+          break;
+
+      case "msg_history_show":
+          MsgHistoryShow?.Invoke(this, new MsgHistoryShowEventArgs
+          {
+            Entries = (object[]) args[0]
+          });
           break;
 
       }
