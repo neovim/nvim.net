@@ -111,3 +111,9 @@ Run all tests (`nvim` must be in the `PATH`):
 Run only the `TestMessageDeserialization` test:
 
     dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
+
+Publishing GitHub Package
+-----
+
+1. Update version as necessary in `src/NvimClient.API/NvimClient.API.csproj`.
+2. Run the [publish workflow](https://github.com/neovim/nvim.net/actions/workflows/publish.yml).
