@@ -7,9 +7,9 @@ namespace NvimClient.API.NvimPlugin.Attributes
   {
     public NvimAutocmdAttribute(string name) => Name = name;
 
-    public string Name        { get; set; }
-    public string Group       { get; set; }
-    public bool   AllowNested { get; set; }
-    public string Pattern     { get; set; }
+    public string Name { get; set; }
+    public string Group { get; set; }
+    public bool AllowNested { get; set; }
+    public string Pattern { get; set; }
   }
 }

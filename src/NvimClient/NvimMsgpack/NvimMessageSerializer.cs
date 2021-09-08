@@ -56,7 +56,7 @@ namespace NvimClient.NvimMsgpack
         throw new SerializationException($"Unknown message type (id {messageTypeId})");
       }
 
-      return (NvimMessage) OwnerContext.GetSerializer(messageType)
+      return (NvimMessage)OwnerContext.GetSerializer(messageType)
         .FromMessagePackObject(messagePackObject);
     }
   }

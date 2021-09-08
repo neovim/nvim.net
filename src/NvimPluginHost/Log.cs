@@ -12,7 +12,7 @@ namespace NvimPluginHost
       var logFile = Environment.GetEnvironmentVariable("NVIM_DOTNET_LOG_FILE");
       if (logFile != null)
       {
-        _writer = new StreamWriter(logFile, true) {AutoFlush = true};
+        _writer = new StreamWriter(logFile, true) { AutoFlush = true };
       }
     }
 

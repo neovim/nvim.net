@@ -85,9 +85,9 @@ namespace NvimClient.NvimProcess
       {
         CreateNoWindow = startOptions.HasFlag(StartOption.Headless) ||
                          startOptions.HasFlag(StartOption.Embed),
-        RedirectStandardInput  = redirectStandardIO,
+        RedirectStandardInput = redirectStandardIO,
         RedirectStandardOutput = redirectStandardIO,
-        RedirectStandardError  = redirectStandardIO
+        RedirectStandardError = redirectStandardIO
       };
     }
 

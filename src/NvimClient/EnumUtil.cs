@@ -16,8 +16,8 @@ namespace NvimClient
     /// </returns>
     public static T GetAttribute<T>(Enum enumValue) where T : Attribute
     {
-      var type       = enumValue.GetType();
-      var valueName  = Enum.GetName(type, enumValue);
+      var type = enumValue.GetType();
+      var valueName = Enum.GetName(type, enumValue);
       var memberInfo = type.GetMember(valueName).First();
       return memberInfo.GetCustomAttribute<T>();
     }

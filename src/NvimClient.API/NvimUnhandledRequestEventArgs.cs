@@ -9,15 +9,15 @@ namespace NvimClient.API
     internal NvimUnhandledRequestEventArgs(NvimAPI nvim, uint requestId,
       string methodName, object[] arguments)
     {
-      _nvim      = nvim;
-      RequestId  = requestId;
+      _nvim = nvim;
+      RequestId = requestId;
       MethodName = methodName;
-      Arguments  = arguments;
+      Arguments = arguments;
     }
 
-    public string   MethodName { get; }
-    public object[] Arguments  { get; }
-    public uint     RequestId  { get; }
+    public string MethodName { get; }
+    public object[] Arguments { get; }
+    public uint RequestId { get; }
 
     public void SendResponse(object result, object error = null) =>
       _nvim.SendResponse(this, result, error);

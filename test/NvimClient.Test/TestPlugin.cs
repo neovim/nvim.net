@@ -44,7 +44,7 @@ namespace NvimClient.Test
     public void OnBufEnter([NvimEval("expand('<afile>')")] string filename,
       [NvimEval("&shiftwidth")] long shiftWidth)
     {
-      var indent = new string(' ', (int) shiftWidth);
+      var indent = new string(' ', (int)shiftWidth);
       _nvim.SetCurrentLine(
         indent + $"{nameof(OnBufEnter)} called with {filename}");
       AutocmdCalled = true;

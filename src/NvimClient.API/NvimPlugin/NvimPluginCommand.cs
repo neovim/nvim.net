@@ -94,7 +94,7 @@ namespace NvimClient.API.NvimPlugin
       {
         argumentConverters.Add(arg =>
         {
-          var range = ((object[]) arg).Cast<long>().ToArray();
+          var range = ((object[])arg).Cast<long>().ToArray();
           return new[]
           {
             new PluginArgument
@@ -149,12 +149,12 @@ namespace NvimClient.API.NvimPlugin
       {
         argumentConverters.Add(
           nvimArg => evalParameterIndices.Zip(
-            (object[]) nvimArg, (index, arg) =>
-              new PluginArgument
-              {
-                Value = arg,
-                Index = index
-              })
+            (object[])nvimArg, (index, arg) =>
+             new PluginArgument
+             {
+               Value = arg,
+               Index = index
+             })
         );
       }
 
@@ -162,11 +162,11 @@ namespace NvimClient.API.NvimPlugin
       Attribute = attribute;
     }
 
-    private int? BangParameterIndex     { get; set; }
-    private int? CountParameterIndex    { get; set; }
-    private int? RangeParameterIndex    { get; set; }
+    private int? BangParameterIndex { get; set; }
+    private int? CountParameterIndex { get; set; }
+    private int? RangeParameterIndex { get; set; }
     private int? RegisterParameterIndex { get; set; }
-    private NvimCommandAttribute Attribute              { get; }
+    private NvimCommandAttribute Attribute { get; }
 
     public override string HandlerName => $"{PluginPath}:command:{Name}";
 

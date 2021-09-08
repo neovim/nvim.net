@@ -8,10 +8,10 @@ namespace NvimClient.API
       object[] arguments)
     {
       MethodName = methodName;
-      Arguments  = arguments;
+      Arguments = arguments;
     }
 
-    public string   MethodName { get; }
-    public object[] Arguments  { get; }
+    public string MethodName { get; }
+    public object[] Arguments { get; }
   }
 }
