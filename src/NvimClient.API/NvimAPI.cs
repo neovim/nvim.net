@@ -19,9 +19,19 @@ using NvimClient.NvimProcess;
 
 namespace NvimClient.API
 {
+  /// <summary>
+  /// Class encapsulating the Neovim msgpack-rpc API in an idiomatic C# interface.
+  /// </summary>
   public partial class NvimAPI
   {
+    /// <summary>
+    /// Handler for requests from Neovim without a handler registered via <see cref="RegisterHandler"/>
+    /// </summary>
     public event EventHandler<NvimUnhandledRequestEventArgs> OnUnhandledRequest;
+
+    /// <summary>
+    /// Handler for notifications from Neovim without a handler registered via <see cref="RegisterHandler"/>
+    /// </summary>
     public event EventHandler<NvimUnhandledNotificationEventArgs>
       OnUnhandledNotification;
 
@@ -130,12 +140,27 @@ namespace NvimClient.API
       StartReceiveLoop();
     }
 
+    /// <summary>
+    /// Register a handler for the <c>name</c> notification or request.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="handler"></param>
     public void RegisterHandler(string name, Func<object[], object> handler) =>
       RegisterHandler(name, (Delegate)handler);
 
+    /// <summary>
+    /// Register a handler for the <c>name</c> notification or request.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="handler"></param>
     public void RegisterHandler(string name, Action<object[]> handler) =>
       RegisterHandler(name, (Delegate)handler);
 
+    /// <summary>
+    /// Register a handler for the <c>name</c> notification or request.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="handler"></param>
     public void RegisterHandler(string name,
       Func<object[], Task<object>> handler) => RegisterHandler(name,
       (requestId, args) =>
@@ -337,6 +362,9 @@ namespace NvimClient.API
       }
     }
 
+    /// <summary>
+    /// Block the current thread while waiting for Neovim to quit.
+    /// </summary>
     public void WaitForDisconnect() => _waitEvent.WaitOne();
 
     private class PendingRequest
