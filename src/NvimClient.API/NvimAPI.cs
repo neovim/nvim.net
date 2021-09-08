@@ -20,7 +20,7 @@ using NvimClient.NvimProcess;
 namespace NvimClient.API
 {
   /// <summary>
-  /// Class encapsulating the Neovim msgpack-rpc API in an idiomatic C# interface.
+  /// Interface to the Neovim msgpack-rpc API.
   /// </summary>
   public partial class NvimAPI
   {
