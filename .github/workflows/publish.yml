@@ -1,4 +1,4 @@
-name: Publish GitHub Package
+name: Publish GitHub NuGet package
 
 on:
   # no triggers (manual)
