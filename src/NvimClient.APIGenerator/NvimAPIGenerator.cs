@@ -113,7 +113,7 @@ namespace NvimClient.API
           : "EventArgs.Empty";
         return $@"
       case ""{uiEvent.Name}"":
-          {camelCaseName}?.Invoke(this, {eventArgs});
+          {camelCaseName}Event?.Invoke(this, {eventArgs});
           break;
 ";
       }));
@@ -127,7 +127,7 @@ namespace NvimClient.API
           var genericTypeParam = uiEvent.Parameters.Any()
             ? $"<{camelCaseName}EventArgs>"
             : string.Empty;
-          return $"    public event EventHandler{genericTypeParam} {camelCaseName};";
+          return $"    public event EventHandler{genericTypeParam} {camelCaseName}Event;";
         }));
 
     private static string GenerateNvimUIEventArgs(

@@ -136,7 +136,7 @@ namespace NvimClient.Test
       var titleSetEvent = new ManualResetEvent(false);
       var api = new NvimAPI();
       await api.UiAttach(100, 200, new Dictionary<string, string>());
-      api.SetTitle += (sender, args) =>
+      api.SetTitleEvent += (sender, args) =>
       {
         if (args.Title == testString)
         {
