@@ -1,8 +1,7 @@
 Nvim.NET
 ========
 
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/8c2dw5gc2knhvqjc/branch/master?svg=true)](https://ci.appveyor.com/project/neovim/nvim-net/branch/master)
-[![Travis Build Status](https://travis-ci.org/neovim/nvim.net.svg?branch=master)](https://travis-ci.org/neovim/nvim.net)
+[![Test Workflow Status](https://github.com/neovim/nvim.net/actions/workflows/test.yml/badge.svg)](https://github.com/neovim/nvim.net/actions/workflows/test.yml)
 
 .NET client for [Neovim](https://github.com/neovim/neovim)
 
