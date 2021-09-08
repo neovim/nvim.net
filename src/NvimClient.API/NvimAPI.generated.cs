@@ -3586,7 +3586,7 @@ namespace NvimClient.API
       {
   
       case "mode_info_set":
-          ModeInfoSet?.Invoke(this, new ModeInfoSetEventArgs
+          ModeInfoSetEvent?.Invoke(this, new ModeInfoSetEventArgs
           {
             Enabled = (bool) args[0],
             CursorStyles = (object[]) args[1]
@@ -3594,27 +3594,27 @@ namespace NvimClient.API
           break;
 
       case "update_menu":
-          UpdateMenu?.Invoke(this, EventArgs.Empty);
+          UpdateMenuEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "busy_start":
-          BusyStart?.Invoke(this, EventArgs.Empty);
+          BusyStartEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "busy_stop":
-          BusyStop?.Invoke(this, EventArgs.Empty);
+          BusyStopEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "mouse_on":
-          MouseOn?.Invoke(this, EventArgs.Empty);
+          MouseOnEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "mouse_off":
-          MouseOff?.Invoke(this, EventArgs.Empty);
+          MouseOffEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "mode_change":
-          ModeChange?.Invoke(this, new ModeChangeEventArgs
+          ModeChangeEvent?.Invoke(this, new ModeChangeEventArgs
           {
             Mode = (string) args[0],
             ModeIdx = (long) args[1]
@@ -3622,44 +3622,44 @@ namespace NvimClient.API
           break;
 
       case "bell":
-          Bell?.Invoke(this, EventArgs.Empty);
+          BellEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "visual_bell":
-          VisualBell?.Invoke(this, EventArgs.Empty);
+          VisualBellEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "flush":
-          Flush?.Invoke(this, EventArgs.Empty);
+          FlushEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "suspend":
-          Suspend?.Invoke(this, EventArgs.Empty);
+          SuspendEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "set_title":
-          SetTitle?.Invoke(this, new SetTitleEventArgs
+          SetTitleEvent?.Invoke(this, new SetTitleEventArgs
           {
             Title = (string) args[0]
           });
           break;
 
       case "set_icon":
-          SetIcon?.Invoke(this, new SetIconEventArgs
+          SetIconEvent?.Invoke(this, new SetIconEventArgs
           {
             Icon = (string) args[0]
           });
           break;
 
       case "screenshot":
-          Screenshot?.Invoke(this, new ScreenshotEventArgs
+          ScreenshotEvent?.Invoke(this, new ScreenshotEventArgs
           {
             Path = (string) args[0]
           });
           break;
 
       case "option_set":
-          OptionSet?.Invoke(this, new OptionSetEventArgs
+          OptionSetEvent?.Invoke(this, new OptionSetEventArgs
           {
             Name = (string) args[0],
             Value = (object) args[1]
@@ -3667,28 +3667,28 @@ namespace NvimClient.API
           break;
 
       case "update_fg":
-          UpdateFg?.Invoke(this, new UpdateFgEventArgs
+          UpdateFgEvent?.Invoke(this, new UpdateFgEventArgs
           {
             Fg = (long) args[0]
           });
           break;
 
       case "update_bg":
-          UpdateBg?.Invoke(this, new UpdateBgEventArgs
+          UpdateBgEvent?.Invoke(this, new UpdateBgEventArgs
           {
             Bg = (long) args[0]
           });
           break;
 
       case "update_sp":
-          UpdateSp?.Invoke(this, new UpdateSpEventArgs
+          UpdateSpEvent?.Invoke(this, new UpdateSpEventArgs
           {
             Sp = (long) args[0]
           });
           break;
 
       case "resize":
-          Resize?.Invoke(this, new ResizeEventArgs
+          ResizeEvent?.Invoke(this, new ResizeEventArgs
           {
             Width = (long) args[0],
             Height = (long) args[1]
@@ -3696,15 +3696,15 @@ namespace NvimClient.API
           break;
 
       case "clear":
-          Clear?.Invoke(this, EventArgs.Empty);
+          ClearEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "eol_clear":
-          EolClear?.Invoke(this, EventArgs.Empty);
+          EolClearEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "cursor_goto":
-          CursorGoto?.Invoke(this, new CursorGotoEventArgs
+          CursorGotoEvent?.Invoke(this, new CursorGotoEventArgs
           {
             Row = (long) args[0],
             Col = (long) args[1]
@@ -3712,21 +3712,21 @@ namespace NvimClient.API
           break;
 
       case "highlight_set":
-          HighlightSet?.Invoke(this, new HighlightSetEventArgs
+          HighlightSetEvent?.Invoke(this, new HighlightSetEventArgs
           {
             Attrs = (IDictionary) args[0]
           });
           break;
 
       case "put":
-          Put?.Invoke(this, new PutEventArgs
+          PutEvent?.Invoke(this, new PutEventArgs
           {
             Str = (string) args[0]
           });
           break;
 
       case "set_scroll_region":
-          SetScrollRegion?.Invoke(this, new SetScrollRegionEventArgs
+          SetScrollRegionEvent?.Invoke(this, new SetScrollRegionEventArgs
           {
             Top = (long) args[0],
             Bot = (long) args[1],
@@ -3736,14 +3736,14 @@ namespace NvimClient.API
           break;
 
       case "scroll":
-          Scroll?.Invoke(this, new ScrollEventArgs
+          ScrollEvent?.Invoke(this, new ScrollEventArgs
           {
             Count = (long) args[0]
           });
           break;
 
       case "default_colors_set":
-          DefaultColorsSet?.Invoke(this, new DefaultColorsSetEventArgs
+          DefaultColorsSetEvent?.Invoke(this, new DefaultColorsSetEventArgs
           {
             RgbFg = (long) args[0],
             RgbBg = (long) args[1],
@@ -3754,7 +3754,7 @@ namespace NvimClient.API
           break;
 
       case "hl_attr_define":
-          HlAttrDefine?.Invoke(this, new HlAttrDefineEventArgs
+          HlAttrDefineEvent?.Invoke(this, new HlAttrDefineEventArgs
           {
             Id = (long) args[0],
             RgbAttrs = (IDictionary) args[1],
@@ -3764,7 +3764,7 @@ namespace NvimClient.API
           break;
 
       case "hl_group_set":
-          HlGroupSet?.Invoke(this, new HlGroupSetEventArgs
+          HlGroupSetEvent?.Invoke(this, new HlGroupSetEventArgs
           {
             Name = (string) args[0],
             Id = (long) args[1]
@@ -3772,7 +3772,7 @@ namespace NvimClient.API
           break;
 
       case "grid_resize":
-          GridResize?.Invoke(this, new GridResizeEventArgs
+          GridResizeEvent?.Invoke(this, new GridResizeEventArgs
           {
             Grid = (long) args[0],
             Width = (long) args[1],
@@ -3781,14 +3781,14 @@ namespace NvimClient.API
           break;
 
       case "grid_clear":
-          GridClear?.Invoke(this, new GridClearEventArgs
+          GridClearEvent?.Invoke(this, new GridClearEventArgs
           {
             Grid = (long) args[0]
           });
           break;
 
       case "grid_cursor_goto":
-          GridCursorGoto?.Invoke(this, new GridCursorGotoEventArgs
+          GridCursorGotoEvent?.Invoke(this, new GridCursorGotoEventArgs
           {
             Grid = (long) args[0],
             Row = (long) args[1],
@@ -3797,7 +3797,7 @@ namespace NvimClient.API
           break;
 
       case "grid_line":
-          GridLine?.Invoke(this, new GridLineEventArgs
+          GridLineEvent?.Invoke(this, new GridLineEventArgs
           {
             Grid = (long) args[0],
             Row = (long) args[1],
@@ -3807,7 +3807,7 @@ namespace NvimClient.API
           break;
 
       case "grid_scroll":
-          GridScroll?.Invoke(this, new GridScrollEventArgs
+          GridScrollEvent?.Invoke(this, new GridScrollEventArgs
           {
             Grid = (long) args[0],
             Top = (long) args[1],
@@ -3820,14 +3820,14 @@ namespace NvimClient.API
           break;
 
       case "grid_destroy":
-          GridDestroy?.Invoke(this, new GridDestroyEventArgs
+          GridDestroyEvent?.Invoke(this, new GridDestroyEventArgs
           {
             Grid = (long) args[0]
           });
           break;
 
       case "win_pos":
-          WinPos?.Invoke(this, new WinPosEventArgs
+          WinPosEvent?.Invoke(this, new WinPosEventArgs
           {
             Grid = (long) args[0],
             Win = (NvimWindow) args[1],
@@ -3839,7 +3839,7 @@ namespace NvimClient.API
           break;
 
       case "win_float_pos":
-          WinFloatPos?.Invoke(this, new WinFloatPosEventArgs
+          WinFloatPosEvent?.Invoke(this, new WinFloatPosEventArgs
           {
             Grid = (long) args[0],
             Win = (NvimWindow) args[1],
@@ -3853,7 +3853,7 @@ namespace NvimClient.API
           break;
 
       case "win_external_pos":
-          WinExternalPos?.Invoke(this, new WinExternalPosEventArgs
+          WinExternalPosEvent?.Invoke(this, new WinExternalPosEventArgs
           {
             Grid = (long) args[0],
             Win = (NvimWindow) args[1]
@@ -3861,21 +3861,21 @@ namespace NvimClient.API
           break;
 
       case "win_hide":
-          WinHide?.Invoke(this, new WinHideEventArgs
+          WinHideEvent?.Invoke(this, new WinHideEventArgs
           {
             Grid = (long) args[0]
           });
           break;
 
       case "win_close":
-          WinClose?.Invoke(this, new WinCloseEventArgs
+          WinCloseEvent?.Invoke(this, new WinCloseEventArgs
           {
             Grid = (long) args[0]
           });
           break;
 
       case "msg_set_pos":
-          MsgSetPos?.Invoke(this, new MsgSetPosEventArgs
+          MsgSetPosEvent?.Invoke(this, new MsgSetPosEventArgs
           {
             Grid = (long) args[0],
             Row = (long) args[1],
@@ -3885,7 +3885,7 @@ namespace NvimClient.API
           break;
 
       case "win_viewport":
-          WinViewport?.Invoke(this, new WinViewportEventArgs
+          WinViewportEvent?.Invoke(this, new WinViewportEventArgs
           {
             Grid = (long) args[0],
             Win = (NvimWindow) args[1],
@@ -3897,7 +3897,7 @@ namespace NvimClient.API
           break;
 
       case "popupmenu_show":
-          PopupmenuShow?.Invoke(this, new PopupmenuShowEventArgs
+          PopupmenuShowEvent?.Invoke(this, new PopupmenuShowEventArgs
           {
             Items = (object[]) args[0],
             Selected = (long) args[1],
@@ -3908,18 +3908,18 @@ namespace NvimClient.API
           break;
 
       case "popupmenu_hide":
-          PopupmenuHide?.Invoke(this, EventArgs.Empty);
+          PopupmenuHideEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "popupmenu_select":
-          PopupmenuSelect?.Invoke(this, new PopupmenuSelectEventArgs
+          PopupmenuSelectEvent?.Invoke(this, new PopupmenuSelectEventArgs
           {
             Selected = (long) args[0]
           });
           break;
 
       case "tabline_update":
-          TablineUpdate?.Invoke(this, new TablineUpdateEventArgs
+          TablineUpdateEvent?.Invoke(this, new TablineUpdateEventArgs
           {
             Current = (NvimTabpage) args[0],
             Tabs = (object[]) args[1],
@@ -3929,7 +3929,7 @@ namespace NvimClient.API
           break;
 
       case "cmdline_show":
-          CmdlineShow?.Invoke(this, new CmdlineShowEventArgs
+          CmdlineShowEvent?.Invoke(this, new CmdlineShowEventArgs
           {
             Content = (object[]) args[0],
             Pos = (long) args[1],
@@ -3941,7 +3941,7 @@ namespace NvimClient.API
           break;
 
       case "cmdline_pos":
-          CmdlinePos?.Invoke(this, new CmdlinePosEventArgs
+          CmdlinePosEvent?.Invoke(this, new CmdlinePosEventArgs
           {
             Pos = (long) args[0],
             Level = (long) args[1]
@@ -3949,7 +3949,7 @@ namespace NvimClient.API
           break;
 
       case "cmdline_special_char":
-          CmdlineSpecialChar?.Invoke(this, new CmdlineSpecialCharEventArgs
+          CmdlineSpecialCharEvent?.Invoke(this, new CmdlineSpecialCharEventArgs
           {
             C = (string) args[0],
             Shift = (bool) args[1],
@@ -3958,50 +3958,50 @@ namespace NvimClient.API
           break;
 
       case "cmdline_hide":
-          CmdlineHide?.Invoke(this, new CmdlineHideEventArgs
+          CmdlineHideEvent?.Invoke(this, new CmdlineHideEventArgs
           {
             Level = (long) args[0]
           });
           break;
 
       case "cmdline_block_show":
-          CmdlineBlockShow?.Invoke(this, new CmdlineBlockShowEventArgs
+          CmdlineBlockShowEvent?.Invoke(this, new CmdlineBlockShowEventArgs
           {
             Lines = (object[]) args[0]
           });
           break;
 
       case "cmdline_block_append":
-          CmdlineBlockAppend?.Invoke(this, new CmdlineBlockAppendEventArgs
+          CmdlineBlockAppendEvent?.Invoke(this, new CmdlineBlockAppendEventArgs
           {
             Lines = (object[]) args[0]
           });
           break;
 
       case "cmdline_block_hide":
-          CmdlineBlockHide?.Invoke(this, EventArgs.Empty);
+          CmdlineBlockHideEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "wildmenu_show":
-          WildmenuShow?.Invoke(this, new WildmenuShowEventArgs
+          WildmenuShowEvent?.Invoke(this, new WildmenuShowEventArgs
           {
             Items = (object[]) args[0]
           });
           break;
 
       case "wildmenu_select":
-          WildmenuSelect?.Invoke(this, new WildmenuSelectEventArgs
+          WildmenuSelectEvent?.Invoke(this, new WildmenuSelectEventArgs
           {
             Selected = (long) args[0]
           });
           break;
 
       case "wildmenu_hide":
-          WildmenuHide?.Invoke(this, EventArgs.Empty);
+          WildmenuHideEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "msg_show":
-          MsgShow?.Invoke(this, new MsgShowEventArgs
+          MsgShowEvent?.Invoke(this, new MsgShowEventArgs
           {
             Kind = (string) args[0],
             Content = (object[]) args[1],
@@ -4010,32 +4010,32 @@ namespace NvimClient.API
           break;
 
       case "msg_clear":
-          MsgClear?.Invoke(this, EventArgs.Empty);
+          MsgClearEvent?.Invoke(this, EventArgs.Empty);
           break;
 
       case "msg_showcmd":
-          MsgShowcmd?.Invoke(this, new MsgShowcmdEventArgs
+          MsgShowcmdEvent?.Invoke(this, new MsgShowcmdEventArgs
           {
             Content = (object[]) args[0]
           });
           break;
 
       case "msg_showmode":
-          MsgShowmode?.Invoke(this, new MsgShowmodeEventArgs
+          MsgShowmodeEvent?.Invoke(this, new MsgShowmodeEventArgs
           {
             Content = (object[]) args[0]
           });
           break;
 
       case "msg_ruler":
-          MsgRuler?.Invoke(this, new MsgRulerEventArgs
+          MsgRulerEvent?.Invoke(this, new MsgRulerEventArgs
           {
             Content = (object[]) args[0]
           });
           break;
 
       case "msg_history_show":
-          MsgHistoryShow?.Invoke(this, new MsgHistoryShowEventArgs
+          MsgHistoryShowEvent?.Invoke(this, new MsgHistoryShowEventArgs
           {
             Entries = (object[]) args[0]
           });
