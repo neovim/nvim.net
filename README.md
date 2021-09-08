@@ -112,7 +112,7 @@ Run only the `TestMessageDeserialization` test:
 
     dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
 
-Publishing GitHub Package
+Release
 -----
 
 1. Update version as necessary in `src/NvimClient.API/NvimClient.API.csproj`.
