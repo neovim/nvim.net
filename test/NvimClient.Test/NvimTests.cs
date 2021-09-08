@@ -52,7 +52,7 @@ namespace NvimClient.Test
       var context = new SerializationContext();
       context.DictionarySerlaizationOptions.KeyTransformer =
         StringUtil.ConvertToSnakeCase;
-      var serializer  = context.GetSerializer<NvimAPIMetadata>();
+      var serializer = context.GetSerializer<NvimAPIMetadata>();
       var apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
 
       Assert.IsNotNull(apiMetadata.Version);
@@ -76,12 +76,12 @@ namespace NvimClient.Test
       var request = new NvimRequest
       {
         MessageId = 42,
-        Method    = "nvim_eval",
-        Arguments = new MessagePackObject(new MessagePackObject[] {$"'{testString}'"})
+        Method = "nvim_eval",
+        Arguments = new MessagePackObject(new MessagePackObject[] { $"'{testString}'" })
       };
       serializer.Pack(process.StandardInput.BaseStream, request);
 
-      var response = (NvimResponse) serializer.Unpack(process.StandardOutput.BaseStream);
+      var response = (NvimResponse)serializer.Unpack(process.StandardOutput.BaseStream);
 
       Assert.IsTrue(response.MessageId == request.MessageId
                     && response.Error == MessagePackObject.Nil
@@ -118,15 +118,15 @@ namespace NvimClient.Test
       var api = new NvimAPI();
       api.RegisterHandler("client-call", args =>
       {
-        CollectionAssert.AreEqual(new[] {1L, 2L, 3L}, args);
-        return new[]{4, 5, 6};
+        CollectionAssert.AreEqual(new[] { 1L, 2L, 3L }, args);
+        return new[] { 4, 5, 6 };
       });
       var objects = await api.GetApiInfo();
-      var channelID = (long) objects.First();
+      var channelID = (long)objects.First();
       await api.Command(
         $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
-      var result = (object[]) await api.GetVar("result");
-      CollectionAssert.AreEqual(new[]{4L, 5L, 6L}, result);
+      var result = (object[])await api.GetVar("result");
+      CollectionAssert.AreEqual(new[] { 4L, 5L, 6L }, result);
     }
 
     [TestMethod]
@@ -160,7 +160,7 @@ namespace NvimClient.Test
       Assert.AreEqual(3L, result);
 
       await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
-      CollectionAssert.AreEqual(new[] {"a", "b", "c"}, TestPlugin.Command1Args);
+      CollectionAssert.AreEqual(new[] { "a", "b", "c" }, TestPlugin.Command1Args);
 
       await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
       Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
@@ -176,8 +176,8 @@ namespace NvimClient.Test
     public async Task TestTCPSocket()
     {
       var nvimStdio = new NvimAPI();
-      var serverAddress = (string) await nvimStdio.CallFunction("serverstart",
-        new object[] {System.Net.IPAddress.Loopback + ":"});
+      var serverAddress = (string)await nvimStdio.CallFunction("serverstart",
+        new object[] { System.Net.IPAddress.Loopback + ":" });
 
       var nvimTCPSocket = new NvimAPI(serverAddress);
       Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
@@ -188,26 +188,26 @@ namespace NvimClient.Test
     {
       var nvimStdio = new NvimAPI();
       var serverAddress =
-        (string) await nvimStdio.CallFunction("serverstart", new object[0]);
+        (string)await nvimStdio.CallFunction("serverstart", new object[0]);
 
       var nvimLocalSocket = new NvimAPI(serverAddress);
       Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
     }
 
     [DataTestMethod]
-    [DataRow(typeof(bool),                          true)]
-    [DataRow(typeof(Boolean),                       true)]
-    [DataRow(typeof(int),                           false)]
-    [DataRow(typeof(Int32),                         false)]
-    [DataRow(typeof(long),                          true)]
-    [DataRow(typeof(Int64),                         true)]
-    [DataRow(typeof(object[]),                      true)]
-    [DataRow(typeof(long[]),                        true)]
-    [DataRow(typeof(int[]),                         false)]
-    [DataRow(typeof(IDictionary<object, object>),   true)]
-    [DataRow(typeof(IDictionary<long, string>),     true)]
+    [DataRow(typeof(bool), true)]
+    [DataRow(typeof(Boolean), true)]
+    [DataRow(typeof(int), false)]
+    [DataRow(typeof(Int32), false)]
+    [DataRow(typeof(long), true)]
+    [DataRow(typeof(Int64), true)]
+    [DataRow(typeof(object[]), true)]
+    [DataRow(typeof(long[]), true)]
+    [DataRow(typeof(int[]), false)]
+    [DataRow(typeof(IDictionary<object, object>), true)]
+    [DataRow(typeof(IDictionary<long, string>), true)]
     [DataRow(typeof(IDictionary<string, DateTime>), false)]
-    [DataRow(typeof(IDictionary<Random, long>),     false)]
+    [DataRow(typeof(IDictionary<Random, long>), false)]
     public void TestNvimTypeValidation(Type type, bool shouldBeValid)
     {
       Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));

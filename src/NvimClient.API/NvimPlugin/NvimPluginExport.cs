@@ -14,9 +14,9 @@ namespace NvimClient.API.NvimPlugin
     protected NvimPluginExport(string name, MethodInfo method,
       string pluginPath, object pluginInstance)
     {
-      Name           = name;
-      Method         = method;
-      PluginPath     = pluginPath;
+      Name = name;
+      Method = method;
+      PluginPath = pluginPath;
       PluginInstance = pluginInstance;
       Sync = method.GetCustomAttribute<AsyncStateMachineAttribute>() == null
              && method.ReturnType != typeof(Task)
@@ -31,12 +31,12 @@ namespace NvimClient.API.NvimPlugin
       set;
     }
 
-    internal        bool       Sync           { get; }
-    public abstract string     HandlerName    { get; }
-    protected       string     PluginPath     { get; }
-    private         object     PluginInstance { get; }
-    public          MethodInfo Method         { get; }
-    public          string     Name           { get; }
+    internal bool Sync { get; }
+    public abstract string HandlerName { get; }
+    protected string PluginPath { get; }
+    private object PluginInstance { get; }
+    public MethodInfo Method { get; }
+    public string Name { get; }
 
     public Func<object[], object> Handler =>
       args => Method.Invoke(PluginInstance,
@@ -83,8 +83,8 @@ namespace NvimClient.API.NvimPlugin
         .Select((param, index) =>
           new
           {
-            Index      = index,
-            Type       = param.ParameterType,
+            Index = index,
+            Type = param.ParameterType,
             Attributes = param.GetCustomAttributes()
           }))
       {
@@ -118,7 +118,7 @@ namespace NvimClient.API.NvimPlugin
 
     protected struct PluginArgument
     {
-      public int    Index { get; set; }
+      public int Index { get; set; }
       public object Value { get; set; }
     }
 

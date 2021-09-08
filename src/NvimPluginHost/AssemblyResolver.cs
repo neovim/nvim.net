@@ -14,8 +14,8 @@ namespace NvimPluginHost
   internal sealed class AssemblyResolver : IDisposable
   {
     private readonly ICompilationAssemblyResolver _assemblyResolver;
-    private readonly DependencyContext            _dependencyContext;
-    private readonly AssemblyLoadContext          _loadContext;
+    private readonly DependencyContext _dependencyContext;
+    private readonly AssemblyLoadContext _loadContext;
 
     public AssemblyResolver(string path)
     {
@@ -31,7 +31,7 @@ namespace NvimPluginHost
          new PackageCompilationAssemblyResolver()
        });
 
-      _loadContext           =  AssemblyLoadContext.GetLoadContext(Assembly);
+      _loadContext = AssemblyLoadContext.GetLoadContext(Assembly);
       _loadContext.Resolving += OnResolving;
     }
 

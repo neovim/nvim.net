@@ -20,7 +20,7 @@ namespace NvimClient
 
       var enumerator = str.GetEnumerator();
       enumerator.MoveNext();
-      var firstChar     = enumerator.Current;
+      var firstChar = enumerator.Current;
       var stringBuilder = new StringBuilder(str.Length * 2);
 
       AppendWithUnderscores(firstChar, false);
@@ -33,8 +33,8 @@ namespace NvimClient
           return;
         }
 
-        var currentChar       = enumerator.Current;
-        var currentCharUpper  = !char.IsLower(currentChar);
+        var currentChar = enumerator.Current;
+        var currentCharUpper = !char.IsLower(currentChar);
         var previousCharUpper = !char.IsLower(previousChar);
         if (currentCharUpper && !previousCharUpper)
         {
@@ -85,7 +85,7 @@ namespace NvimClient
         return str;
       }
 
-      var enumerator    = str.GetEnumerator();
+      var enumerator = str.GetEnumerator();
       var stringBuilder = new StringBuilder(str.Length);
 
       AppendFirstChar();
@@ -97,7 +97,7 @@ namespace NvimClient
           return;
         }
 
-        var currentChar  = enumerator.Current;
+        var currentChar = enumerator.Current;
         var isUnderscore = currentChar == '_';
         if (!isUnderscore)
         {
@@ -119,7 +119,7 @@ namespace NvimClient
           return;
         }
 
-        var currentChar  = enumerator.Current;
+        var currentChar = enumerator.Current;
         var isUnderscore = currentChar == '_';
         if (!isUnderscore)
         {

@@ -86,7 +86,7 @@ namespace NvimClient.API
         var match = Regex.Match(serverAddress,
           @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)");
         var serverName = match.Groups["serverName"].Value;
-        var pipeName   = match.Groups["pipeName"].Value;
+        var pipeName = match.Groups["pipeName"].Value;
         var pipeStream = new NamedPipeClientStream(serverName, pipeName,
           PipeDirection.InOut, PipeOptions.Asynchronous);
         pipeStream.Connect();
@@ -119,10 +119,10 @@ namespace NvimClient.API
     {
       var context = new SerializationContext();
       context.Serializers.Register(new NvimMessageSerializer(context));
-      _serializer   = MessagePackSerializer.Get<NvimMessage>(context);
-      _inputStream  = inputStream;
+      _serializer = MessagePackSerializer.Get<NvimMessage>(context);
+      _inputStream = inputStream;
       _outputStream = outputStream;
-      _messageQueue  = new BlockingCollection<NvimMessage>();
+      _messageQueue = new BlockingCollection<NvimMessage>();
       _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
       _handlers = new ConcurrentDictionary<string, NvimHandler>();
 
@@ -131,10 +131,10 @@ namespace NvimClient.API
     }
 
     public void RegisterHandler(string name, Func<object[], object> handler) =>
-      RegisterHandler(name, (Delegate) handler);
+      RegisterHandler(name, (Delegate)handler);
 
     public void RegisterHandler(string name, Action<object[]> handler) =>
-      RegisterHandler(name, (Delegate) handler);
+      RegisterHandler(name, (Delegate)handler);
 
     public void RegisterHandler(string name,
       Func<object[], Task<object>> handler) => RegisterHandler(name,
@@ -178,10 +178,10 @@ namespace NvimClient.API
     private void CallHandlerAndSendResponse(uint requestId, Delegate handler,
       object[] args)
     {
-      var response = new NvimResponse {MessageId = requestId};
+      var response = new NvimResponse { MessageId = requestId };
       try
       {
-        var result = handler.DynamicInvoke(new object[] {args});
+        var result = handler.DynamicInvoke(new object[] { args });
         response.Result = ConvertToMessagePackObject(result);
       }
       catch (Exception exception)
@@ -197,11 +197,11 @@ namespace NvimClient.API
       object error)
     {
       var response = new NvimResponse
-                     {
-                       MessageId = args.RequestId,
-                       Result    = ConvertToMessagePackObject(result),
-                       Error     = ConvertToMessagePackObject(error)
-                     };
+      {
+        MessageId = args.RequestId,
+        Result = ConvertToMessagePackObject(result),
+        Error = ConvertToMessagePackObject(error)
+      };
       _messageQueue.Add(response);
     }
 
@@ -223,15 +223,15 @@ namespace NvimClient.API
           var result = ConvertFromMessagePackObject(response.Result);
           if (typeof(TResult).IsArray)
           {
-            var objectArray = (object[]) result;
+            var objectArray = (object[])result;
             var resultArray = Array.CreateInstance(
               typeof(TResult).GetElementType(),
               objectArray.Length);
             Array.Copy(objectArray, resultArray, resultArray.Length);
-            return (TResult) (object) resultArray;
+            return (TResult)(object)resultArray;
           }
 
-          return (TResult) result;
+          return (TResult)result;
         });
     }
 
@@ -267,56 +267,56 @@ namespace NvimClient.API
         switch (message)
         {
           case NvimNotification notification:
-          {
-            if (notification.Method == "redraw")
             {
-              var uiEvents = notification.Arguments.AsEnumerable().SelectMany(
-                uiEvent =>
-                {
-                  var data = uiEvent.AsList();
-                  var name = data.First().AsString();
-                  return data.Select(args => new {Name = name, Args = args})
-                             .Skip(1);
-                });
-              foreach (var uiEvent in uiEvents)
+              if (notification.Method == "redraw")
               {
-                CallUIEventHandler(uiEvent.Name,
-                  (object[]) ConvertFromMessagePackObject(uiEvent.Args));
+                var uiEvents = notification.Arguments.AsEnumerable().SelectMany(
+                  uiEvent =>
+                  {
+                    var data = uiEvent.AsList();
+                    var name = data.First().AsString();
+                    return data.Select(args => new { Name = name, Args = args })
+                               .Skip(1);
+                  });
+                foreach (var uiEvent in uiEvents)
+                {
+                  CallUIEventHandler(uiEvent.Name,
+                    (object[])ConvertFromMessagePackObject(uiEvent.Args));
+                }
               }
-            }
 
-            var arguments =
-              (object[]) ConvertFromMessagePackObject(notification.Arguments);
-            if (_handlers.TryGetValue(notification.Method, out var handler))
-            {
-              handler(null, arguments);
-            }
-            else
-            {
-              OnUnhandledNotification?.Invoke(this,
-                new NvimUnhandledNotificationEventArgs(notification.Method,
-                  arguments));
-            }
+              var arguments =
+                (object[])ConvertFromMessagePackObject(notification.Arguments);
+              if (_handlers.TryGetValue(notification.Method, out var handler))
+              {
+                handler(null, arguments);
+              }
+              else
+              {
+                OnUnhandledNotification?.Invoke(this,
+                  new NvimUnhandledNotificationEventArgs(notification.Method,
+                    arguments));
+              }
 
-            break;
-          }
+              break;
+            }
           case NvimRequest request:
-          {
-            var arguments =
-              (object[]) ConvertFromMessagePackObject(request.Arguments);
-            if (_handlers.TryGetValue(request.Method, out var handler))
             {
-              handler(request.MessageId, arguments);
-            }
-            else
-            {
-              OnUnhandledRequest?.Invoke(this,
-                new NvimUnhandledRequestEventArgs(this, request.MessageId,
-                  request.Method, arguments));
-            }
+              var arguments =
+                (object[])ConvertFromMessagePackObject(request.Arguments);
+              if (_handlers.TryGetValue(request.Method, out var handler))
+              {
+                handler(request.MessageId, arguments);
+              }
+              else
+              {
+                OnUnhandledRequest?.Invoke(this,
+                  new NvimUnhandledRequestEventArgs(this, request.MessageId,
+                    request.Method, arguments));
+              }
 
-            break;
-          }
+              break;
+            }
           case NvimResponse response:
             if (!_pendingRequests.TryRemove(response.MessageId,
               out var pendingRequest))
@@ -343,7 +343,7 @@ namespace NvimClient.API
     {
       private readonly TimeSpan _responseTimeout = TimeSpan.FromSeconds(10);
       private readonly ManualResetEvent _receivedResponseEvent;
-      private NvimResponse _response;          
+      private NvimResponse _response;
 
       internal PendingRequest() =>
         _receivedResponseEvent = new ManualResetEvent(false);
@@ -366,7 +366,7 @@ namespace NvimClient.API
               else
               {
                 taskCompletionSource.SetResult(
-                  ((PendingRequest) state)._response);
+                  ((PendingRequest)state)._response);
               }
             },
             this, timeout, true);

@@ -60,8 +60,8 @@ namespace NvimPluginHost
       nvim.RegisterHandler("poll", args => "ok");
       nvim.RegisterHandler("specs", args =>
       {
-        var slnFilePath = (string) args.First();
-        var pluginType  = GetPluginFromSolutionPath(slnFilePath);
+        var slnFilePath = (string)args.First();
+        var pluginType = GetPluginFromSolutionPath(slnFilePath);
         return pluginType == null
           ? null
           : PluginHost.GetPluginSpecs(pluginType);
@@ -98,8 +98,8 @@ namespace NvimPluginHost
       var buildProcess = Process.Start(
         new ProcessStartInfo
         {
-          FileName       = "dotnet",
-          Arguments      = "build " + slnFileInfo.FullName,
+          FileName = "dotnet",
+          Arguments = "build " + slnFileInfo.FullName,
           CreateNoWindow = true
         });
       buildProcess?.WaitForExit();

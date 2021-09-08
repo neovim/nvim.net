@@ -30,12 +30,12 @@ namespace NvimClient.API.NvimPlugin
       {
         argumentConverters.Add(
           nvimArg => evalParameterIndices.Zip(
-            (object[]) nvimArg, (index, arg) =>
-              new PluginArgument
-              {
-                Value = arg,
-                Index = index
-              })
+            (object[])nvimArg, (index, arg) =>
+             new PluginArgument
+             {
+               Value = arg,
+               Index = index
+             })
         );
       }
 

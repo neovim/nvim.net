@@ -140,7 +140,8 @@ namespace NvimClient.API
   public class {eventName}EventArgs : EventArgs
   {{
 {
-      string.Join("", uiEvent.Parameters.Select(param => {
+      string.Join("", uiEvent.Parameters.Select(param =>
+      {
         var type = NvimTypesMap.GetCSharpType(param.Type);
         var paramName = StringUtil.ConvertToCamelCase(param.Name, true);
         return $"    public {type} {paramName} {{ get; set; }}\n";
@@ -233,7 +234,7 @@ namespace NvimClient.API
         Method = ""{function.Name}"",
         Arguments = GetRequestArguments(
           {string.Join(", ",
-            (isVirtualMethod ? new[] {"_msgPackExtObj"} : Enumerable.Empty<string>())
+            (isVirtualMethod ? new[] { "_msgPackExtObj" } : Enumerable.Empty<string>())
             .Concat(parameters.Select(param => param.Name)))})
       }});
 ";

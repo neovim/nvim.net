@@ -62,7 +62,7 @@ namespace NvimClient.API.NvimPlugin
           {"logo", pluginAttribute.Logo}
         });
 
-      var channelID = (long) (await api.GetApiInfo())[0];
+      var channelID = (long)(await api.GetApiInfo())[0];
       await api.CallFunction("remote#host#Register",
         new object[]
         {
