@@ -24,8 +24,7 @@ namespace NvimClient.API
     ///     // `args` is of type `ModeInfoSetEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="ModeInfoSetEventArgs"/>
@@ -43,8 +42,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler UpdateMenuEvent;
@@ -61,8 +59,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler BusyStartEvent;
@@ -79,8 +76,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler BusyStopEvent;
@@ -97,8 +93,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler MouseOnEvent;
@@ -115,8 +110,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler MouseOffEvent;
@@ -133,8 +127,7 @@ namespace NvimClient.API
     ///     // `args` is of type `ModeChangeEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="ModeChangeEventArgs"/>
@@ -152,8 +145,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler BellEvent;
@@ -170,8 +162,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler VisualBellEvent;
@@ -188,8 +179,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler FlushEvent;
@@ -206,8 +196,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler SuspendEvent;
@@ -224,8 +213,7 @@ namespace NvimClient.API
     ///     // `args` is of type `SetTitleEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="SetTitleEventArgs"/>
@@ -243,8 +231,7 @@ namespace NvimClient.API
     ///     // `args` is of type `SetIconEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="SetIconEventArgs"/>
@@ -262,8 +249,7 @@ namespace NvimClient.API
     ///     // `args` is of type `ScreenshotEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="ScreenshotEventArgs"/>
@@ -281,8 +267,7 @@ namespace NvimClient.API
     ///     // `args` is of type `OptionSetEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="OptionSetEventArgs"/>
@@ -300,8 +285,7 @@ namespace NvimClient.API
     ///     // `args` is of type `UpdateFgEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="UpdateFgEventArgs"/>
@@ -319,8 +303,7 @@ namespace NvimClient.API
     ///     // `args` is of type `UpdateBgEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="UpdateBgEventArgs"/>
@@ -338,8 +321,7 @@ namespace NvimClient.API
     ///     // `args` is of type `UpdateSpEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="UpdateSpEventArgs"/>
@@ -357,8 +339,7 @@ namespace NvimClient.API
     ///     // `args` is of type `ResizeEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="ResizeEventArgs"/>
@@ -376,8 +357,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler ClearEvent;
@@ -394,8 +374,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler EolClearEvent;
@@ -412,8 +391,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CursorGotoEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CursorGotoEventArgs"/>
@@ -431,8 +409,7 @@ namespace NvimClient.API
     ///     // `args` is of type `HighlightSetEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="HighlightSetEventArgs"/>
@@ -450,8 +427,7 @@ namespace NvimClient.API
     ///     // `args` is of type `PutEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="PutEventArgs"/>
@@ -469,8 +445,7 @@ namespace NvimClient.API
     ///     // `args` is of type `SetScrollRegionEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="SetScrollRegionEventArgs"/>
@@ -488,8 +463,7 @@ namespace NvimClient.API
     ///     // `args` is of type `ScrollEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="ScrollEventArgs"/>
@@ -507,8 +481,7 @@ namespace NvimClient.API
     ///     // `args` is of type `DefaultColorsSetEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="DefaultColorsSetEventArgs"/>
@@ -526,8 +499,7 @@ namespace NvimClient.API
     ///     // `args` is of type `HlAttrDefineEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="HlAttrDefineEventArgs"/>
@@ -545,8 +517,7 @@ namespace NvimClient.API
     ///     // `args` is of type `HlGroupSetEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="HlGroupSetEventArgs"/>
@@ -564,8 +535,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridResizeEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridResizeEventArgs"/>
@@ -583,8 +553,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridClearEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridClearEventArgs"/>
@@ -602,8 +571,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridCursorGotoEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridCursorGotoEventArgs"/>
@@ -621,8 +589,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridLineEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridLineEventArgs"/>
@@ -640,8 +607,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridScrollEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridScrollEventArgs"/>
@@ -659,8 +625,7 @@ namespace NvimClient.API
     ///     // `args` is of type `GridDestroyEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="GridDestroyEventArgs"/>
@@ -678,8 +643,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinPosEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinPosEventArgs"/>
@@ -697,8 +661,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinFloatPosEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinFloatPosEventArgs"/>
@@ -716,8 +679,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinExternalPosEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinExternalPosEventArgs"/>
@@ -735,8 +697,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinHideEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinHideEventArgs"/>
@@ -754,8 +715,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinCloseEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinCloseEventArgs"/>
@@ -773,8 +733,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgSetPosEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgSetPosEventArgs"/>
@@ -792,8 +751,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WinViewportEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WinViewportEventArgs"/>
@@ -811,8 +769,7 @@ namespace NvimClient.API
     ///     // `args` is of type `PopupmenuShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="PopupmenuShowEventArgs"/>
@@ -830,8 +787,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler PopupmenuHideEvent;
@@ -848,8 +804,7 @@ namespace NvimClient.API
     ///     // `args` is of type `PopupmenuSelectEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="PopupmenuSelectEventArgs"/>
@@ -867,8 +822,7 @@ namespace NvimClient.API
     ///     // `args` is of type `TablineUpdateEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="TablineUpdateEventArgs"/>
@@ -886,8 +840,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlineShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlineShowEventArgs"/>
@@ -905,8 +858,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlinePosEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlinePosEventArgs"/>
@@ -924,8 +876,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlineSpecialCharEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlineSpecialCharEventArgs"/>
@@ -943,8 +894,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlineHideEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlineHideEventArgs"/>
@@ -962,8 +912,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlineBlockShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlineBlockShowEventArgs"/>
@@ -981,8 +930,7 @@ namespace NvimClient.API
     ///     // `args` is of type `CmdlineBlockAppendEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="CmdlineBlockAppendEventArgs"/>
@@ -1000,8 +948,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler CmdlineBlockHideEvent;
@@ -1018,8 +965,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WildmenuShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WildmenuShowEventArgs"/>
@@ -1037,8 +983,7 @@ namespace NvimClient.API
     ///     // `args` is of type `WildmenuSelectEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="WildmenuSelectEventArgs"/>
@@ -1056,8 +1001,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler WildmenuHideEvent;
@@ -1074,8 +1018,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgShowEventArgs"/>
@@ -1093,8 +1036,7 @@ namespace NvimClient.API
     ///     // `args` contains no data for this event.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     public event EventHandler MsgClearEvent;
@@ -1111,8 +1053,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgShowcmdEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgShowcmdEventArgs"/>
@@ -1130,8 +1071,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgShowmodeEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgShowmodeEventArgs"/>
@@ -1149,8 +1089,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgRulerEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgRulerEventArgs"/>
@@ -1168,8 +1107,7 @@ namespace NvimClient.API
     ///     // `args` is of type `MsgHistoryShowEventArgs`.
     ///     // Handler code goes here.
     /// }
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>
     /// <seealso cref="MsgHistoryShowEventArgs"/>
