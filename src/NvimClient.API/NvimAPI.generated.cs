@@ -11,67 +11,1168 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
+
+    /// <summary>
+    /// EventHandler for <c>mode_info_set</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ModeInfoSetEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `ModeInfoSetEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="ModeInfoSetEventArgs"/>
     public event EventHandler<ModeInfoSetEventArgs> ModeInfoSetEvent;
+
+    /// <summary>
+    /// EventHandler for <c>update_menu</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.UpdateMenuEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler UpdateMenuEvent;
+
+    /// <summary>
+    /// EventHandler for <c>busy_start</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.BusyStartEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler BusyStartEvent;
+
+    /// <summary>
+    /// EventHandler for <c>busy_stop</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.BusyStopEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler BusyStopEvent;
+
+    /// <summary>
+    /// EventHandler for <c>mouse_on</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MouseOnEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler MouseOnEvent;
+
+    /// <summary>
+    /// EventHandler for <c>mouse_off</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MouseOffEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler MouseOffEvent;
+
+    /// <summary>
+    /// EventHandler for <c>mode_change</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ModeChangeEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `ModeChangeEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="ModeChangeEventArgs"/>
     public event EventHandler<ModeChangeEventArgs> ModeChangeEvent;
+
+    /// <summary>
+    /// EventHandler for <c>bell</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.BellEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler BellEvent;
+
+    /// <summary>
+    /// EventHandler for <c>visual_bell</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.VisualBellEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler VisualBellEvent;
+
+    /// <summary>
+    /// EventHandler for <c>flush</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.FlushEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler FlushEvent;
+
+    /// <summary>
+    /// EventHandler for <c>suspend</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.SuspendEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler SuspendEvent;
+
+    /// <summary>
+    /// EventHandler for <c>set_title</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.SetTitleEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `SetTitleEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="SetTitleEventArgs"/>
     public event EventHandler<SetTitleEventArgs> SetTitleEvent;
+
+    /// <summary>
+    /// EventHandler for <c>set_icon</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.SetIconEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `SetIconEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="SetIconEventArgs"/>
     public event EventHandler<SetIconEventArgs> SetIconEvent;
+
+    /// <summary>
+    /// EventHandler for <c>screenshot</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ScreenshotEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `ScreenshotEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="ScreenshotEventArgs"/>
     public event EventHandler<ScreenshotEventArgs> ScreenshotEvent;
+
+    /// <summary>
+    /// EventHandler for <c>option_set</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.OptionSetEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `OptionSetEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="OptionSetEventArgs"/>
     public event EventHandler<OptionSetEventArgs> OptionSetEvent;
+
+    /// <summary>
+    /// EventHandler for <c>update_fg</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.UpdateFgEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `UpdateFgEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="UpdateFgEventArgs"/>
     public event EventHandler<UpdateFgEventArgs> UpdateFgEvent;
+
+    /// <summary>
+    /// EventHandler for <c>update_bg</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.UpdateBgEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `UpdateBgEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="UpdateBgEventArgs"/>
     public event EventHandler<UpdateBgEventArgs> UpdateBgEvent;
+
+    /// <summary>
+    /// EventHandler for <c>update_sp</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.UpdateSpEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `UpdateSpEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="UpdateSpEventArgs"/>
     public event EventHandler<UpdateSpEventArgs> UpdateSpEvent;
+
+    /// <summary>
+    /// EventHandler for <c>resize</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ResizeEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `ResizeEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="ResizeEventArgs"/>
     public event EventHandler<ResizeEventArgs> ResizeEvent;
+
+    /// <summary>
+    /// EventHandler for <c>clear</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ClearEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler ClearEvent;
+
+    /// <summary>
+    /// EventHandler for <c>eol_clear</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.EolClearEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler EolClearEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cursor_goto</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CursorGotoEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CursorGotoEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CursorGotoEventArgs"/>
     public event EventHandler<CursorGotoEventArgs> CursorGotoEvent;
+
+    /// <summary>
+    /// EventHandler for <c>highlight_set</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.HighlightSetEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `HighlightSetEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="HighlightSetEventArgs"/>
     public event EventHandler<HighlightSetEventArgs> HighlightSetEvent;
+
+    /// <summary>
+    /// EventHandler for <c>put</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.PutEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `PutEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="PutEventArgs"/>
     public event EventHandler<PutEventArgs> PutEvent;
+
+    /// <summary>
+    /// EventHandler for <c>set_scroll_region</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.SetScrollRegionEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `SetScrollRegionEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="SetScrollRegionEventArgs"/>
     public event EventHandler<SetScrollRegionEventArgs> SetScrollRegionEvent;
+
+    /// <summary>
+    /// EventHandler for <c>scroll</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.ScrollEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `ScrollEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="ScrollEventArgs"/>
     public event EventHandler<ScrollEventArgs> ScrollEvent;
+
+    /// <summary>
+    /// EventHandler for <c>default_colors_set</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.DefaultColorsSetEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `DefaultColorsSetEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="DefaultColorsSetEventArgs"/>
     public event EventHandler<DefaultColorsSetEventArgs> DefaultColorsSetEvent;
+
+    /// <summary>
+    /// EventHandler for <c>hl_attr_define</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.HlAttrDefineEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `HlAttrDefineEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="HlAttrDefineEventArgs"/>
     public event EventHandler<HlAttrDefineEventArgs> HlAttrDefineEvent;
+
+    /// <summary>
+    /// EventHandler for <c>hl_group_set</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.HlGroupSetEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `HlGroupSetEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="HlGroupSetEventArgs"/>
     public event EventHandler<HlGroupSetEventArgs> HlGroupSetEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_resize</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridResizeEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridResizeEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridResizeEventArgs"/>
     public event EventHandler<GridResizeEventArgs> GridResizeEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_clear</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridClearEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridClearEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridClearEventArgs"/>
     public event EventHandler<GridClearEventArgs> GridClearEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_cursor_goto</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridCursorGotoEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridCursorGotoEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridCursorGotoEventArgs"/>
     public event EventHandler<GridCursorGotoEventArgs> GridCursorGotoEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_line</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridLineEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridLineEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridLineEventArgs"/>
     public event EventHandler<GridLineEventArgs> GridLineEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_scroll</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridScrollEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridScrollEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridScrollEventArgs"/>
     public event EventHandler<GridScrollEventArgs> GridScrollEvent;
+
+    /// <summary>
+    /// EventHandler for <c>grid_destroy</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.GridDestroyEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `GridDestroyEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="GridDestroyEventArgs"/>
     public event EventHandler<GridDestroyEventArgs> GridDestroyEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_pos</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinPosEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinPosEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinPosEventArgs"/>
     public event EventHandler<WinPosEventArgs> WinPosEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_float_pos</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinFloatPosEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinFloatPosEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinFloatPosEventArgs"/>
     public event EventHandler<WinFloatPosEventArgs> WinFloatPosEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_external_pos</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinExternalPosEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinExternalPosEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinExternalPosEventArgs"/>
     public event EventHandler<WinExternalPosEventArgs> WinExternalPosEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_hide</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinHideEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinHideEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinHideEventArgs"/>
     public event EventHandler<WinHideEventArgs> WinHideEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_close</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinCloseEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinCloseEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinCloseEventArgs"/>
     public event EventHandler<WinCloseEventArgs> WinCloseEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_set_pos</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgSetPosEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgSetPosEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgSetPosEventArgs"/>
     public event EventHandler<MsgSetPosEventArgs> MsgSetPosEvent;
+
+    /// <summary>
+    /// EventHandler for <c>win_viewport</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WinViewportEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WinViewportEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WinViewportEventArgs"/>
     public event EventHandler<WinViewportEventArgs> WinViewportEvent;
+
+    /// <summary>
+    /// EventHandler for <c>popupmenu_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.PopupmenuShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `PopupmenuShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="PopupmenuShowEventArgs"/>
     public event EventHandler<PopupmenuShowEventArgs> PopupmenuShowEvent;
+
+    /// <summary>
+    /// EventHandler for <c>popupmenu_hide</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.PopupmenuHideEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler PopupmenuHideEvent;
+
+    /// <summary>
+    /// EventHandler for <c>popupmenu_select</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.PopupmenuSelectEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `PopupmenuSelectEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="PopupmenuSelectEventArgs"/>
     public event EventHandler<PopupmenuSelectEventArgs> PopupmenuSelectEvent;
+
+    /// <summary>
+    /// EventHandler for <c>tabline_update</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.TablineUpdateEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `TablineUpdateEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="TablineUpdateEventArgs"/>
     public event EventHandler<TablineUpdateEventArgs> TablineUpdateEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlineShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlineShowEventArgs"/>
     public event EventHandler<CmdlineShowEventArgs> CmdlineShowEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_pos</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlinePosEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlinePosEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlinePosEventArgs"/>
     public event EventHandler<CmdlinePosEventArgs> CmdlinePosEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_special_char</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineSpecialCharEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlineSpecialCharEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlineSpecialCharEventArgs"/>
     public event EventHandler<CmdlineSpecialCharEventArgs> CmdlineSpecialCharEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_hide</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineHideEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlineHideEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlineHideEventArgs"/>
     public event EventHandler<CmdlineHideEventArgs> CmdlineHideEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_block_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineBlockShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlineBlockShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlineBlockShowEventArgs"/>
     public event EventHandler<CmdlineBlockShowEventArgs> CmdlineBlockShowEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_block_append</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineBlockAppendEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `CmdlineBlockAppendEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="CmdlineBlockAppendEventArgs"/>
     public event EventHandler<CmdlineBlockAppendEventArgs> CmdlineBlockAppendEvent;
+
+    /// <summary>
+    /// EventHandler for <c>cmdline_block_hide</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.CmdlineBlockHideEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler CmdlineBlockHideEvent;
+
+    /// <summary>
+    /// EventHandler for <c>wildmenu_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WildmenuShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WildmenuShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WildmenuShowEventArgs"/>
     public event EventHandler<WildmenuShowEventArgs> WildmenuShowEvent;
+
+    /// <summary>
+    /// EventHandler for <c>wildmenu_select</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WildmenuSelectEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `WildmenuSelectEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="WildmenuSelectEventArgs"/>
     public event EventHandler<WildmenuSelectEventArgs> WildmenuSelectEvent;
+
+    /// <summary>
+    /// EventHandler for <c>wildmenu_hide</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.WildmenuHideEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler WildmenuHideEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgShowEventArgs"/>
     public event EventHandler<MsgShowEventArgs> MsgShowEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_clear</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgClearEvent += (sender, args) =>
+    /// {
+    ///     // `args` contains no data for this event.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
     public event EventHandler MsgClearEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_showcmd</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgShowcmdEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgShowcmdEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgShowcmdEventArgs"/>
     public event EventHandler<MsgShowcmdEventArgs> MsgShowcmdEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_showmode</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgShowmodeEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgShowmodeEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgShowmodeEventArgs"/>
     public event EventHandler<MsgShowmodeEventArgs> MsgShowmodeEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_ruler</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgRulerEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgRulerEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgRulerEventArgs"/>
     public event EventHandler<MsgRulerEventArgs> MsgRulerEvent;
+
+    /// <summary>
+    /// EventHandler for <c>msg_history_show</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.MsgHistoryShowEvent += (sender, args) =>
+    /// {
+    ///     // `args` is of type `MsgHistoryShowEventArgs`.
+    ///     // Handler code goes here.
+    /// }
+    /// // Now if this event is emitted after attaching the UI,
+    /// // the above handler code will be run.
+    /// </code>
+    /// </example>
+    /// <seealso cref="MsgHistoryShowEventArgs"/>
     public event EventHandler<MsgHistoryShowEventArgs> MsgHistoryShowEvent;
 
     /// <summary>
