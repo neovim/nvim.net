@@ -140,8 +140,7 @@ namespace NvimClient.API
     ///     // `args` {(genericTypeParam == string.Empty ? "contains no data for this event." : $"is of type `{camelCaseName}Args`.")}
     ///     // Handler code goes here.
     /// }}
-    /// // Now if this event is emitted after attaching the UI,
-    /// // the above handler code will be run.
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
     /// </code>
     /// </example>{(genericTypeParam == string.Empty ? "" : $"\n    /// <seealso cref=\"{camelCaseName}Args\"/>")}
     public event EventHandler{genericTypeParam} {camelCaseName};";
