@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <DocumentationFile>bin\Debug\net5.0\NvimClient.API.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <RepositoryUrl>https://github.com/neovim/nvim.net</RepositoryUrl>
     <Version>0.20.0</Version>
   </PropertyGroup>
