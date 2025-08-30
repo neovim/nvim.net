@@ -100,7 +100,9 @@ namespace NvimPluginHost
         {
           FileName = "dotnet",
           Arguments = "build " + slnFileInfo.FullName,
-          CreateNoWindow = true
+          CreateNoWindow = true,
+          RedirectStandardError = true,
+          RedirectStandardOutput = true,
         });
       buildProcess?.WaitForExit();
 
