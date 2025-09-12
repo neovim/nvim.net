@@ -123,11 +123,27 @@ namespace NvimClient.API
       string.Join("\n",
         uiEvents.Select(uiEvent =>
         {
-          var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+          var camelCaseName = $"{StringUtil.ConvertToCamelCase(uiEvent.Name, true)}Event";
           var genericTypeParam = uiEvent.Parameters.Any()
-            ? $"<{camelCaseName}EventArgs>"
+            ? $"<{camelCaseName}Args>"
             : string.Empty;
-          return $"    public event EventHandler{genericTypeParam} {camelCaseName}Event;";
+          return $@"
+    /// <summary>
+    /// EventHandler for <c>{uiEvent.Name}</c> UI event (see corresponding
+    /// docs in `:help ui-events` in nvim).
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var api = new NvimAPI();
+    /// api.{camelCaseName} += (sender, args) =>
+    /// {{
+    ///     // `args` {(genericTypeParam == string.Empty ? "contains no data for this event." : $"is of type `{camelCaseName}Args`.")}
+    ///     // Handler code goes here.
+    /// }}
+    /// // This handler will be executed whenever the event is emitted after attaching the UI.
+    /// </code>
+    /// </example>{(genericTypeParam == string.Empty ? "" : $"\n    /// <seealso cref=\"{camelCaseName}Args\"/>")}
+    public event EventHandler{genericTypeParam} {camelCaseName};";
         }));
 
     private static string GenerateNvimUIEventArgs(
