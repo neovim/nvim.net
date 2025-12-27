@@ -4,7 +4,7 @@ using NvimClient.API.NvimPlugin.Parameters;
 
 namespace NvimClient.Test
 {
-  [NvimPlugin(Version = "0.0.1")]
+  [NvimPlugin(Name="TestPlugin", Version = "0.0.1")]
   internal class TestPlugin
   {
     private readonly NvimAPI _nvim;
