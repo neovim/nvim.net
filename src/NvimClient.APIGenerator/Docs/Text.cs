@@ -1,11 +1,23 @@
-namespace NvimClient.APIGenerator.Docs
-{
-  internal class Text : IDocElement
-  {
+namespace NvimClient.APIGenerator.Docs;
+
+/// <summary>
+/// Raw text documentation
+/// </summary>
+internal class Text : IDocElement {
+    /// <summary>
+    /// The actual text
+    /// </summary>
     private readonly string _text;
 
-    public Text(string text) => _text = text;
+    /// <summary>
+    /// Constructor that receives the text as a string
+    /// </summary>
+    public Text(string text) {
+        _text = text;
+    }
 
+    /// <summary>
+    /// An override to return the text instead of the object name
+    /// </summary>
     public override string ToString() => _text;
-  }
 }

@@ -1,12 +1,21 @@
 using System.Collections.Generic;
 
-namespace NvimClient.APIGenerator.Docs
-{
-  internal abstract class DocElementContainer : IDocElement
-  {
-    protected DocElementContainer(IEnumerable<IDocElement> children) =>
-      Children = children;
+namespace NvimClient.APIGenerator.Docs;
 
+/// <summary>
+/// A container of <cref="IDocElement"/>
+/// </summary>
+internal abstract class DocElementContainer : IDocElement {
+    /// <summary>
+    /// The items contained within the Container.
+    /// </summary>
     public IEnumerable<IDocElement> Children { get; }
-  }
+
+
+    /// <summary>
+    /// Construct the elements that contain the items in the element
+    /// </summary>
+    protected DocElementContainer(IEnumerable<IDocElement> children) {
+        Children = children;
+    }
 }
