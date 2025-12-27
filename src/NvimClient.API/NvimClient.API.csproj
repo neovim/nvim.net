@@ -4,6 +4,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <RepositoryUrl>https://github.com/neovim/nvim.net</RepositoryUrl>
     <Version>0.20.0</Version>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

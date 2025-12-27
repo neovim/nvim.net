@@ -11,11 +11,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace NvimClient.API
-{
-  /// <summary>Represents a Unix Domain Socket endpoint as a path.</summary>
-  internal sealed class UnixDomainSocketEndPoint : EndPoint
-  {
+namespace NvimClient.API;
+
+/// <summary>Represents a Unix Domain Socket endpoint as a path.</summary>
+internal sealed class UnixDomainSocketEndPoint : EndPoint {
     private const AddressFamily EndPointAddressFamily = AddressFamily.Unix;
 
     private static readonly Encoding s_pathEncoding = Encoding.UTF8;
@@ -26,70 +25,57 @@ namespace NvimClient.API
     private readonly string _path;
     private readonly byte[] _encodedPath;
 
-    public UnixDomainSocketEndPoint(string path)
-    {
-      if (path == null)
-      {
-        throw new ArgumentNullException(nameof(path));
-      }
+    public UnixDomainSocketEndPoint(string path) {
+        ArgumentNullException.ThrowIfNull(path);
 
-      _path = path;
-      _encodedPath = s_pathEncoding.GetBytes(_path);
+        _path = path;
+        _encodedPath = s_pathEncoding.GetBytes(_path);
 
-      if (path.Length == 0 || _encodedPath.Length > s_nativePathLength)
-      {
-        throw new ArgumentOutOfRangeException(nameof(path));
-      }
+        if (path.Length == 0 || _encodedPath.Length > s_nativePathLength) {
+            throw new ArgumentOutOfRangeException(nameof(path));
+        }
     }
 
-    internal UnixDomainSocketEndPoint(SocketAddress socketAddress)
-    {
-      if (socketAddress == null)
-      {
-        throw new ArgumentNullException(nameof(socketAddress));
-      }
+    internal UnixDomainSocketEndPoint(SocketAddress socketAddress) {
+        ArgumentNullException.ThrowIfNull(socketAddress);
 
-      if (socketAddress.Family != EndPointAddressFamily ||
-          socketAddress.Size > s_nativeAddressSize)
-      {
-        throw new ArgumentOutOfRangeException(nameof(socketAddress));
-      }
-
-      if (socketAddress.Size > s_nativePathOffset)
-      {
-        _encodedPath = new byte[socketAddress.Size - s_nativePathOffset];
-        for (int i = 0; i < _encodedPath.Length; i++)
-        {
-          _encodedPath[i] = socketAddress[s_nativePathOffset + i];
+        if (socketAddress.Family != EndPointAddressFamily ||
+            socketAddress.Size > s_nativeAddressSize) {
+            throw new ArgumentOutOfRangeException(nameof(socketAddress));
         }
 
-        _path = s_pathEncoding.GetString(_encodedPath, 0, _encodedPath.Length);
-      }
-      else
-      {
-        _encodedPath = new byte[0];
-        _path = string.Empty;
-      }
+        if (socketAddress.Size > s_nativePathOffset) {
+            _encodedPath = new byte[socketAddress.Size - s_nativePathOffset];
+            for (int i = 0; i < _encodedPath.Length; i++) {
+                _encodedPath[i] = socketAddress[s_nativePathOffset + i];
+            }
+
+            _path = s_pathEncoding.GetString(_encodedPath, 0, _encodedPath.Length);
+        } else {
+            _encodedPath = [];
+            _path = string.Empty;
+        }
     }
 
-    public override SocketAddress Serialize()
-    {
-      var result = new SocketAddress(AddressFamily.Unix, s_nativeAddressSize);
-      Debug.Assert(_encodedPath.Length + s_nativePathOffset <= result.Size, "Expected path to fit in address");
+    public override SocketAddress Serialize() {
+        SocketAddress result = new(AddressFamily.Unix, s_nativeAddressSize);
+        Debug.Assert(_encodedPath.Length + s_nativePathOffset <= result.Size, "Expected path to fit in address");
 
-      for (int index = 0; index < _encodedPath.Length; index++)
-      {
-        result[s_nativePathOffset + index] = _encodedPath[index];
-      }
-      result[s_nativePathOffset + _encodedPath.Length] = 0; // path must be null-terminated
+        for (int index = 0; index < _encodedPath.Length; index++) {
+            result[s_nativePathOffset + index] = _encodedPath[index];
+        }
+        result[s_nativePathOffset + _encodedPath.Length] = 0; // path must be null-terminated
 
-      return result;
+        return result;
     }
 
-    public override EndPoint Create(SocketAddress socketAddress) => new UnixDomainSocketEndPoint(socketAddress);
+    public override EndPoint Create(SocketAddress socketAddress) {
+        return new UnixDomainSocketEndPoint(socketAddress);
+    }
 
     public override AddressFamily AddressFamily => EndPointAddressFamily;
 
-    public override string ToString() => _path;
-  }
+    public override string ToString() {
+        return _path;
+    }
 }
