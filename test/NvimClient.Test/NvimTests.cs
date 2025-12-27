@@ -13,82 +13,77 @@ using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.NvimProcess;
 
-namespace NvimClient.Test
-{
-  [TestClass]
-  public class NvimTests
-  {
+namespace NvimClient.Test;
+
+[TestClass]
+public class NvimTests {
     [TestMethod]
-    public void TestProcessStarts()
-    {
-      var process = NvimProcess.NvimProcess.Start(new ProcessStartInfo
-      {
-        Arguments = "--version",
-        RedirectStandardOutput = true
-      });
-      process.WaitForExit();
-      Assert.IsTrue(
-        process.StandardOutput.ReadToEnd().Contains("NVIM") &&
-        process.ExitCode == 0);
+    public void TestProcessStarts() {
+        Process? process = NvimProcess.NvimProcess.Start(new ProcessStartInfo {
+            Arguments = "--version",
+            RedirectStandardOutput = true
+        });
+
+        Assert.IsNotNull(process);
+
+        process.WaitForExit();
+        Assert.IsTrue(process.StandardOutput.ReadToEnd().Contains("NVIM") && process.ExitCode == 0);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("aaaa", "aaaa")]
     [DataRow("AAAA", "aaaa")]
     [DataRow("aaAa", "aa_aa")]
     [DataRow("aaAA", "aa_aa")]
     [DataRow("AAaa", "a_aaa")]
-    public void TestConvertToSnakeCase(string input, string expected)
-    {
-      Assert.AreEqual(expected, StringUtil.ConvertToSnakeCase(input));
+    public void TestConvertToSnakeCase(string input, string expected) {
+        Assert.AreEqual(expected, StringUtil.ConvertToSnakeCase(input));
     }
 
     [TestMethod]
-    public void TestApiMetadataDeserialization()
-    {
-      var process = Process.Start(
-        new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless));
+    public void TestApiMetadataDeserialization() {
+        Process? process = Process.Start(new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless));
 
-      var context = new SerializationContext();
-      context.DictionarySerlaizationOptions.KeyTransformer =
-        StringUtil.ConvertToSnakeCase;
-      var serializer = context.GetSerializer<NvimAPIMetadata>();
-      var apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
+        Assert.IsNotNull(process);
 
-      Assert.IsNotNull(apiMetadata.Version);
-      Assert.IsTrue(apiMetadata.Functions.Any()
-                    && apiMetadata.UIEvents.Any()
-                    && apiMetadata.Types.Any()
-                    && apiMetadata.ErrorTypes.Any());
+        SerializationContext context = new();
+        context.DictionarySerlaizationOptions.KeyTransformer = StringUtil.ConvertToSnakeCase;
+        MessagePackSerializer<NvimAPIMetadata> serializer = context.GetSerializer<NvimAPIMetadata>();
+        NvimAPIMetadata apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
+
+        Assert.IsNotNull(apiMetadata.Version);
+        Assert.IsTrue(apiMetadata.Functions.Length != 0
+                      && apiMetadata.UIEvents.Length != 0
+                      && apiMetadata.Types.Count != 0
+                      && apiMetadata.ErrorTypes.Count != 0);
     }
 
     [TestMethod]
-    public void TestMessageDeserialization()
-    {
-      var process = Process.Start(
-        new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless));
+    public void TestMessageDeserialization() {
+        Process? process = Process.Start(new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless));
 
-      var context = new SerializationContext();
-      context.Serializers.Register(new NvimMessageSerializer(context));
-      var serializer = MessagePackSerializer.Get<NvimMessage>(context);
+        Assert.IsNotNull(process);
 
-      const string testString = "hello world";
-      var request = new NvimRequest
-      {
-        MessageId = 42,
-        Method = "nvim_eval",
-        Arguments = new MessagePackObject(new MessagePackObject[] { $"'{testString}'" })
-      };
-      serializer.Pack(process.StandardInput.BaseStream, request);
+        SerializationContext context = new();
+        _ = context.Serializers.Register(new NvimMessageSerializer(context));
+        MessagePackSerializer<NvimMessage> serializer = MessagePackSerializer.Get<NvimMessage>(context);
 
-      var response = (NvimResponse)serializer.Unpack(process.StandardOutput.BaseStream);
+        const string testString = "hello world";
+        NvimRequest request = new() {
+            MessageId = 42,
+            Method = "nvim_eval",
+            Arguments = new MessagePackObject([$"'{testString}'"])
+        };
+        serializer.Pack(process.StandardInput.BaseStream, request);
 
-      Assert.IsTrue(response.MessageId == request.MessageId
-                    && response.Error == MessagePackObject.Nil
-                    && response.Result == testString);
+        NvimResponse response = (NvimResponse)serializer.Unpack(process.StandardOutput.BaseStream);
+
+        Assert.IsTrue(response.MessageId == request.MessageId
+                      && response.Error == MessagePackObject.Nil
+                      && response.Result == testString);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("aaaa", "Aaaa", true)]
     [DataRow("aaaa", "aaaa", false)]
     [DataRow("_aaaa_", "Aaaa", true)]
@@ -98,109 +93,96 @@ namespace NvimClient.Test
     [DataRow("aaa_a", "AaaA", true)]
     [DataRow("aaa_a", "aaaA", false)]
     public void TestConvertToCamelCase(string input, string expected,
-      bool capitalizeFirstChar)
-    {
-      Assert.AreEqual(expected,
-        StringUtil.ConvertToCamelCase(input, capitalizeFirstChar));
+      bool capitalizeFirstChar) {
+        Assert.AreEqual(expected,
+          StringUtil.ConvertToCamelCase(input, capitalizeFirstChar));
     }
 
     [TestMethod]
-    public async Task TestAsyncAPICall()
-    {
-      var api = new NvimAPI();
-      var result = await api.Eval("2 + 2");
-      Assert.AreEqual(4L, result);
+    public async Task TestAsyncAPICall() {
+        NvimAPI api = new();
+        object result = await api.Eval("2 + 2");
+        Assert.AreEqual(4L, result);
     }
 
     [TestMethod]
-    public async Task TestCallAndReply()
-    {
-      var api = new NvimAPI();
-      api.RegisterHandler("client-call", args =>
-      {
-        CollectionAssert.AreEqual(new[] { 1L, 2L, 3L }, args);
-        return new[] { 4, 5, 6 };
-      });
-      var objects = await api.GetApiInfo();
-      var channelID = (long)objects.First();
-      await api.Command(
-        $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
-      var result = (object[])await api.GetVar("result");
-      CollectionAssert.AreEqual(new[] { 4L, 5L, 6L }, result);
+    public async Task TestCallAndReply() {
+        NvimAPI api = new();
+        api.RegisterHandler("client-call", static args => {
+            CollectionAssert.AreEqual(new[] { 1L, 2L, 3L }, args);
+            return new[] { 4, 5, 6 };
+        });
+        object[] objects = await api.GetApiInfo();
+        long channelID = (long)objects.First();
+        await api.Command(
+          $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
+        object[] result = (object[])await api.GetVar("result");
+        CollectionAssert.AreEqual(new[] { 4L, 5L, 6L }, result);
     }
 
     [TestMethod]
-    public async Task TestNvimUIEvent()
-    {
-      const string testString = "hello_world";
-      var titleSetEvent = new ManualResetEvent(false);
-      var api = new NvimAPI();
-      await api.UiAttach(100, 200, new Dictionary<string, string>());
-      api.SetTitleEvent += (sender, args) =>
-      {
-        if (args.Title == testString)
-        {
-          titleSetEvent.Set();
-        }
-      };
-      await api.Command($"set titlestring={testString} | set title");
-      Assert.IsTrue(titleSetEvent.WaitOne(TimeSpan.FromSeconds(5)));
+    public async Task TestNvimUIEvent() {
+        const string testString = "hello_world";
+        ManualResetEvent titleSetEvent = new(false);
+        NvimAPI api = new();
+        await api.UiAttach(100, 200, new Dictionary<string, string>());
+        api.SetTitleEvent += (sender, args) => {
+            if (args.Title == testString) {
+                bool ok = titleSetEvent.Set();
+                Assert.IsTrue(ok);
+            }
+        };
+        await api.Command($"set titlestring={testString} | set title");
+        Assert.IsTrue(titleSetEvent.WaitOne(TimeSpan.FromSeconds(5)));
     }
 
     [TestMethod]
-    public async Task TestPluginExports()
-    {
-      const string pluginPath = "/path/to/plugin.sln";
-      var api = new NvimAPI();
-      await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
+    public async Task TestPluginExports() {
+        const string pluginPath = "/path/to/plugin.sln";
+        NvimAPI api = new();
+        await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
 
-      await api.Command(
-        $"let g:result = {nameof(TestPlugin.AddNumbers)}(1, 2)");
-      var result = await api.GetVar("result");
-      Assert.AreEqual(3L, result);
+        await api.Command(
+          $"let g:result = {nameof(TestPlugin.AddNumbers)}(1, 2)");
+        object result = await api.GetVar("result");
+        Assert.AreEqual(3L, result);
 
-      await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
-      CollectionAssert.AreEqual(new[] { "a", "b", "c" }, TestPlugin.Command1Args);
+        await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
+        CollectionAssert.AreEqual(new[] { "a", "b", "c" }, TestPlugin.Command1Args);
 
-      await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
-      Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
+        await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
+        Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
 
-      await api.Command("edit test.cs");
-      Assert.IsTrue(TestPlugin.AutocmdCalled);
+        await api.Command("edit test.cs");
+        Assert.IsTrue(TestPlugin.AutocmdCalled);
 
-      await api.Command($"call {nameof(TestPlugin.CountLines)}()");
-      Assert.IsTrue(TestPlugin.CountLinesReturn == 1);
+        await api.Command($"call {nameof(TestPlugin.CountLines)}()");
+        Assert.AreEqual(1, TestPlugin.CountLinesReturn);
     }
 
     [TestMethod]
-    public async Task TestTCPSocket()
-    {
-      var nvimStdio = new NvimAPI();
-      var serverAddress = (string)await nvimStdio.CallFunction("serverstart",
-        new object[] { System.Net.IPAddress.Loopback + ":" });
+    public async Task TestTCPSocket() {
+        NvimAPI nvimStdio = new();
+        string serverAddress = (string)await nvimStdio.CallFunction("serverstart", [System.Net.IPAddress.Loopback + ":"]);
 
-      var nvimTCPSocket = new NvimAPI(serverAddress);
-      Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
+        NvimAPI nvimTCPSocket = new(serverAddress);
+        Assert.IsNotNull(await nvimTCPSocket.CommandOutput("version"));
     }
 
     [TestMethod]
-    public async Task TestLocalSocket()
-    {
-      var nvimStdio = new NvimAPI();
-      var serverAddress =
-        (string)await nvimStdio.CallFunction("serverstart", new object[0]);
+    public async Task TestLocalSocket() {
+        NvimAPI nvimStdio = new();
+        string serverAddress =
+          (string)await nvimStdio.CallFunction("serverstart", []);
 
-      var nvimLocalSocket = new NvimAPI(serverAddress);
-      Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
+        NvimAPI nvimLocalSocket = new(serverAddress);
+        Assert.IsNotNull(await nvimLocalSocket.CommandOutput("version"));
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(typeof(bool), true)]
-    [DataRow(typeof(Boolean), true)]
     [DataRow(typeof(int), false)]
-    [DataRow(typeof(Int32), false)]
     [DataRow(typeof(long), true)]
-    [DataRow(typeof(Int64), true)]
     [DataRow(typeof(object[]), true)]
     [DataRow(typeof(long[]), true)]
     [DataRow(typeof(int[]), false)]
@@ -208,12 +190,11 @@ namespace NvimClient.Test
     [DataRow(typeof(IDictionary<long, string>), true)]
     [DataRow(typeof(IDictionary<string, DateTime>), false)]
     [DataRow(typeof(IDictionary<Random, long>), false)]
-    public void TestNvimTypeValidation(Type type, bool shouldBeValid)
-    {
-      Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));
+    public void TestNvimTypeValidation(Type type, bool shouldBeValid) {
+        Assert.AreEqual(shouldBeValid, NvimTypesMap.IsValidType(type));
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("Boolean", "bool")]
     [DataRow("Array", "object[]")]
     [DataRow("Dictionary", "IDictionary")]
@@ -222,9 +203,7 @@ namespace NvimClient.Test
     [DataRow("ArrayOf(Buffer)", "NvimBuffer[]")]
     [DataRow("ArrayOf(DictionaryOf(String, String))", "IDictionary<string, string>[]")]
     [DataRow("DictionaryOf(Integer, ArrayOf(String))", "IDictionary<long, string[]>")]
-    public void TestCSharpTypeConversion(string nvimType, string csharpType)
-    {
-      Assert.AreEqual(csharpType, NvimTypesMap.GetCSharpType(nvimType));
+    public void TestCSharpTypeConversion(string nvimType, string csharpType) {
+        Assert.AreEqual(csharpType, NvimTypesMap.GetCSharpType(nvimType));
     }
-  }
 }
