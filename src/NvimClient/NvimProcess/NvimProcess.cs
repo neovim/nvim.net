@@ -1,20 +1,20 @@
 using System.Diagnostics;
 
-namespace NvimClient.NvimProcess
-{
-  /// <summary>
-  ///   Provides Start methods similar to those in <see cref="Process" />
-  ///   for starting Nvim processes.
-  /// </summary>
-  public static class NvimProcess
-  {
+namespace NvimClient.NvimProcess;
+
+/// <summary>
+///   Provides Start methods similar to those in <see cref="Process" />
+///   for starting Nvim processes.
+/// </summary>
+public static class NvimProcess {
     /// <summary>
     ///   Starts a new Nvim process.
     /// </summary>
     /// <param name="startInfo">The </param>
     /// <returns></returns>
-    public static Process Start(NvimProcessStartInfo startInfo) =>
-      Process.Start(startInfo);
+    public static Process? Start(NvimProcessStartInfo startInfo) {
+        return Process.Start(startInfo);
+    }
 
     /// <summary>
     ///   Starts a new Nvim process.
@@ -27,9 +27,8 @@ namespace NvimClient.NvimProcess
     ///   Options for starting the process.
     /// </param>
     /// <returns></returns>
-    public static Process Start(
-      string nvimPath, string arguments,
-      StartOption startOptions = StartOption.None) => Start(
-      new NvimProcessStartInfo(nvimPath, arguments, startOptions));
-  }
+    public static Process? Start(string nvimPath, string arguments, StartOption startOptions = StartOption.None) {
+        NvimProcessStartInfo startInfo = new(nvimPath, arguments, startOptions);
+        return Start(startInfo);
+    }
 }

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 
-namespace NvimClient.NvimMsgpack.Models
-{
-  public class NvimAPIMetadata
-  {
-    public NvimVersion Version { get; set; }
-    public NvimFunction[] Functions { get; set; }
-    public NvimUIEvent[] UIEvents { get; set; }
-    public Dictionary<string, NvimType> Types { get; set; }
-    public Dictionary<string, NvimErrorType> ErrorTypes { get; set; }
-  }
+namespace NvimClient.NvimMsgpack.Models;
+
+/// <summary>
+/// NVIM API metadata
+/// </summary>
+public class NvimAPIMetadata {
+    public required NvimVersion Version { get; set; }
+    public required NvimFunction[] Functions { get; set; }
+    public required NvimUIEvent[] UIEvents { get; set; }
+    public required Dictionary<string, NvimType> Types { get; set; }
+    public required Dictionary<string, NvimErrorType> ErrorTypes { get; set; }
 }
