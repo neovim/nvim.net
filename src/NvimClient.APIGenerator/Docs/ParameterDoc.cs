@@ -9,10 +9,10 @@ public class ParameterDoc {
     /// <summary>
     /// The parameter name
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// The parameter description
     /// </summary>
-    public IEnumerable<IDocElement> Description { get; set; }
+    public required IEnumerable<IDocElement> Description { get; set; }
 }

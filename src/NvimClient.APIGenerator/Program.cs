@@ -8,7 +8,7 @@ namespace NvimClient.APIGenerator;
 internal static class Program {
     private static int Main(string[] args) {
         if (args.Length is 0 or > 2) {
-            string projectName = Assembly.GetExecutingAssembly().GetName().Name;
+            string? projectName = Assembly.GetExecutingAssembly().GetName().Name;
             Console.WriteLine(
               "Generates a C# class file containing wrappers for Neovim API "
             + "functions and events.\n\n"
@@ -24,9 +24,13 @@ internal static class Program {
         }
 
         string outputPath = args.First();
-        string nvimSrcDirectory = args.ElementAtOrDefault(1);
-        using DoxygenParser docs = string.IsNullOrEmpty(nvimSrcDirectory) ? null : new DoxygenParser(nvimSrcDirectory);
-        NvimAPIGenerator.GenerateCSharpFile(outputPath, docs?.GetDocumentation());
+        string? nvimSrcDirectory = args.ElementAtOrDefault(1);
+        if(nvimSrcDirectory is null) {
+            Console.WriteLine("No neovim source provided");
+            return 0;
+        }
+        using DoxygenParser docs = new (nvimSrcDirectory);
+        NvimAPIGenerator.GenerateCSharpFile(outputPath, docs.GetDocumentation());
         return 0;
     }
 }

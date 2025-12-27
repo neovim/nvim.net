@@ -46,10 +46,8 @@ internal class DoxygenParser : IDisposable {
             ?? false).Select(node =>
             node.Attribute("refid")?.Value);
         foreach (var xmlFilename in xmlFilenames) {
-            var docXml =
-              XDocument.Load(Path.Combine(xmlDocsDirectory, xmlFilename + ".xml"));
-            var functionDocs = docXml.Descendants("memberdef")
-              .Where(memberDef =>
+            var docXml = XDocument.Load(Path.Combine(xmlDocsDirectory, xmlFilename + ".xml"));
+            var functionDocs = docXml.Descendants("memberdef").Where(memberDef =>
                 memberDef.Attribute("kind")?.Value == "function"
                 && memberDef.Attribute("static")?.Value == "no").Select(
                 memberDef => new FunctionDoc {

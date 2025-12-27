@@ -18,9 +18,13 @@ public class NvimAPIGenerator {
 
     private static bool IsDeprecated<T>(T functionOrEvent) where T : NvimFunctionEventBase => functionOrEvent.DeprecatedSince < OldestSupportedAPILevel;
 
-    public static NvimAPIMetadata GetAPIMetadata() {
+    public static NvimAPIMetadata? GetAPIMetadata() {
         NvimProcessStartInfo nvim_start = new(StartOption.ApiInfo | StartOption.Headless);
-        Process process = Process.Start(nvim_start);
+        Process? process = Process.Start(nvim_start);
+
+        if (process is null) {
+            return null;
+        }
 
         SerializationContext context = new();
         context.DictionarySerlaizationOptions.KeyTransformer = StringUtil.ConvertToSnakeCase;
@@ -29,10 +33,13 @@ public class NvimAPIGenerator {
         return apiMetadata;
     }
 
-    public static void GenerateCSharpFile(string outputPath,
-      IEnumerable<FunctionDoc> functionDocs) {
+    public static void GenerateCSharpFile(string outputPath, IEnumerable<FunctionDoc>? functionDocs) {
         _functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
-        NvimAPIMetadata apiMetadata = GetAPIMetadata();
+        NvimAPIMetadata? apiMetadata = GetAPIMetadata();
+
+        if (apiMetadata is null) {
+            return;
+        }
 
         // Filter out functions only callable from Lua.
         apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.Type == "LuaRef")).ToArray();
@@ -197,7 +204,7 @@ namespace NvimClient.API {
         }));
     }
 
-    private static IEnumerable<string> GetDocElement(string tag, IEnumerable<IDocElement> elements, string tagAttributes = null) {
+    private static IEnumerable<string> GetDocElement(string tag, IEnumerable<IDocElement> elements, string? tagAttributes = null) {
         if (elements == null) {
             yield break;
         }
