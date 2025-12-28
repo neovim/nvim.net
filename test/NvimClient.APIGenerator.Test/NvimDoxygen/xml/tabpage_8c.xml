@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="tabpage_8c" kind="file" language="C++">
+    <compoundname>tabpage.c</compoundname>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes refid="tabpage_8h" local="yes">nvim/api/tabpage.h</includes>
+    <includes refid="vim_8h" local="yes">nvim/api/vim.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/window.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/tabpage.c</label>
+        <link refid="tabpage_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>nvim/api/tabpage.h</label>
+        <link refid="tabpage_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>nvim/api/vim.h</label>
+        <link refid="vim_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="5">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/window.h</label>
+      </node>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="8">
+        <label>stdint.h</label>
+      </node>
+      <node id="3">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="tabpage_8c_1a68d08bf5ef7304975ea8c34491976516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Window_</type>
+        <definition>ArrayOf_Window_ nvim_tabpage_list_wins</definition>
+        <argsstring>(Tabpage tabpage, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_list_wins</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the windows in a tabpage</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of windows in <computeroutput>tabpage</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="23" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="23" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1a4b792a9a7651a40d9c2c0231e22f35b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_tabpage_get_var</definition>
+        <argsstring>(Tabpage tabpage, String name, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_get_var</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a tab-scoped (t:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Variable value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="53" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1adb6433dfce3a565b998bd03238774d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_tabpage_set_var</definition>
+        <argsstring>(Tabpage tabpage, String name, Object value, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_set_var</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a tab-scoped (t:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="71" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1a0ca7410476a1ce9c79fafe18e3038293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_tabpage_del_var</definition>
+        <argsstring>(Tabpage tabpage, String name, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_del_var</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a tab-scoped (t:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="88" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="88" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1a5aecac44043daa89d09cdfdc3647fdd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Window</type>
+        <definition>Window nvim_tabpage_get_win</definition>
+        <argsstring>(Tabpage tabpage, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_get_win</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current window in a tabpage</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>|window-ID| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="105" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="105" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1a8dd38b2b21d1c182b58d206a3ad000ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_tabpage_set_win</definition>
+        <argsstring>(Tabpage tabpage, Window win, Error *err) FUNC_API_SINCE(12)</argsstring>
+        <name>nvim_tabpage_set_win</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current window in a tabpage</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>win</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, must already belong to {tabpage} </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="131" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="131" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1a07dcd2a7f99580eb99a566c17f74c506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_tabpage_get_number</definition>
+        <argsstring>(Tabpage tabpage, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_get_number</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the tabpage number</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tabpage number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="164" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="164" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="tabpage_8c_1aab761f81594a416b2511d054efac4d89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Boolean</type>
+        <definition>Boolean nvim_tabpage_is_valid</definition>
+        <argsstring>(Tabpage tabpage) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_tabpage_is_valid</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if a tabpage is valid</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the tabpage is valid, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c" line="180" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/tabpage.c" bodystart="180" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/tabpage.c"/>
+  </compounddef>
+</doxygen>

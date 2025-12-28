@@ -1,45 +1,28 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security;
-using MsgPack.Serialization;
 using NvimClient.APIGenerator.Docs;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
-using NvimClient.NvimProcess;
 
 namespace NvimClient.APIGenerator;
 
-public class NvimAPIGenerator {
-    private static Dictionary<string, FunctionDoc> _functionDocs;
-    private const int OldestSupportedAPILevel = 4;
+/// <summary>
+/// A class that generates C# api source code from nvim source code
+/// </summary>
+public sealed class NvimAPIGenerator {
+    private readonly Dictionary<string, FunctionDoc> _functionDocs;
+    private readonly NvimAPIMetadata apiMetadata;
 
-    private static bool IsDeprecated<T>(T functionOrEvent) where T : NvimFunctionEventBase => functionOrEvent.DeprecatedSince < OldestSupportedAPILevel;
-
-    public static NvimAPIMetadata? GetAPIMetadata() {
-        NvimProcessStartInfo nvim_start = new(StartOption.ApiInfo | StartOption.Headless);
-        Process? process = Process.Start(nvim_start);
-
-        if (process is null) {
-            return null;
-        }
-
-        SerializationContext context = new();
-        context.DictionarySerlaizationOptions.KeyTransformer = StringUtil.ConvertToSnakeCase;
-        MessagePackSerializer<NvimAPIMetadata> serializer = context.GetSerializer<NvimAPIMetadata>();
-        NvimAPIMetadata apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
-        return apiMetadata;
+    public NvimAPIGenerator(NvimAPIMetadata mdata, Dictionary<string, FunctionDoc> funcDocs) {
+        apiMetadata = mdata;
+        _functionDocs = funcDocs;
     }
 
-    public static void GenerateCSharpFile(string outputPath, IEnumerable<FunctionDoc>? functionDocs) {
-        _functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
-        NvimAPIMetadata? apiMetadata = GetAPIMetadata();
-
-        if (apiMetadata is null) {
-            return;
-        }
+    public void GenerateCSharpFile(string outputPath) {
+        //_functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
 
         // Filter out functions only callable from Lua.
         apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.Type == "LuaRef")).ToArray();
@@ -61,15 +44,13 @@ using NvimClient.NvimMsgpack.Models;
 
 namespace NvimClient.API {
   public partial class NvimAPI {
-" +
-    GenerateNvimUIEvents(
-      apiMetadata.UIEvents.Where(static uiEvent => !IsDeprecated(uiEvent))) + @"
-" + GenerateNvimMethods(apiMetadata.Functions.Where(static function => !IsDeprecated(function) && !function.Method), "nvim_", false) + @"
+" + GenerateNvimUIEvents(apiMetadata.SupportedUIEvents()) + @"
+" + GenerateNvimMethods(apiMetadata.SupportedFunctions(), prefixToRemove: "nvim_", isVirtualMethod: false) + @"
 " + GenerateNvimTypes(apiMetadata) + @"
-" + GenerateNvimUIEventArgs(apiMetadata.UIEvents.Where(static uiEvent => !IsDeprecated(uiEvent))) + @"
+" + GenerateNvimUIEventArgs(apiMetadata.SupportedUIEvents()) + @"
     private void CallUIEventHandler(string eventName, object[] args) {
       switch (eventName) {
-  " + GenerateNvimUIEventCalls(apiMetadata.UIEvents.Where(static uiEvent => !IsDeprecated(uiEvent))) + @"
+  " + GenerateNvimUIEventCalls(apiMetadata.SupportedUIEvents()) + @"
       }
     }
 
@@ -148,7 +129,7 @@ namespace NvimClient.API {
       _msgPackExtObj = msgPackExtObj;
     }}
     {GenerateNvimMethods(
-          apiMetadata.Functions.Where(function => !IsDeprecated(function) && function.Method && function.Name.StartsWith(type.Value.Prefix)), type.Value.Prefix, true)}
+          apiMetadata.Functions.Where(function => function.IsActive(apilevel: 4) && function.Method && function.Name.StartsWith(type.Value.Prefix)), type.Value.Prefix, true)}
   }}";
         }));
     }
@@ -159,8 +140,8 @@ namespace NvimClient.API {
                 throw new InvalidOperationException($"Function {function.Name} does not have expected prefix \"{prefixToRemove}\"");
             }
 
-            FunctionDoc doc = null;
-            _ = _functionDocs?.TryGetValue(function.Name, out doc);
+            FunctionDoc? doc = null;
+            //_ = _functionDocs.TryGetValue(function.Name, out doc);
             string camelCaseName = StringUtil.ConvertToCamelCase(function.Name[prefixToRemove.Length..], true);
             string sendAccess = function.Method ? "_api." : string.Empty;
             string returnType = NvimTypesMap.GetCSharpType(function.ReturnType);

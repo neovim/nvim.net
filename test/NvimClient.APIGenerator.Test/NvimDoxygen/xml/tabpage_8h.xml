@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="tabpage_8h" kind="file" language="C++">
+    <compoundname>tabpage.h</compoundname>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includedby refid="tabpage_8c" local="yes">D:/source/repos/neovim/src/nvim/api/tabpage.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/tabpage.h</label>
+        <link refid="tabpage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/tabpage.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,883 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="win__config_8c" kind="file" language="C++">
+    <compoundname>win_config.c</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">klib/kvec.h</includes>
+    <includes refid="extmark_8h" local="yes">nvim/api/extmark.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes refid="win__config_8h" local="yes">nvim/api/win_config.h</includes>
+    <includes local="yes">nvim/ascii_defs.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/autocmd_defs.h</includes>
+    <includes local="yes">nvim/buffer.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/decoration_defs.h</includes>
+    <includes local="yes">nvim/drawscreen.h</includes>
+    <includes local="yes">nvim/errors.h</includes>
+    <includes local="yes">nvim/eval/window.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/highlight_group.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/mbyte.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/option.h</includes>
+    <includes local="yes">nvim/option_vars.h</includes>
+    <includes local="yes">nvim/pos_defs.h</includes>
+    <includes local="yes">nvim/strings.h</includes>
+    <includes local="yes">nvim/syntax.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/ui.h</includes>
+    <includes local="yes">nvim/ui_defs.h</includes>
+    <includes local="yes">nvim/vim_defs.h</includes>
+    <includes local="yes">nvim/window.h</includes>
+    <includes local="yes">nvim/winfloat.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>nvim/api/extmark.h</label>
+        <link refid="extmark_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/win_config.c</label>
+        <link refid="win__config_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>nvim/api/win_config.h</label>
+        <link refid="win__config_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>assert.h</label>
+      </node>
+      <node id="5">
+        <label>klib/kvec.h</label>
+      </node>
+      <node id="9">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/ascii_defs.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/autocmd_defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/buffer.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/decoration_defs.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/drawscreen.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/errors.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/eval/window.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/highlight_group.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/map_defs.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/mbyte.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/option.h</label>
+      </node>
+      <node id="31">
+        <label>nvim/option_vars.h</label>
+      </node>
+      <node id="32">
+        <label>nvim/pos_defs.h</label>
+      </node>
+      <node id="33">
+        <label>nvim/strings.h</label>
+      </node>
+      <node id="34">
+        <label>nvim/syntax.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="35">
+        <label>nvim/ui.h</label>
+      </node>
+      <node id="36">
+        <label>nvim/ui_defs.h</label>
+      </node>
+      <node id="37">
+        <label>nvim/vim_defs.h</label>
+      </node>
+      <node id="38">
+        <label>nvim/window.h</label>
+      </node>
+      <node id="39">
+        <label>nvim/winfloat.h</label>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="7">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="win__config_8c_1afda05b1e5d741744bdf1214cd7c8668a" prot="public" static="no">
+        <name>HAS_KEY_X</name>
+        <param><defname>d</defname></param>
+        <param><defname>key</defname></param>
+        <initializer>HAS_KEY(d, win_config, key)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="215" column="9"/>
+      </memberdef>
+      <memberdef kind="define" id="win__config_8c_1a3bf513eed5edf65698a33813fb63d19e" prot="public" static="no">
+        <name>HAS_KEY_X</name>
+        <param><defname>d</defname></param>
+        <param><defname>key</defname></param>
+        <initializer>HAS_KEY(d, win_config, key)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="392" column="9"/>
+      </memberdef>
+      <memberdef kind="define" id="win__config_8c_1a294a563406007525d724fba7bb094120" prot="public" static="no">
+        <name>PUT_KEY_X</name>
+        <param><defname>d</defname></param>
+        <param><defname>key</defname></param>
+        <param><defname>value</defname></param>
+        <initializer>PUT_KEY(d, win_config, key, value)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="643" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="win__config_8c_1a1a1230407f11a1457edd18acf6e0e19d" prot="public" static="no">
+        <name>HAS_KEY_X</name>
+        <param><defname>d</defname></param>
+        <param><defname>key</defname></param>
+        <initializer>HAS_KEY(d, win_config, key)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="1055" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="win__config_8c_1a8afb63f1f18b241020ee0ac5b11469f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Window</type>
+        <definition>Window nvim_open_win</definition>
+        <argsstring>(Buffer buffer, Boolean enter, Dict(win_config) *config, Error *err) FUNC_API_SINCE(6) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_open_win</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>enter</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(win_config) *</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Opens a new split window, or a floating window if <computeroutput>relative</computeroutput> is specified, or an external window (managed by the UI) if <computeroutput>external</computeroutput> is specified.</para>
+<para>Floats are windows that are drawn above the split layout, at some anchor position in some other window. Floats can be drawn internally or by external GUI with the |ui-multigrid| extension. External windows are only supported with multigrid GUIs, and are displayed as separate top-level windows.</para>
+<para>For a general overview of floats, see |api-floatwin|.</para>
+<para>The <computeroutput>width</computeroutput> and <computeroutput>height</computeroutput> of the new window must be specified when opening a floating window, but are optional for normal windows.</para>
+<para>If <computeroutput>relative</computeroutput> and <computeroutput>external</computeroutput> are omitted, a normal &quot;split&quot; window is created. The <computeroutput>win</computeroutput> property determines which window will be split. If no <computeroutput>win</computeroutput> is provided or <computeroutput>win == 0</computeroutput>, a window will be created adjacent to the current window. If -1 is provided, a top-level split will be created. <computeroutput>vertical</computeroutput> and <computeroutput>split</computeroutput> are only valid for normal windows, and are used to control split direction. For <computeroutput>vertical</computeroutput>, the exact direction is determined by |&apos;splitright&apos;| and |&apos;splitbelow&apos;|. Split windows cannot have <computeroutput>bufpos</computeroutput>/<computeroutput>row</computeroutput>/<computeroutput>col</computeroutput>/<computeroutput>border</computeroutput>/<computeroutput>title</computeroutput>/<computeroutput>footer</computeroutput> properties.</para>
+<para>With relative=editor (row=0,col=0) refers to the top-left corner of the screen-grid and (row=Lines-1,col=Columns-1) refers to the bottom-right corner. Fractional values are allowed, but the builtin implementation (used by non-multigrid UIs) will always round down to nearest integer.</para>
+<para>Out-of-bounds values, and configurations that make the float not fit inside the main editor, are allowed. The builtin implementation truncates values so floats are fully within the main screen grid. External GUIs could let floats hover outside of the main window like a tooltip, but this should not be used to specify arbitrary WM screen positions.</para>
+<para>Example (Lua): window-relative float</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.api.nvim_open_win(0,<sp/>false,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>{relative=&apos;win&apos;,<sp/>row=3,<sp/>col=3,<sp/>width=12,<sp/>height=3})</highlight></codeline>
+</programlisting></para>
+<para>Example (Lua): buffer-relative float (travels as buffer is scrolled)</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.api.nvim_open_win(0,<sp/>false,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>{relative=&apos;win&apos;,<sp/>width=12,<sp/>height=3,<sp/>bufpos={100,10}})</highlight></codeline>
+</programlisting></para>
+<para>Example (Lua): vertical split left of the current window</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.api.nvim_open_win(0,<sp/>false,<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>split<sp/>=<sp/>&apos;left&apos;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>win<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal">})</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to display, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enter the window (make it the current window) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map defining the window configuration. Keys:<itemizedlist>
+<listitem><para>relative: Sets the window layout to &quot;floating&quot;, placed at (row,col) coordinates relative to:<itemizedlist>
+<listitem><para>&quot;cursor&quot; Cursor position in current window.</para>
+</listitem><listitem><para>&quot;editor&quot; The global editor grid.</para>
+</listitem><listitem><para>&quot;laststatus&quot; &apos;laststatus&apos; if present, or last row.</para>
+</listitem><listitem><para>&quot;mouse&quot; Mouse position.</para>
+</listitem><listitem><para>&quot;tabline&quot; Tabline if present, or first row.</para>
+</listitem><listitem><para>&quot;win&quot; Window given by the <computeroutput>win</computeroutput> field, or current window.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>win: |window-ID| window to split, or relative window when creating a float (relative=&quot;win&quot;).</para>
+</listitem><listitem><para>anchor: Decides which corner of the float to place at (row,col):<itemizedlist>
+<listitem><para>&quot;NW&quot; northwest (default)</para>
+</listitem><listitem><para>&quot;NE&quot; northeast</para>
+</listitem><listitem><para>&quot;SW&quot; southwest</para>
+</listitem><listitem><para>&quot;SE&quot; southeast</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>width: Window width (in character cells). Minimum of 1.</para>
+</listitem><listitem><para>height: Window height (in character cells). Minimum of 1.</para>
+</listitem><listitem><para>bufpos: Places float relative to buffer text (only when relative=&quot;win&quot;). Takes a tuple of zero-indexed <computeroutput>[line, column]</computeroutput>. <computeroutput>row</computeroutput> and <computeroutput>col</computeroutput> if given are applied relative to this position, else they default to:<itemizedlist>
+<listitem><para><computeroutput>row=1</computeroutput> and <computeroutput>col=0</computeroutput> if <computeroutput>anchor</computeroutput> is &quot;NW&quot; or &quot;NE&quot;</para>
+</listitem><listitem><para><computeroutput>row=0</computeroutput> and <computeroutput>col=0</computeroutput> if <computeroutput>anchor</computeroutput> is &quot;SW&quot; or &quot;SE&quot; (thus like a tooltip near the buffer text).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>row: Row position in units of &quot;screen cell height&quot;, may be fractional.</para>
+</listitem><listitem><para>col: Column position in units of &quot;screen cell width&quot;, may be fractional.</para>
+</listitem><listitem><para>focusable: Enable focus by user actions (wincmds, mouse events). Defaults to true. Non-focusable windows can be entered by |nvim_set_current_win()|, or, when the <computeroutput>mouse</computeroutput> field is set to true, by mouse events. See |focusable|.</para>
+</listitem><listitem><para>mouse: Specify how this window interacts with mouse events. Defaults to <computeroutput>focusable</computeroutput> value.<itemizedlist>
+<listitem><para>If false, mouse events pass through this window.</para>
+</listitem><listitem><para>If true, mouse events interact with this window normally.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>external: GUI should display the window as an external top-level window. Currently accepts no other positioning configuration together with this.</para>
+</listitem><listitem><para>zindex: Stacking order. floats with higher <computeroutput>zindex</computeroutput> go on top on floats with lower indices. Must be larger than zero. The following screen elements have hard-coded z-indices:<itemizedlist>
+<listitem><para>100: insert completion popupmenu</para>
+</listitem><listitem><para>200: message scrollback</para>
+</listitem><listitem><para>250: cmdline completion popupmenu (when wildoptions+=pum) The default value for floats are 50. In general, values below 100 are recommended, unless there is a good reason to overshadow builtin elements.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>style: (optional) Configure the appearance of the window. Currently only supports one value:<itemizedlist>
+<listitem><para>&quot;minimal&quot; Nvim will display the window with many UI options disabled. This is useful when displaying a temporary float where the text should not be edited. Disables &apos;number&apos;, &apos;relativenumber&apos;, &apos;cursorline&apos;, &apos;cursorcolumn&apos;, &apos;foldcolumn&apos;, &apos;spell&apos; and &apos;list&apos; options. &apos;signcolumn&apos; is changed to <computeroutput>auto</computeroutput> and &apos;colorcolumn&apos; is cleared. &apos;statuscolumn&apos; is changed to empty. The end-of-buffer region is hidden by setting <computeroutput>eob</computeroutput> flag of &apos;fillchars&apos; to a space char, and clearing the |hl-EndOfBuffer| region in &apos;winhighlight&apos;.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>border: Style of (optional) window border. This can either be a string or an array. The string values are the same as those described in &apos;winborder&apos;. If it is an array, it should have a length of eight or any divisor of eight. The array will specify the eight chars building up the border in a clockwise fashion starting with the top-left corner. As an example, the double box style could be specified as: <computeroutput> [ "É", "Í" ,"»", "º", "¼", "Í", "È", "º" ]. </computeroutput> If the number of chars are less than eight, they will be repeated. Thus an ASCII border could be specified as <computeroutput> [ "/", "-", \&quot;\\\\\\\\\\&quot;, \&quot;|\&quot; ],
+          &lt;/tt&gt;
+          or all chars the same as
+          &lt;tt&gt;
+          [ \&quot;x\&quot; ].
+          &lt;/tt&gt;
+        An empty string can be used to turn off a specific border, for instance,
+        &lt;tt&gt;
+          [ \&quot;\&quot;, \&quot;\&quot;, \&quot;\&quot;, \&quot;\&gt;\&quot;, \&quot;\&quot;, \&quot;\&quot;, \&quot;\&quot;, \&quot;\&lt;\&quot; ]
+        &lt;/tt&gt;
+        will only make vertical borders but not horizontal ones.
+        By default, &lt;tt&gt;FloatBorder&lt;/tt&gt; highlight is used, which links to &lt;tt&gt;WinSeparator&lt;/tt&gt;
+        when not defined.  It could also be specified by character:
+        &lt;tt&gt;
+          [ [\&quot;+\&quot;, \&quot;MyCorner\&quot;], [\&quot;x\&quot;, \&quot;MyBorder\&quot;] ].
+        &lt;/tt&gt;
+      - title: Title (optional) in window border, string or list.
+        List should consist of &lt;tt&gt;[text, highlight]&lt;/tt&gt; tuples.
+        If string, or a tuple lacks a highlight, the default highlight group is &lt;tt&gt;FloatTitle&lt;/tt&gt;.
+      - title_pos: Title position. Must be set with &lt;tt&gt;title&lt;/tt&gt; option.
+        Value can be one of &quot;left&quot;, &quot;center&quot;, or &quot;right&quot;.
+        Default is &lt;tt&gt;\&quot;left\&quot;&lt;/tt&gt;.
+      - footer: Footer (optional) in window border, string or list.
+        List should consist of &lt;tt&gt;[text, highlight]&lt;/tt&gt; tuples.
+        If string, or a tuple lacks a highlight, the default highlight group is &lt;tt&gt;FloatFooter&lt;/tt&gt;.
+      - footer_pos: Footer position. Must be set with &lt;tt&gt;footer&lt;/tt&gt; option.
+        Value can be one of &quot;left&quot;, &quot;center&quot;, or &quot;right&quot;.
+        Default is &lt;tt&gt;\&quot;left\&quot;&lt;/tt&gt;.
+      - noautocmd: If true then all autocommands are blocked for the duration of
+        the call.
+      - fixed: If true when anchor is NW or SW, the float window
+               would be kept fixed even if the window would be truncated.
+      - hide: If true the floating window will be hidden.
+      - vertical: Split vertically |:vertical|.
+      - split: Split direction: &quot;left&quot;, &quot;right&quot;, &quot;above&quot;, &quot;below".</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>Error details, if any</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput> |window-ID|, or 0 on error </computeroutput></para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="212" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="212" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1aeaeeac8737748f32c36a13bd1ef0ca30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>WinSplit</type>
+        <definition>static WinSplit win_split_dir</definition>
+        <argsstring>(win_T *win)</argsstring>
+        <name>win_split_dir</name>
+        <param>
+          <type>win_T *</type>
+          <declname>win</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="347" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="347" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a8df5792086db6dddf0ae7a9325963e6c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int win_split_flags</definition>
+        <argsstring>(WinSplit split, bool toplevel)</argsstring>
+        <name>win_split_flags</name>
+        <param>
+          <type>WinSplit</type>
+          <declname>split</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>toplevel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="361" column="12" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="361" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1ab4c1c61b9fc71da8d8ad2647c3463c9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_config</definition>
+        <argsstring>(Window window, Dict(win_config) *config, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_win_set_config</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(win_config) *</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures window layout. Cannot be used to move the last window in a tabpage to a different one.</para>
+<para>When reconfiguring a window, absent option keys will not be changed. <computeroutput>row</computeroutput>/<computeroutput>col</computeroutput> and <computeroutput>relative</computeroutput> must be reconfigured together.</para>
+<para><simplesect kind="see"><para>|nvim_open_win()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map defining the window configuration, see |nvim_open_win()| </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="389" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="389" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a820cb2a5431255718b0c1608dbcf2f9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void config_put_bordertext</definition>
+        <argsstring>(Dict(win_config) *config, WinConfig *fconfig, BorderTextType bordertext_type, Arena *arena)</argsstring>
+        <name>config_put_bordertext</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(win_config) *</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>WinConfig *</type>
+          <declname>fconfig</declname>
+        </param>
+        <param>
+          <type>BorderTextType</type>
+          <declname>bordertext_type</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="644" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="644" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1ad89af39d87729cf6724c3f274fcbe4da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Dict</definition>
+        <argsstring>(win_config)</argsstring>
+        <name>Dict</name>
+        <param>
+          <type>win_config</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets window configuration.</para>
+<para>The returned value may be given to |nvim_open_win()|.</para>
+<para><computeroutput>relative</computeroutput> is empty for normal windows.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map defining the window configuration, see |nvim_open_win()| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Keep in sync with FloatRelative in buffer_defs.h</para>
+<para>Keep in sync with WinSplit in buffer_defs.h</para>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="695" column="1" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="695" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a12f8cb15d0770507cb555ddb78187473" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_float_anchor</definition>
+        <argsstring>(String anchor, FloatAnchor *out)</argsstring>
+        <name>parse_float_anchor</name>
+        <param>
+          <type>String</type>
+          <declname>anchor</declname>
+        </param>
+        <param>
+          <type>FloatAnchor *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="776" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="776" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a49e0110019d463a779724a7db67e7775" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_float_relative</definition>
+        <argsstring>(String relative, FloatRelative *out)</argsstring>
+        <name>parse_float_relative</name>
+        <param>
+          <type>String</type>
+          <declname>relative</declname>
+        </param>
+        <param>
+          <type>FloatRelative *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="796" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="796" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1aeacbbc3f8d4e42d9eedaf2e91689e0c3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_config_split</definition>
+        <argsstring>(String split, WinSplit *out)</argsstring>
+        <name>parse_config_split</name>
+        <param>
+          <type>String</type>
+          <declname>split</declname>
+        </param>
+        <param>
+          <type>WinSplit *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="817" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="817" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1aabaf682e379ffdcf686cd8b06ac03c0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_float_bufpos</definition>
+        <argsstring>(Array bufpos, lpos_T *out)</argsstring>
+        <name>parse_float_bufpos</name>
+        <param>
+          <type>Array</type>
+          <declname>bufpos</declname>
+        </param>
+        <param>
+          <type>lpos_T *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="834" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="834" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a1465d30a12d5e11402c37240da04ddd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void parse_bordertext</definition>
+        <argsstring>(Object bordertext, BorderTextType bordertext_type, WinConfig *fconfig, Error *err)</argsstring>
+        <name>parse_bordertext</name>
+        <param>
+          <type>Object</type>
+          <declname>bordertext</declname>
+        </param>
+        <param>
+          <type>BorderTextType</type>
+          <declname>bordertext_type</declname>
+        </param>
+        <param>
+          <type>WinConfig *</type>
+          <declname>fconfig</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="845" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="845" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1ade96bbb514205e9c60b3e8df7c632bc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_bordertext_pos</definition>
+        <argsstring>(win_T *wp, String bordertext_pos, BorderTextType bordertext_type, WinConfig *fconfig, Error *err)</argsstring>
+        <name>parse_bordertext_pos</name>
+        <param>
+          <type>win_T *</type>
+          <declname>wp</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>bordertext_pos</declname>
+        </param>
+        <param>
+          <type>BorderTextType</type>
+          <declname>bordertext_type</declname>
+        </param>
+        <param>
+          <type>WinConfig *</type>
+          <declname>fconfig</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="893" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="893" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1ab29772b7a79e43413087be5a16b76c4d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void parse_border_style</definition>
+        <argsstring>(Object style, WinConfig *fconfig, Error *err)</argsstring>
+        <name>parse_border_style</name>
+        <param>
+          <type>Object</type>
+          <declname>style</declname>
+        </param>
+        <param>
+          <type>WinConfig *</type>
+          <declname>fconfig</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="935" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="935" bodyend="1039"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a5dc77eb8401511a4b8093009af81c768" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void generate_api_error</definition>
+        <argsstring>(win_T *wp, const char *attribute, Error *err)</argsstring>
+        <name>generate_api_error</name>
+        <param>
+          <type>win_T *</type>
+          <declname>wp</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>attribute</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="1041" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="1041" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="win__config_8c_1a01e73c4b7030bb07814e1fdba8c693e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool parse_win_config</definition>
+        <argsstring>(win_T *wp, Dict(win_config) *config, WinConfig *fconfig, bool reconf, Error *err)</argsstring>
+        <name>parse_win_config</name>
+        <param>
+          <type>win_T *</type>
+          <declname>wp</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(win_config) *</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>WinConfig *</type>
+          <declname>fconfig</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>reconf</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/win_config.c" line="1052" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/win_config.c" bodystart="1052" bodyend="1328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/win_config.c"/>
+  </compounddef>
+</doxygen>

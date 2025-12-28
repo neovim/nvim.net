@@ -1,0 +1,2708 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="deprecated_8c" kind="file" language="C++">
+    <compoundname>deprecated.c</compoundname>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">string.h</includes>
+    <includes refid="buffer_8h" local="yes">nvim/api/buffer.h</includes>
+    <includes refid="deprecated_8h" local="yes">nvim/api/deprecated.h</includes>
+    <includes refid="extmark_8h" local="yes">nvim/api/extmark.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes refid="vimscript_8h" local="yes">nvim/api/vimscript.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/decoration.h</includes>
+    <includes local="yes">nvim/decoration_defs.h</includes>
+    <includes local="yes">nvim/extmark.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/highlight.h</includes>
+    <includes local="yes">nvim/highlight_group.h</includes>
+    <includes local="yes">nvim/lua/executor.h</includes>
+    <includes local="yes">nvim/marktree.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/message.h</includes>
+    <includes local="yes">nvim/option.h</includes>
+    <includes local="yes">nvim/option_defs.h</includes>
+    <includes local="yes">nvim/pos_defs.h</includes>
+    <includes local="yes">nvim/strings.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>nvim/api/buffer.h</label>
+        <link refid="buffer_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/deprecated.c</label>
+        <link refid="deprecated_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>nvim/api/deprecated.h</label>
+        <link refid="deprecated_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>nvim/api/extmark.h</label>
+        <link refid="extmark_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>nvim/api/vimscript.h</label>
+        <link refid="vimscript_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>lua.h</label>
+      </node>
+      <node id="8">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/decoration.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/decoration_defs.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/extmark.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/highlight.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/highlight_group.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/lua/executor.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/map_defs.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/marktree.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/message.h</label>
+      </node>
+      <node id="31">
+        <label>nvim/option.h</label>
+      </node>
+      <node id="32">
+        <label>nvim/option_defs.h</label>
+      </node>
+      <node id="9">
+        <label>nvim/pos_defs.h</label>
+      </node>
+      <node id="33">
+        <label>nvim/strings.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="deprecated_8c_1a48d1976010ce166b81fa3462583a4e96" prot="public" static="no">
+        <name>PUSH_CHAR</name>
+        <param><defname>c</defname></param>
+        <initializer>  if (kv_max(*line_buf) == 0) { \
+    kv_resize(*line_buf, LINE_BUFFER_MIN_SIZE); \
+  } \
+  if (c == NL) { \
+    kv_push(*line_buf, NUL); \
+    if (to_err) { \
+      emsg(line_buf-&gt;items); \
+    } else { \
+      msg(line_buf-&gt;items, 0); \
+    } \
+    if (msg_silent == 0) { \
+      msg_didout = true; \
+    } \
+    kv_drop(*line_buf, kv_size(*line_buf)); \
+    kv_resize(*line_buf, LINE_BUFFER_MIN_SIZE); \
+  } else if (c == NUL) { \
+    kv_push(*line_buf, NL); \
+  } else { \
+    kv_push(*line_buf, c); \
+  }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="928" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="deprecated_8c_1a1f34484509525e174161e63e175321cb" prot="public" static="no" strong="no">
+        <type></type>
+        <name></name>
+        <enumvalue id="deprecated_8c_1a1f34484509525e174161e63e175321cba4137d6f08e9b6444745750624d3bc1df" prot="public">
+          <name>LINE_BUFFER_MIN_SIZE</name>
+          <initializer>= 4096</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="913" column="1" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="913" bodyend="913"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="deprecated_8c_1a09ed82d88160225c5e209d60b91ca9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim_exec</definition>
+        <argsstring>(uint64_t channel_id, String src, Boolean output, Error *err) FUNC_API_SINCE(7) FUNC_API_DEPRECATED_SINCE(11) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_exec</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use nvim_exec2() instead. </para>
+</xrefdescription></xrefsect><simplesect kind="see"><para>nvim_exec2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="40" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a1843c0adb0e1eafbeae2e224f8a3a338" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim_command_output</definition>
+        <argsstring>(uint64_t channel_id, String command, Error *err) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(7) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_command_output</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000002"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><simplesect kind="see"><para>nvim_exec2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="50" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a510149049c67b60e122e80111ccc45f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_execute_lua</definition>
+        <argsstring>(String code, Array args, Arena *arena, Error *err) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_execute_lua</name>
+        <param>
+          <type>String</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000003"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use nvim_exec_lua() instead. </para>
+</xrefdescription></xrefsect><simplesect kind="see"><para>nvim_exec_lua </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="60" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1aa1e2d920121e55bd368eb0651c97ebaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_buf_get_number</definition>
+        <argsstring>(Buffer buffer, Error *err) FUNC_API_DEPRECATED_SINCE(2)</argsstring>
+        <name>nvim_buf_get_number</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the buffer number</para>
+<para><xrefsect id="deprecated_1_deprecated000004"><xreftitle>Deprecated</xreftitle><xrefdescription><para>The buffer number now is equal to the object id</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Buffer number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="75" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="75" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a510d86c68be3bd600e82476f54ebfe57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t src2ns</definition>
+        <argsstring>(Integer *src_id)</argsstring>
+        <name>src2ns</name>
+        <param>
+          <type>Integer *</type>
+          <declname>src_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="88" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="88" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a340f1282c5b077af542dbd2286faac45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_buf_clear_highlight</definition>
+        <argsstring>(Buffer buffer, Integer ns_id, Integer line_start, Integer line_end, Error *err) FUNC_API_DEPRECATED_SINCE(7)</argsstring>
+        <name>nvim_buf_clear_highlight</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>line_start</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>line_end</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clears highlights and virtual text from namespace and range of lines</para>
+<para><xrefsect id="deprecated_1_deprecated000005"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use |nvim_buf_clear_namespace()|.</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Namespace to clear, or -1 to clear all. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of range of lines to clear </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of range of lines to clear (exclusive) or -1 to clear to end of file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="109" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1af7a9f418fad9a34c82851086a0b360a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_buf_add_highlight</definition>
+        <argsstring>(Buffer buffer, Integer ns_id, String hl_group, Integer line, Integer col_start, Integer col_end, Error *err) FUNC_API_DEPRECATED_SINCE(13)</argsstring>
+        <name>nvim_buf_add_highlight</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>hl_group</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col_start</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col_end</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds a highlight to buffer.</para>
+<para><xrefsect id="deprecated_1_deprecated000006"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use |nvim_buf_set_extmark()| or |vim.hl.range()|</para>
+</xrefdescription></xrefsect></para>
+<para>Namespaces are used for batch deletion/updating of a set of highlights. To create a namespace, use |nvim_create_namespace()| which returns a namespace id. Pass it in to this function as <computeroutput>ns_id</computeroutput> to add highlights to the namespace. All highlights in the same namespace can then be cleared with single call to |nvim_buf_clear_namespace()|. If the highlight never will be deleted by an API call, pass <computeroutput>ns_id = -1</computeroutput>.</para>
+<para>As a shorthand, <computeroutput>ns_id = 0</computeroutput> can be used to create a new namespace for the highlight, the allocated id is then returned. If <computeroutput>hl_group</computeroutput> is the empty string no highlight is added, but a new <computeroutput>ns_id</computeroutput> is still returned. This is supported for backwards compatibility, new code should use |nvim_create_namespace()| to create a new empty namespace.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>namespace to use or -1 for ungrouped highlight </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hl_group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the highlight group to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Line to highlight (zero-indexed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of (byte-indexed) column range to highlight </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of (byte-indexed) column range to highlight, or -1 to highlight to end of line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ns_id that was used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="143" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="143" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1aec26460d453259d48ae49c7caa5b2bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_buf_set_virtual_text</definition>
+        <argsstring>(Buffer buffer, Integer src_id, Integer line, Array chunks, Dict(empty) *opts, Error *err) FUNC_API_DEPRECATED_SINCE(8)</argsstring>
+        <name>nvim_buf_set_virtual_text</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>src_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>chunks</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(empty) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the virtual text (annotation) for a buffer line.</para>
+<para><xrefsect id="deprecated_1_deprecated000007"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_set_extmark to use full virtual text functionality.</para>
+</xrefdescription></xrefsect></para>
+<para>The text will be placed after the buffer text. Virtual text will never cause reflow, rather virtual text will be truncated at the end of the screen line. The virtual text will begin one cell (|lcs-eol| or space) after the ordinary text.</para>
+<para>Namespaces are used to support batch deletion/updating of virtual text. To create a namespace, use |nvim_create_namespace()|. Virtual text is cleared using |nvim_buf_clear_namespace()|. The same <computeroutput>ns_id</computeroutput> can be used for both virtual text and highlights added by |nvim_buf_add_highlight()|, both can then be cleared with a single call to |nvim_buf_clear_namespace()|. If the virtual text never will be cleared by an API call, pass <computeroutput>ns_id = -1</computeroutput>.</para>
+<para>As a shorthand, <computeroutput>ns_id = 0</computeroutput> can be used to create a new namespace for the virtual text, the allocated id is then returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>src_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Namespace to use or 0 to create a namespace, or -1 for a ungrouped annotation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Line to annotate with virtual text (zero-indexed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A list of [text, hl_group] arrays, each representing a text chunk with specified highlight. <computeroutput>hl_group</computeroutput> element can be omitted for no highlight. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Currently not used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ns_id that was used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="220" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="220" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1aaf4091f711aa8689ebc4420aedfcb0cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_hl_by_id</definition>
+        <argsstring>(Integer hl_id, Boolean rgb, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(9)</argsstring>
+        <name>nvim_get_hl_by_id</name>
+        <param>
+          <type>Integer</type>
+          <declname>hl_id</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>rgb</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a highlight definition by id. |hlID()|</para>
+<para><xrefsect id="deprecated_1_deprecated000008"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use |nvim_get_hl()| instead</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hl_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highlight id as returned by |hlID()| </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rgb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Export RGB colors </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Highlight definition map </para>
+</simplesect>
+<simplesect kind="see"><para>nvim_get_hl_by_name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="274" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="274" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a891c85cbf1e468788c4288628fa78561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_hl_by_name</definition>
+        <argsstring>(String name, Boolean rgb, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(9)</argsstring>
+        <name>nvim_get_hl_by_name</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>rgb</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a highlight definition by name.</para>
+<para><xrefsect id="deprecated_1_deprecated000009"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use |nvim_get_hl()| instead</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highlight group name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rgb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Export RGB colors </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Highlight definition map </para>
+</simplesect>
+<simplesect kind="see"><para>nvim_get_hl_by_id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="295" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="295" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ad2eeb07c21d93f5ca5b237a19c155b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buffer_insert</definition>
+        <argsstring>(Buffer buffer, Integer lnum, ArrayOf(String) lines, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_insert</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>lnum</declname>
+        </param>
+        <param>
+          <type>ArrayOf(String)</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inserts a sequence of lines to a buffer at a certain index</para>
+<para><xrefsect id="deprecated_1_deprecated000010"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_set_lines(buffer, lnum, lnum, true, lines)</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lnum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Insert the lines after <computeroutput>lnum</computeroutput>. If negative, appends to the end of the buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of lines </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="317" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="317" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a53499cf82bc49458b22b1b79d79b0019" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String buffer_get_line</definition>
+        <argsstring>(Buffer buffer, Integer index, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_get_line</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a buffer line</para>
+<para><xrefsect id="deprecated_1_deprecated000011"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_get_lines instead. for positive indices (including 0) use &quot;nvim_buf_get_lines(buffer, index, index+1, true)&quot; for negative indices use &quot;nvim_buf_get_lines(buffer, index-1, index, true)&quot;</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Line string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="337" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="337" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1abb31f5118ba9c6cbbb6fdc4620c3edd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buffer_set_line</definition>
+        <argsstring>(Buffer buffer, Integer index, String line, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_set_line</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a buffer line</para>
+<para><xrefsect id="deprecated_1_deprecated000012"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_set_lines instead. for positive indices use &quot;nvim_buf_set_lines(buffer, index, index+1, true, [line])&quot; for negative indices use &quot;nvim_buf_set_lines(buffer, index-1, index, true, [line])&quot;</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contents of the new line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="364" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="364" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a5c9970cf8f3683a90b6dbbe571ac10dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buffer_del_line</definition>
+        <argsstring>(Buffer buffer, Integer index, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_del_line</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Deletes a buffer line</para>
+<para><xrefsect id="deprecated_1_deprecated000013"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_set_lines instead. for positive indices use &quot;nvim_buf_set_lines(buffer, index, index+1, true, [])&quot; for negative indices use &quot;nvim_buf_set_lines(buffer, index-1, index, true, [])&quot; </para>
+</xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="383" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="383" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a4f5db287a6f747e2d03a843cdaa1b73b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_String_</type>
+        <definition>ArrayOf_String_ buffer_get_line_slice</definition>
+        <argsstring>(Buffer buffer, Integer start, Integer end, Boolean include_start, Boolean include_end, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_get_line_slice</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>include_start</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>include_end</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieves a line range from the buffer</para>
+<para><xrefsect id="deprecated_1_deprecated000014"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_get_lines(buffer, newstart, newend, false) where newstart = start + int(not include_start) - int(start &lt; 0) newend = end + int(include_end) - int(end &lt; 0) int(bool) = 1 if bool is true else 0 </para>
+</xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>include_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if the slice includes the <computeroutput>start</computeroutput> parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>include_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if the slice includes the <computeroutput>end</computeroutput> parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of lines </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="404" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="404" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a92e29c17559384c21b15eee2eca4f149" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buffer_set_line_slice</definition>
+        <argsstring>(Buffer buffer, Integer start, Integer end, Boolean include_start, Boolean include_end, ArrayOf(String) replacement, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_set_line_slice</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>include_start</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>include_end</declname>
+        </param>
+        <param>
+          <type>ArrayOf(String)</type>
+          <declname>replacement</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replaces a line range on the buffer</para>
+<para><xrefsect id="deprecated_1_deprecated000015"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use nvim_buf_set_lines(buffer, newstart, newend, false, lines) where newstart = start + int(not include_start) + int(start &lt; 0) newend = end + int(include_end) + int(end &lt; 0) int(bool) = 1 if bool is true else 0</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last line index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>include_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if the slice includes the <computeroutput>start</computeroutput> parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>include_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if the slice includes the <computeroutput>end</computeroutput> parameter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replacement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of lines to use as replacement (0-length</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="433" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="433" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1af5b83d2852d73123155fe11a19d4fe21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object buffer_set_var</definition>
+        <argsstring>(Buffer buffer, String name, Object value, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_set_var</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a buffer-scoped (b:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000016"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value or nil if there was no previous value. <verbatim>    @warning It may return nil if there was no previous value
+             or if previous value was `v:null`. 
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="455" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="455" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a51b8fe28fd4100d333da19b359fd7768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object buffer_del_var</definition>
+        <argsstring>(Buffer buffer, String name, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>buffer_del_var</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a buffer-scoped (b:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000017"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="475" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="475" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1addb54f028844c0788199b8af1be1b037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object window_set_var</definition>
+        <argsstring>(Window window, String name, Object value, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>window_set_var</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a window-scoped (w:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000018"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value or nil if there was no previous value. <verbatim>    @warning It may return nil if there was no previous value
+             or if previous value was `v:null`. 
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="499" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="499" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ab865992585f451c25132cb41f3037842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object window_del_var</definition>
+        <argsstring>(Window window, String name, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>window_del_var</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a window-scoped (w:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000019"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="519" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="519" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a522e8c8b135e04d0022d3ad89af44359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object tabpage_set_var</definition>
+        <argsstring>(Tabpage tabpage, String name, Object value, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>tabpage_set_var</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a tab-scoped (t:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000020"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value or nil if there was no previous value. <verbatim>    @warning It may return nil if there was no previous value
+             or if previous value was `v:null`. 
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="543" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="543" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a735286e7e80b433b54e2a83c15ccce81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object tabpage_del_var</definition>
+        <argsstring>(Tabpage tabpage, String name, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>tabpage_del_var</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a tab-scoped (t:) variable</para>
+<para><xrefsect id="deprecated_1_deprecated000021"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID|, or 0 for current tabpage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="563" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="563" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a8a7d6d7197a17a35df49837b49536e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object vim_set_var</definition>
+        <argsstring>(String name, Object value, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>vim_set_var</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000022"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><simplesect kind="see"><para>nvim_set_var </para>
+</simplesect>
+<simplesect kind="warning"><para>May return nil if there was no previous value OR if previous value was <computeroutput>v:null</computeroutput>. </para>
+</simplesect>
+<simplesect kind="return"><para>Old value or nil if there was no previous value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="580" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="580" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1afd6cf8970e3fa5642de1858a0a85e8fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object vim_del_var</definition>
+        <argsstring>(String name, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>vim_del_var</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000023"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><simplesect kind="see"><para>nvim_del_var </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="588" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="588" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ac6d0d5085e5570f3699fea5f0c748de0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t convert_index</definition>
+        <argsstring>(int64_t index)</argsstring>
+        <name>convert_index</name>
+        <param>
+          <type>int64_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="594" column="16" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="594" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a0d9e274b61f9459b2075dc773274bafb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_option_info</definition>
+        <argsstring>(String name, Arena *arena, Error *err) FUNC_API_DEPRECATED_SINCE(11)</argsstring>
+        <name>nvim_get_option_info</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the option information for one option</para>
+<para><xrefsect id="deprecated_1_deprecated000024"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use nvim_get_option_info2 instead.</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option Information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="606" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="606" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a77f5f21e18dc3ff02da8098558a5071a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_option</definition>
+        <argsstring>(uint64_t channel_id, String name, Object value, Error *err) FUNC_API_DEPRECATED_SINCE(11)</argsstring>
+        <name>nvim_set_option</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the global value of an option.</para>
+<para><xrefsect id="deprecated_1_deprecated000025"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New option value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="620" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="620" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ac4f4fe9b49ec1f6d538c0e8bd6c000c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_get_option</definition>
+        <argsstring>(String name, Error *err) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_get_option</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the global value of an option.</para>
+<para><xrefsect id="deprecated_1_deprecated000026"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option value (global) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="633" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="633" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a8afcb8aa2cffda7437a6294fb79dcfb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_buf_get_option</definition>
+        <argsstring>(Buffer buffer, String name, Error *err) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_buf_get_option</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a buffer option value</para>
+<para><xrefsect id="deprecated_1_deprecated000027"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="648" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="648" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a63dd934cc7a230eb3cbeda92ae97b28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_buf_set_option</definition>
+        <argsstring>(uint64_t channel_id, Buffer buffer, String name, Object value, Error *err) FUNC_API_DEPRECATED_SINCE(11)</argsstring>
+        <name>nvim_buf_set_option</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a buffer option value. Passing <computeroutput>nil</computeroutput> as value deletes the option (only works if there&apos;s a global fallback)</para>
+<para><xrefsect id="deprecated_1_deprecated000028"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="671" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="671" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ad3cab55952c5e381978744dab7a527d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_win_get_option</definition>
+        <argsstring>(Window window, String name, Error *err) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_win_get_option</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a window option value</para>
+<para><xrefsect id="deprecated_1_deprecated000029"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="691" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="691" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ad5df8fce86d5cc2b1b0d3f676845eb0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_option</definition>
+        <argsstring>(uint64_t channel_id, Window window, String name, Object value, Error *err) FUNC_API_DEPRECATED_SINCE(11)</argsstring>
+        <name>nvim_win_set_option</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a window option value. Passing <computeroutput>nil</computeroutput> as value deletes the option (only works if there&apos;s a global fallback)</para>
+<para><xrefsect id="deprecated_1_deprecated000030"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="714" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="714" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a5626c08e95c6c676baaab62831112c98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>static Object get_option_from</definition>
+        <argsstring>(void *from, OptScope scope, String name, Error *err)</argsstring>
+        <name>get_option_from</name>
+        <param>
+          <type>void *</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>OptScope</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the value of a global or local (buffer, window) option.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to buffer or window for local option value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option scope. See OptScope in option.h. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of an error that may have occurred.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the option value. Must be freed by caller. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="735" column="15" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="735" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ab839d36f912d0f7087121fa5b7adf0fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void set_option_to</definition>
+        <argsstring>(uint64_t channel_id, void *to, OptScope scope, String name, Object value, Error *err)</argsstring>
+        <name>set_option_to</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>OptScope</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the value of a global or local (buffer, window) option.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to buffer or window for local option value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option scope. See OptScope in option.h. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New option value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of an error that may have occurred. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="770" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="770" bodyend="803"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a3f77f1633bc12cb3c83820e6008192b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_call_atomic</definition>
+        <argsstring>(uint64_t channel_id, Array calls, Arena *arena, Error *err) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(12) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_call_atomic</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>calls</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000031"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use nvim_exec_lua() instead.</para>
+</xrefdescription></xrefsect></para>
+<para>Calls many API methods atomically.</para>
+<para>This has two main usages:<orderedlist>
+<listitem><para>To perform several requests from an async context atomically, i.e. without interleaving redraws, RPC requests from other clients, or user interactions (however API methods may trigger autocommands or event processing which have such side effects, e.g. |:sleep| may wake timers).</para>
+</listitem><listitem><para>To minimize RPC overhead (roundtrips) of a sequence of many requests.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>calls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an array of calls, where each call is described by an array with two elements: the request name, and an array of arguments. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validation error details (malformed <computeroutput>calls</computeroutput> parameter), if any. Errors from batched calls are given in the return value.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of two elements. The first is an array of return values. The second is NIL if all calls succeeded. If a call resulted in an error, it is a three-element array with the zero-based index of the call which resulted in an error, the error type and the error message. If an error occurred, the values from all preceding calls will still be returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="827" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="827" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a4cc1a9f451c54820e9ee8526c8211795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_subscribe</definition>
+        <argsstring>(uint64_t channel_id, String event) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(13) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_subscribe</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000032"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel id (passed automatically by the dispatcher) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="895" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="895" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a616b67e753f2ebccf7d226af75fe80e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_unsubscribe</definition>
+        <argsstring>(uint64_t channel_id, String event) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(13) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_unsubscribe</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000033"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel id (passed automatically by the dispatcher) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event type string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="906" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="906" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a14831eca25ba060d8972aeb27311dea0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void write_msg</definition>
+        <argsstring>(String message, bool to_err, bool writeln)</argsstring>
+        <name>write_msg</name>
+        <param>
+          <type>String</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>to_err</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>writeln</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Writes a message to vim output or error buffer. The string is split and flushed after each newline. Incomplete lines are kept for writing later.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true: message is an error (uses <computeroutput>emsg</computeroutput> instead of <computeroutput>msg</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>writeln</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Append a trailing newline </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="922" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="922" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a5c13b865f8916f500380ce336f2b0999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_out_write</definition>
+        <argsstring>(String str) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(13)</argsstring>
+        <name>nvim_out_write</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000034"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="967" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="967" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1ab4c7264e83172e0dc833eb88a4164b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_err_write</definition>
+        <argsstring>(String str) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(13)</argsstring>
+        <name>nvim_err_write</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000035"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="976" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="976" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1a5180f25a4994d1a6e3d7047fb5eb8de2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_err_writeln</definition>
+        <argsstring>(String str) FUNC_API_SINCE(1) FUNC_API_DEPRECATED_SINCE(13)</argsstring>
+        <name>nvim_err_writeln</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000036"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="985" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="985" bodyend="989"/>
+      </memberdef>
+      <memberdef kind="function" id="deprecated_8c_1aac12e737a8a6d43b623e5ade4153b05d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_notify</definition>
+        <argsstring>(String msg, Integer log_level, Dict opts, Arena *arena, Error *err) FUNC_API_SINCE(7) FUNC_API_DEPRECATED_SINCE(13)</argsstring>
+        <name>nvim_notify</name>
+        <param>
+          <type>String</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>log_level</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000037"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+<para>Use <computeroutput>nvim_echo</computeroutput> or <computeroutput>nvim_exec_lua("vim.notify(...)", ...)</computeroutput> instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message to display to the user </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>log_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The log level </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reserved for future use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c" line="999" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/deprecated.c" bodystart="999" bodyend="1008"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/deprecated.c"/>
+  </compounddef>
+</doxygen>

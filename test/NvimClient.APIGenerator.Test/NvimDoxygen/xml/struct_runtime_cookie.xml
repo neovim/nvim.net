@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="struct_runtime_cookie" kind="struct" language="C++" prot="public">
+    <compoundname>RuntimeCookie</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_runtime_cookie_1a2ddbd43b311f9227b3d2d21a55b2775b" prot="public" static="no" mutable="no">
+        <type>ArrayBuilder</type>
+        <definition>ArrayBuilder RuntimeCookie::rv</definition>
+        <argsstring></argsstring>
+        <name>rv</name>
+        <qualifiedname>RuntimeCookie::rv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="552" column="16" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_runtime_cookie_1afc8b41eaa29db613d06655eddae0f9c8" prot="public" static="no" mutable="no">
+        <type>Arena *</type>
+        <definition>Arena* RuntimeCookie::arena</definition>
+        <argsstring></argsstring>
+        <name>arena</name>
+        <qualifiedname>RuntimeCookie::arena</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="553" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="553" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="551" column="1" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="551" bodyend="554"/>
+    <listofallmembers>
+      <member refid="struct_runtime_cookie_1afc8b41eaa29db613d06655eddae0f9c8" prot="public" virt="non-virtual"><scope>RuntimeCookie</scope><name>arena</name></member>
+      <member refid="struct_runtime_cookie_1a2ddbd43b311f9227b3d2d21a55b2775b" prot="public" virt="non-virtual"><scope>RuntimeCookie</scope><name>rv</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

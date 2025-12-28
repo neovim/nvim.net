@@ -1,0 +1,1533 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="ui_8c" kind="file" language="C++">
+    <compoundname>ui.c</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">inttypes.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">klib/kvec.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes refid="ui_8h" local="yes">nvim/api/ui.h</includes>
+    <includes local="yes">nvim/assert_defs.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/autocmd_defs.h</includes>
+    <includes local="yes">nvim/channel.h</includes>
+    <includes local="yes">nvim/channel_defs.h</includes>
+    <includes local="yes">nvim/eval.h</includes>
+    <includes local="yes">nvim/event/defs.h</includes>
+    <includes local="yes">nvim/event/loop.h</includes>
+    <includes local="yes">nvim/event/multiqueue.h</includes>
+    <includes local="yes">nvim/event/wstream.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/grid.h</includes>
+    <includes local="yes">nvim/highlight.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/main.h</includes>
+    <includes local="yes">nvim/map_defs.h</includes>
+    <includes local="yes">nvim/mbyte.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/channel.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/channel_defs.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/packer.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/packer_defs.h</includes>
+    <includes local="yes">nvim/option.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/ui.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/ui.c</label>
+        <link refid="ui_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>nvim/api/ui.h</label>
+        <link refid="ui_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>assert.h</label>
+      </node>
+      <node id="3">
+        <label>inttypes.h</label>
+      </node>
+      <node id="9">
+        <label>klib/kvec.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/assert_defs.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/autocmd_defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/channel.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/channel_defs.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/eval.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/event/defs.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/event/loop.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/event/multiqueue.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/event/wstream.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/grid.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/highlight.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/highlight_defs.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="31">
+        <label>nvim/main.h</label>
+      </node>
+      <node id="32">
+        <label>nvim/map_defs.h</label>
+      </node>
+      <node id="33">
+        <label>nvim/mbyte.h</label>
+      </node>
+      <node id="34">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="35">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="36">
+        <label>nvim/msgpack_rpc/channel.h</label>
+      </node>
+      <node id="37">
+        <label>nvim/msgpack_rpc/channel_defs.h</label>
+      </node>
+      <node id="38">
+        <label>nvim/msgpack_rpc/packer.h</label>
+      </node>
+      <node id="39">
+        <label>nvim/msgpack_rpc/packer_defs.h</label>
+      </node>
+      <node id="40">
+        <label>nvim/option.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="41">
+        <label>nvim/ui.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/ui_defs.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="6">
+        <label>stdint.h</label>
+      </node>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+      <node id="8">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="ui_8c_1aca4e60d86c5a24ab0a66036ab629260a" prot="public" static="no">
+        <name>BUF_POS</name>
+        <param><defname>ui</defname></param>
+        <initializer>((size_t)((ui)-&gt;packer.ptr - (ui)-&gt;packer.startptr))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="41" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="ui_8c_1a8e962c16f071b7523bfe8da542033f5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>static</type>
+        <definition>static PMap</definition>
+        <argsstring>(uint64_t)</argsstring>
+        <name>PMap</name>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="49" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a7313f749ba8cf643e446f89600c9fde4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void mpack_str_small</definition>
+        <argsstring>(char **buf, const char *str, size_t len)</argsstring>
+        <name>mpack_str_small</name>
+        <param>
+          <type>char **</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="59" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a252d1ccf31a1e31941ed6cdc113dbf4a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void remote_ui_destroy</definition>
+        <argsstring>(RemoteUI *ui) FUNC_ATTR_NONNULL_ALL</argsstring>
+        <name>remote_ui_destroy</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="67" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a8b0f1f41f458efecf275f9994810862a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_disconnect</definition>
+        <argsstring>(uint64_t channel_id, Error *err, bool send_error_exit)</argsstring>
+        <name>remote_ui_disconnect</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>send_error_exit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes the client on the given channel from the list of UIs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if non-NULL and there is no UI on the channel, set an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>send_error_exit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>send an &quot;error_exit&quot; event with 0 status first </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="79" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="79" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1aa325d41a3f9012a3cc947b406339b9d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_wait_for_attach</definition>
+        <argsstring>(bool only_stdio)</argsstring>
+        <name>remote_ui_wait_for_attach</name>
+        <param>
+          <type>bool</type>
+          <declname>only_stdio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait until UI has connected.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>only_stdio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UI is expected to connect on stdio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="119" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="119" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a28353c84b6c1b101a3c7aeb1ee9bc3e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_attach</definition>
+        <argsstring>(uint64_t channel_id, Integer width, Integer height, Dict options, Error *err) FUNC_API_SINCE(1) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_attach</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Activates UI events on the channel.</para>
+<para>Entry point of all UI clients. Allows |<ndash/>embed| to continue startup. Implies that the client is ready to show the UI. Adds the client to the list of UIs. |nvim_list_uis()|</para>
+<para><simplesect kind="note"><para>If multiple UI clients are attached, the global screen dimensions degrade to the smallest client. E.g. if client A requests 80x40 but client B requests 200x100, the global screen has size 80x40.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested screen columns </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested screen rows </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|ui-option| map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="151" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="151" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a3d50016aa7e0971545b4d22bdefe96f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ui_attach</definition>
+        <argsstring>(uint64_t channel_id, Integer width, Integer height, Boolean enable_rgb, Error *err) FUNC_API_DEPRECATED_SINCE(1)</argsstring>
+        <name>ui_attach</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>enable_rgb</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000038"><xreftitle>Deprecated</xreftitle><xrefdescription></xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="225" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="225" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1ae5cd689ede5af2d91b018ae8ab592f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_set_focus</definition>
+        <argsstring>(uint64_t channel_id, Boolean gained, Error *error) FUNC_API_SINCE(11) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_set_focus</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>gained</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Tells the nvim server if focus was gained or lost by the GUI. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="234" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="234" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a50feeb87d271220e677551663100e5cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_detach</definition>
+        <argsstring>(uint64_t channel_id, Error *err) FUNC_API_SINCE(1) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_detach</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Deactivates UI events on the channel.</para>
+<para>Removes the client from the list of UIs. |nvim_list_uis()|</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="257" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="257" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1af4735abe9340c4904979887351315e78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_stop</definition>
+        <argsstring>(RemoteUI *ui)</argsstring>
+        <name>remote_ui_stop</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="264" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a58ca90dd77d3d60e7472ad1bcc8ebd0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_try_resize</definition>
+        <argsstring>(uint64_t channel_id, Integer width, Integer height, Error *err) FUNC_API_SINCE(1) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_try_resize</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="268" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="268" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a596dc1b44bfd166b19bf546eb3a5ffb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_set_option</definition>
+        <argsstring>(uint64_t channel_id, String name, Object value, Error *error) FUNC_API_SINCE(1) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_set_option</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="289" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="289" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a594007171c35cbbf6d1c7203759ddb1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ui_set_option</definition>
+        <argsstring>(RemoteUI *ui, bool init, String name, Object value, Error *err)</argsstring>
+        <name>ui_set_option</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="302" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="302" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a8da70685832741d0234738d62575eeeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_try_resize_grid</definition>
+        <argsstring>(uint64_t channel_id, Integer grid, Integer width, Integer height, Error *err) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_try_resize_grid</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tell Nvim to resize a grid. Triggers a grid_resize event with the requested grid size or the maximum size if it exceeds size limits.</para>
+<para>On invalid grid handle, fails with error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The handle of the grid to be changed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new requested width. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new requested height. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="413" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="413" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a6dd132f5c6da19a93be3fec384876077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_pum_set_height</definition>
+        <argsstring>(uint64_t channel_id, Integer height, Error *err) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_pum_set_height</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tells Nvim the number of elements displaying in the popupmenu, to decide [&lt;PageUp&gt;] and [&lt;PageDown&gt;] movement.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Popupmenu height, must be greater than zero. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="436" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="436" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a609c477607c2a913b19562b18d1c1bce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_pum_set_bounds</definition>
+        <argsstring>(uint64_t channel_id, Float width, Float height, Float row, Float col, Error *err) FUNC_API_SINCE(7) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_pum_set_bounds</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tells Nvim the geometry of the popupmenu, to align floating windows with an external popup menu.</para>
+<para>Note that this method is not to be confused with |nvim_ui_pum_set_height()|, which sets the number of visible items in the popup menu, while this function sets the bounding box of the popup menu, including visual elements such as borders and sliders. Floats need not use the same font size, nor be anchored to exact grid corners, so one can set floating-point numbers to the popup menu geometry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Popupmenu width. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Popupmenu height. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Popupmenu row. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Popupmenu height. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="476" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="476" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1aa3d3d614e7c691b5fa05a8056c3bb354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_ui_term_event</definition>
+        <argsstring>(uint64_t channel_id, String event, Object value, Error *err) FUNC_API_SINCE(12) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_ui_term_event</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tells Nvim when a terminal event has occurred</para>
+<para>The following terminal events are supported:</para>
+<para><itemizedlist>
+<listitem><para>&quot;termresponse&quot;: The terminal sent an OSC or DCS response sequence to Nvim. The payload is the received response. Sets |v:termresponse| and fires |TermResponse|.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event payload </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="520" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="520" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1aa83154a9646d4c06c860b34d1b56d587" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void flush_event</definition>
+        <argsstring>(RemoteUI *ui)</argsstring>
+        <name>flush_event</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="539" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="539" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1aecf726ca08aee51807a20839010904a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ui_alloc_buf</definition>
+        <argsstring>(RemoteUI *ui)</argsstring>
+        <name>ui_alloc_buf</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="549" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="549" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a1fda0c226e1e3b5d895a597c3162e520" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void prepare_call</definition>
+        <argsstring>(RemoteUI *ui, const char *name)</argsstring>
+        <name>prepare_call</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="556" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="556" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a3b881eadca157681ceaa13a71eacb5b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void push_call</definition>
+        <argsstring>(RemoteUI *ui, const char *name, Array args)</argsstring>
+        <name>push_call</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Pushes data into RemoteUI, to be consumed later by remote_ui_flush(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="593" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="593" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a1df6cbde75adb6a491cc7f9a16676f3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ui_flush_callback</definition>
+        <argsstring>(PackerBuffer *packer)</argsstring>
+        <name>ui_flush_callback</name>
+        <param>
+          <type>PackerBuffer *</type>
+          <declname>packer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="599" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="599" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1af8683b9ba6e797b0ec36b5c4a21c4f9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_grid_clear</definition>
+        <argsstring>(RemoteUI *ui, Integer grid)</argsstring>
+        <name>remote_ui_grid_clear</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="606" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="606" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1ab7423aac5f1b161b6449e5e28748cf4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_grid_resize</definition>
+        <argsstring>(RemoteUI *ui, Integer grid, Integer width, Integer height)</argsstring>
+        <name>remote_ui_grid_resize</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="616" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="616" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a6ce76bdcaa76460fd95bd6d52f4b4b09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_grid_scroll</definition>
+        <argsstring>(RemoteUI *ui, Integer grid, Integer top, Integer bot, Integer left, Integer right, Integer rows, Integer cols)</argsstring>
+        <name>remote_ui_grid_scroll</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>top</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>bot</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="630" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="630" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a2f6cb2db15dbed94700c77402995435e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_default_colors_set</definition>
+        <argsstring>(RemoteUI *ui, Integer rgb_fg, Integer rgb_bg, Integer rgb_sp, Integer cterm_fg, Integer cterm_bg)</argsstring>
+        <name>remote_ui_default_colors_set</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_fg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_bg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_sp</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cterm_fg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cterm_bg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="665" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="665" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a8332bc96673156a51b40d9a6a435dd73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_hl_attr_define</definition>
+        <argsstring>(RemoteUI *ui, Integer id, HlAttrs rgb_attrs, HlAttrs cterm_attrs, Array info)</argsstring>
+        <name>remote_ui_hl_attr_define</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>HlAttrs</type>
+          <declname>rgb_attrs</declname>
+        </param>
+        <param>
+          <type>HlAttrs</type>
+          <declname>cterm_attrs</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="695" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="695" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a2b24c02ca0e122cf9a83c668873cec3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_highlight_set</definition>
+        <argsstring>(RemoteUI *ui, int id)</argsstring>
+        <name>remote_ui_highlight_set</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="728" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="728" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a8ffc3b48c93d8a61251085547c9cf32b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_grid_cursor_goto</definition>
+        <argsstring>(RemoteUI *ui, Integer grid, Integer row, Integer col)</argsstring>
+        <name>remote_ui_grid_cursor_goto</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>&quot;true&quot; cursor used only for input focus </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="743" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="743" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a1dfeda7bf240b415d64246dcba494c60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_cursor_goto</definition>
+        <argsstring>(RemoteUI *ui, Integer row, Integer col)</argsstring>
+        <name>remote_ui_cursor_goto</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>emulated cursor used both for drawing and for input focus </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="759" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="759" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a9e7dfbd7916de4fdd0372c4dff2dc9e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_put</definition>
+        <argsstring>(RemoteUI *ui, const char *cell)</argsstring>
+        <name>remote_ui_put</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>cell</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="772" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="772" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1acb2d5e6aa720385cb43d95070ba67c7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_raw_line</definition>
+        <argsstring>(RemoteUI *ui, Integer grid, Integer row, Integer startcol, Integer endcol, Integer clearcol, Integer clearattr, LineFlags flags, const schar_T *chunk, const sattr_T *attrs)</argsstring>
+        <name>remote_ui_raw_line</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>startcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>endcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>clearcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>clearattr</declname>
+        </param>
+        <param>
+          <type>LineFlags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>const schar_T *</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>const sattr_T *</type>
+          <declname>attrs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="780" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="780" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a594857adbb11beb7b4c2b5c92f28d2cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ui_flush_buf</definition>
+        <argsstring>(RemoteUI *ui, bool incomplete_event)</argsstring>
+        <name>ui_flush_buf</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incomplete_event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush the internal packing buffer to the client.</para>
+<para>This might happen multiple times before the actual ui_flush, if the total redraw size is large! </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="901" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="901" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a0409cc6c6259d5f6980214698b603cbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_flush</definition>
+        <argsstring>(RemoteUI *ui)</argsstring>
+        <name>remote_ui_flush</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>An intentional flush (vsync) when Nvim is finished redrawing the screen</para>
+<para>Clients can know this happened by a final &quot;flush&quot; event at the end of the &quot;redraw&quot; batch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="930" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="930" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1a61e7af39d18d947dd1cd7fe9782b9afe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_flush_pending_data</definition>
+        <argsstring>(RemoteUI *ui)</argsstring>
+        <name>remote_ui_flush_pending_data</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="942" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="942" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1abb4480f9e82666dd7bb4ff4a25e101e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>static Array translate_contents</definition>
+        <argsstring>(RemoteUI *ui, Array contents, Arena *arena)</argsstring>
+        <name>translate_contents</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>contents</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="947" column="14" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="947" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1ae994f991ef5d11943d6a23901a3e1ed8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>static Array translate_firstarg</definition>
+        <argsstring>(RemoteUI *ui, Array args, Arena *arena)</argsstring>
+        <name>translate_firstarg</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="967" column="14" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="967" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="ui_8c_1ad7f69f1f80f3173fb03aa058541afca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remote_ui_event</definition>
+        <argsstring>(RemoteUI *ui, char *name, Array args)</argsstring>
+        <name>remote_ui_event</name>
+        <param>
+          <type>RemoteUI *</type>
+          <declname>ui</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.c" line="979" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/ui.c" bodystart="979" bodyend="1043"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/ui.c"/>
+  </compounddef>
+</doxygen>

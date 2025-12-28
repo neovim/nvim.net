@@ -1,0 +1,924 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="command_8c" kind="file" language="C++">
+    <compoundname>command.c</compoundname>
+    <includes local="no">inttypes.h</includes>
+    <includes local="no">lauxlib.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">klib/kvec.h</includes>
+    <includes refid="command_8h" local="yes">nvim/api/command.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes local="yes">nvim/ascii_defs.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/autocmd_defs.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/cmdexpand_defs.h</includes>
+    <includes local="yes">nvim/ex_cmds_defs.h</includes>
+    <includes local="yes">nvim/ex_docmd.h</includes>
+    <includes local="yes">nvim/ex_eval.h</includes>
+    <includes local="yes">nvim/garray.h</includes>
+    <includes local="yes">nvim/garray_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/lua/executor.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/mbyte.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/ops.h</includes>
+    <includes local="yes">nvim/pos_defs.h</includes>
+    <includes local="yes">nvim/regexp.h</includes>
+    <includes local="yes">nvim/strings.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/usercmd.h</includes>
+    <includes local="yes">nvim/vim_defs.h</includes>
+    <includes local="yes">nvim/window.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/command.c</label>
+        <link refid="command_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>nvim/api/command.h</label>
+        <link refid="command_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>inttypes.h</label>
+      </node>
+      <node id="7">
+        <label>klib/kvec.h</label>
+      </node>
+      <node id="3">
+        <label>lauxlib.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/ascii_defs.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/autocmd_defs.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/cmdexpand_defs.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/ex_cmds_defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/ex_docmd.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/ex_eval.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/garray.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/garray_defs.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/lua/executor.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/mbyte.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="31">
+        <label>nvim/ops.h</label>
+      </node>
+      <node id="32">
+        <label>nvim/pos_defs.h</label>
+      </node>
+      <node id="33">
+        <label>nvim/regexp.h</label>
+      </node>
+      <node id="34">
+        <label>nvim/strings.h</label>
+      </node>
+      <node id="35">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="36">
+        <label>nvim/usercmd.h</label>
+      </node>
+      <node id="37">
+        <label>nvim/vim_defs.h</label>
+      </node>
+      <node id="38">
+        <label>nvim/window.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="9">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>stdio.h</label>
+      </node>
+      <node id="6">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="command_8c_1ac99b13e5ffbb100eae550fc8f8e35348" prot="public" static="no">
+        <name>OBJ_TO_BOOL</name>
+        <param><defname>var</defname></param>
+        <param><defname>value</defname></param>
+        <param><defname>default</defname></param>
+        <param><defname>varname</defname></param>
+        <initializer>  do { \
+    (var) = api_object_to_bool(value, varname, default, err); \
+    if (ERROR_SET(err)) { \
+      goto end; \
+    } \
+  } while (0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="324" column="9"/>
+      </memberdef>
+      <memberdef kind="define" id="command_8c_1a81e42342dbaca201f3177ebedc1b479f" prot="public" static="no">
+        <name>VALIDATE_MOD</name>
+        <param><defname>cond</defname></param>
+        <param><defname>mod_</defname></param>
+        <param><defname>name_</defname></param>
+        <initializer>  do { \
+    if (!(cond)) { \
+      api_set_error(err, kErrorTypeValidation, &quot;Command cannot accept %s: %s&quot;, (mod_), (name_)); \
+      goto end; \
+    } \
+  } while (0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="332" column="9"/>
+      </memberdef>
+      <memberdef kind="define" id="command_8c_1a85f34d49c8d9486336cb1d8a5c77ea99" prot="public" static="no">
+        <name>OBJ_TO_CMOD_FLAG</name>
+        <param><defname>flag</defname></param>
+        <param><defname>value</defname></param>
+        <initializer>  if (value) { \
+    cmdinfo.cmdmod.cmod_flags |= (flag); \
+  }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="600" column="9"/>
+      </memberdef>
+      <memberdef kind="define" id="command_8c_1a74172171e5f24e7b545c080ab7d3e684" prot="public" static="no">
+        <name>CMDLINE_APPEND_IF</name>
+        <param><defname>cond</defname></param>
+        <param><defname>str</defname></param>
+        <initializer>  do { \
+    if (cond) { \
+      kv_concat(cmdline, str); \
+    } \
+  } while (0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="752" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="command_8c_1adb534011cc748a8e291f4a5fbd919611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Dict</definition>
+        <argsstring>(cmd)</argsstring>
+        <name>Dict</name>
+        <param>
+          <type>cmd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse command line.</para>
+<para>Doesn&apos;t check the validity of command arguments.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command line string to parse. Cannot contain &quot;\n&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Reserved for future use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> containing command information, with these keys:<itemizedlist>
+<listitem><para>cmd: (string) Command name.</para>
+</listitem><listitem><para>range: (array) (optional) Command range ([&lt;line1&gt;] [&lt;line2&gt;]). Omitted if command doesn&apos;t accept a range. Otherwise, has no elements if no range was specified, one element if only a single range item was specified, or two elements if both range items were specified.</para>
+</listitem><listitem><para>count: (number) (optional) Command [&lt;count&gt;]. Omitted if command cannot take a count.</para>
+</listitem><listitem><para>reg: (string) (optional) Command [&lt;register&gt;]. Omitted if command cannot take a register.</para>
+</listitem><listitem><para>bang: (boolean) Whether command contains a [&lt;bang&gt;] (!) modifier.</para>
+</listitem><listitem><para>args: (array) Command arguments.</para>
+</listitem><listitem><para>addr: (string) Value of |:command-addr|. Uses short name or &quot;line&quot; for -addr=lines.</para>
+</listitem><listitem><para>nargs: (string) Value of |:command-nargs|.</para>
+</listitem><listitem><para>nextcmd: (string) Next command if there are multiple commands separated by a |:bar|. Empty if there isn&apos;t a next command.</para>
+</listitem><listitem><para>magic: (dict) Which characters have special meaning in the command arguments.<itemizedlist>
+<listitem><para>file: (boolean) The command expands filenames. Which means characters such as &quot;%&quot;, &quot;#&quot; and wildcards are expanded.</para>
+</listitem><listitem><para>bar: (boolean) The &quot;|&quot; character is treated as a command separator and the double quote character (&quot;) is treated as the start of a comment.
+        - mods: (dict) |:command-modifiers|.
+            - filter: (dict) |:filter|.
+                - pattern: (string) Filter pattern. Empty string if there is no filter.
+                - force: (boolean) Whether filter is inverted or not.
+            - silent: (boolean) |:silent|.
+            - emsg_silent: (boolean) |:silent!|.
+            - unsilent: (boolean) |:unsilent|.
+            - sandbox: (boolean) |:sandbox|.
+            - noautocmd: (boolean) |:noautocmd|.
+            - browse: (boolean) |:browse|.
+            - confirm: (boolean) |:confirm|.
+            - hide: (boolean) |:hide|.
+            - horizontal: (boolean) |:horizontal|.
+            - keepalt: (boolean) |:keepalt|.
+            - keepjumps: (boolean) |:keepjumps|.
+            - keepmarks: (boolean) |:keepmarks|.
+            - keeppatterns: (boolean) |:keeppatterns|.
+            - lockmarks: (boolean) |:lockmarks|.
+            - noswapfile: (boolean) |:noswapfile|.
+            - tab: (integer) |:tab|. -1 when omitted.
+            - verbose: (integer) |:verbose|. -1 when omitted.
+            - vertical: (boolean) |:vertical|.
+            - split: (string) Split modifier string, is an empty string when there&apos;s no split
+                              modifier. If there is a split modifier it can be one of:
+              - &quot;aboveleft&quot;: |:aboveleft|.
+              - &quot;belowright&quot;: |:belowright|.
+              - &quot;topleft&quot;: |:topleft|.
+              - &quot;botright": |:botright|. </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="100" column="1" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="100" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a2c8b20ce5e9d5f2ed059a2d9cbee01e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim_cmd</definition>
+        <argsstring>(uint64_t channel_id, Dict(cmd) *cmd, Dict(cmd_opts) *opts, Arena *arena, Error *err) FUNC_API_SINCE(10)</argsstring>
+        <name>nvim_cmd</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(cmd) *</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(cmd_opts) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes an Ex command.</para>
+<para>Unlike |nvim_command()| this command takes a structured <ref refid="struct_dict" kindref="compound">Dict</ref> instead of a String. This allows for easier construction and manipulation of an Ex command. This also allows for things such as having spaces inside a command argument, expanding filenames in a command that otherwise doesn&apos;t expand filenames, etc. Command arguments may also be Number, Boolean or String.</para>
+<para>The first argument may also be used instead of count for commands that support it in order to make their usage simpler with |vim.cmd()|. For example, instead of <computeroutput>vim.cmd.bdelete{ count = 2 }</computeroutput>, you may do <computeroutput>vim.cmd.bdelete(2)</computeroutput>.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para><simplesect kind="see"><para>|nvim_exec2()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_command()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cmd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command to execute. Must be a <ref refid="struct_dict" kindref="compound">Dict</ref> that can contain the same values as the return value of |nvim_parse_cmd()| except &quot;addr&quot;, &quot;nargs&quot; and &quot;nextcmd&quot; which are ignored if provided. All values except for &quot;cmd&quot; are optional. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>output: (boolean, default false) Whether to return command output. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Command output (non-error, non-shell |:!|) if <computeroutput>output</computeroutput> is true, else empty string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="309" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="309" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a767b7fccdd191ee5c14aebbf677303d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool string_iswhite</definition>
+        <argsstring>(String str)</argsstring>
+        <name>string_iswhite</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Check if a string contains only whitespace characters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="695" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="695" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a68dba352027405afad912a874570ba90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void build_cmdline_str</definition>
+        <argsstring>(char **cmdlinep, exarg_T *eap, CmdParseInfo *cmdinfo, ArrayOf(String) args)</argsstring>
+        <name>build_cmdline_str</name>
+        <param>
+          <type>char **</type>
+          <declname>cmdlinep</declname>
+        </param>
+        <param>
+          <type>exarg_T *</type>
+          <declname>eap</declname>
+        </param>
+        <param>
+          <type>CmdParseInfo *</type>
+          <declname>cmdinfo</declname>
+        </param>
+        <param>
+          <type>ArrayOf(String)</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Build cmdline string for command, used by <computeroutput>nvim_cmd()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="710" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="710" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a0c5a9a48ee8c1f2937ff87107fb6aee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_create_user_command</definition>
+        <argsstring>(uint64_t channel_id, String name, Object command, Dict(user_command) *opts, Error *err) FUNC_API_SINCE(9)</argsstring>
+        <name>nvim_create_user_command</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(user_command) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a global |user-commands| command.</para>
+<para>For Lua usage see |lua-guide-commands-create|.</para>
+<para>Example:</para>
+<para><programlisting filename=".vim"><codeline><highlight class="normal">:call<sp/>nvim_create_user_command(&apos;SayHello&apos;,<sp/>&apos;echo<sp/>&quot;Hello<sp/>world!&quot;&apos;,<sp/>{&apos;bang&apos;:<sp/>v:true})</highlight></codeline>
+<codeline><highlight class="normal">:SayHello</highlight></codeline>
+<codeline><highlight class="normal">Hello<sp/>world!</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the new user command. Must begin with an uppercase letter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replacement command to execute when this user command is executed. When called from Lua, the command can also be a Lua function. The function is called with a single table argument that contains the following keys:<itemizedlist>
+<listitem><para>name: (string) Command name</para>
+</listitem><listitem><para>args: (string) The args passed to the command, if any [&lt;args&gt;]</para>
+</listitem><listitem><para>fargs: (table) The args split by unescaped whitespace (when more than one argument is allowed), if any [&lt;f-args&gt;]</para>
+</listitem><listitem><para>nargs: (string) Number of arguments |:command-nargs|</para>
+</listitem><listitem><para>bang: (boolean) &quot;true&quot; if the command was executed with a ! modifier [&lt;bang&gt;]</para>
+</listitem><listitem><para>line1: (number) The starting line of the command range [&lt;line1&gt;]</para>
+</listitem><listitem><para>line2: (number) The final line of the command range [&lt;line2&gt;]</para>
+</listitem><listitem><para>range: (number) The number of items in the command range: 0, 1, or 2 [&lt;range&gt;]</para>
+</listitem><listitem><para>count: (number) Any count supplied [&lt;count&gt;]</para>
+</listitem><listitem><para>reg: (string) The optional register, if specified [&lt;reg&gt;]</para>
+</listitem><listitem><para>mods: (string) Command modifiers, if any [&lt;mods&gt;]</para>
+</listitem><listitem><para>smods: (table) Command modifiers in a structured format. Has the same structure as the &quot;mods&quot; key of |nvim_parse_cmd()|. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional |command-attributes|.<itemizedlist>
+<listitem><para>Set boolean attributes such as |:command-bang| or |:command-bar| to true (but not |:command-buffer|, use |nvim_buf_create_user_command()| instead).</para>
+</listitem><listitem><para>&quot;complete&quot; |:command-complete| also accepts a Lua function which works like |:command-completion-customlist|.</para>
+</listitem><listitem><para>Other parameters:<itemizedlist>
+<listitem><para>desc: (string) Used for listing the command when a Lua function is used for {command}.</para>
+</listitem><listitem><para>force: (boolean, default true) Override any previous definition.</para>
+</listitem><listitem><para>preview: (function) Preview callback for &apos;inccommand&apos; |:command-preview| </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="881" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="881" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1aa31410a7c1fbe60a724bb7e7034d6c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_del_user_command</definition>
+        <argsstring>(String name, Error *err) FUNC_API_SINCE(9)</argsstring>
+        <name>nvim_del_user_command</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete a user-defined command.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the command to delete. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="892" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="892" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a49d81ac1f673a2891dd7b6e9eb618e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_buf_create_user_command</definition>
+        <argsstring>(uint64_t channel_id, Buffer buffer, String name, Object command, Dict(user_command) *opts, Error *err) FUNC_API_SINCE(9)</argsstring>
+        <name>nvim_buf_create_user_command</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(user_command) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a buffer-local command |user-commands|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>nvim_create_user_command </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="903" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="903" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a13d97fa9f9b068bcd467f41a62040205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_buf_del_user_command</definition>
+        <argsstring>(Buffer buffer, String name, Error *err) FUNC_API_SINCE(9)</argsstring>
+        <name>nvim_buf_del_user_command</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete a buffer-local user-defined command.</para>
+<para>Only commands created with |:command-buffer| or |nvim_buf_create_user_command()| can be deleted with this function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the command to delete. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="926" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="926" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a8ce206f6c904c6e5c338e108dcf563ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void create_user_command</definition>
+        <argsstring>(uint64_t channel_id, String name, Object command, Dict(user_command) *opts, int flags, Error *err)</argsstring>
+        <name>create_user_command</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(user_command) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="958" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="958" bodyend="1161"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a0c8a36c26d4170d8cd1a3ab9fc0ea9fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_commands</definition>
+        <argsstring>(Dict(get_commands) *opts, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_get_commands</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(get_commands) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a map of global (non-buffer-local) Ex commands.</para>
+<para>Currently only |user-commands| are supported, not builtin Ex commands.</para>
+<para><simplesect kind="see"><para>|nvim_get_all_options_info()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Currently only supports {&quot;builtin&quot;:false} </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of maps describing commands. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="1173" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="1173" bodyend="1177"/>
+      </memberdef>
+      <memberdef kind="function" id="command_8c_1a3b7af290c21482926b80abf630dfbd36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_buf_get_commands</definition>
+        <argsstring>(Buffer buffer, Dict(get_commands) *opts, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_buf_get_commands</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(get_commands) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a map of buffer-local |user-commands|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id, or 0 for current buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Currently not used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of maps describing commands. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/command.c" line="1186" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/command.c" bodystart="1186" bodyend="1207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/command.c"/>
+  </compounddef>
+</doxygen>

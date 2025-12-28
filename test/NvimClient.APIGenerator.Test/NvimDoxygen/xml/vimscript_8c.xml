@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="vimscript_8c" kind="file" language="C++">
+    <compoundname>vimscript.c</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">klib/kvec.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/converter.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes refid="vimscript_8h" local="yes">nvim/api/vimscript.h</includes>
+    <includes local="yes">nvim/ascii_defs.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/eval.h</includes>
+    <includes local="yes">nvim/eval/typval.h</includes>
+    <includes local="yes">nvim/eval/typval_defs.h</includes>
+    <includes local="yes">nvim/eval/userfunc.h</includes>
+    <includes local="yes">nvim/ex_docmd.h</includes>
+    <includes local="yes">nvim/garray.h</includes>
+    <includes local="yes">nvim/garray_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/runtime.h</includes>
+    <includes local="yes">nvim/vim_defs.h</includes>
+    <includes local="yes">nvim/viml/parser/expressions.h</includes>
+    <includes local="yes">nvim/viml/parser/parser.h</includes>
+    <includes local="yes">nvim/viml/parser/parser_defs.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/vimscript.c</label>
+        <link refid="vimscript_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>nvim/api/vimscript.h</label>
+        <link refid="vimscript_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>assert.h</label>
+      </node>
+      <node id="8">
+        <label>klib/kvec.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/api/private/converter.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/ascii_defs.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/eval.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/eval/typval.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/eval/typval_defs.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/eval/userfunc.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/ex_docmd.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/garray.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/garray_defs.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/runtime.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/vim_defs.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/viml/parser/expressions.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/viml/parser/parser.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/viml/parser/parser_defs.h</label>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="5">
+        <label>stdint.h</label>
+      </node>
+      <node id="6">
+        <label>stdlib.h</label>
+      </node>
+      <node id="7">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_expr_a_s_t_conv_stack_item" prot="public">ExprASTConvStackItem</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="vimscript_8c_1a9bae0d7ca07e9562d0eeac2911772181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_exec2</definition>
+        <argsstring>(uint64_t channel_id, String src, Dict(exec_opts) *opts, Error *err) FUNC_API_SINCE(11) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_exec2</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(exec_opts) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes Vimscript (multiline block of Ex commands), like anonymous |:source|.</para>
+<para>Unlike |nvim_command()| this function supports heredocs, script-scope (s:), etc.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para><simplesect kind="see"><para>|execute()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_command()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_cmd()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vimscript code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>output: (boolean, default false) Whether to capture and return all (non-error, non-shell |:!|) output. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details (Vim error), if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> containing information about execution, with these keys:<itemizedlist>
+<listitem><para>output: (string|nil) Output if <computeroutput>opts.output</computeroutput> is true. </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="55" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="55" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1afca42d6534e0de4833e494e8f722e632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String exec_impl</definition>
+        <argsstring>(uint64_t channel_id, String src, Dict(exec_opts) *opts, Error *err)</argsstring>
+        <name>exec_impl</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(exec_opts) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="72" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="72" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1a2a83f66985ca8c9b3f68acf763628ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_command</definition>
+        <argsstring>(String command, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_command</name>
+        <param>
+          <type>String</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes an Ex command.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para>Prefer |nvim_cmd()| or |nvim_exec2()| instead. To modify an Ex command in a structured way before executing it, modify the result of |nvim_parse_cmd()| then pass it to |nvim_cmd()|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ex command string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details (Vim error), if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="135" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1a574ca2102e074d4a5277659ab2679ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_eval</definition>
+        <argsstring>(String expr, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_eval</name>
+        <param>
+          <type>String</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates a Vimscript |expression|. Dicts and Lists are recursively expanded.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vimscript expression string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Evaluation result or expanded object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="150" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="150" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1ac9f621a24e5d4ffd8f5ac25924f61a16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>static Object _call_function</definition>
+        <argsstring>(String fn, Array args, dict_T *self, Arena *arena, Error *err)</argsstring>
+        <name>_call_function</name>
+        <param>
+          <type>String</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>dict_T *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls a Vimscript function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function arguments </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>self</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>self</computeroutput> dict, or NULL for non-dict functions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result of the function call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="198" column="15" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="198" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1acf549f0d19f1806dc62481aee7e602d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_call_function</definition>
+        <argsstring>(String fn, Array args, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_call_function</name>
+        <param>
+          <type>String</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls a Vimscript function with the given arguments.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function arguments packed in an Array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result of the function call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="261" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="261" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1a26004d5a2b68dfedb82691df1b023dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_call_dict_function</definition>
+        <argsstring>(Object dict, String fn, Array args, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_call_dict_function</name>
+        <param>
+          <type>Object</type>
+          <declname>dict</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls a Vimscript |Dictionary-function| with the given arguments.</para>
+<para>On execution error: fails with Vimscript error, updates v:errmsg.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="struct_dict" kindref="compound">Dict</ref>, or String evaluating to a Vimscript |self| dict </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the function defined on the Vimscript dict </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function arguments packed in an Array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result of the function call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="276" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="276" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="vimscript_8c_1ab1b7730a68952243eef6b57cb21078f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typedef</type>
+        <definition>typedef kvec_withinit_t</definition>
+        <argsstring>(ExprASTConvStackItem, 16)</argsstring>
+        <name>kvec_withinit_t</name>
+        <param>
+          <type><ref refid="struct_expr_a_s_t_conv_stack_item" kindref="compound">ExprASTConvStackItem</ref></type>
+        </param>
+        <param>
+          <type>16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="354" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="354" bodyend="655"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="keysets__defs_8h" kind="file" language="C++">
+    <compoundname>keysets_defs.h</compoundname>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includedby refid="autocmd_8c" local="yes">D:/source/repos/neovim/src/nvim/api/autocmd.c</includedby>
+    <includedby refid="autocmd_8h" local="yes">D:/source/repos/neovim/src/nvim/api/autocmd.h</includedby>
+    <includedby refid="buffer_8c" local="yes">D:/source/repos/neovim/src/nvim/api/buffer.c</includedby>
+    <includedby refid="buffer_8h" local="yes">D:/source/repos/neovim/src/nvim/api/buffer.h</includedby>
+    <includedby refid="command_8c" local="yes">D:/source/repos/neovim/src/nvim/api/command.c</includedby>
+    <includedby refid="command_8h" local="yes">D:/source/repos/neovim/src/nvim/api/command.h</includedby>
+    <includedby refid="deprecated_8c" local="yes">D:/source/repos/neovim/src/nvim/api/deprecated.c</includedby>
+    <includedby refid="deprecated_8h" local="yes">D:/source/repos/neovim/src/nvim/api/deprecated.h</includedby>
+    <includedby refid="extmark_8c" local="yes">D:/source/repos/neovim/src/nvim/api/extmark.c</includedby>
+    <includedby refid="extmark_8h" local="yes">D:/source/repos/neovim/src/nvim/api/extmark.h</includedby>
+    <includedby refid="options_8c" local="yes">D:/source/repos/neovim/src/nvim/api/options.c</includedby>
+    <includedby refid="options_8h" local="yes">D:/source/repos/neovim/src/nvim/api/options.h</includedby>
+    <includedby refid="vim_8c" local="yes">D:/source/repos/neovim/src/nvim/api/vim.c</includedby>
+    <includedby refid="vim_8h" local="yes">D:/source/repos/neovim/src/nvim/api/vim.h</includedby>
+    <includedby refid="vimscript_8c" local="yes">D:/source/repos/neovim/src/nvim/api/vimscript.c</includedby>
+    <includedby refid="vimscript_8h" local="yes">D:/source/repos/neovim/src/nvim/api/vimscript.h</includedby>
+    <includedby refid="win__config_8c" local="yes">D:/source/repos/neovim/src/nvim/api/win_config.c</includedby>
+    <includedby refid="win__config_8h" local="yes">D:/source/repos/neovim/src/nvim/api/win_config.h</includedby>
+    <includedby refid="window_8c" local="yes">D:/source/repos/neovim/src/nvim/api/window.c</includedby>
+    <includedby refid="window_8h" local="yes">D:/source/repos/neovim/src/nvim/api/window.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>D:/source/repos/neovim/src/nvim/api/autocmd.h</label>
+        <link refid="autocmd_8h_source"/>
+      </node>
+      <node id="3">
+        <label>D:/source/repos/neovim/src/nvim/api/buffer.h</label>
+        <link refid="buffer_8h_source"/>
+      </node>
+      <node id="4">
+        <label>D:/source/repos/neovim/src/nvim/api/command.h</label>
+        <link refid="command_8h_source"/>
+      </node>
+      <node id="5">
+        <label>D:/source/repos/neovim/src/nvim/api/deprecated.h</label>
+        <link refid="deprecated_8h_source"/>
+      </node>
+      <node id="6">
+        <label>D:/source/repos/neovim/src/nvim/api/extmark.h</label>
+        <link refid="extmark_8h_source"/>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>D:/source/repos/neovim/src/nvim/api/options.h</label>
+        <link refid="options_8h_source"/>
+      </node>
+      <node id="8">
+        <label>D:/source/repos/neovim/src/nvim/api/vim.h</label>
+        <link refid="vim_8h_source"/>
+      </node>
+      <node id="9">
+        <label>D:/source/repos/neovim/src/nvim/api/vimscript.h</label>
+        <link refid="vimscript_8h_source"/>
+      </node>
+      <node id="10">
+        <label>D:/source/repos/neovim/src/nvim/api/win_config.h</label>
+        <link refid="win__config_8h_source"/>
+      </node>
+      <node id="11">
+        <label>D:/source/repos/neovim/src/nvim/api/window.h</label>
+        <link refid="window_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_dict" prot="public">Dict</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/keysets_defs.h"/>
+  </compounddef>
+</doxygen>

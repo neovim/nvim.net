@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="dir_a60573b60eab476a908df23078edc00a" kind="dir">
+    <compoundname>D:/source/repos/neovim/src/nvim</compoundname>
+    <innerdir refid="dir_0945483a6e7b8625267f5ad9bc864dc9">D:/source/repos/neovim/src/nvim/api</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/"/>
+  </compounddef>
+</doxygen>

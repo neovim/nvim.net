@@ -1,0 +1,3893 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="vim_8c" kind="file" language="C++">
+    <compoundname>vim.c</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">inttypes.h</includes>
+    <includes local="no">lauxlib.h</includes>
+    <includes local="no">limits.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">klib/kvec.h</includes>
+    <includes refid="buffer_8h" local="yes">nvim/api/buffer.h</includes>
+    <includes refid="deprecated_8h" local="yes">nvim/api/deprecated.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/converter.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes refid="vim_8h" local="yes">nvim/api/vim.h</includes>
+    <includes local="yes">nvim/ascii_defs.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/autocmd_defs.h</includes>
+    <includes local="yes">nvim/buffer.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/channel.h</includes>
+    <includes local="yes">nvim/channel_defs.h</includes>
+    <includes local="yes">nvim/context.h</includes>
+    <includes local="yes">nvim/cursor.h</includes>
+    <includes local="yes">nvim/decoration.h</includes>
+    <includes local="yes">nvim/drawline.h</includes>
+    <includes local="yes">nvim/drawscreen.h</includes>
+    <includes local="yes">nvim/errors.h</includes>
+    <includes local="yes">nvim/eval.h</includes>
+    <includes local="yes">nvim/eval/typval.h</includes>
+    <includes local="yes">nvim/eval/typval_defs.h</includes>
+    <includes local="yes">nvim/ex_docmd.h</includes>
+    <includes local="yes">nvim/ex_eval.h</includes>
+    <includes local="yes">nvim/fold.h</includes>
+    <includes local="yes">nvim/getchar.h</includes>
+    <includes local="yes">nvim/getchar_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/grid.h</includes>
+    <includes local="yes">nvim/grid_defs.h</includes>
+    <includes local="yes">nvim/highlight.h</includes>
+    <includes local="yes">nvim/highlight_defs.h</includes>
+    <includes local="yes">nvim/highlight_group.h</includes>
+    <includes local="yes">nvim/insexpand.h</includes>
+    <includes local="yes">nvim/keycodes.h</includes>
+    <includes local="yes">nvim/log.h</includes>
+    <includes local="yes">nvim/lua/executor.h</includes>
+    <includes local="yes">nvim/lua/treesitter.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/mapping.h</includes>
+    <includes local="yes">nvim/mark.h</includes>
+    <includes local="yes">nvim/mark_defs.h</includes>
+    <includes local="yes">nvim/math.h</includes>
+    <includes local="yes">nvim/mbyte.h</includes>
+    <includes local="yes">nvim/memline.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/message.h</includes>
+    <includes local="yes">nvim/message_defs.h</includes>
+    <includes local="yes">nvim/move.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/channel.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/channel_defs.h</includes>
+    <includes local="yes">nvim/msgpack_rpc/unpacker.h</includes>
+    <includes local="yes">nvim/ops.h</includes>
+    <includes local="yes">nvim/option.h</includes>
+    <includes local="yes">nvim/option_defs.h</includes>
+    <includes local="yes">nvim/option_vars.h</includes>
+    <includes local="yes">nvim/optionstr.h</includes>
+    <includes local="yes">nvim/os/input.h</includes>
+    <includes local="yes">nvim/os/os_defs.h</includes>
+    <includes local="yes">nvim/os/proc.h</includes>
+    <includes local="yes">nvim/popupmenu.h</includes>
+    <includes local="yes">nvim/pos_defs.h</includes>
+    <includes local="yes">nvim/runtime.h</includes>
+    <includes local="yes">nvim/sign_defs.h</includes>
+    <includes local="yes">nvim/state.h</includes>
+    <includes local="yes">nvim/statusline.h</includes>
+    <includes local="yes">nvim/statusline_defs.h</includes>
+    <includes local="yes">nvim/strings.h</includes>
+    <includes local="yes">nvim/terminal.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/ui.h</includes>
+    <includes local="yes">nvim/vim_defs.h</includes>
+    <includes local="yes">nvim/window.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>nvim/api/buffer.h</label>
+        <link refid="buffer_8h_source"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>nvim/api/deprecated.h</label>
+        <link refid="deprecated_8h_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/vim.c</label>
+        <link refid="vim_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>nvim/api/vim.h</label>
+        <link refid="vim_8h_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>assert.h</label>
+      </node>
+      <node id="3">
+        <label>inttypes.h</label>
+      </node>
+      <node id="11">
+        <label>klib/kvec.h</label>
+      </node>
+      <node id="4">
+        <label>lauxlib.h</label>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="13">
+        <label>lua.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/api/private/converter.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/ascii_defs.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/autocmd_defs.h</label>
+      </node>
+      <node id="28">
+        <label>nvim/buffer.h</label>
+      </node>
+      <node id="29">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="30">
+        <label>nvim/channel.h</label>
+      </node>
+      <node id="31">
+        <label>nvim/channel_defs.h</label>
+      </node>
+      <node id="32">
+        <label>nvim/context.h</label>
+      </node>
+      <node id="33">
+        <label>nvim/cursor.h</label>
+      </node>
+      <node id="34">
+        <label>nvim/decoration.h</label>
+      </node>
+      <node id="35">
+        <label>nvim/drawline.h</label>
+      </node>
+      <node id="36">
+        <label>nvim/drawscreen.h</label>
+      </node>
+      <node id="37">
+        <label>nvim/errors.h</label>
+      </node>
+      <node id="38">
+        <label>nvim/eval.h</label>
+      </node>
+      <node id="39">
+        <label>nvim/eval/typval.h</label>
+      </node>
+      <node id="40">
+        <label>nvim/eval/typval_defs.h</label>
+      </node>
+      <node id="41">
+        <label>nvim/ex_docmd.h</label>
+      </node>
+      <node id="42">
+        <label>nvim/ex_eval.h</label>
+      </node>
+      <node id="43">
+        <label>nvim/fold.h</label>
+      </node>
+      <node id="44">
+        <label>nvim/getchar.h</label>
+      </node>
+      <node id="45">
+        <label>nvim/getchar_defs.h</label>
+      </node>
+      <node id="46">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="47">
+        <label>nvim/grid.h</label>
+      </node>
+      <node id="48">
+        <label>nvim/grid_defs.h</label>
+      </node>
+      <node id="49">
+        <label>nvim/highlight.h</label>
+      </node>
+      <node id="50">
+        <label>nvim/highlight_defs.h</label>
+      </node>
+      <node id="51">
+        <label>nvim/highlight_group.h</label>
+      </node>
+      <node id="52">
+        <label>nvim/insexpand.h</label>
+      </node>
+      <node id="53">
+        <label>nvim/keycodes.h</label>
+      </node>
+      <node id="54">
+        <label>nvim/log.h</label>
+      </node>
+      <node id="55">
+        <label>nvim/lua/executor.h</label>
+      </node>
+      <node id="56">
+        <label>nvim/lua/treesitter.h</label>
+      </node>
+      <node id="57">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="58">
+        <label>nvim/mapping.h</label>
+      </node>
+      <node id="59">
+        <label>nvim/mark.h</label>
+      </node>
+      <node id="60">
+        <label>nvim/mark_defs.h</label>
+      </node>
+      <node id="61">
+        <label>nvim/math.h</label>
+      </node>
+      <node id="62">
+        <label>nvim/mbyte.h</label>
+      </node>
+      <node id="63">
+        <label>nvim/memline.h</label>
+      </node>
+      <node id="64">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="65">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="66">
+        <label>nvim/message.h</label>
+      </node>
+      <node id="67">
+        <label>nvim/message_defs.h</label>
+      </node>
+      <node id="68">
+        <label>nvim/move.h</label>
+      </node>
+      <node id="69">
+        <label>nvim/msgpack_rpc/channel.h</label>
+      </node>
+      <node id="70">
+        <label>nvim/msgpack_rpc/channel_defs.h</label>
+      </node>
+      <node id="71">
+        <label>nvim/msgpack_rpc/unpacker.h</label>
+      </node>
+      <node id="72">
+        <label>nvim/ops.h</label>
+      </node>
+      <node id="73">
+        <label>nvim/option.h</label>
+      </node>
+      <node id="74">
+        <label>nvim/option_defs.h</label>
+      </node>
+      <node id="75">
+        <label>nvim/option_vars.h</label>
+      </node>
+      <node id="76">
+        <label>nvim/optionstr.h</label>
+      </node>
+      <node id="77">
+        <label>nvim/os/input.h</label>
+      </node>
+      <node id="78">
+        <label>nvim/os/os_defs.h</label>
+      </node>
+      <node id="79">
+        <label>nvim/os/proc.h</label>
+      </node>
+      <node id="80">
+        <label>nvim/popupmenu.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/pos_defs.h</label>
+      </node>
+      <node id="81">
+        <label>nvim/runtime.h</label>
+      </node>
+      <node id="82">
+        <label>nvim/sign_defs.h</label>
+      </node>
+      <node id="83">
+        <label>nvim/state.h</label>
+      </node>
+      <node id="84">
+        <label>nvim/statusline.h</label>
+      </node>
+      <node id="85">
+        <label>nvim/statusline_defs.h</label>
+      </node>
+      <node id="86">
+        <label>nvim/strings.h</label>
+      </node>
+      <node id="87">
+        <label>nvim/terminal.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="88">
+        <label>nvim/ui.h</label>
+      </node>
+      <node id="89">
+        <label>nvim/vim_defs.h</label>
+      </node>
+      <node id="90">
+        <label>nvim/window.h</label>
+      </node>
+      <node id="6">
+        <label>stdbool.h</label>
+      </node>
+      <node id="7">
+        <label>stddef.h</label>
+      </node>
+      <node id="14">
+        <label>stdint.h</label>
+      </node>
+      <node id="8">
+        <label>stdio.h</label>
+      </node>
+      <node id="9">
+        <label>stdlib.h</label>
+      </node>
+      <node id="10">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_runtime_cookie" prot="public">RuntimeCookie</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="vim_8c_1a4706be73101ace4616b80a1a52fffa51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_get_hl_id_by_name</definition>
+        <argsstring>(String name) FUNC_API_SINCE(7)</argsstring>
+        <name>nvim_get_hl_id_by_name</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a highlight group by name</para>
+<para>similar to |hlID()|, but allocates a new ID if not present. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="97" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a68642ba3dea1df24013e3fcc1f91abfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_hl</definition>
+        <argsstring>(Integer ns_id, Dict(get_highlight) *opts, Arena *arena, Error *err) FUNC_API_SINCE(11)</argsstring>
+        <name>nvim_get_hl</name>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(get_highlight) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets all or specific highlight groups in a namespace.</para>
+<para><simplesect kind="note"><para>When the <computeroutput>link</computeroutput> attribute is defined in the highlight definition map, other attributes will not be taking effect (see |:hi-link|).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Get highlight groups for namespace ns_id |nvim_get_namespaces()|. Use 0 to get global highlight groups |:highlight|. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Options dict:<itemizedlist>
+<listitem><para>name: (string) Get a highlight definition by name.</para>
+</listitem><listitem><para>id: (integer) Get a highlight definition by id.</para>
+</listitem><listitem><para>link: (boolean, default true) Show linked group name instead of effective definition |:hi-link|.</para>
+</listitem><listitem><para>create: (boolean, default true) When highlight group doesn&apos;t exist create it.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Highlight groups as a map from group name to a highlight definition map as in |nvim_set_hl()|, or only a single highlight definition map if requested by name or id. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="119" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1afeadfff7836b37e2f34f27667c13fbe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_hl</definition>
+        <argsstring>(uint64_t channel_id, Integer ns_id, String name, Dict(highlight) *val, Error *err) FUNC_API_SINCE(7)</argsstring>
+        <name>nvim_set_hl</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(highlight) *</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a highlight group.</para>
+<para><simplesect kind="note"><para>Unlike the <computeroutput>:highlight</computeroutput> command which can update a highlight group, this function completely replaces the definition. For example: <computeroutput>nvim_set_hl(0, &apos;Visual&apos;, {})</computeroutput> will clear the highlight group &apos;Visual&apos;.</para>
+</simplesect>
+<simplesect kind="note"><para>The fg and bg keys also accept the string values <computeroutput>"fg"</computeroutput> or <computeroutput>"bg"</computeroutput> which act as aliases to the corresponding foreground and background values of the Normal group. If the Normal group has not been defined, using these values results in an error.</para>
+</simplesect>
+<simplesect kind="note"><para>If <computeroutput>link</computeroutput> is used in combination with other attributes; only the <computeroutput>link</computeroutput> will take effect (see |:hi-link|).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Namespace id for this highlight |nvim_create_namespace()|. Use 0 to set a highlight group globally |:highlight|. Highlights from non-global namespaces are not active by default, use |nvim_set_hl_ns()| or |nvim_win_set_hl_ns()| to activate them. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highlight group name, e.g. &quot;ErrorMsg&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highlight definition map, accepts the following keys:<itemizedlist>
+<listitem><para>fg: color name or &quot;#RRGGBB&quot;, see note.</para>
+</listitem><listitem><para>bg: color name or &quot;#RRGGBB&quot;, see note.</para>
+</listitem><listitem><para>sp: color name or &quot;#RRGGBB&quot;</para>
+</listitem><listitem><para>blend: integer between 0 and 100</para>
+</listitem><listitem><para>bold: boolean</para>
+</listitem><listitem><para>standout: boolean</para>
+</listitem><listitem><para>underline: boolean</para>
+</listitem><listitem><para>undercurl: boolean</para>
+</listitem><listitem><para>underdouble: boolean</para>
+</listitem><listitem><para>underdotted: boolean</para>
+</listitem><listitem><para>underdashed: boolean</para>
+</listitem><listitem><para>strikethrough: boolean</para>
+</listitem><listitem><para>italic: boolean</para>
+</listitem><listitem><para>reverse: boolean</para>
+</listitem><listitem><para>nocombine: boolean</para>
+</listitem><listitem><para>link: name of another highlight group to link to, see |:hi-link|.</para>
+</listitem><listitem><para>default: Don&apos;t override existing definition |:hi-default|</para>
+</listitem><listitem><para>ctermfg: Sets foreground of cterm color |ctermfg|</para>
+</listitem><listitem><para>ctermbg: Sets background of cterm color |ctermbg|</para>
+</listitem><listitem><para>cterm: cterm attribute map, like |highlight-args|. If not set, cterm attributes will match those from the attribute map documented above.</para>
+</listitem><listitem><para>force: if true force update the highlight group when it exists. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="173" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="173" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a8845a2200bb7b663e9c5ac537ce25c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_get_hl_ns</definition>
+        <argsstring>(Dict(get_ns) *opts, Error *err) FUNC_API_SINCE(12)</argsstring>
+        <name>nvim_get_hl_ns</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(get_ns) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the active highlight namespace.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters<itemizedlist>
+<listitem><para>winid: (number) |window-ID| for retrieving a window&apos;s highlight namespace. A value of -1 is returned when |nvim_win_set_hl_ns()| has not been called for the window (or was called with a namespace of -1). </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Namespace id, or -1 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="205" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aba1a330acd08241a0ac83256df4eb5a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_hl_ns</definition>
+        <argsstring>(Integer ns_id, Error *err) FUNC_API_SINCE(10)</argsstring>
+        <name>nvim_set_hl_ns</name>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set active namespace for highlights defined with |nvim_set_hl()|. This can be set for a single window, see |nvim_win_set_hl_ns()|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the namespace to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="224" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="224" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ad0820c3a76044ab9463c32c5dfe271c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_hl_ns_fast</definition>
+        <argsstring>(Integer ns_id, Error *err) FUNC_API_FAST</argsstring>
+        <name>nvim_set_hl_ns_fast</name>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set active namespace for highlights defined with |nvim_set_hl()| while redrawing.</para>
+<para>This function meant to be called while redrawing, primarily from |nvim_set_decoration_provider()| on_win and on_line callbacks, which are allowed to change the namespace during a redraw cycle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the namespace to activate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="244" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="244" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a3bd7c265b119f54b12434159104bfc70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_feedkeys</definition>
+        <argsstring>(String keys, String mode, Boolean escape_ks) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_feedkeys</name>
+        <param>
+          <type>String</type>
+          <declname>keys</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>escape_ks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sends input-keys to Nvim, subject to various quirks controlled by <computeroutput>mode</computeroutput> flags. This is a blocking call, unlike |nvim_input()|.</para>
+<para>On execution error: does not fail, but updates v:errmsg.</para>
+<para>To input sequences like [&lt;C-o&gt;] use |nvim_replace_termcodes()| (typically with escape_ks=false) to replace |keycodes|, then pass the result to nvim_feedkeys().</para>
+<para>Example:</para>
+<para><programlisting filename=".vim"><codeline><highlight class="normal">:let<sp/>key<sp/>=<sp/>nvim_replace_termcodes(&quot;&lt;C-o&gt;&quot;,<sp/>v:true,<sp/>v:false,<sp/>v:true)</highlight></codeline>
+<codeline><highlight class="normal">:call<sp/>nvim_feedkeys(key,<sp/>&apos;n&apos;,<sp/>v:false)</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to be typed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>behavior flags, see |feedkeys()| </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>escape_ks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, escape K_SPECIAL bytes in <computeroutput>keys</computeroutput>. This should be false if you already used |nvim_replace_termcodes()|, and true otherwise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>feedkeys() </para>
+</simplesect>
+<simplesect kind="see"><para>vim_strsave_escape_ks </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="275" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="275" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a19311d9586159cfcad6265b845ec9c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_input</definition>
+        <argsstring>(uint64_t channel_id, String keys) FUNC_API_SINCE(1) FUNC_API_FAST</argsstring>
+        <name>nvim_input</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Queues raw user-input. Unlike |nvim_feedkeys()|, this uses a low-level input buffer and the call is non-blocking (input is processed asynchronously by the eventloop).</para>
+<para>To input blocks of text, |nvim_paste()| is much faster and should be preferred.</para>
+<para>On execution error: does not fail, but updates v:errmsg.</para>
+<para><simplesect kind="note"><para>|keycodes| like [&lt;CR&gt;] are translated, so &quot;&lt;&quot; is special. To input a literal &quot;&lt;&quot;, send [&lt;LT&gt;].</para>
+</simplesect>
+<simplesect kind="note"><para>For mouse events use |nvim_input_mouse()|. The pseudokey form <computeroutput>&lt;LeftMouse&gt;&lt;col,row&gt;</computeroutput> is deprecated since |api-level| 6.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to be typed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes actually written (can be fewer than requested if the buffer becomes full). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="362" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a56b663806de351cdcd514643dbbb3e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_input_mouse</definition>
+        <argsstring>(String button, String action, String modifier, Integer grid, Integer row, Integer col, Error *err) FUNC_API_SINCE(6) FUNC_API_FAST</argsstring>
+        <name>nvim_input_mouse</name>
+        <param>
+          <type>String</type>
+          <declname>button</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>modifier</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send mouse event from GUI.</para>
+<para>Non-blocking: does not wait on any result, but queues the event to be processed soon by the event loop.</para>
+<para><simplesect kind="note"><para>Currently this doesn&apos;t support &quot;scripting&quot; multiple mouse events by calling it multiple times in a loop: the intermediate mouse positions will be ignored. It should be used to implement real-time mouse input in a GUI. The deprecated pseudokey form (<computeroutput>&lt;LeftMouse&gt;&lt;col,row&gt;</computeroutput>) of |nvim_input()| has the same limitation.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>button</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mouse button: one of &quot;left&quot;, &quot;right&quot;, &quot;middle&quot;, &quot;wheel&quot;, &quot;move&quot;, &quot;x1&quot;, &quot;x2&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>For ordinary buttons, one of &quot;press&quot;, &quot;drag&quot;, &quot;release&quot;. For the wheel, one of &quot;up&quot;, &quot;down&quot;, &quot;left&quot;, &quot;right&quot;. Ignored for &quot;move&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String of modifiers each represented by a single char. The same specifiers are used as for a key press, except that the &quot;-&quot; separator is optional, so &quot;C-A-&quot;, &quot;c-a&quot; and &quot;CA&quot; can all be used to specify Ctrl+Alt+click. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Grid number if the client uses |ui-multigrid|, else 0. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mouse row-position (zero-based, like redraw events) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mouse column-position (zero-based, like redraw events) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="392" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="392" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a6b4051ac1f613beb39d1560311fcf74c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim_replace_termcodes</definition>
+        <argsstring>(String str, Boolean from_part, Boolean do_lt, Boolean special) FUNC_API_SINCE(1) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_replace_termcodes</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>from_part</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>do_lt</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>special</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replaces terminal codes and |keycodes| ([&lt;CR&gt;], [&lt;Esc&gt;], ...) in a string with the internal representation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to be converted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Legacy Vim parameter. Usually true. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>do_lt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Also translate [&lt;lt&gt;]. Ignored if <computeroutput>special</computeroutput> is false. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>special</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replace |keycodes|, e.g. [&lt;CR&gt;] becomes a &quot;\r&quot; char. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>replace_termcodes </para>
+</simplesect>
+<simplesect kind="see"><para>cpoptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="476" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="476" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a14c8ba3ba06d290c0a7e28e58af26e18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_exec_lua</definition>
+        <argsstring>(String code, Array args, Arena *arena, Error *err) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_exec_lua</name>
+        <param>
+          <type>String</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Lua code. Parameters (if any) are available as <computeroutput>...</computeroutput> inside the chunk. The chunk can return a value.</para>
+<para>Only statements are executed. To evaluate an expression, prefix it with <computeroutput>return</computeroutput>: return my_function(...)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lua code to execute </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arguments to the code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of an error encountered while parsing or executing the Lua code.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value of Lua code if present or NIL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="512" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="512" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a04a2837f63f5834d086bc31c78bf4b30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_strwidth</definition>
+        <argsstring>(String text, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_strwidth</name>
+        <param>
+          <type>String</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculates the number of display cells occupied by <computeroutput>text</computeroutput>. Control characters including [&lt;Tab&gt;] count as one cell.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Some text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of cells </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="526" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="526" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a7174b04928b51cc4f8da40da59c12fa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_String_</type>
+        <definition>ArrayOf_String_ nvim_list_runtime_paths</definition>
+        <argsstring>(Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_list_runtime_paths</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the paths contained in |runtime-search-path|.</para>
+<para><simplesect kind="return"><para>List of paths </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="539" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="539" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a1db5eb6cd125d92babf8eb4504288632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim__runtime_inspect</definition>
+        <argsstring>(Arena *arena)</argsstring>
+        <name>nvim__runtime_inspect</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+<para>@nodoc </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="546" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="546" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a5b2e1dfbebdbf9a45010903a16b58f9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_String_</type>
+        <definition>ArrayOf_String_ nvim_get_runtime_file</definition>
+        <argsstring>(String name, Boolean all, Arena *arena, Error *err) FUNC_API_FAST</argsstring>
+        <name>nvim_get_runtime_file</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>all</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Finds files in runtime directories, in &apos;runtimepath&apos; order.</para>
+<para>&quot;name&quot; can contain wildcards. For example <computeroutput>nvim_get_runtime_file("colors/*.{vim,lua}", true)</computeroutput> will return all color scheme files. Always use forward slashes (/) in the search pattern for subdirectories regardless of platform.</para>
+<para>It is not an error to not find any files. An empty array is returned then.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pattern of files to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>all</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>whether to return all matches or only the first </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>list of absolute paths to the found files </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="568" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="568" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a4e3ff267813eca825615e3e09308c31d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool find_runtime_cb</definition>
+        <argsstring>(int num_fnames, char **fnames, bool all, void *c)</argsstring>
+        <name>find_runtime_cb</name>
+        <param>
+          <type>int</type>
+          <declname>num_fnames</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>fnames</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>all</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="584" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="584" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a60f788a521b7f75501d7290b4e632122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim__get_lib_dir</definition>
+        <argsstring>(void)</argsstring>
+        <name>nvim__get_lib_dir</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>@nodoc </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="599" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="599" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aac38e320707ab00d09acc2b115530208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_String_</type>
+        <definition>ArrayOf_String_ nvim__get_runtime</definition>
+        <argsstring>(Array pat, Boolean all, Dict(runtime) *opts, Arena *arena, Error *err) FUNC_API_FAST</argsstring>
+        <name>nvim__get_runtime</name>
+        <param>
+          <type>Array</type>
+          <declname>pat</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>all</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(runtime) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Find files in runtime directories</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pattern of files to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>all</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>whether to return all matches or only the first </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is_lua: only search Lua subdirs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>list of absolute paths to the found files </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="611" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="611" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a0ec45f42ebd728acacffcceff1a88416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_current_dir</definition>
+        <argsstring>(String dir, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_set_current_dir</name>
+        <param>
+          <type>String</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Changes the global working directory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="638" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="638" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a24298989459d95f9f56a8373bb8d9270" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String nvim_get_current_line</definition>
+        <argsstring>(Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_get_current_line</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current line.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Current line string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="658" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="658" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a6aa91aa63ca55c0ab0bdeadee672f320" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_current_line</definition>
+        <argsstring>(String line, Arena *arena, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_set_current_line</name>
+        <param>
+          <type>String</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the text on the current line.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Line contents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="668" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="668" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a90822fd42132e262a77a53ef3ad76d4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_del_current_line</definition>
+        <argsstring>(Arena *arena, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_del_current_line</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Deletes the current line.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="678" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="678" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a8e7e00c716661983d8e853eb2db9cfc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_get_var</definition>
+        <argsstring>(String name, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_get_var</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a global (g:) variable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Variable value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="690" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="690" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a4c25efdcc1c4cbc4fb28ad8f322e6dc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_var</definition>
+        <argsstring>(String name, Object value, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_set_var</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a global (g:) variable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="712" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="712" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aae0d09949e67b855d3f43d0135bcce19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_del_var</definition>
+        <argsstring>(String name, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_del_var</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a global (g:) variable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="722" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="722" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a0a53353ceb12f57f5d08081f54d128ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_get_vvar</definition>
+        <argsstring>(String name, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_get_vvar</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a v: variable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Variable value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="733" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="733" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a54ac2dc14cf1271163d79908509f9778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_vvar</definition>
+        <argsstring>(String name, Object value, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_set_vvar</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a v: variable, if it is not readonly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="744" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="744" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a673d3258149270a3bf897b830d3d5bed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_echo</definition>
+        <argsstring>(Array chunks, Boolean history, Dict(echo_opts) *opts, Error *err) FUNC_API_SINCE(7)</argsstring>
+        <name>nvim_echo</name>
+        <param>
+          <type>Array</type>
+          <declname>chunks</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(echo_opts) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prints a message given by a list of <computeroutput>[text, hl_group]</computeroutput> &quot;chunks&quot;.</para>
+<para>Example: <programlisting filename=".lua"><codeline><highlight class="normal">vim.api.nvim_echo({<sp/>{<sp/>&apos;chunk1-line1\nchunk1-line2\n&apos;<sp/>},<sp/>{<sp/>&apos;chunk2-line1&apos;<sp/>}<sp/>},<sp/>true,<sp/>{})</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of <computeroutput>[text, hl_group]</computeroutput> pairs, where each is a <computeroutput>text</computeroutput> string highlighted by the (optional) name or ID <computeroutput>hl_group</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if true, add to |message-history|. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>err: Treat the message like <computeroutput>:echoerr</computeroutput>. Sets <computeroutput>hl_group</computeroutput> to |hl-ErrorMsg| by default.</para>
+</listitem><listitem><para>verbose: Message is controlled by the &apos;verbose&apos; option. Nvim invoked with <computeroutput>-V3log</computeroutput> will write the message to the &quot;log&quot; file instead of standard output. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="764" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="764" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ab3a1ae66708f9a8362ae067be8232829" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Buffer_</type>
+        <definition>ArrayOf_Buffer_ nvim_list_bufs</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_list_bufs</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current list of buffers.</para>
+<para>Includes unlisted (unloaded/deleted) buffers, like <computeroutput>:ls!</computeroutput>. Use |nvim_buf_is_loaded()| to check if a buffer is loaded.</para>
+<para><simplesect kind="return"><para>List of buffer ids </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="799" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="799" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a82ea1492c1d598644b9791703d071637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Buffer</type>
+        <definition>Buffer nvim_get_current_buf</definition>
+        <argsstring>(void)</argsstring>
+        <name>nvim_get_current_buf</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current buffer.</para>
+<para><simplesect kind="return"><para>Buffer id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="820" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="820" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a628d9c5bf66544bda68371b1b2dc49bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_current_buf</definition>
+        <argsstring>(Buffer buffer, Error *err) FUNC_API_TEXTLOCK</argsstring>
+        <name>nvim_set_current_buf</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current window&apos;s buffer to <computeroutput>buffer</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="830" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="830" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aba9bd6bec13a73848668a37e827876c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Window_</type>
+        <definition>ArrayOf_Window_ nvim_list_wins</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_list_wins</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current list of all |window-ID|s in all tabpages.</para>
+<para><simplesect kind="return"><para>List of |window-ID|s </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="848" column="17" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="848" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a33381a94bd41b5bc98a8c9f22212c639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Window</type>
+        <definition>Window nvim_get_current_win</definition>
+        <argsstring>(void)</argsstring>
+        <name>nvim_get_current_win</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current window.</para>
+<para><simplesect kind="return"><para>|window-ID| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="869" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="869" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a57031410c8ee46eb86aeb85998104f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_current_win</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_TEXTLOCK</argsstring>
+        <name>nvim_set_current_win</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current window (and tabpage, implicitly).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID| to focus </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="879" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="879" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a03b3ffe88fa72e6f710c542ce10cba8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Buffer</type>
+        <definition>Buffer nvim_create_buf</definition>
+        <argsstring>(Boolean listed, Boolean scratch, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_create_buf</name>
+        <param>
+          <type>Boolean</type>
+          <declname>listed</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>scratch</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a new, empty, unnamed buffer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sets &apos;buflisted&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scratch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Creates a &quot;throwaway&quot; |scratch-buffer| for temporary work (always &apos;nomodified&apos;). Also sets &apos;nomodeline&apos; on the buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Buffer id, or 0 on error</para>
+</simplesect>
+<simplesect kind="see"><para>buf_open_scratch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="903" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="903" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a7d9ca2bf3e63eb7d0aae2ff9b47d3c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_open_term</definition>
+        <argsstring>(Buffer buffer, Dict(open_term) *opts, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_open_term</name>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(open_term) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Open a terminal instance in a buffer</para>
+<para>By default (and currently the only option) the terminal will not be connected to an external process. Instead, input sent on the channel will be echoed directly by the terminal. This is useful to display ANSI terminal sequences returned as part of a rpc message, or similar.</para>
+<para>Note: to directly initiate the terminal using the right size, display the buffer in a configured window before calling this. For instance, for a floating display, first create an empty buffer using |nvim_create_buf()|, then display it using |nvim_open_win()|, and then call this function. Then |nvim_chan_send()| can be called immediately to process sequences in a virtual terminal having the intended size.</para>
+<para>Example: this <computeroutput>TermHl</computeroutput> command can be used to display and highlight raw ANSI termcodes, so you can use Nvim as a &quot;scrollback pager&quot; (for terminals like kitty): [ansi-colorize]() [terminal-scrollback-pager]()</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.api.nvim_create_user_command(&apos;TermHl&apos;,<sp/>function()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vim.api.nvim_open_term(0,<sp/>{})</highlight></codeline>
+<codeline><highlight class="normal">end,<sp/>{<sp/>desc<sp/>=<sp/>&apos;Highlights<sp/>ANSI<sp/>termcodes<sp/>in<sp/>curbuf&apos;<sp/>})</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the buffer to use (expected to be empty) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>on_input: Lua callback for input sent, i e keypresses in terminal mode. Note: keypresses are sent raw as they would be to the pty master end. For instance, a carriage return is sent as a &quot;\r&quot;, not as a &quot;\n&quot;. |textlock| applies. It is possible to call |nvim_chan_send()| directly in the callback however. <computeroutput>["input", term, bufnr, data]</computeroutput></para>
+</listitem><listitem><para>force_crlf: (boolean, default true) Convert &quot;\n&quot; to &quot;\r\n&quot;. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Channel id, or 0 on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1007" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1007" bodyend="1048"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a05671726479ca8eeddb95a4941bcbefe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void term_write</definition>
+        <argsstring>(const char *buf, size_t size, void *data)</argsstring>
+        <name>term_write</name>
+        <param>
+          <type>const char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1050" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1050" bodyend="1064"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a2b285e686b66915fe9bda2798112d0d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void term_resize</definition>
+        <argsstring>(uint16_t width, uint16_t height, void *data)</argsstring>
+        <name>term_resize</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1066" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1066" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a17fe988dfb309035524f7e96e642cb45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void term_close</definition>
+        <argsstring>(void *data)</argsstring>
+        <name>term_close</name>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1071" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1071" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a54e739f35f5ecbfa35d6570d84508a00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_chan_send</definition>
+        <argsstring>(Integer chan, String data, Error *err) FUNC_API_SINCE(7) FUNC_API_REMOTE_ONLY FUNC_API_LUA_ONLY</argsstring>
+        <name>nvim_chan_send</name>
+        <param>
+          <type>Integer</type>
+          <declname>chan</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send data to channel <computeroutput>id</computeroutput>. For a job, it writes it to the stdin of the process. For the stdio channel |channel-stdio|, it writes to Nvim&apos;s stdout. For an internal terminal instance (|nvim_open_term()|) it writes directly to terminal output. See |channel-bytes| for more information.</para>
+<para>This function writes raw data, not RPC messages. If the channel was created with <computeroutput>rpc=true</computeroutput> then the channel expects RPC messages, use |vim.rpcnotify()| and |vim.rpcrequest()| instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>data to write. 8-bit clean: can contain NUL bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1093" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1093" bodyend="1104"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1adf387d1754c275622d778b3e70bd3155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Tabpage_</type>
+        <definition>ArrayOf_Tabpage_ nvim_list_tabpages</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_list_tabpages</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current list of |tab-ID|s.</para>
+<para><simplesect kind="return"><para>List of |tab-ID|s </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1109" column="18" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1109" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a6e3970bf51b68edaaecb2c3c2468f9a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tabpage</type>
+        <definition>Tabpage nvim_get_current_tabpage</definition>
+        <argsstring>(void)</argsstring>
+        <name>nvim_get_current_tabpage</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current tabpage.</para>
+<para><simplesect kind="return"><para>|tab-ID| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1130" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1130" bodyend="1134"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ae3c366ae804264801bdde2db73947cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_current_tabpage</definition>
+        <argsstring>(Tabpage tabpage, Error *err) FUNC_API_TEXTLOCK</argsstring>
+        <name>nvim_set_current_tabpage</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>tabpage</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current tabpage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tabpage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|tab-ID| to focus </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1140" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1140" bodyend="1153"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a0c922b2050033ebae46ea7db8b78989a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Boolean</type>
+        <definition>Boolean nvim_paste</definition>
+        <argsstring>(uint64_t channel_id, String data, Boolean crlf, Integer phase, Arena *arena, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_paste</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>crlf</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pastes at cursor (in any mode), and sets &quot;redo&quot; so dot (|.|) will repeat the input. UIs call this to implement &quot;paste&quot;, but it&apos;s also intended for use by scripts to input large, dot-repeatable blocks of text (as opposed to |nvim_input()| which is subject to mappings/events and is thus much slower).</para>
+<para>Invokes the |vim.paste()| handler, which handles each mode appropriately.</para>
+<para>Errors (&apos;nomodifiable&apos;, <computeroutput>vim.paste()</computeroutput> failure, .) are reflected in <computeroutput>err</computeroutput> but do not affect the return value (which is strictly decided by <computeroutput>vim.paste()</computeroutput>). On error or cancel, subsequent calls are ignored (&quot;drained&quot;) until the next paste is initiated (phase 1 or -1).</para>
+<para>Useful in mappings and scripts to insert multiline text. Example:</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.keymap.set(&apos;n&apos;,<sp/>&apos;x&apos;,<sp/>function()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vim.api.nvim_paste([[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>line1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>line2</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>line3</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>]],<sp/>false,<sp/>-1)</highlight></codeline>
+<codeline><highlight class="normal">end,<sp/>{<sp/>buffer<sp/>=<sp/>true<sp/>})</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Multiline input. Lines break at LF (&quot;\n&quot;). May be binary (containing NUL bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>crlf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Also break lines at CR and CRLF. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>-1: paste in a single call (i.e. without streaming). To &quot;stream&quot; a paste, call <computeroutput>nvim_paste</computeroutput> sequentially with these <computeroutput>phase</computeroutput> values:<itemizedlist>
+<listitem><para>1: starts the paste (exactly once)</para>
+</listitem><listitem><para>2: continues the paste (zero or more times)</para>
+</listitem><listitem><para>3: ends the paste (exactly once) </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><itemizedlist>
+<listitem><para>true: Client may continue pasting.</para>
+</listitem><listitem><para>false: Client should cancel the paste. </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1190" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1190" bodyend="1231"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a815e1a382309066d7b5e43643bca753d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_put</definition>
+        <argsstring>(ArrayOf(String) lines, String type, Boolean after, Boolean follow, Arena *arena, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_put</name>
+        <param>
+          <type>ArrayOf(String)</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>after</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>follow</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Puts text at cursor, in any mode. For dot-repeatable input, use |nvim_paste()|.</para>
+<para>Compare |:put| and |p| which are always linewise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|readfile()|-style list of lines. |channel-lines| </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edit behavior: any |getregtype()| result, or:<itemizedlist>
+<listitem><para>&quot;b&quot; |blockwise-visual| mode (may include width, e.g. &quot;b3&quot;)</para>
+</listitem><listitem><para>&quot;c&quot; |charwise| mode</para>
+</listitem><listitem><para>&quot;l&quot; |linewise| mode</para>
+</listitem><listitem><para>&quot;&quot; guess by contents, see |setreg()| </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>after</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true insert after cursor (like |p|), or before (like |P|). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>follow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true place cursor at end of inserted text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1246" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1246" bodyend="1279"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a072f66007e86dcde5b27e064ace849d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_get_color_by_name</definition>
+        <argsstring>(String name) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_get_color_by_name</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the 24-bit RGB value of a |nvim_get_color_map()| color name or &quot;#rrggbb&quot; hexadecimal string.</para>
+<para>Example:</para>
+<para><programlisting filename=".vim"><codeline><highlight class="normal">:echo<sp/>nvim_get_color_by_name(&quot;Pink&quot;)</highlight></codeline>
+<codeline><highlight class="normal">:echo<sp/>nvim_get_color_by_name(&quot;#cbcbcb&quot;)</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Color name or &quot;#rrggbb&quot; string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>24-bit RGB value, or -1 for invalid argument. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1293" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1293" bodyend="1298"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ad4315d19b06295469bef31fc1bc1b26c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_color_map</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_get_color_map</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a map of color names and RGB values.</para>
+<para>Keys are color names (e.g. &quot;Aqua&quot;) and values are 24-bit RGB color values (e.g. 65535).</para>
+<para><simplesect kind="return"><para>Map of color names and RGB values. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1306" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1306" bodyend="1315"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a20b537b3939206effd64ccbe3fedb52f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_context</definition>
+        <argsstring>(Dict(context) *opts, Arena *arena, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_get_context</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(context) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a map of the current editor state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>types: List of |context-types| (&quot;regs&quot;, &quot;jumps&quot;, &quot;bufs&quot;, &quot;gvars&quot;, .) to gather, or empty for &quot;all&quot;. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>map of global |context|. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1325" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1325" bodyend="1364"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a319bd7666e43944242fa54648b8b13df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_load_context</definition>
+        <argsstring>(Dict dict, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_load_context</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>dict</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current editor state from the given |context| map.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|Context| map. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1369" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1369" bodyend="1386"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1afcc9da1a0faeb1f865e18344f50333b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_mode</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(2) FUNC_API_FAST</argsstring>
+        <name>nvim_get_mode</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current mode. |mode()| &quot;blocking&quot; is true if Nvim is waiting for input.</para>
+<para><simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> { &quot;mode&quot;: String, &quot;blocking&quot;: Boolean } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1392" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1392" bodyend="1404"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a068d9f3f164e24816f79b7ced9faf95e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Dict_</type>
+        <definition>ArrayOf_Dict_ nvim_get_keymap</definition>
+        <argsstring>(String mode, Arena *arena) FUNC_API_SINCE(3)</argsstring>
+        <name>nvim_get_keymap</name>
+        <param>
+          <type>String</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a list of global (non-buffer-local) |mapping| definitions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode short-name (&quot;n&quot;, &quot;i&quot;, &quot;v&quot;, ...) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of |maparg()|-like dictionaries describing mappings. The &quot;buffer&quot; key is always zero. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1411" column="15" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1411" bodyend="1415"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a3b5e7bd1838164a3cbdcd2e3b0582a5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_keymap</definition>
+        <argsstring>(uint64_t channel_id, String mode, String lhs, String rhs, Dict(keymap) *opts, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_set_keymap</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>rhs</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(keymap) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a global |mapping| for the given mode.</para>
+<para>To set a buffer-local mapping, use |nvim_buf_set_keymap()|.</para>
+<para>Unlike |:map|, leading/trailing whitespace is accepted as part of the {lhs} or {rhs}. Empty {rhs} is [&lt;Nop&gt;]. |keycodes| are replaced as usual.</para>
+<para>Example:</para>
+<para><programlisting filename=".vim"><codeline><highlight class="normal">call<sp/>nvim_set_keymap(&apos;n&apos;,<sp/>&apos;<sp/>&lt;NL&gt;&apos;,<sp/>&apos;&apos;,<sp/>{&apos;nowait&apos;:<sp/>v:true})</highlight></codeline>
+</programlisting></para>
+<para>is equivalent to:</para>
+<para><programlisting filename=".vim"><codeline><highlight class="normal">nmap<sp/>&lt;nowait&gt;<sp/>&lt;Space&gt;&lt;NL&gt;<sp/>&lt;Nop&gt;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode short-name (map command prefix: &quot;n&quot;, &quot;i&quot;, &quot;v&quot;, &quot;x&quot;, .) or &quot;!&quot; for |:map!|, or empty string for |:map|. &quot;ia&quot;, &quot;ca&quot; or &quot;!a&quot; for abbreviation in Insert mode, Cmdline mode, or both, respectively </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand-side |{lhs}| of the mapping. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand-side |{rhs}| of the mapping. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters map: Accepts all |:map-arguments| as keys except [&lt;buffer&gt;], values are booleans (default false). Also:<itemizedlist>
+<listitem><para>&quot;noremap&quot; disables |recursive_mapping|, like |:noremap|</para>
+</listitem><listitem><para>&quot;desc&quot; human-readable description.</para>
+</listitem><listitem><para>&quot;callback&quot; Lua function called in place of {rhs}.</para>
+</listitem><listitem><para>&quot;replace_keycodes&quot; (boolean) When &quot;expr&quot; is true, replace keycodes in the resulting string (see |nvim_replace_termcodes()|). Returning nil from the Lua &quot;callback&quot; is equivalent to returning an empty string. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1451" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1451" bodyend="1456"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aa130be4c5e6bdc87223ee7593f7d58c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_del_keymap</definition>
+        <argsstring>(uint64_t channel_id, String mode, String lhs, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_del_keymap</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unmaps a global |mapping| for the given mode.</para>
+<para>To unmap a buffer-local mapping, use |nvim_buf_del_keymap()|.</para>
+<para><simplesect kind="see"><para>|nvim_set_keymap()| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1463" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1463" bodyend="1467"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ad9a56452b9619b8249f6b75737ef536d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_get_api_info</definition>
+        <argsstring>(uint64_t channel_id, Arena *arena) FUNC_API_SINCE(1) FUNC_API_FAST FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_get_api_info</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a 2-tuple (Array), where item 0 is the current channel id and item 1 is the |api-metadata| map (<ref refid="struct_dict" kindref="compound">Dict</ref>).</para>
+<para><simplesect kind="return"><para>2-tuple <computeroutput>[{channel-id}, {api-metadata}]</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1473" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1473" bodyend="1483"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aa7428aa5cbc118bbae2170a19d9952f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_client_info</definition>
+        <argsstring>(uint64_t channel_id, String name, Dict version, String type, Dict methods, Dict attributes, Arena *arena, Error *err) FUNC_API_SINCE(4) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_set_client_info</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>methods</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Self-identifies the client, and sets optional flags on the channel. Defines the <computeroutput>client</computeroutput> object returned by |nvim_get_chan_info()|.</para>
+<para>Clients should call this just after connecting, to provide hints for debugging and orchestration. (Note: Something is better than nothing! Fields are optional, but at least set <computeroutput>name</computeroutput>.)</para>
+<para>Can be called more than once; the caller should merge old info if appropriate. Example: library first identifies the channel, then a plugin using that library later identifies itself.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client short-name. Sets the <computeroutput>client.name</computeroutput> field of |nvim_get_chan_info()|. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="struct_dict" kindref="compound">Dict</ref> describing the version, with these (optional) keys:<itemizedlist>
+<listitem><para>&quot;major&quot; major version (defaults to 0 if not set, for no release yet)</para>
+</listitem><listitem><para>&quot;minor&quot; minor version</para>
+</listitem><listitem><para>&quot;patch&quot; patch number</para>
+</listitem><listitem><para>&quot;prerelease&quot; string describing a prerelease, like &quot;dev&quot; or &quot;beta1&quot;</para>
+</listitem><listitem><para>&quot;commit&quot; hash or similar identifier of commit </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must be one of the following values. Client libraries should default to &quot;remote&quot; unless overridden by the user.<itemizedlist>
+<listitem><para>&quot;remote&quot; remote client connected &quot;Nvim flavored&quot; MessagePack-RPC (responses must be in reverse order of requests). |msgpack-rpc|</para>
+</listitem><listitem><para>&quot;msgpack-rpc&quot; remote client connected to Nvim via fully MessagePack-RPC compliant protocol.</para>
+</listitem><listitem><para>&quot;ui&quot; gui frontend</para>
+</listitem><listitem><para>&quot;embedder&quot; application using Nvim as a component (for example, IDE/editor implementing a vim mode).</para>
+</listitem><listitem><para>&quot;host&quot; plugin host, typically started by nvim</para>
+</listitem><listitem><para>&quot;plugin&quot; single plugin, started by nvim </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>methods</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later. The key should be the method name, the values are dicts with these (optional) keys (more keys may be added in future versions of Nvim, thus unknown keys are ignored. Clients must only use keys defined in this or later versions of Nvim):<itemizedlist>
+<listitem><para>&quot;async&quot; if true, send as a notification. If false or unspecified, use a blocking request</para>
+</listitem><listitem><para>&quot;nargs&quot; Number of arguments. Could be a single integer or an array of two integers, minimum and maximum inclusive.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arbitrary string:string map of informal client properties. Suggested keys:<itemizedlist>
+<listitem><para>&quot;pid&quot;: Process id.</para>
+</listitem><listitem><para>&quot;website&quot;: Client homepage URL (e.g. GitHub repository)</para>
+</listitem><listitem><para>&quot;license&quot;: License description (&quot;Apache 2&quot;, &quot;GPLv3&quot;, &quot;MIT&quot;, .)</para>
+</listitem><listitem><para>&quot;logo&quot;: URI or path to image, preferably small logo or icon. .png or .svg format is preferred.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1536" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1536" bodyend="1566"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ac915ce72ca878b90bb26f5cf595de17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_chan_info</definition>
+        <argsstring>(uint64_t channel_id, Integer chan, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_get_chan_info</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>chan</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets information about a channel.</para>
+<para>See |nvim_list_uis()| for an example of how to get channel info.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>channel_id, or 0 for current channel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Channel info dict with these keys:<itemizedlist>
+<listitem><para>&quot;id&quot; Channel id.</para>
+</listitem><listitem><para>&quot;argv&quot; (optional) Job arguments list.</para>
+</listitem><listitem><para>&quot;stream&quot; Stream underlying the channel.<itemizedlist>
+<listitem><para>&quot;stdio&quot; stdin and stdout of this Nvim instance</para>
+</listitem><listitem><para>&quot;stderr&quot; stderr of this Nvim instance</para>
+</listitem><listitem><para>&quot;socket&quot; TCP/IP socket or named pipe</para>
+</listitem><listitem><para>&quot;job&quot; Job with communication over its stdio.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>&quot;mode&quot; How data received on the channel is interpreted.<itemizedlist>
+<listitem><para>&quot;bytes&quot; Send and receive raw bytes.</para>
+</listitem><listitem><para>&quot;terminal&quot; |terminal| instance interprets ASCII sequences.</para>
+</listitem><listitem><para>&quot;rpc&quot; |RPC| communication on the channel is active.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>&quot;pty&quot; (optional) Name of pseudoterminal. On a POSIX system this is a device path like &quot;/dev/pts/1&quot;. If unknown, the key will still be present if a pty is used (e.g. for conpty on Windows).</para>
+</listitem><listitem><para>&quot;buffer&quot; (optional) Buffer connected to |terminal| instance.</para>
+</listitem><listitem><para>&quot;client&quot; (optional) Info about the peer (client on the other end of the channel), as set by |nvim_set_client_info()|. </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1592" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1592" bodyend="1604"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a878008bcf6b6edb1870293cab2f5c867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_list_chans</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_list_chans</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get information about all open channels.</para>
+<para><simplesect kind="return"><para>Array of Dictionaries, each describing a channel with the format specified at |nvim_get_chan_info()|. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1610" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1610" bodyend="1614"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ae8e0d9c633e54572303884799cb05d4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim__id</definition>
+        <argsstring>(Object obj, Arena *arena)</argsstring>
+        <name>nvim__id</name>
+        <param>
+          <type>Object</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns object given as argument.</para>
+<para>This API function is used for testing. One should not rely on its presence in plugins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object to return.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>its argument. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1626" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1626" bodyend="1629"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ae9f11c6c58184bb6eb44edd1e09a1e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim__id_array</definition>
+        <argsstring>(Array arr, Arena *arena)</argsstring>
+        <name>nvim__id_array</name>
+        <param>
+          <type>Array</type>
+          <declname>arr</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns array given as argument.</para>
+<para>This API function is used for testing. One should not rely on its presence in plugins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array to return.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>its argument. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1639" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1639" bodyend="1642"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a2dc6fce423b51c9b3225d64048071dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim__id_dict</definition>
+        <argsstring>(Dict dct, Arena *arena)</argsstring>
+        <name>nvim__id_dict</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+          <declname>dct</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns dict given as argument.</para>
+<para>This API function is used for testing. One should not rely on its presence in plugins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="struct_dict" kindref="compound">Dict</ref> to return.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>its argument. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1652" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1652" bodyend="1655"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aecee4a4985b4b284da38c5b2dfa6e9c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Float</type>
+        <definition>Float nvim__id_float</definition>
+        <argsstring>(Float flt)</argsstring>
+        <name>nvim__id_float</name>
+        <param>
+          <type>Float</type>
+          <declname>flt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns floating-point value given as argument.</para>
+<para>This API function is used for testing. One should not rely on its presence in plugins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">flt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to return.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>its argument. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1665" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1665" bodyend="1668"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1aba0d81cf1eb908a54534d585eb60c0d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim__stats</definition>
+        <argsstring>(Arena *arena)</argsstring>
+        <name>nvim__stats</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets internal stats.</para>
+<para><simplesect kind="return"><para>Map of various internal stats. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1673" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1673" bodyend="1683"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ac383a4f6f5158472f07c1d76bef7cac4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_list_uis</definition>
+        <argsstring>(Arena *arena) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_list_uis</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a list of dictionaries representing attached UIs.</para>
+<para>Example: The Nvim builtin |TUI| sets its channel info as described in |startup-tui|. In particular, it sets <computeroutput>client.name</computeroutput> to &quot;nvim-tui&quot;. So you can check if the TUI is running by inspecting the client name of each UI:</para>
+<para><programlisting filename=".lua"><codeline><highlight class="normal">vim.print(vim.api.nvim_get_chan_info(vim.api.nvim_list_uis()[1].chan).client.name)</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Array of UI dictionaries, each with these keys:<itemizedlist>
+<listitem><para>&quot;height&quot; Requested height of the UI</para>
+</listitem><listitem><para>&quot;width&quot; Requested width of the UI</para>
+</listitem><listitem><para>&quot;rgb&quot; true if the UI uses RGB colors (false implies |cterm-colors|)</para>
+</listitem><listitem><para>&quot;ext_...&quot; Requested UI extensions, see |ui-option|</para>
+</listitem><listitem><para>&quot;chan&quot; |channel-id| of remote UI </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1701" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1701" bodyend="1705"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a699df911b7a2b60c47038215f97f9a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_get_proc_children</definition>
+        <argsstring>(Integer pid, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_get_proc_children</name>
+        <param>
+          <type>Integer</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the immediate children of process <computeroutput>pid</computeroutput>.</para>
+<para><simplesect kind="return"><para>Array of child process ids, empty if process not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1710" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1710" bodyend="1745"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a3baccea1f76bfb1933a470fc22be0d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_get_proc</definition>
+        <argsstring>(Integer pid, Arena *arena, Error *err) FUNC_API_SINCE(4)</argsstring>
+        <name>nvim_get_proc</name>
+        <param>
+          <type>Integer</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets info describing process <computeroutput>pid</computeroutput>.</para>
+<para><simplesect kind="return"><para>Map of process properties, or NIL if process not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1750" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1750" bodyend="1779"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1adc7cc4fb38f28cdcd87ffe78d0e8fadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_select_popupmenu_item</definition>
+        <argsstring>(Integer item, Boolean insert, Boolean finish, Dict(empty) *opts, Error *err) FUNC_API_SINCE(6)</argsstring>
+        <name>nvim_select_popupmenu_item</name>
+        <param>
+          <type>Integer</type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>insert</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>finish</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(empty) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects an item in the completion popup menu.</para>
+<para>If neither |ins-completion| nor |cmdline-completion| popup menu is active this API call is silently ignored. Useful for an external UI using |ui-popupmenu| to control the popup menu with the mouse. Can also be used in a mapping; use [&lt;Cmd&gt;] |:map-cmd| or a Lua mapping to ensure the mapping doesn&apos;t end completion mode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index (zero-based) of the item to select. Value of -1 selects nothing and restores the original text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>insert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>For |ins-completion|, whether the selection should be inserted in the buffer. Ignored for |cmdline-completion|. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>finish</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Finish the completion and dismiss the popup menu. Implies {insert}. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Reserved for future use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1796" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1796" bodyend="1805"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ac7dfc28be76eec59b1515412c96899f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim__inspect_cell</definition>
+        <argsstring>(Integer grid, Integer row, Integer col, Arena *arena, Error *err)</argsstring>
+        <name>nvim__inspect_cell</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>NB: if your UI doesn&apos;t use hlstate, this will not return hlstate first time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1808" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1808" bodyend="1841"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a7c205daac8bac2f511c3bb1fb25e836a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim__screenshot</definition>
+        <argsstring>(String path) FUNC_API_FAST</argsstring>
+        <name>nvim__screenshot</name>
+        <param>
+          <type>String</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>@nodoc </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1844" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1844" bodyend="1848"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a5a0f9b272a6415a9c4c8be965f237190" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim__invalidate_glyph_cache</definition>
+        <argsstring>(void)</argsstring>
+        <name>nvim__invalidate_glyph_cache</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For testing. The condition in schar_cache_clear_if_full is hard to reach, so this function can be used to force a cache clear in a test. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1852" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1852" bodyend="1856"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1ac858db48afef2589a391fe4ea8232988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim__unpack</definition>
+        <argsstring>(String str, Arena *arena, Error *err) FUNC_API_FAST</argsstring>
+        <name>nvim__unpack</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>@nodoc </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1859" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1859" bodyend="1863"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1af0146d81b8b3aa3dfc579acdad8f084e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Boolean</type>
+        <definition>Boolean nvim_del_mark</definition>
+        <argsstring>(String name, Error *err) FUNC_API_SINCE(8)</argsstring>
+        <name>nvim_del_mark</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Deletes an uppercase/file named mark. See |mark-motions|.</para>
+<para><simplesect kind="note"><para>Lowercase name (or other buffer-local mark) is an error. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mark name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the mark was deleted, else false. </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_buf_del_mark()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_get_mark()| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1872" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1872" bodyend="1887"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a7ae576fcd478b5dc66071bdb792ca3d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Array</type>
+        <definition>Array nvim_get_mark</definition>
+        <argsstring>(String name, Dict(empty) *opts, Arena *arena, Error *err) FUNC_API_SINCE(8)</argsstring>
+        <name>nvim_get_mark</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(empty) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a <computeroutput>(row, col, buffer, buffername)</computeroutput> tuple representing the position of the uppercase/file named mark. &quot;End of line&quot; column position is returned as |v:maxcol| (big number). See |mark-motions|.</para>
+<para>Marks are (1,0)-indexed. |api-indexing|</para>
+<para><simplesect kind="note"><para>Lowercase name (or other buffer-local mark) is an error. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mark name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters. Reserved for future use. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>4-tuple (row, col, buffer, buffername), (0, 0, 0, &apos;&apos;) if the mark is not set. </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_buf_set_mark()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_del_mark()| </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1902" column="7" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1902" bodyend="1961"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a45b88c37afee230155b1c621b2b9070f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_eval_statusline</definition>
+        <argsstring>(String str, Dict(eval_statusline) *opts, Arena *arena, Error *err) FUNC_API_SINCE(8) FUNC_API_FAST</argsstring>
+        <name>nvim_eval_statusline</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(eval_statusline) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates statusline string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Statusline string (see &apos;statusline&apos;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>winid: (number) |window-ID| of the window to use as context for statusline.</para>
+</listitem><listitem><para>maxwidth: (number) Maximum width of statusline.</para>
+</listitem><listitem><para>fillchar: (string) Character to fill blank spaces in the statusline (see &apos;fillchars&apos;). Treated as single-width even if it isn&apos;t.</para>
+</listitem><listitem><para>highlights: (boolean) Return highlight information.</para>
+</listitem><listitem><para>use_winbar: (boolean) Evaluate winbar instead of statusline.</para>
+</listitem><listitem><para>use_tabline: (boolean) Evaluate tabline instead of statusline. When true, {winid} is ignored. Mutually exclusive with {use_winbar}.</para>
+</listitem><listitem><para>use_statuscol_lnum: (number) Evaluate statuscolumn for this line number instead of statusline.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> containing statusline information, with these keys:<itemizedlist>
+<listitem><para>str: (string) Characters that will be displayed on the statusline.</para>
+</listitem><listitem><para>width: (number) Display width of the statusline.</para>
+</listitem><listitem><para>highlights: Array containing highlight information of the statusline. Only included when the &quot;highlights&quot; key in {opts} is true. Each element of the array is a |Dict| with these keys:<itemizedlist>
+<listitem><para>start: (number) Byte index (0-based) of first character that uses the highlight.</para>
+</listitem><listitem><para>group: (string) Deprecated. Use <computeroutput>groups</computeroutput> instead.</para>
+</listitem><listitem><para>groups: (array) Names of stacked highlight groups (highest priority last). </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="1987" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="1987" bodyend="2152"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a717a4770b59295e5b59932c29847c3d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_error_event</definition>
+        <argsstring>(uint64_t channel_id, Integer lvl, String data) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>nvim_error_event</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>lvl</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>@nodoc </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="2155" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="2155" bodyend="2161"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a58c2275a005595da60ea3f9c3a46f05e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim__complete_set</definition>
+        <argsstring>(Integer index, Dict(complete_set) *opts, Arena *arena, Error *err)</argsstring>
+        <name>nvim__complete_set</name>
+        <param>
+          <type>Integer</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(complete_set) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EXPERIMENTAL: this API may change in the future.</para>
+<para>Sets info for the completion item at the given index. If the info text was shown in a window, returns the window and buffer ids, or empty dict if not shown.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion candidate index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>info: (string) info text. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> containing these keys:<itemizedlist>
+<listitem><para>winid: (number) floating window id</para>
+</listitem><listitem><para>bufnr: (number) buffer id in floating window </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="2174" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="2174" bodyend="2189"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a94be1635fadb2c57ab835948f5aec6df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void redraw_status</definition>
+        <argsstring>(win_T *wp, Dict(redraw) *opts, bool *flush)</argsstring>
+        <name>redraw_status</name>
+        <param>
+          <type>win_T *</type>
+          <declname>wp</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(redraw) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>flush</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="2191" column="13" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="2191" bodyend="2218"/>
+      </memberdef>
+      <memberdef kind="function" id="vim_8c_1a60ef3bed782f570965368429aa53f133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim__redraw</definition>
+        <argsstring>(Dict(redraw) *opts, Error *err) FUNC_API_SINCE(12)</argsstring>
+        <name>nvim__redraw</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(redraw) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EXPERIMENTAL: this API may change in the future.</para>
+<para>Instruct Nvim to redraw various components.</para>
+<para><simplesect kind="see"><para>|:redraw|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters.<itemizedlist>
+<listitem><para>win: Target a specific |window-ID| as described below.</para>
+</listitem><listitem><para>buf: Target a specific buffer number as described below.</para>
+</listitem><listitem><para>flush: Update the screen with pending updates.</para>
+</listitem><listitem><para>valid: When present mark <computeroutput>win</computeroutput>, <computeroutput>buf</computeroutput>, or all windows for redraw. When <computeroutput>true</computeroutput>, only redraw changed lines (useful for decoration providers). When <computeroutput>false</computeroutput>, forcefully redraw.</para>
+</listitem><listitem><para>range: Redraw a range in <computeroutput>buf</computeroutput>, the buffer in <computeroutput>win</computeroutput> or the current buffer (useful for decoration providers). Expects a tuple <computeroutput>[first, last]</computeroutput> with the first and last line number of the range, 0-based end-exclusive |api-indexing|.</para>
+</listitem><listitem><para>cursor: Immediately update cursor position on the screen in <computeroutput>win</computeroutput> or the current window.</para>
+</listitem><listitem><para>statuscolumn: Redraw the &apos;statuscolumn&apos; in <computeroutput>buf</computeroutput>, <computeroutput>win</computeroutput> or all windows.</para>
+</listitem><listitem><para>statusline: Redraw the &apos;statusline&apos; in <computeroutput>buf</computeroutput>, <computeroutput>win</computeroutput> or all windows.</para>
+</listitem><listitem><para>winbar: Redraw the &apos;winbar&apos; in <computeroutput>buf</computeroutput>, <computeroutput>win</computeroutput> or all windows.</para>
+</listitem><listitem><para>tabline: Redraw the &apos;tabline&apos;. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vim.c" line="2245" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/vim.c" bodystart="2245" bodyend="2376"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/vim.c"/>
+  </compounddef>
+</doxygen>

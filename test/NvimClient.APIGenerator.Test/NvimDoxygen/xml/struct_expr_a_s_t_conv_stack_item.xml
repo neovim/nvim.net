@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="struct_expr_a_s_t_conv_stack_item" kind="struct" language="C++" prot="public">
+    <compoundname>ExprASTConvStackItem</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_expr_a_s_t_conv_stack_item_1ae71d966409750e8e92cc663d544bd03c" prot="public" static="no" mutable="no">
+        <type>ExprASTNode **</type>
+        <definition>ExprASTNode** ExprASTConvStackItem::node_p</definition>
+        <argsstring></argsstring>
+        <name>node_p</name>
+        <qualifiedname>ExprASTConvStackItem::node_p</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="350" column="15" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_expr_a_s_t_conv_stack_item_1a6603a149d76a33c6f7dcaf67dc71b40a" prot="public" static="no" mutable="no">
+        <type>Object *</type>
+        <definition>Object* ExprASTConvStackItem::ret_node_p</definition>
+        <argsstring></argsstring>
+        <name>ret_node_p</name>
+        <qualifiedname>ExprASTConvStackItem::ret_node_p</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="351" column="10" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/vimscript.c" line="349" column="1" bodyfile="D:/source/repos/neovim/src/nvim/api/vimscript.c" bodystart="349" bodyend="352"/>
+    <listofallmembers>
+      <member refid="struct_expr_a_s_t_conv_stack_item_1ae71d966409750e8e92cc663d544bd03c" prot="public" virt="non-virtual"><scope>ExprASTConvStackItem</scope><name>node_p</name></member>
+      <member refid="struct_expr_a_s_t_conv_stack_item_1a6603a149d76a33c6f7dcaf67dc71b40a" prot="public" virt="non-virtual"><scope>ExprASTConvStackItem</scope><name>ret_node_p</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

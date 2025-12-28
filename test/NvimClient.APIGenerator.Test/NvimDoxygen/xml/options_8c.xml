@@ -1,0 +1,478 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="options_8c" kind="file" language="C++">
+    <compoundname>options.c</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">string.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes refid="options_8h" local="yes">nvim/api/options.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/autocmd_defs.h</includes>
+    <includes local="yes">nvim/buffer.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/memory.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/option.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/vim_defs.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/options.c</label>
+        <link refid="options_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>nvim/api/options.h</label>
+        <link refid="options_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>assert.h</label>
+      </node>
+      <node id="6">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/autocmd_defs.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/buffer.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/memory.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/option.h</label>
+      </node>
+      <node id="9">
+        <label>nvim/option_defs.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/vim_defs.h</label>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="8">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="options_8c_1a9c87175a40606a716c2b36a0b29496fb" prot="public" static="no">
+        <name>HAS_KEY_X</name>
+        <param><defname>d</defname></param>
+        <param><defname>v</defname></param>
+        <initializer>HAS_KEY(d, option, v)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="30" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="options_8c_1a1ac33d621b21b4928afb71fb64e5524f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int validate_option_value_args</definition>
+        <argsstring>(Dict(option) *opts, char *name, OptIndex *opt_idxp, int *opt_flags, OptScope *scope, void **from, char **filetype, Error *err)</argsstring>
+        <name>validate_option_value_args</name>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(option) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>OptIndex *</type>
+          <declname>opt_idxp</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>opt_flags</declname>
+        </param>
+        <param>
+          <type>OptScope *</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>void **</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>filetype</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="26" column="12" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="26" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="options_8c_1a317177ad202f29ee23f7f400e53663b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>buf_T *</type>
+        <definition>static buf_T * do_ft_buf</definition>
+        <argsstring>(char *filetype, aco_save_T *aco, Error *err)</argsstring>
+        <name>do_ft_buf</name>
+        <param>
+          <type>char *</type>
+          <declname>filetype</declname>
+        </param>
+        <param>
+          <type>aco_save_T *</type>
+          <declname>aco</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>Create a dummy buffer and run the FileType autocmd on it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="104" column="14" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="104" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="options_8c_1a9ffa34edcd7016b99debd58250bba719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_get_option_value</definition>
+        <argsstring>(String name, Dict(option) *opts, Error *err) FUNC_API_SINCE(9) FUNC_API_RET_ALLOC</argsstring>
+        <name>nvim_get_option_value</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(option) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the value of an option. The behavior of this function matches that of |:set|: the local value of an option is returned if it exists; otherwise, the global value is returned. Local values always correspond to the current buffer or window, unless &quot;buf&quot; or &quot;win&quot; is set in {opts}.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters<itemizedlist>
+<listitem><para>scope: One of &quot;global&quot; or &quot;local&quot;. Analogous to |:setglobal| and |:setlocal|, respectively.</para>
+</listitem><listitem><para>win: |window-ID|. Used for getting window local options.</para>
+</listitem><listitem><para>buf: Buffer number. Used for getting buffer local options. Implies {scope} is &quot;local&quot;.</para>
+</listitem><listitem><para>filetype: |filetype|. Used to get the default option for a specific filetype. Cannot be used with any other option. Note: this will trigger |ftplugin| and all |FileType| autocommands for the corresponding filetype. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="151" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="151" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="options_8c_1a1eebeadb77319fb6964dc764daa649f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_set_option_value</definition>
+        <argsstring>(uint64_t channel_id, String name, Object value, Dict(option) *opts, Error *err) FUNC_API_SINCE(9)</argsstring>
+        <name>nvim_set_option_value</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>channel_id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(option) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the value of an option. The behavior of this function matches that of |:set|: for global-local options, both the global and local value are set unless otherwise specified with {scope}.</para>
+<para>Note the options {win} and {buf} cannot be used together.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New option value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters<itemizedlist>
+<listitem><para>scope: One of &quot;global&quot; or &quot;local&quot;. Analogous to |:setglobal| and |:setlocal|, respectively.</para>
+</listitem><listitem><para>win: |window-ID|. Used for setting window local option.</para>
+</listitem><listitem><para>buf: Buffer number. Used for setting buffer local option. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="223" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="223" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="options_8c_1ae7d2f3333a8e8b5e1bcfccb899c56797" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_all_options_info</definition>
+        <argsstring>(Arena *arena, Error *err) FUNC_API_SINCE(7)</argsstring>
+        <name>nvim_get_all_options_info</name>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the option information for all options.</para>
+<para>The dict has the full option names as keys and option metadata dicts as detailed at |nvim_get_option_info2()|.</para>
+<para><simplesect kind="see"><para>|nvim_get_commands()|</para>
+</simplesect>
+<simplesect kind="return"><para>dict of all options </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="272" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="272" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="options_8c_1a53efd29c4f4f8a44de79479bd1bc546f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_get_option_info2</definition>
+        <argsstring>(String name, Dict(option) *opts, Arena *arena, Error *err) FUNC_API_SINCE(11)</argsstring>
+        <name>nvim_get_option_info2</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(option) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the option information for one option from arbitrary buffer or window</para>
+<para>Resulting dict has keys:<itemizedlist>
+<listitem><para>name: Name of the option (like &apos;filetype&apos;)</para>
+</listitem><listitem><para>shortname: Shortened name of the option (like &apos;ft&apos;)</para>
+</listitem><listitem><para>type: type of option (&quot;string&quot;, &quot;number&quot; or &quot;boolean&quot;)</para>
+</listitem><listitem><para>default: The default value for the option</para>
+</listitem><listitem><para>was_set: Whether the option was set.</para>
+</listitem><listitem><para>last_set_sid: Last set script id (if any)</para>
+</listitem><listitem><para>last_set_linenr: line number where option was set</para>
+</listitem><listitem><para>last_set_chan: Channel where option was set (0 for local)</para>
+</listitem><listitem><para>scope: one of &quot;global&quot;, &quot;win&quot;, or &quot;buf&quot;</para>
+</listitem><listitem><para>global_local: whether win or buf option has a global value</para>
+</listitem><listitem><para>commalist: List of comma separated values</para>
+</listitem><listitem><para>flaglist: List of single char flags</para>
+</listitem></itemizedlist>
+</para>
+<para>When {scope} is not provided, the last set information applies to the local value in the current buffer or window if it is available, otherwise the global value information is returned. This behavior can be disabled by explicitly specifying {scope} in the {opts} table.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters<itemizedlist>
+<listitem><para>scope: One of &quot;global&quot; or &quot;local&quot;. Analogous to |:setglobal| and |:setlocal|, respectively.</para>
+</listitem><listitem><para>win: |window-ID|. Used for getting window local options.</para>
+</listitem><listitem><para>buf: Buffer number. Used for getting buffer local options. Implies {scope} is &quot;local&quot;. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Option Information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/options.c" line="311" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/options.c" bodystart="311" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/options.c"/>
+  </compounddef>
+</doxygen>

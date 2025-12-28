@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="deprecated_8h" kind="file" language="C++">
+    <compoundname>deprecated.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includedby refid="deprecated_8c" local="yes">D:/source/repos/neovim/src/nvim/api/deprecated.c</includedby>
+    <includedby refid="vim_8c" local="yes">D:/source/repos/neovim/src/nvim/api/vim.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/deprecated.h</label>
+        <link refid="deprecated_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/deprecated.h"/>
+  </compounddef>
+</doxygen>

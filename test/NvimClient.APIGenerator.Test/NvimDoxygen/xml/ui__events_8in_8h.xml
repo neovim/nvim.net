@@ -1,0 +1,1557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="ui__events_8in_8h" kind="file" language="C++">
+    <compoundname>ui_events.in.h</compoundname>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/func_attr.h</includes>
+    <includes local="yes">nvim/ui.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/ui_events.in.h</label>
+        <link refid="ui__events_8in_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="3">
+        <label>nvim/func_attr.h</label>
+      </node>
+      <node id="4">
+        <label>nvim/ui.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="ui__events_8in_8h_1afe4028ee16a24b0a47d022e71ca1bdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void mode_info_set</definition>
+        <argsstring>(Boolean enabled, Array cursor_styles) FUNC_API_SINCE(3)</argsstring>
+        <name>mode_info_set</name>
+        <param>
+          <type>Boolean</type>
+          <declname>enabled</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>cursor_styles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="12" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="12" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ae85a961fe1937fcaa11b6e89b4525f66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_menu</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>update_menu</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="14" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="14" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a6eeba8b23934717beee6c28a84824a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void busy_start</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>busy_start</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="16" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="16" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a42b7b22f9e1b66007783e0d4ca64500b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void busy_stop</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>busy_stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="18" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="18" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a4ecfbb13eea621d760672d5acf6050f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void mouse_on</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>mouse_on</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="20" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="20" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a60e58a51e0c2ae65220c11e262d62645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void mouse_off</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>mouse_off</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="22" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="22" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a22ef3ea0ce79837b4cce1a0c521496ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void mode_change</definition>
+        <argsstring>(String mode, Integer mode_idx) FUNC_API_SINCE(3)</argsstring>
+        <name>mode_change</name>
+        <param>
+          <type>String</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>mode_idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="24" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="24" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1abbd6bf6339b154670764362e9e9d6f1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bell</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>bell</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="26" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="26" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a85b531b52438761ab10d98436ecb7da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void visual_bell</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>visual_bell</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="28" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="28" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ad7deec9889bf1788efe7fc73c9cfef9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void flush</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_IMPL</argsstring>
+        <name>flush</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="30" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="30" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ac92899690cdf501a38762e9b20cfa7a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void suspend</definition>
+        <argsstring>(void) FUNC_API_SINCE(3)</argsstring>
+        <name>suspend</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="32" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="32" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a62f353af8fa4afdc344ab6896eea16a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_title</definition>
+        <argsstring>(String title) FUNC_API_SINCE(3)</argsstring>
+        <name>set_title</name>
+        <param>
+          <type>String</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="34" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="34" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a1d4f92635f55d2d456f4cc549f6c546b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_icon</definition>
+        <argsstring>(String icon) FUNC_API_SINCE(3)</argsstring>
+        <name>set_icon</name>
+        <param>
+          <type>String</type>
+          <declname>icon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="36" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="36" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a289a14725dafa84b68e9fd2c82386dd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void screenshot</definition>
+        <argsstring>(String path) FUNC_API_SINCE(7)</argsstring>
+        <name>screenshot</name>
+        <param>
+          <type>String</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="38" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="38" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a9c049bc3fe3725602f003a61b0e8356d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void option_set</definition>
+        <argsstring>(String name, Object value) FUNC_API_SINCE(4)</argsstring>
+        <name>option_set</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="40" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="40" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a2846eb033361e402b7ed3cd56728c81b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void chdir</definition>
+        <argsstring>(String path) FUNC_API_SINCE(12)</argsstring>
+        <name>chdir</name>
+        <param>
+          <type>String</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="42" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="42" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ac4061596263ad57c4d6d75dc3029cb31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void stop</definition>
+        <argsstring>(void) FUNC_API_NOEXPORT</argsstring>
+        <name>stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="45" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="45" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1acaa80031256bc90c48db55369d9a6cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_fg</definition>
+        <argsstring>(Integer fg) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>update_fg</name>
+        <param>
+          <type>Integer</type>
+          <declname>fg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="49" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="49" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a4df7b08007228047bb742e3a99e97556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_bg</definition>
+        <argsstring>(Integer bg) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>update_bg</name>
+        <param>
+          <type>Integer</type>
+          <declname>bg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="51" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="51" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a75cc15f460d05e5d8803b3cf4b676e96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_sp</definition>
+        <argsstring>(Integer sp) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>update_sp</name>
+        <param>
+          <type>Integer</type>
+          <declname>sp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="53" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="53" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a4640406636513598ae87f265e3bd5cf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void resize</definition>
+        <argsstring>(Integer width, Integer height) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>resize</name>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="55" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="55" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1abda0f31ba4149710ba868aa7f10d4a16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void clear</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>clear</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="57" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="57" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aeba3bc08d989ea8a18684d6e10561f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void eol_clear</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>eol_clear</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="59" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1acdd2c68e996168a97159af461fce9d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cursor_goto</definition>
+        <argsstring>(Integer row, Integer col) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cursor_goto</name>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="61" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="61" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ae417105b196d43c568a7c310cdeb8e0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void highlight_set</definition>
+        <argsstring>(HlAttrs attrs) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY FUNC_API_REMOTE_IMPL</argsstring>
+        <name>highlight_set</name>
+        <param>
+          <type>HlAttrs</type>
+          <declname>attrs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="63" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="63" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aa8fd0cca1c5d3e86a10dfc3826173153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void put</definition>
+        <argsstring>(String str) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>put</name>
+        <param>
+          <type>String</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="65" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="65" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a92d112e5a8b18eaeaf8eaffb74f3939b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_scroll_region</definition>
+        <argsstring>(Integer top, Integer bot, Integer left, Integer right) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>set_scroll_region</name>
+        <param>
+          <type>Integer</type>
+          <declname>top</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>bot</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="67" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="67" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a5874f9a37e1a0d2a4b89cbb052dfbfaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void scroll</definition>
+        <argsstring>(Integer count) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>scroll</name>
+        <param>
+          <type>Integer</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="69" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="69" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a2577ada6a21afae515a116a8327568d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void default_colors_set</definition>
+        <argsstring>(Integer rgb_fg, Integer rgb_bg, Integer rgb_sp, Integer cterm_fg, Integer cterm_bg) FUNC_API_SINCE(4) FUNC_API_REMOTE_IMPL</argsstring>
+        <name>default_colors_set</name>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_fg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_bg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rgb_sp</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cterm_fg</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cterm_bg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="73" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="73" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aa1d09b7ca77442ee3b59b899b708e933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void hl_attr_define</definition>
+        <argsstring>(Integer id, HlAttrs rgb_attrs, HlAttrs cterm_attrs, Array info) FUNC_API_SINCE(5) FUNC_API_REMOTE_IMPL</argsstring>
+        <name>hl_attr_define</name>
+        <param>
+          <type>Integer</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>HlAttrs</type>
+          <declname>rgb_attrs</declname>
+        </param>
+        <param>
+          <type>HlAttrs</type>
+          <declname>cterm_attrs</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="76" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="76" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a8c034342969d47a04e1aee3961d47aa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void hl_group_set</definition>
+        <argsstring>(String name, Integer id) FUNC_API_SINCE(6) FUNC_API_CLIENT_IGNORE</argsstring>
+        <name>hl_group_set</name>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="78" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="78" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a657958414d2468782464e8c1d3553b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_resize</definition>
+        <argsstring>(Integer grid, Integer width, Integer height) FUNC_API_SINCE(5) FUNC_API_REMOTE_IMPL FUNC_API_COMPOSITOR_IMPL FUNC_API_CLIENT_IMPL</argsstring>
+        <name>grid_resize</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="80" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="80" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a6f2b7cd0e106a09a66759b2e6e72ab45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_clear</definition>
+        <argsstring>(Integer grid) FUNC_API_SINCE(5) FUNC_API_REMOTE_IMPL</argsstring>
+        <name>grid_clear</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="82" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="82" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a7f5757a25659cdd0153b273f60732c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_cursor_goto</definition>
+        <argsstring>(Integer grid, Integer row, Integer col) FUNC_API_SINCE(5) FUNC_API_REMOTE_IMPL FUNC_API_COMPOSITOR_IMPL</argsstring>
+        <name>grid_cursor_goto</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="84" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="84" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a5c6b31fca997cda70ffa5af03efba427" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_line</definition>
+        <argsstring>(Integer grid, Integer row, Integer col_start, Array data, Boolean wrap) FUNC_API_SINCE(5) FUNC_API_REMOTE_ONLY FUNC_API_CLIENT_IMPL</argsstring>
+        <name>grid_line</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col_start</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>wrap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="86" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="86" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a7a637cc9694eac44ecd6f71d4ff36d46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_scroll</definition>
+        <argsstring>(Integer grid, Integer top, Integer bot, Integer left, Integer right, Integer rows, Integer cols) FUNC_API_SINCE(5) FUNC_API_REMOTE_IMPL FUNC_API_COMPOSITOR_IMPL</argsstring>
+        <name>grid_scroll</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>top</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>bot</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>cols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="88" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="88" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a331e8538e66af3d8db865efae44d1b58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void grid_destroy</definition>
+        <argsstring>(Integer grid) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>grid_destroy</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="91" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="91" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ab0e2756af2ffb0432b4680fadb1aed59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void raw_line</definition>
+        <argsstring>(Integer grid, Integer row, Integer startcol, Integer endcol, Integer clearcol, Integer clearattr, LineFlags flags, const schar_T *chunk, const sattr_T *attrs) FUNC_API_NOEXPORT FUNC_API_COMPOSITOR_IMPL</argsstring>
+        <name>raw_line</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>startcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>endcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>clearcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>clearattr</declname>
+        </param>
+        <param>
+          <type>LineFlags</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>const schar_T *</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>const sattr_T *</type>
+          <declname>attrs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="97" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="97" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aacadbebfe60dc60cf4080b18a35446f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_pos</definition>
+        <argsstring>(Integer grid, Window win, Integer startrow, Integer startcol, Integer width, Integer height) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_pos</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>startrow</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>startcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="101" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="101" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1afb63d04bab6d4e9718f07c0d41a0fc9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_float_pos</definition>
+        <argsstring>(Integer grid, Window win, String anchor, Integer anchor_grid, Float anchor_row, Float anchor_col, Boolean mouse_enabled, Integer zindex) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_float_pos</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>anchor</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>anchor_grid</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>anchor_row</declname>
+        </param>
+        <param>
+          <type>Float</type>
+          <declname>anchor_col</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>mouse_enabled</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>zindex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="104" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="104" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aae32704aef663940428058c28b0f7719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_external_pos</definition>
+        <argsstring>(Integer grid, Window win) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_external_pos</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="107" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="107" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a65eba19c12e8f6ec9b9d070f4e7e58a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_hide</definition>
+        <argsstring>(Integer grid) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_hide</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="109" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="109" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a30649fac585d91887d1f28fd9e82e12f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_close</definition>
+        <argsstring>(Integer grid) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_close</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="111" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="111" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a87050812eee853844caa12afb274851c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_set_pos</definition>
+        <argsstring>(Integer grid, Integer row, Boolean scrolled, String sep_char) FUNC_API_SINCE(6) FUNC_API_COMPOSITOR_IMPL FUNC_API_CLIENT_IGNORE</argsstring>
+        <name>msg_set_pos</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>scrolled</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>sep_char</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="114" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="114" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a75735928dea9459966501c1e3483735b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_viewport</definition>
+        <argsstring>(Integer grid, Window win, Integer topline, Integer botline, Integer curline, Integer curcol, Integer line_count, Integer scroll_delta) FUNC_API_SINCE(7) FUNC_API_CLIENT_IGNORE</argsstring>
+        <name>win_viewport</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>topline</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>botline</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>curline</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>curcol</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>line_count</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>scroll_delta</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="117" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="117" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1adc18d845888b6b39ecd5bd85332ebd4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_viewport_margins</definition>
+        <argsstring>(Integer grid, Window win, Integer top, Integer bottom, Integer left, Integer right) FUNC_API_SINCE(12) FUNC_API_CLIENT_IGNORE</argsstring>
+        <name>win_viewport_margins</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>top</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>bottom</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="121" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="121" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a840b9e80e014679c2fdb29d12614ce29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void win_extmark</definition>
+        <argsstring>(Integer grid, Window win, Integer ns_id, Integer mark_id, Integer row, Integer col) FUNC_API_SINCE(10) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>win_extmark</name>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>Window</type>
+          <declname>win</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>mark_id</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="125" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="125" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ac1c27ec4bbbf0a7e1c9a66a13ed64e04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void popupmenu_show</definition>
+        <argsstring>(Array items, Integer selected, Integer row, Integer col, Integer grid) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>popupmenu_show</name>
+        <param>
+          <type>Array</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>selected</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="128" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="128" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aa9af5274704fd589116e48b931aa327b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void popupmenu_hide</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>popupmenu_hide</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="130" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="130" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a65e53110b58b439ee695ab6631abb946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void popupmenu_select</definition>
+        <argsstring>(Integer selected) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>popupmenu_select</name>
+        <param>
+          <type>Integer</type>
+          <declname>selected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="132" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="132" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a6af7304faa3be30ec9387de0269080a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void tabline_update</definition>
+        <argsstring>(Tabpage current, Array tabs, Buffer current_buffer, Array buffers) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>tabline_update</name>
+        <param>
+          <type>Tabpage</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>tabs</declname>
+        </param>
+        <param>
+          <type>Buffer</type>
+          <declname>current_buffer</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>buffers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="135" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="135" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aa70116e742474922947b7efcbed8d897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_show</definition>
+        <argsstring>(Array content, Integer pos, String firstc, String prompt, Integer indent, Integer level, Integer hl_id) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_show</name>
+        <param>
+          <type>Array</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>firstc</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>indent</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>hl_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="138" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="138" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1acee6d7261f707ec32b13e33b8835f026" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_pos</definition>
+        <argsstring>(Integer pos, Integer level) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_pos</name>
+        <param>
+          <type>Integer</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="141" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="141" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1afbeee40c919a5af6509609629f4efc6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_special_char</definition>
+        <argsstring>(String c, Boolean shift, Integer level) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_special_char</name>
+        <param>
+          <type>String</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>shift</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="143" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="143" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a141f715c056149894b0e4b1ccc8da331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_hide</definition>
+        <argsstring>(Integer level, Boolean abort) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_hide</name>
+        <param>
+          <type>Integer</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>abort</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="145" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="145" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a026fdd8218f385722b5f2e905bd1f734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_block_show</definition>
+        <argsstring>(Array lines) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_block_show</name>
+        <param>
+          <type>Array</type>
+          <declname>lines</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="147" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="147" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a498ad97b7a5d5974e5f5921c35c173a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_block_append</definition>
+        <argsstring>(Array lines) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_block_append</name>
+        <param>
+          <type>Array</type>
+          <declname>lines</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="149" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="149" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a5d74e120a4c2c557e37b9dd0f4a0284d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdline_block_hide</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>cmdline_block_hide</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="151" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="151" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ac3d3c1a2061ec9c7c675c877504858fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void wildmenu_show</definition>
+        <argsstring>(Array items) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>wildmenu_show</name>
+        <param>
+          <type>Array</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="154" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="154" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a980a1aca989831244385f984a61325ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void wildmenu_select</definition>
+        <argsstring>(Integer selected) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>wildmenu_select</name>
+        <param>
+          <type>Integer</type>
+          <declname>selected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="156" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="156" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a803a3700f9c76e69d91216e8c345cc4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void wildmenu_hide</definition>
+        <argsstring>(void) FUNC_API_SINCE(3) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>wildmenu_hide</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="158" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="158" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a49d0929335a1c2b132df38f80b98acf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_show</definition>
+        <argsstring>(String kind, Array content, Boolean replace_last, Boolean history) FUNC_API_SINCE(6) FUNC_API_FAST FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_show</name>
+        <param>
+          <type>String</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>Array</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>replace_last</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>history</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="161" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="161" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a4302e66d8c3ccd17633cc2e418eb7f9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_clear</definition>
+        <argsstring>(void) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_clear</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="163" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="163" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a85d7a5ec3d87039270fd08c0344768e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_showcmd</definition>
+        <argsstring>(Array content) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_showcmd</name>
+        <param>
+          <type>Array</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="165" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="165" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1aecc48ffc095da9aa8e8e1c32f7d337b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_showmode</definition>
+        <argsstring>(Array content) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_showmode</name>
+        <param>
+          <type>Array</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="167" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="167" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1acc6a1c1adbc1db9e7057be32420d18f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_ruler</definition>
+        <argsstring>(Array content) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_ruler</name>
+        <param>
+          <type>Array</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="169" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="169" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a3c54cd2227502a79cd24dfc62df69dc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_history_show</definition>
+        <argsstring>(Array entries) FUNC_API_SINCE(6) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_history_show</name>
+        <param>
+          <type>Array</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="171" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="171" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1ac6e82489b2869772c61ad6c988640c9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void msg_history_clear</definition>
+        <argsstring>(void) FUNC_API_SINCE(10) FUNC_API_REMOTE_ONLY</argsstring>
+        <name>msg_history_clear</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="173" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="173" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ui__events_8in_8h_1a8f66de7ed10a33f33d403a20f6bdfbaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void error_exit</definition>
+        <argsstring>(Integer status) FUNC_API_SINCE(12) FUNC_API_CLIENT_IMPL</argsstring>
+        <name>error_exit</name>
+        <param>
+          <type>Integer</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" line="184" column="6" declfile="D:/source/repos/neovim/src/nvim/api/ui_events.in.h" declline="184" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/ui_events.in.h"/>
+  </compounddef>
+</doxygen>

@@ -12,7 +12,7 @@ namespace NvimClient.APIGenerator.Docs;
 /// <summary>
 ///   Generates and parses XML documentation from Doxygen.
 /// </summary>
-internal class DoxygenParser : IDisposable {
+public class DoxygenParser : IDisposable {
     public const string DoxygenFilterArgument = "--doxygen-filter";
     private readonly string _nvimSrcDirectory;
     private readonly string _tempOutputDirectory;
@@ -20,7 +20,7 @@ internal class DoxygenParser : IDisposable {
     public DoxygenParser(string nvimSrcDirectory) {
         _nvimSrcDirectory = nvimSrcDirectory;
         _tempOutputDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-        Directory.CreateDirectory(_tempOutputDirectory);
+        _ = Directory.CreateDirectory(_tempOutputDirectory);
     }
 
     public void Dispose() {
@@ -31,64 +31,72 @@ internal class DoxygenParser : IDisposable {
         }
     }
 
+    public static IEnumerable<string?> GetXMLFileNamesFromDoxygenCFilesIndex(XDocument index_document) {
+
+        //Get all compounds of kind file. Where the filename ends in .c but
+        //select the refid
+        IEnumerable<string?> xmlFilenames = index_document
+          .Descendants("compound")
+          .Where(static node => node.Attribute("kind")?.Value == "file")
+          .Where(static node => node.Element("name")?.Value.EndsWith(".c", StringComparison.Ordinal) ?? false)
+          .Select(static node => node.Attribute("refid")?.Value);
+
+        return xmlFilenames;
+    }
+
+    public static IEnumerable<XElement> GetNonStaticFunctionDefinitions(XDocument document) {
+
+        static bool Selector(XElement element) {
+            bool isFunc = element.Attribute("kind")?.Value == "function";
+            bool notStatic = element.Attribute("static")?.Value == "no";
+
+            return isFunc && notStatic;
+        }
+
+        return document.Descendants("memberdef").Where(Selector);
+    }
+
     internal IEnumerable<FunctionDoc> GetDocumentation() {
         GenerateDocumentation();
+        Console.WriteLine("Documentation written in the following temp directory {0}", _tempOutputDirectory);
 
-        var xmlDocsDirectory = Path.Combine(_tempOutputDirectory, "xml");
-        var indexXml =
-          XDocument.Load(Path.Combine(xmlDocsDirectory, "index.xml"));
-        var xmlFilenames = indexXml
-          .Descendants("compound")
-          .Where(node =>
-            node.Attribute("kind")?.Value == "file")
-          .Where(node =>
-            node.Element("name")?.Value.EndsWith(".c")
-            ?? false).Select(node =>
-            node.Attribute("refid")?.Value);
-        foreach (var xmlFilename in xmlFilenames) {
-            var docXml = XDocument.Load(Path.Combine(xmlDocsDirectory, xmlFilename + ".xml"));
-            var functionDocs = docXml.Descendants("memberdef").Where(memberDef =>
-                memberDef.Attribute("kind")?.Value == "function"
-                && memberDef.Attribute("static")?.Value == "no").Select(
-                memberDef => new FunctionDoc {
-                    Function = memberDef.Element("name").Value,
-                    Summary = GetDocElements(memberDef.Element("detaileddescription")
-                    .Elements("para")
-                    .Where(para => para.Element("parameterlist") == null)),
-                    Parameters = memberDef
-                                 .Descendants("parameterlist")
-                                 .FirstOrDefault()
-                                 ?.Elements("parameteritem").Select(
-                                   param => new ParameterDoc {
-                                       Name = param.Descendants("parametername")
-                                       .First().Value,
-                                       Description =
-                                       GetDocElements(param
-                                         .Descendants("parameterdescription")
-                                         .First().Nodes())
-                                   }) ?? Enumerable.Empty<ParameterDoc>(),
-                    Return = GetDocElements(memberDef.Element("detaileddescription")
-                    ?.Descendants("simplesect").FirstOrDefault(simplesect =>
-                      simplesect.Attribute("kind")?.Value == "return")
-                    ?.Nodes()),
-                    Notes = GetDocElements(memberDef.Element("detaileddescription")
-                    ?.Descendants("simplesect").Where(simplesect =>
-                      simplesect.Attribute("kind")?.Value == "note"))
-                }
-              );
-            foreach (var functionDoc in functionDocs) {
+        //Inside the temp directory there will be an xml directory that contains all
+        //the documentation
+        string xmlDocsDirectory = Path.Combine(_tempOutputDirectory, "xml");
+        XDocument indexXml = XDocument.Load(Path.Combine(xmlDocsDirectory, "index.xml"));
+        IEnumerable<string?> xmlFilenames = GetXMLFileNamesFromDoxygenCFilesIndex(indexXml);
+
+        foreach (string? xmlFilename in xmlFilenames) {
+            if (xmlFilename is null) {
+                continue;
+            }
+            string local_file = Path.Combine(xmlDocsDirectory, xmlFilename + ".xml");
+            Console.WriteLine("Processing File: {0} will read file {1}", xmlFilename, local_file);
+
+            XDocument docXml;
+            try {
+                docXml = XDocument.Load(local_file);
+            } catch {
+                Console.WriteLine("Could not load file {0}", local_file);
+                throw;
+            }
+
+            IEnumerable<XElement> doxFunctionDocs = GetNonStaticFunctionDefinitions(docXml);
+
+            IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Select(FunctionDoc.FromXElement);
+
+            foreach (FunctionDoc functionDoc in functionDocs) {
                 yield return functionDoc;
             }
         }
     }
 
-    private static IEnumerable<IDocElement> GetDocElements(
-      IEnumerable<XNode> nodes) {
+    public static IEnumerable<IDocElement> GetDocElements(IEnumerable<XNode>? nodes) {
         if (nodes == null) {
             yield break;
         }
 
-        foreach (var node in nodes) {
+        foreach (XNode node in nodes) {
             switch (node) {
                 case XElement element when element.Name == "computeroutput":
                     yield return new InlineCode(element.Value);
@@ -123,18 +131,16 @@ internal class DoxygenParser : IDisposable {
     ///   <c>neovim/scripts/gen_api_vimdoc.py</c>.
     /// </remarks>
     internal static void FilterDoxygenInput(string filePath) {
-        using (var fileStream = File.OpenRead(filePath)) {
-            using (var streamReader = new StreamReader(fileStream)) {
-                string line;
-                while ((line = streamReader.ReadLine()) != null) {
-                    Console.WriteLine(
-                      Regex.Replace(line, @"^(ArrayOf|DictionaryOf)(\(.*?\))",
-                        m => m.Groups[1]
-                             + string.Join('_',
-                               Regex.Split(m.Groups[2].Value, @"[^\w]+")))
-                    );
-                }
-            }
+        using FileStream fileStream = File.OpenRead(filePath);
+        using StreamReader streamReader = new(fileStream);
+        string? line;
+        while ((line = streamReader.ReadLine()) is not null) {
+            Console.WriteLine(
+              Regex.Replace(line, @"^(ArrayOf|DictionaryOf)(\(.*?\))",
+                static m => m.Groups[1]
+                     + string.Join('_',
+                       Regex.Split(m.Groups[2].Value, @"[^\w]+")))
+            );
         }
     }
 
@@ -144,19 +150,32 @@ internal class DoxygenParser : IDisposable {
     /// </summary>
     private void GenerateDocumentation() {
         string doxygenConfig = GetDoxygenConfig();
+
+        Console.WriteLine("Configuration Read is: {0}", doxygenConfig);
         string inputDirectory = Path.Combine(_nvimSrcDirectory, "src/nvim/api");
 
-        ProcessStartInfo doxy_process = new("doxygen","-") {
+        //the - argument tells Doxygen to read its configuration from standard input
+        //instead of a file. We also take over the standard input and write the configuration
+        //template with the items replaced.
+        ProcessStartInfo doxy_process = new(fileName: "doxygen", arguments: "-") {
             RedirectStandardInput = true
         };
 
-        Process process = Process.Start(doxy_process);
+        Process? process = Process.Start(doxy_process);
+        if (process is null) {
+            Console.WriteLine("Could not start doxygen process!");
+            return;
+        }
 
-        using (var processStandardInput = process.StandardInput) {
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            processStandardInput.Write(doxygenConfig, _tempOutputDirectory,
-              inputDirectory,
-              $"dotnet \"{assemblyLocation}\" {DoxygenFilterArgument}");
+
+        using (StreamWriter processStandardInput = process.StandardInput) {
+            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            string filter = $"dotnet \\\"{assemblyLocation}\\\" {DoxygenFilterArgument}";
+            processStandardInput.Write(
+                    doxygenConfig,
+                    _tempOutputDirectory,
+                    inputDirectory,
+                    filter);
         }
 
         process.WaitForExit();
@@ -167,13 +186,12 @@ internal class DoxygenParser : IDisposable {
     /// </summary>
     private static string GetDoxygenConfig() {
         const string configName = $"{nameof(NvimClient)}.{nameof(APIGenerator)}.doxygen.config";
-        using (Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configName)) {
-            if(stream is null) {
-                throw new InvalidOperationException("Could not retreive Manifest resource stream of the the executing assembly");
-            }
-            using (StreamReader reader = new(stream)) {
-                return reader.ReadToEnd();
-            }
+        Console.WriteLine("Reading configuration from: {0}", configName);
+        using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configName);
+        if (stream is null) {
+            throw new InvalidOperationException("Could not retreive Manifest resource stream of the the executing assembly");
         }
+        using StreamReader reader = new(stream);
+        return reader.ReadToEnd();
     }
 }

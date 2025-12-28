@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="dir_0945483a6e7b8625267f5ad9bc864dc9" kind="dir">
+    <compoundname>D:/source/repos/neovim/src/nvim/api</compoundname>
+    <innerfile refid="autocmd_8c">autocmd.c</innerfile>
+    <innerfile refid="autocmd_8h">autocmd.h</innerfile>
+    <innerfile refid="buffer_8c">buffer.c</innerfile>
+    <innerfile refid="buffer_8h">buffer.h</innerfile>
+    <innerfile refid="command_8c">command.c</innerfile>
+    <innerfile refid="command_8h">command.h</innerfile>
+    <innerfile refid="deprecated_8c">deprecated.c</innerfile>
+    <innerfile refid="deprecated_8h">deprecated.h</innerfile>
+    <innerfile refid="extmark_8c">extmark.c</innerfile>
+    <innerfile refid="extmark_8h">extmark.h</innerfile>
+    <innerfile refid="keysets__defs_8h">keysets_defs.h</innerfile>
+    <innerfile refid="options_8c">options.c</innerfile>
+    <innerfile refid="options_8h">options.h</innerfile>
+    <innerfile refid="tabpage_8c">tabpage.c</innerfile>
+    <innerfile refid="tabpage_8h">tabpage.h</innerfile>
+    <innerfile refid="ui_8c">ui.c</innerfile>
+    <innerfile refid="ui_8h">ui.h</innerfile>
+    <innerfile refid="ui__events_8in_8h">ui_events.in.h</innerfile>
+    <innerfile refid="vim_8c">vim.c</innerfile>
+    <innerfile refid="vim_8h">vim.h</innerfile>
+    <innerfile refid="vimscript_8c">vimscript.c</innerfile>
+    <innerfile refid="vimscript_8h">vimscript.h</innerfile>
+    <innerfile refid="win__config_8c">win_config.c</innerfile>
+    <innerfile refid="win__config_8h">win_config.h</innerfile>
+    <innerfile refid="window_8c">window.c</innerfile>
+    <innerfile refid="window_8h">window.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/"/>
+  </compounddef>
+</doxygen>

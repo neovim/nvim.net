@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="ui_8h" kind="file" language="C++">
+    <compoundname>ui.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/highlight_defs.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/ui_defs.h</includes>
+    <includedby refid="ui_8c" local="yes">D:/source/repos/neovim/src/nvim/api/ui.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/ui.h</label>
+        <link refid="ui_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="4">
+        <label>nvim/highlight_defs.h</label>
+      </node>
+      <node id="5">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="6">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="7">
+        <label>nvim/ui_defs.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="ui_8h_1a9cad29dee532d63b053f92634e42573f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EXTERN const char *ui_ext_names[]</type>
+        <definition>EXTERN const char *ui_ext_names[] INIT</definition>
+        <argsstring>(={ &quot;ext_cmdline&quot;, &quot;ext_popupmenu&quot;, &quot;ext_tabline&quot;, &quot;ext_wildmenu&quot;, &quot;ext_messages&quot;, &quot;ext_linegrid&quot;, &quot;ext_multigrid&quot;, &quot;ext_hlstate&quot;, &quot;ext_termcolors&quot;, &quot;_debug_float&quot;, })</argsstring>
+        <name>INIT</name>
+        <briefdescription>
+<para>Keep in sync with UIExtension in ui_defs.h. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/ui.h" line="12" column="32" declfile="D:/source/repos/neovim/src/nvim/api/ui.h" declline="12" declcolumn="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/ui.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="window_8c" kind="file" language="C++">
+    <compoundname>window.c</compoundname>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/api/private/dispatch.h</includes>
+    <includes local="yes">nvim/api/private/helpers.h</includes>
+    <includes local="yes">nvim/api/private/validate.h</includes>
+    <includes refid="window_8h" local="yes">nvim/api/window.h</includes>
+    <includes local="yes">nvim/autocmd.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/cursor.h</includes>
+    <includes local="yes">nvim/drawscreen.h</includes>
+    <includes local="yes">nvim/errors.h</includes>
+    <includes local="yes">nvim/eval/window.h</includes>
+    <includes local="yes">nvim/ex_docmd.h</includes>
+    <includes local="yes">nvim/gettext_defs.h</includes>
+    <includes local="yes">nvim/globals.h</includes>
+    <includes local="yes">nvim/lua/executor.h</includes>
+    <includes local="yes">nvim/memory_defs.h</includes>
+    <includes local="yes">nvim/message.h</includes>
+    <includes local="yes">nvim/move.h</includes>
+    <includes local="yes">nvim/plines.h</includes>
+    <includes local="yes">nvim/pos_defs.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includes local="yes">nvim/window.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/window.c</label>
+        <link refid="window_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>nvim/api/window.h</label>
+        <link refid="window_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="7">
+        <label>nvim/api/private/dispatch.h</label>
+      </node>
+      <node id="8">
+        <label>nvim/api/private/helpers.h</label>
+      </node>
+      <node id="9">
+        <label>nvim/api/private/validate.h</label>
+      </node>
+      <node id="11">
+        <label>nvim/autocmd.h</label>
+      </node>
+      <node id="12">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="13">
+        <label>nvim/cursor.h</label>
+      </node>
+      <node id="14">
+        <label>nvim/drawscreen.h</label>
+      </node>
+      <node id="15">
+        <label>nvim/errors.h</label>
+      </node>
+      <node id="16">
+        <label>nvim/eval/window.h</label>
+      </node>
+      <node id="17">
+        <label>nvim/ex_docmd.h</label>
+      </node>
+      <node id="18">
+        <label>nvim/gettext_defs.h</label>
+      </node>
+      <node id="19">
+        <label>nvim/globals.h</label>
+      </node>
+      <node id="20">
+        <label>nvim/lua/executor.h</label>
+      </node>
+      <node id="21">
+        <label>nvim/memory_defs.h</label>
+      </node>
+      <node id="22">
+        <label>nvim/message.h</label>
+      </node>
+      <node id="23">
+        <label>nvim/move.h</label>
+      </node>
+      <node id="24">
+        <label>nvim/plines.h</label>
+      </node>
+      <node id="25">
+        <label>nvim/pos_defs.h</label>
+      </node>
+      <node id="26">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="27">
+        <label>nvim/window.h</label>
+      </node>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="4">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="window_8c_1acda9004b28185c7f9f2dc028be1d1f47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Buffer</type>
+        <definition>Buffer nvim_win_get_buf</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_buf</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the current buffer in a window</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Buffer id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="38" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="38" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a60d8162a42d142b618881069c669231e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_buf</definition>
+        <argsstring>(Window window, Buffer buffer, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_win_set_buf</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Buffer</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the current buffer in a window, without side effects</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="55" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="55" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a3195ca1b973979c8c488d3265b0bc05d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Integer_2_</type>
+        <definition>ArrayOf_Integer_2_ nvim_win_get_cursor</definition>
+        <argsstring>(Window window, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_cursor</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the (1,0)-indexed, buffer-relative cursor position for a given window (different windows showing the same buffer have independent cursor positions). |api-indexing|</para>
+<para><simplesect kind="see"><para>|getcurpos()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(row, col) tuple </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="81" column="20" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="81" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1abdff9932983f66d8dae9c5f51e7fd719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_cursor</definition>
+        <argsstring>(Window window, ArrayOf(Integer, 2) pos, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_set_cursor</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>ArrayOf(Integer, 2)</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the (1,0)-indexed cursor position in the window. |api-indexing| This scrolls the window even if it is not the current one.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(row, col) tuple representing the new position </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="102" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="102" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a9e1cafcf07ccd3af1dba0a68f2dccb79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_win_get_height</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_height</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the window height</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Height as a count of rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="158" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="158" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a882da518602dc871ce5cc66c25886001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_height</definition>
+        <argsstring>(Window window, Integer height, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_set_height</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the window height.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Height as a count of rows </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="175" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="175" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a240f95e50f2905008ac16779e661f93c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_win_get_width</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_width</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the window width</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Width as a count of columns </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="194" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1ae1d844e0e186f3a48e5ddd19acd3084d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_width</definition>
+        <argsstring>(Window window, Integer width, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_set_width</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the window width. This will only succeed if the screen is split vertically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Width as a count of columns </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="212" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="212" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a983a41725f6a27dd083bb2ecdf513c69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_win_get_var</definition>
+        <argsstring>(Window window, String name, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_var</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets a window-scoped (w:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Variable value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="232" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="232" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a66272acc3e8b8db41cbc54faef2876fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_var</definition>
+        <argsstring>(Window window, String name, Object value, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_set_var</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets a window-scoped (w:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="250" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="250" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1aea1d1e440f0a02392438700ca21bacab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_del_var</definition>
+        <argsstring>(Window window, String name, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_del_var</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes a window-scoped (w:) variable</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="267" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="267" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1abbeebe593fd98a35c1debb6fd7dc0e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArrayOf_Integer_2_</type>
+        <definition>ArrayOf_Integer_2_ nvim_win_get_position</definition>
+        <argsstring>(Window window, Arena *arena, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_position</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the window position in display cells. First position is zero.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(row, col) tuple with the window position </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="284" column="20" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="284" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a45497325f21f15141efc9c7ec7324cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tabpage</type>
+        <definition>Tabpage nvim_win_get_tabpage</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_tabpage</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the window tabpage</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tabpage that contains the window </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="304" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="304" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1adc8290804870117b86ae7ed27c7093f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer nvim_win_get_number</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_get_number</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gets the window number</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Window number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="322" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="322" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1ae9a6b75de581c53c1c82fb5910b3ae72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Boolean</type>
+        <definition>Boolean nvim_win_is_valid</definition>
+        <argsstring>(Window window) FUNC_API_SINCE(1)</argsstring>
+        <name>nvim_win_is_valid</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if a window is valid</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the window is valid, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="342" column="9" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="342" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a8c6071175f0a86745c5e025400796676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_hide</definition>
+        <argsstring>(Window window, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_win_hide</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Closes the window and hide the buffer it contains (like |:hide| with a |window-ID|).</para>
+<para>Like |:hide| the buffer becomes hidden unless another window is editing it, or &apos;bufhidden&apos; is <computeroutput>unload</computeroutput>, <computeroutput>delete</computeroutput> or <computeroutput>wipe</computeroutput> as opposed to |:close| or |nvim_win_close()|, which will close the buffer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="360" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="360" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1abb5063aeae65f7b09b696c8054e12f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_close</definition>
+        <argsstring>(Window window, Boolean force, Error *err) FUNC_API_TEXTLOCK_ALLOW_CMDWIN</argsstring>
+        <name>nvim_win_close</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Boolean</type>
+          <declname>force</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Closes the window (like |:close| with a |window-ID|).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Behave like <computeroutput>:close!</computeroutput> The last window of a buffer with unwritten changes can be closed. The buffer will become hidden, even if &apos;hidden&apos; is not set. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="389" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="389" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a4c6981d003fdf80afa522f79b2739d06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Object</type>
+        <definition>Object nvim_win_call</definition>
+        <argsstring>(Window window, LuaRef fun, Error *err) FUNC_API_LUA_ONLY</argsstring>
+        <name>nvim_win_call</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>LuaRef</type>
+          <declname>fun</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls a function with window as temporary current window.</para>
+<para><simplesect kind="see"><para>|win_execute()| </para>
+</simplesect>
+<simplesect kind="see"><para>|nvim_buf_call()|</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fun</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call inside the window (currently Lua callable only) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value of function. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="414" column="8" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="414" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a4f533371a1d3d24e3874478e1fcf686b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nvim_win_set_hl_ns</definition>
+        <argsstring>(Window window, Integer ns_id, Error *err) FUNC_API_SINCE(10)</argsstring>
+        <name>nvim_win_set_hl_ns</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type>Integer</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set highlight namespace for a window. This will use highlights defined with |nvim_set_hl()| for this namespace, but fall back to global highlights (ns=0) when missing.</para>
+<para>This takes precedence over the &apos;winhighlight&apos; option.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ns_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the namespace to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error details, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="445" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="445" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="window_8c_1a96328d6755de5f852b5dd7030ee404cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_dict" kindref="compound">Dict</ref></type>
+        <definition>Dict nvim_win_text_height</definition>
+        <argsstring>(Window window, Dict(win_text_height) *opts, Arena *arena, Error *err) FUNC_API_SINCE(12)</argsstring>
+        <name>nvim_win_text_height</name>
+        <param>
+          <type>Window</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_dict" kindref="compound">Dict</ref>(win_text_height) *</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>Arena *</type>
+          <declname>arena</declname>
+        </param>
+        <param>
+          <type>Error *</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes the number of screen lines occupied by a range of text in a given window. Works for off-screen text and takes folds into account.</para>
+<para>Diff filler or virtual lines above a line are counted as a part of that line, unless the line is on &quot;start_row&quot; and &quot;start_vcol&quot; is specified.</para>
+<para>Diff filler or virtual lines below the last buffer line are counted in the result when &quot;end_row&quot; is omitted.</para>
+<para>Line indexing is similar to |nvim_buf_get_text()|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>|window-ID|, or 0 for current window. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parameters:<itemizedlist>
+<listitem><para>start_row: Starting line index, 0-based inclusive. When omitted start at the very top.</para>
+</listitem><listitem><para>end_row: Ending line index, 0-based inclusive. When omitted end at the very bottom.</para>
+</listitem><listitem><para>start_vcol: Starting virtual column index on &quot;start_row&quot;, 0-based inclusive, rounded down to full screen lines. When omitted include the whole line.</para>
+</listitem><listitem><para>end_vcol: Ending virtual column index on &quot;end_row&quot;, 0-based exclusive, rounded up to full screen lines. When omitted include the whole line. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_dict" kindref="compound">Dict</ref> containing text height information, with these keys:<itemizedlist>
+<listitem><para>all: The total number of screen lines occupied by the range.</para>
+</listitem><listitem><para>fill: The number of diff filler or virtual lines among them.</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="see"><para>|virtcol()| for text width. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/window.c" line="492" column="6" bodyfile="D:/source/repos/neovim/src/nvim/api/window.c" bodystart="492" bodyend="564"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/window.c"/>
+  </compounddef>
+</doxygen>

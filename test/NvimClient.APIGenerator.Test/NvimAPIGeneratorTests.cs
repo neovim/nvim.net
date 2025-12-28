@@ -9,7 +9,7 @@ namespace NvimClient.APIGenerator.Test;
 public class NvimAPIGeneratorTests {
     [TestMethod]
     public void GetMetaData() {
-        NvimAPIMetadata? mdata = NvimAPIGenerator.GetAPIMetadata();
+        NvimAPIMetadata? mdata = MetaDataProvider.GetAPIMetadata();
 
         Assert.IsNotNull(mdata);
         Console.WriteLine(mdata.Version);

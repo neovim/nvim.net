@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="extmark_8h" kind="file" language="C++">
+    <compoundname>extmark.h</compoundname>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes refid="keysets__defs_8h" local="yes">nvim/api/keysets_defs.h</includes>
+    <includes local="yes">nvim/api/private/defs.h</includes>
+    <includes local="yes">nvim/buffer_defs.h</includes>
+    <includes local="yes">nvim/decoration_defs.h</includes>
+    <includes local="yes">nvim/macros_defs.h</includes>
+    <includes local="yes">nvim/map_defs.h</includes>
+    <includes local="yes">nvim/types_defs.h</includes>
+    <includedby refid="deprecated_8c" local="yes">D:/source/repos/neovim/src/nvim/api/deprecated.c</includedby>
+    <includedby refid="extmark_8c" local="yes">D:/source/repos/neovim/src/nvim/api/extmark.c</includedby>
+    <includedby refid="win__config_8c" local="yes">D:/source/repos/neovim/src/nvim/api/win_config.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/source/repos/neovim/src/nvim/api/extmark.h</label>
+        <link refid="extmark_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>nvim/api/keysets_defs.h</label>
+        <link refid="keysets__defs_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>nvim/api/private/defs.h</label>
+      </node>
+      <node id="6">
+        <label>nvim/buffer_defs.h</label>
+      </node>
+      <node id="7">
+        <label>nvim/decoration_defs.h</label>
+      </node>
+      <node id="8">
+        <label>nvim/macros_defs.h</label>
+      </node>
+      <node id="9">
+        <label>nvim/map_defs.h</label>
+      </node>
+      <node id="10">
+        <label>nvim/types_defs.h</label>
+      </node>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="extmark_8h_1a1ce0362601f66de9403f64bae5e4894f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EXTERN</type>
+        <definition>EXTERN Map</definition>
+        <argsstring>(String, int) namespace_ids INIT(</argsstring>
+        <name>Map</name>
+        <param>
+          <type>String</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/extmark.h" line="14" column="8" declfile="D:/source/repos/neovim/src/nvim/api/extmark.h" declline="14" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="extmark_8h_1afaab70ee4a3f067fdaf7b73bc5bf1019" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EXTERN</type>
+        <definition>EXTERN Set</definition>
+        <argsstring>(uint32_t) namespace_localscope INIT(</argsstring>
+        <name>Set</name>
+        <param>
+          <type>uint32_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-global namespaces. A locally-scoped namespace may be &quot;orphaned&quot; if all window(s) it was scoped to, are destroyed. Such orphans are tracked here to avoid being mistaken as &quot;global scope&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/extmark.h" line="18" column="8" declfile="D:/source/repos/neovim/src/nvim/api/extmark.h" declline="18" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="extmark_8h_1a36d725327f89ef701f970f896513d185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EXTERN handle_T next_namespace_id</type>
+        <definition>EXTERN handle_T next_namespace_id INIT</definition>
+        <argsstring>(=1)</argsstring>
+        <name>INIT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/extmark.h" line="19" column="35" declfile="D:/source/repos/neovim/src/nvim/api/extmark.h" declline="19" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="extmark_8h_1a0054222ec70a0345551182700265d081" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool ns_in_win</definition>
+        <argsstring>(uint32_t ns_id, win_T *wp)</argsstring>
+        <name>ns_in_win</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>ns_id</declname>
+        </param>
+        <param>
+          <type>win_T *</type>
+          <declname>wp</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if the namespace is global or scoped in the given window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/source/repos/neovim/src/nvim/api/extmark.h" line="22" column="20" bodyfile="D:/source/repos/neovim/src/nvim/api/extmark.h" bodystart="22" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/source/repos/neovim/src/nvim/api/extmark.h"/>
+  </compounddef>
+</doxygen>
