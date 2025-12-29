@@ -53,13 +53,13 @@ public sealed class NvimAPIGenerator {
         };
 
         IEnumerable<NvimUIEvent> events = apiMetadata.SupportedUIEvents();
-        foreach(NvimUIEvent e in events) {
+        foreach (NvimUIEvent e in events) {
             CSEventDeclaration ev = CSEventDeclaration.FromNvimEvent(e);
             cw.EventDeclarations.Add(ev);
         }
 
         IEnumerable<NvimFunction> funcs = apiMetadata.SupportedFunctions();
-        foreach(NvimFunction f in funcs) {
+        foreach (NvimFunction f in funcs) {
             CSFunction fn = CSFunction.FromNvimMethod(f, "nvim_", isVirtualMethod: false);
             cw.FunctionDeclarations.Add(fn);
         }
@@ -183,7 +183,7 @@ namespace NvimClient.API {
             var parameters = (isVirtualMethod ? function.Parameters.Skip(1) : function.Parameters)
           .Select(param =>
           new {
-              Type=param.ArgumentType,
+              Type = param.ArgumentType,
               // Prefix every parameter name with the verbatim identifier `@`
               // to prevent them from being interpreted as keywords.
               // In the future, it might be worth considering adding a list

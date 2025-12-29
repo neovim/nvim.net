@@ -1,5 +1,7 @@
+using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NvimClient.APIGenerator.Properties.Models;
@@ -11,7 +13,7 @@ public record CSFunction {
     public required List<string> Specifiers { get; set; }
     public required string ReturnType { get; set; }
     public required string Name { get; set; }
-    public required List<string> Arguments { get; set; }
+    public required List<CSArgument> Arguments { get; set; }
     public required string Code { get; set; }
 
     public string? Value { get; set; }
@@ -36,7 +38,7 @@ public record CSFunction {
 
         _ = sb.Append(ReturnType).Append(' ').Append(Name).Append('(');
         for (int i = 0; i < Arguments.Count; i++) {
-            _ = sb.Append(Arguments[i]);
+            _ = sb.Append(Arguments[i].ArgumentType).Append(' ').Append('@').Append(Arguments[i].ArgumentName);
             if (i != Arguments.Count - 1) {
                 _ = sb.Append(',');
             }
@@ -76,9 +78,9 @@ public record CSFunction {
             Specifiers = [
                 "public"
             ],
-            ReturnType = fn.ReturnType, //NvimTypesMap.GetCSharpType(fn.Return_Type),
+            ReturnType = NvimTypesMap.GetCSharpType(fn.ReturnType),
             Name = name,
-            Arguments = [],
+            Arguments = [.. fn.Parameters.Select(CSArgument.FromNvimParameter)],
             Code = code
         };
 
