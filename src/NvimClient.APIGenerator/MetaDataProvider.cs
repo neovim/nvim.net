@@ -15,6 +15,7 @@ public sealed class MetaDataProvider {
     /// the required api metatdata.
     /// </summary>
     public static NvimAPIMetadata? GetAPIMetadata() {
+        //TODO: Check nvim version before the metadata
         NvimProcessStartInfo nvim_start = new(StartOption.ApiInfo | StartOption.Headless);
 
         //Use implicit conversion here

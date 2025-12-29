@@ -38,8 +38,12 @@ internal static class Program {
             return 1;
         }
 
+        Console.WriteLine("==== Metadata ====");
+        mdata.Print();
+
         using DoxygenParser docs = new(nvimSrcDirectory);
-        System.Collections.Generic.IEnumerable<FunctionDoc> a = docs.GetDocumentation();
+        docs.CallDoxygenDocumentationGenerationProcess();
+        IEnumerable<FunctionDoc> a = docs.ParseDoxygenDocumentation();
 
         // foreach (FunctionDoc f in a) {
         //     Console.WriteLine("Process Function {0}", f.Function);
@@ -51,11 +55,11 @@ internal static class Program {
         foreach (IGrouping<string, FunctionDoc> group in duplicates) {
             Console.WriteLine($"Duplicate key: {group.Key}");
             foreach (FunctionDoc doc in group) {
-                Console.WriteLine($"  {doc}");
+                Console.WriteLine($"  {doc.Function} {doc.DoxygenFileOrigin}");
             }
         }
 
-        System.Collections.Generic.Dictionary<string, FunctionDoc>? b = a?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
+        Dictionary<string, FunctionDoc>? b = a?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
         if (b is null) {
             Console.WriteLine("Could not retreive source code documentation");
             return 1;

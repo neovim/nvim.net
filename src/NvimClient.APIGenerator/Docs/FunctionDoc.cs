@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -33,7 +34,12 @@ public class FunctionDoc {
     /// </summary>
     public required IEnumerable<IDocElement>? Notes { get; set; }
 
-    public static FunctionDoc FromXElement(XElement memberDef) {
+    /// <summary>
+    /// The origin file from which this documentation originated from
+    /// </summary>
+    public string? DoxygenFileOrigin { get; set; }
+
+    public static FunctionDoc FromXElement(XElement memberDef, string? filename = null) {
 
         IEnumerable<XElement>? doc_containers = memberDef.Element("detaileddescription")?.Elements("para").Where(static para => para.Element("parameterlist") == null);
 
@@ -43,12 +49,15 @@ public class FunctionDoc {
 
         IEnumerable<XElement>? doc_notes = memberDef.Element("detaileddescription")?.Descendants("simplesect").Where(static simplesect => simplesect.Attribute("kind")?.Value == "note");
 
+
+        //Console.WriteLine("Constructing {0}", memberDef.Element("name")!.Value);
         return new FunctionDoc() {
             Function = memberDef.Element("name")!.Value,
             Summary = DoxygenParser.GetDocElements(doc_containers),
             Parameters = doc_parameters,
             Return = DoxygenParser.GetDocElements([doc_return]),
             Notes = DoxygenParser.GetDocElements(doc_notes),
+            DoxygenFileOrigin = filename
         };
         //Return = GetDocElements(memberDef.Element("detaileddescription")
         //?.Descendants("simplesect").FirstOrDefault(simplesect =>

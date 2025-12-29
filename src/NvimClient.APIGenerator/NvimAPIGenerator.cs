@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using NvimClient.APIGenerator.Docs;
+using NvimClient.APIGenerator.Models;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
+using NvimClient.APIGenerator.Properties.Models;
 
 namespace NvimClient.APIGenerator;
 
@@ -23,12 +25,46 @@ public sealed class NvimAPIGenerator {
 
     public void GenerateCSharpFile(string outputPath) {
         //_functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
+        //
 
         // Filter out functions only callable from Lua.
-        apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.Type == "LuaRef")).ToArray();
+        apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.ArgumentType == "LuaRef")).ToArray();
 
         string csharpClass = GenerateCSharpClass(apiMetadata);
         File.WriteAllText(outputPath, csharpClass);
+
+        GenerateCSharpFileV2("hola_test.cs");
+    }
+
+
+    public void GenerateCSharpFileV2(string outputPath) {
+        ClassWriter cw = new(outputPath) {
+            IsSealedClass = true,
+            IsPartialClass = true,
+            ClassName = "WTF",
+            Namespace = "Aris.WTF",
+            Usings = [
+                "System.IO",
+                "System.Linq",
+                "System.Security"
+            ],
+            EventDeclarations = [],
+            FunctionDeclarations = []
+        };
+
+        IEnumerable<NvimUIEvent> events = apiMetadata.SupportedUIEvents();
+        foreach(NvimUIEvent e in events) {
+            CSEventDeclaration ev = CSEventDeclaration.FromNvimEvent(e);
+            cw.EventDeclarations.Add(ev);
+        }
+
+        IEnumerable<NvimFunction> funcs = apiMetadata.SupportedFunctions();
+        foreach(NvimFunction f in funcs) {
+            CSFunction fn = CSFunction.FromNvimMethod(f, "nvim_", isVirtualMethod: false);
+            cw.FunctionDeclarations.Add(fn);
+        }
+
+        cw.WriteClassFile();
     }
 
     private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) {
@@ -68,14 +104,14 @@ namespace NvimClient.API {
     }
 
     private static string GenerateNvimUIEventCalls(IEnumerable<NvimUIEvent> uiEvents) {
-        return string.Join("", uiEvents.Select(static uiEvent => {
+        return string.Join("//Nvim UI Event Calls\n", uiEvents.Select(static uiEvent => {
             string camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
             string eventArgs = uiEvent.Parameters.Length != 0
           ? $@"new {camelCaseName}EventArgs
           {{
 {string.Join(",\n", uiEvent.Parameters.Select(static (param, index) => {
-              string name = StringUtil.ConvertToCamelCase(param.Name, true);
-              string type = NvimTypesMap.GetCSharpType(param.Type);
+              string name = StringUtil.ConvertToCamelCase(param.ArgumentName, true);
+              string type = NvimTypesMap.GetCSharpType(param.ArgumentType);
               return $@"            {name} = ({type}) args[{index}]";
           }))}
           }}"
@@ -89,26 +125,24 @@ namespace NvimClient.API {
     }
 
     private static string GenerateNvimUIEvents(IEnumerable<NvimUIEvent> uiEvents) {
-        return string.Join("\n",
+        return string.Join("\n//UI Events\n",
         uiEvents.Select(static uiEvent => {
             string camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
-            string genericTypeParam = uiEvent.Parameters.Length != 0
-          ? $"<{camelCaseName}EventArgs>"
-          : string.Empty;
+            string genericTypeParam = uiEvent.Parameters.Length != 0 ? $"<{camelCaseName}EventArgs>" : string.Empty;
             return $"    public event EventHandler{genericTypeParam} {camelCaseName}Event;";
         }));
     }
 
     private static string GenerateNvimUIEventArgs(IEnumerable<NvimUIEvent> uiEvents) {
-        return string.Join("", uiEvents.Where(static uiEvent => uiEvent.Parameters.Length != 0)
+        return string.Join("//Nvim UI Event Args\n", uiEvents.Where(static uiEvent => uiEvent.Parameters.Length != 0)
                               .Select(static uiEvent => {
                                   string eventName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
                                   return $@"
   public class {eventName}EventArgs : EventArgs
   {{
 {string.Join("", uiEvent.Parameters.Select(static param => {
-                                      string type = NvimTypesMap.GetCSharpType(param.Type);
-                                      string paramName = StringUtil.ConvertToCamelCase(param.Name, true);
+                                      string type = NvimTypesMap.GetCSharpType(param.ArgumentType);
+                                      string paramName = StringUtil.ConvertToCamelCase(param.ArgumentName, true);
                                       return $"    public {type} {paramName} {{ get; set; }}\n";
                                   }))}
   }}";
@@ -116,7 +150,7 @@ namespace NvimClient.API {
     }
 
     private static string GenerateNvimTypes(NvimAPIMetadata apiMetadata) {
-        return string.Join("", apiMetadata.Types.Select(type => {
+        return string.Join("//Nvim Types\n", apiMetadata.Types.Select(type => {
             string name = "Nvim" + StringUtil.ConvertToCamelCase(type.Key, true);
             return $@"
   public class {name}
@@ -135,7 +169,7 @@ namespace NvimClient.API {
     }
 
     private static string GenerateNvimMethods(IEnumerable<NvimFunction> functions, string prefixToRemove, bool isVirtualMethod) {
-        return string.Join("", functions.Select(function => {
+        return string.Join("//Nvim Methods\n", functions.Select(function => {
             if (!function.Name.StartsWith(prefixToRemove)) {
                 throw new InvalidOperationException($"Function {function.Name} does not have expected prefix \"{prefixToRemove}\"");
             }
@@ -149,28 +183,18 @@ namespace NvimClient.API {
             var parameters = (isVirtualMethod ? function.Parameters.Skip(1) : function.Parameters)
           .Select(param =>
           new {
-              param.Type,
+              Type=param.ArgumentType,
               // Prefix every parameter name with the verbatim identifier `@`
               // to prevent them from being interpreted as keywords.
               // In the future, it might be worth considering adding a list
               // of all C# keywords and only adding the prefix to parameter
               // names that are in the list.
-              Name = "@" + StringUtil.ConvertToCamelCase(param.Name, false)
+              Name = "@" + StringUtil.ConvertToCamelCase(param.ArgumentName, false)
           }).ToArray();
 
             return $@"{string.Join(string.Empty,
-          GetDocElement("summary", doc?.Summary).Concat(
-            doc?.Parameters
-              .Where(param =>
-                function.Parameters.Any(p => p.Name == param.Name)
-                && (!isVirtualMethod
-                    || param.Name != function.Parameters.First().Name))
-              .SelectMany(param =>
-                GetDocElement("param", param.Description,
-                  $@"name=""{StringUtil.ConvertToCamelCase(param.Name, false)}"""))
-            ?? Enumerable.Empty<string>()).Concat(
-            GetDocElement("returns", doc?.Return)).Concat(
-            GetDocElement("remarks", doc?.Notes)).Select(docLine => $@"
+          GetDocElement("summary", doc?.Summary).Concat(doc?.Parameters.Where(param => function.Parameters.Any(p => p.ArgumentName == param.Name) && (!isVirtualMethod || param.Name != function.Parameters.First().ArgumentName))
+              .SelectMany(param => GetDocElement("param", param.Description, $@"name=""{StringUtil.ConvertToCamelCase(param.Name, false)}""")) ?? Enumerable.Empty<string>()).Concat(GetDocElement("returns", doc?.Return)).Concat(GetDocElement("remarks", doc?.Notes)).Select(docLine => $@"
     /// {docLine}"))}
     public Task{genericTypeParam} {camelCaseName}({string.Join(", ",
           parameters.Select(param =>
