@@ -34,7 +34,7 @@ public class NvimUnhandledRequestEventArgs : EventArgs {
     /// <summary>
     /// Sends a response
     /// </summary>
-    public void SendResponse(object result, object? error = null) {
+    public void SendResponse(object? result, object? error = null) {
         _nvim.SendResponse(this, result, error);
     }
 }

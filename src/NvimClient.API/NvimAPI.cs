@@ -181,7 +181,7 @@ public partial class NvimAPI {
     }
 
 
-    internal void SendResponse(NvimUnhandledRequestEventArgs args, object result, object error) {
+    internal void SendResponse(NvimUnhandledRequestEventArgs args, object? result, object? error) {
         NvimResponse response = new() {
             MessageId = args.RequestId,
             Result = ConvertToMessagePackObject(result),
@@ -199,21 +199,20 @@ public partial class NvimAPI {
     }
 
     private Task<TResult> SendAndReceive<TResult>(NvimRequest request) {
-        return SendAndReceive(request)
-          .ContinueWith(task => {
-              NvimResponse response = task.Result;
-              object result = ConvertFromMessagePackObject(response.Result);
-              if (typeof(TResult).IsArray) {
-                  object[] objectArray = (object[])result;
-                  Array resultArray = Array.CreateInstance(
-              typeof(TResult).GetElementType(),
-              objectArray.Length);
-                  Array.Copy(objectArray, resultArray, resultArray.Length);
-                  return (TResult)(object)resultArray;
-              }
+        return SendAndReceive(request).ContinueWith(task => {
+            NvimResponse response = task.Result;
+            object result = ConvertFromMessagePackObject(response.Result);
+            if (typeof(TResult).IsArray) {
+                object[] objectArray = (object[])result;
+                Array resultArray = Array.CreateInstance(
+            typeof(TResult).GetElementType(),
+            objectArray.Length);
+                Array.Copy(objectArray, resultArray, resultArray.Length);
+                return (TResult)(object)resultArray;
+            }
 
-              return (TResult)result;
-          });
+            return (TResult)result;
+        });
     }
 
     private void StartSendLoop() {
@@ -367,7 +366,7 @@ public partial class NvimAPI {
         return obj;
     }
 
-    private static MessagePackObject ConvertToMessagePackObject(object obj) {
+    private static MessagePackObject ConvertToMessagePackObject(object? obj) {
         static IEnumerable<MessagePackObject> ConvertEnumerable(IEnumerable enumerable) {
             return enumerable.Cast<object>().Select(ConvertToMessagePackObject);
         }
@@ -390,6 +389,9 @@ public partial class NvimAPI {
         return MessagePackObject.FromObject(obj);
     }
 
+    /// <summary>
+    /// Converts boxed objects to message pack.
+    /// </summary>
     private static MessagePackObject GetRequestArguments(params object[] parameters) {
         return ConvertToMessagePackObject(parameters);
     }

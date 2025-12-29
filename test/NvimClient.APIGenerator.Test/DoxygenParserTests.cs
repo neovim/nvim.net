@@ -8,6 +8,8 @@ namespace NvimClient.APIGenerator.Test;
 
 [TestClass]
 public class DoxygenParserTests {
+#pragma warning disable CA1707
+
     [TestMethod]
     public void GetXMLFileNamesFromDoxygenCFilesIndex_SampleDoxygenIndex_ShouldHaveTheCorrectNumberOfCFiles() {
         XDocument indexXml = XDocument.Load("NvimDoxygen/xml/index.xml");
@@ -30,4 +32,5 @@ public class DoxygenParserTests {
         Assert.HasCount(8, xmlList);
     }
 
+#pragma warning restore CA1707
 }
