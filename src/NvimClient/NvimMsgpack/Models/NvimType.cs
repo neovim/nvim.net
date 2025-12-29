@@ -1,5 +1,6 @@
 namespace NvimClient.NvimMsgpack.Models;
 
-public class NvimType : NvimTypeBase {
+public record NvimType {
+    public required int Id { get; set; }
     public required string Prefix { get; set; }
 }
