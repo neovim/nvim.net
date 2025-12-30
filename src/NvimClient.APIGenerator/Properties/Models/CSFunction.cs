@@ -40,14 +40,20 @@ public record CSFunction {
         for (int i = 0; i < Arguments.Count; i++) {
             _ = sb.Append(Arguments[i].ArgumentType).Append(' ').Append('@').Append(Arguments[i].ArgumentName);
             if (i != Arguments.Count - 1) {
-                _ = sb.Append(',');
+                _ = sb.Append(',').Append(' ');
             }
         }
 
         _ = sb.Append(") {\n");
         identationLevel++;
-        WriteIdentation(sb, identationLevel);
-        _ = sb.Append(Code).Append('\n');
+        string[] lines = Code.Split('\n');
+        //Naive approach to write the code as indented block. This will break if the
+        //code contains \n characters. We re-append the \n because it was removed from
+        //the split operation.
+        foreach (string line in lines) {
+            WriteIdentation(sb, identationLevel);
+            _ = sb.Append(line).Append('\n');
+        }
         identationLevel--;
         WriteIdentation(sb, identationLevel);
         _ = sb.Append("}\n");
@@ -66,11 +72,25 @@ public record CSFunction {
             name = StringUtil.ConvertToCamelCase(fn.Name, true);
         }
 
+        StringBuilder sb = new();
+        for (int i = 0; i < fn.Parameters.Length; i++) {
+            _ = sb.Append('@').Append(fn.Parameters[i].ArgumentName);
+            if (i != fn.Parameters.Length - 1) {
+                _ = sb.Append(',');
+            }
+        }
+
+        CSObjectDeclaration request_object = new() {
+            ObjectType = "NvimRequest",
+            ObjectName = "req",
+            InitializerList = new() {
+                { "Method", $"\"{fn.Name}\"" },
+                { "Arguments", $"[{sb}]" },
+            }
+        };
+
         string code = $$"""
-            NvimRequest req = new() {
-                Method = {{fn.Name}},
-                Arguments = []
-            };
+            {{request_object.ToCode(0)}}
             SendAndReceive<string>(req);
             """;
 

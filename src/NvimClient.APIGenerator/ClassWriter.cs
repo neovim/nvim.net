@@ -25,10 +25,10 @@ public sealed class ClassWriter : IDisposable {
     private int identationLevel;
     private const int identationWidth = 4;
 
-    private readonly StreamWriter sw;
+    private readonly StreamWriter streamWriter;
 
     public ClassWriter(string filename) {
-        sw = new StreamWriter(filename);
+        streamWriter = new StreamWriter(filename);
     }
 
     /// <summary>
@@ -41,22 +41,22 @@ public sealed class ClassWriter : IDisposable {
 
         foreach (string u in Usings) {
             string s = $"using {u};";
-            sw.WriteLine(s);
+            streamWriter.WriteLine(s);
         }
 
-        sw.WriteLine();
-        sw.WriteLine();
+        streamWriter.WriteLine();
+        streamWriter.WriteLine();
 
-        sw.WriteLine($"namespace {Namespace};");
+        streamWriter.WriteLine($"namespace {Namespace};");
 
-        sw.WriteLine();
-        sw.WriteLine();
+        streamWriter.WriteLine();
+        streamWriter.WriteLine();
     }
 
     public void WriteIdentation() {
         for (int i = 0; i < identationLevel; i++) {
             for (int j = 0; j < identationWidth; j++) {
-                sw.Write(' ');
+                streamWriter.Write(' ');
             }
         }
     }
@@ -66,16 +66,16 @@ public sealed class ClassWriter : IDisposable {
     /// </summary>
     public void ClassStart() {
         if (IsPartialClass) {
-            sw.WriteLine($"public partial sealed class {ClassName} {{");
+            streamWriter.WriteLine($"public partial sealed class {ClassName} {{");
         } else {
-            sw.WriteLine($"public sealed class {ClassName} {{");
+            streamWriter.WriteLine($"public sealed class {ClassName} {{");
         }
         identationLevel++;
     }
 
 
     public void ClassEnd() {
-        sw.WriteLine("}");
+        streamWriter.WriteLine("}");
 
         if (identationLevel > 0) {
             identationLevel--;
@@ -92,30 +92,36 @@ public sealed class ClassWriter : IDisposable {
         if (Fields is not null) {
             foreach (CSField f in Fields) {
                 WriteIdentation();
-                sw.WriteLine(f.ToCode());
+                streamWriter.WriteLine(f.ToCode());
             }
         }
 
         if (EventDeclarations is not null) {
+            streamWriter.WriteLine();
+            streamWriter.WriteLine();
             foreach (CSEventDeclaration e in EventDeclarations) {
                 WriteIdentation();
-                sw.WriteLine(e.ToCode());
+                streamWriter.WriteLine(e.ToCode());
             }
         }
 
+
         if (FunctionDeclarations is not null) {
+            streamWriter.WriteLine();
+            streamWriter.WriteLine();
             foreach (CSFunction f in FunctionDeclarations) {
-                //WriteIdentation();
-                sw.WriteLine(f.ToCode(identationLevel));
+                streamWriter.WriteLine(f.ToCode(identationLevel));
+                streamWriter.WriteLine();
+                streamWriter.WriteLine();
             }
         }
 
         ClassEnd();
-        sw.Flush();
-        sw.Close();
+        streamWriter.Flush();
+        streamWriter.Close();
     }
 
     public void Dispose() {
-        sw.Dispose();
+        streamWriter.Dispose();
     }
 }

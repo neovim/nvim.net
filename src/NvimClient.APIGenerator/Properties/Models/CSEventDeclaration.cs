@@ -20,10 +20,11 @@ public record CSEventDeclaration {
 
         _ = sb.Append("event").Append(' ');
 
-        if(Parameters is null) {
+        if (Parameters is null) {
             _ = sb.Append("EventHandler").Append(' ').Append(Name).Append(';');
         } else {
-            _ = sb.Append("EventHandler").Append('<').Append(Parameters).Append('>').Append(' ');
+            //_ = sb.Append("EventHandler").Append('<').Append(Parameters).Append('>').Append(' ');
+            _ = sb.Append("EventHandler").Append(Parameters).Append(' ');
             _ = sb.Append(Name).Append(';');
         }
 
@@ -35,10 +36,10 @@ public record CSEventDeclaration {
     public static CSEventDeclaration FromNvimEvent(NvimUIEvent fn) {
         string name = StringUtil.ConvertToCamelCase(fn.Name, capitalizeFirstChar: true);
         string param;
-        if(fn.Parameters is not null && fn.Parameters.Length > 0) {
+        if (fn.Parameters is not null && fn.Parameters.Length > 0) {
             param = $"<{name}EventArgs>";
         } else {
-           param = string.Empty;
+            param = string.Empty;
         }
 
         return new CSEventDeclaration() {
