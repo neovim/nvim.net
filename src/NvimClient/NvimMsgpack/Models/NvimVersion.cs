@@ -1,5 +1,8 @@
 namespace NvimClient.NvimMsgpack.Models;
 
+/// <summary>
+/// Represents the version information that Neovim Exposes
+/// </summary>
 public record NvimVersion {
     public int Major { get; set; }
     public int Minor { get; set; }

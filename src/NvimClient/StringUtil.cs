@@ -8,9 +8,12 @@ namespace NvimClient;
 /// </summary>
 public static class StringUtil {
     /// <summary>
-    /// Converts a camelCase string to snake_case.
+    ///     Converts a camelCase string to snake_case.
     /// </summary>
-    /// <param name="str">The string to convert.</param>
+    ///
+    /// <param name="str">
+    ///     The string to convert.
+    /// </param>
     public static string ConvertToSnakeCase(string str) {
         if (string.IsNullOrEmpty(str)) {
             return str;

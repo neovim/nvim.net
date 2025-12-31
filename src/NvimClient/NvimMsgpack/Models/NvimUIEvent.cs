@@ -2,10 +2,13 @@ using MsgPack.Serialization;
 using System.Linq;
 
 namespace NvimClient.NvimMsgpack.Models;
-public record NvimUIEvent {
 
+/// <summary>
+/// Represents an nvim UI Event
+/// </summary>
+public record NvimUIEvent {
     /// <summary>
-    /// Function Name
+    /// The event Name
     /// </summary>
     [MessagePackMember(2)]
     public required string Name { get; set; }

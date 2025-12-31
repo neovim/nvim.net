@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 namespace NvimClient.NvimMsgpack;
 
 public static class NvimTypesMap {
+    /// <summary>
+    /// A global map between the Nvim Types, and the CSharp types both in name and type
+    /// </summary>
     private static readonly (string NvimTypeName, string CSharpTypeName, Type CSharpType)[] _types =
     [
         ("Array",           "object[]",            typeof(object[])),

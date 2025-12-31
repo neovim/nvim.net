@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,6 +15,49 @@ public class NvimProcessStartInfo {
     /// </summary>
     public ProcessStartInfo ProcessStartInfo { get; set; }
 
+    /// <summary>
+    ///   Gets or sets the address the Nvim RPC server will listen on.
+    /// </summary>
+    public string? ListenAddress {
+        get => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"];
+        set => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"] = value;
+    }
+
+
+    /// <summary>
+    ///   Initializes a new instance of the NvimProcessStartInfo class that
+    ///   specifies the path, arguments, and start options to use for starting
+    ///   the Nvim process.
+    /// </summary>
+    ///
+    /// <param name="nvimPath">
+    ///   The path to the nvim executable. If null, the PATH will be searched.
+    /// </param>
+    ///
+    /// <param name="arguments">
+    ///     The arguments to pass to Nvim.
+    /// </param>
+    ///
+    /// <param name="startOptions">The options for starting Nvim.</param>
+    public NvimProcessStartInfo(string? nvimPath, IEnumerable<string>? arguments, StartOption startOptions = StartOption.None) {
+
+        bool redirectStandardIO = startOptions.HasFlag(StartOption.ApiInfo) || startOptions.HasFlag(StartOption.Embed);
+
+        string command = nvimPath is null ? "nvim" : nvimPath;
+
+        IReadOnlyList<string> extra = startOptions.ToNvimStringArguments();
+
+        IEnumerable<string> finalArgs = arguments is null ? extra : extra.Concat(arguments);
+
+        this.ProcessStartInfo = new ProcessStartInfo(command, finalArgs) {
+            UseShellExecute = false,
+            CreateNoWindow = startOptions.HasFlag(StartOption.Headless) || startOptions.HasFlag(StartOption.Embed),
+            RedirectStandardInput = redirectStandardIO,
+            RedirectStandardOutput = redirectStandardIO,
+            RedirectStandardError = redirectStandardIO,
+        };
+    }
+
 
     /// <summary>
     ///   Initializes a new instance of the NvimProcessStartInfo class with
@@ -23,19 +65,6 @@ public class NvimProcessStartInfo {
     /// </summary>
     /// <param name="startOptions">The options for starting Nvim.</param>
     public NvimProcessStartInfo(StartOption startOptions) : this(null, null, startOptions) {
-    }
-
-    /// <summary>
-    ///   Initializes a new instance of the NvimProcessStartInfo class that
-    ///   specifies the path, arguments, and start options to use for starting
-    ///   the Nvim process.
-    /// </summary>
-    /// <param name="nvimPath">
-    ///   The path to the nvim executable. If null, the PATH will be searched.
-    /// </param>
-    /// <param name="arguments">The arguments to pass to Nvim.</param>
-    /// <param name="startOptions">The options for starting Nvim.</param>
-    public NvimProcessStartInfo(string? nvimPath, string? arguments, StartOption startOptions = StartOption.None) : this(GetProcessStartInfo(nvimPath, arguments, startOptions)) {
     }
 
     /// <summary>
@@ -52,40 +81,17 @@ public class NvimProcessStartInfo {
 
 
     /// <summary>
-    ///   Gets or sets the address the Nvim RPC server will listen on.
-    /// </summary>
-    public string? ListenAddress {
-        get => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"];
-        set => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"] = value;
-    }
-
-    /// <summary>
     /// Implicitly convert our custom NvimProcessStartInfo to csharp ProcessStartInfo
     /// </summary>
-    public static implicit operator NvimProcessStartInfo(ProcessStartInfo startInfo) {
-        return new(startInfo);
-    }
+    //public static implicit operator NvimProcessStartInfo(ProcessStartInfo startInfo) {
+    //    return new(startInfo);
+    //}
 
     /// <summary>
     /// Implicitly convert a csharp ProcessStartInfo to NvimProcessStartInfo
     /// </summary>
-    public static implicit operator ProcessStartInfo(NvimProcessStartInfo startInfo) {
-        return startInfo.ProcessStartInfo;
-    }
+    //public static implicit operator ProcessStartInfo(NvimProcessStartInfo startInfo) {
+    //    return startInfo.ProcessStartInfo;
+    //}
 
-    private static ProcessStartInfo GetProcessStartInfo(string nvimPath, string arguments, StartOption startOptions = StartOption.None) {
-        bool redirectStandardIO = startOptions.HasFlag(StartOption.ApiInfo) || startOptions.HasFlag(StartOption.Embed);
-        return new ProcessStartInfo(nvimPath, string.Join(" ", GetFlagsForOptions(startOptions).Append(arguments).Where(static argument => !string.IsNullOrEmpty(argument)))) {
-            CreateNoWindow = startOptions.HasFlag(StartOption.Headless) || startOptions.HasFlag(StartOption.Embed),
-            RedirectStandardInput = redirectStandardIO,
-            RedirectStandardOutput = redirectStandardIO,
-            RedirectStandardError = redirectStandardIO
-        };
-    }
-
-    private static IEnumerable<string> GetFlagsForOptions(StartOption startOptions) {
-        return Enum.GetValues<StartOption>().Cast<StartOption>()
-          .Where(option => option != StartOption.None && startOptions.HasFlag(option))
-          .Select(option => EnumUtil.GetAttribute<ArgumentAttribute>(option).Flag);
-    }
 }

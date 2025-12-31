@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace NvimClient.NvimMsgpack.Models;
 
+/// <summary>
+/// Defines an nvim function as described by the Nvim metadata
+/// </summary>
 public record NvimFunction {
 
     /// <summary>
@@ -16,7 +19,6 @@ public record NvimFunction {
     /// </summary>
     [MessagePackMember(4)]
     public required NvimParameter[] Parameters { get; set; }
-    //public required ImmutableArray<NvimParameter> Parameters { get; set; }
 
     /// <summary>
     /// Valid Since
