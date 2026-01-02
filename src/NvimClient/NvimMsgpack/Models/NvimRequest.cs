@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MsgPack;
 using MsgPack.Serialization;
 
@@ -38,4 +40,42 @@ public record NvimRequest {
     /// </summary>
     [MessagePackMember(3)]
     public MessagePackObject[] Params { get; set; } = [];
+
+
+    /// <summary>
+    /// Just a property that makes <see cref="NvimRequest.Params" displayable as a
+    /// human readble string
+    /// </summary>
+    public string ParamsString {
+        get {
+            if (Params is null) {
+                return "null";
+            } else {
+                return "[" + string.Join(", ", Params.Select(static p => p.ToString())) + "]";
+            }
+        }
+    }
+
+    public static NvimRequest? FromMessagePackObject(MessagePackObject obj) {
+        if (!obj.IsArray) {
+            return null;
+        }
+
+        IList<MessagePackObject> listItems = obj.AsList();
+        if (listItems.Count is not 4) {
+            return null;
+        }
+
+        byte type = listItems[0].AsByte();
+        if (type is not MsgPackDefinitions.RequestTypeId) {
+            return null;
+        }
+
+        return new NvimRequest {
+            Type = type,
+            MsgId = listItems[1].AsUInt32(),
+            Method = listItems[2].AsString(),
+            Params = [.. listItems[3].AsEnumerable()]
+        };
+    }
 }

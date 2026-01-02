@@ -139,16 +139,24 @@ public class NvimTests {
         Assert.IsNotNull(p);
         NvimAPI api = new(p);
 
+#pragma warning disable CA1861
+        // Register a custom handler
         api.RegisterHandler("client-call", static args => {
+            // Force the handler to accept 1,2,3 as args
             CollectionAssert.AreEqual(new[] { 1L, 2L, 3L }, args);
+
+            // Return fixed 4,5,6
             return new[] { 4, 5, 6 };
         });
         object[] objects = await api.GetApiInfo();
         long channelID = (long)objects.First();
-        await api.Command(
-          $"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
+        Console.WriteLine("Received Channel ID: {0}", channelID);
+        await api.Command($"let g:result = rpcrequest({channelID}, 'client-call', 1, 2, 3)");
         object[] result = (object[])await api.GetVar("result");
+        Console.WriteLine("Received result: {0}", result);
+
         CollectionAssert.AreEqual(new[] { 4L, 5L, 6L }, result);
+#pragma warning restore CA1861
     }
 
     [TestMethod]

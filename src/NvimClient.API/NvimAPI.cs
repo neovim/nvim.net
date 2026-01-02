@@ -60,8 +60,16 @@ public sealed partial class NvimAPI : IDisposable {
     private readonly BlockingCollection<NvimRequest> _requestQueue;
     private readonly BlockingCollection<NvimResponse> _responseQueue;
 
-    private readonly ConcurrentDictionary<long, PendingRequest> _pendingRequests;
+    private readonly ConcurrentDictionary<long, PendingRequest> _pendingOutgoingRequests;
+
+    /// <summary>
+    /// Defines a delegate for hanlding nvim requests
+    /// </summary>
     private delegate void NvimHandler(uint? requestId, object[] arguments);
+
+    /// <summary>
+    /// Functions that handle nvim requests
+    /// </summary>
     private readonly ConcurrentDictionary<string, NvimHandler> _handlers;
     private uint _messageIdCounter;
     private readonly ManualResetEvent _waitEvent = new(false);
@@ -91,7 +99,7 @@ public sealed partial class NvimAPI : IDisposable {
         _nvim_output_stream = outputStream;
         _requestQueue = [];
         _responseQueue = [];
-        _pendingRequests = new ConcurrentDictionary<long, PendingRequest>();
+        _pendingOutgoingRequests = new ConcurrentDictionary<long, PendingRequest>();
         _handlers = new ConcurrentDictionary<string, NvimHandler>();
 
         cts = new CancellationTokenSource();
@@ -225,6 +233,16 @@ public sealed partial class NvimAPI : IDisposable {
         _responseQueue.Add(response);
     }
 
+    internal void SendResponse(uint msgid, object? result, object? error) {
+        NvimResponse response = new() {
+            Type = MsgPackDefinitions.ResponseTypeId,
+            MsgId = msgid,
+            Result = ConvertToMessagePackObject(result),
+            Error = ConvertToMessagePackObject(error)
+        };
+        _responseQueue.Add(response);
+    }
+
 
 
     /// <summary>
@@ -243,7 +261,7 @@ public sealed partial class NvimAPI : IDisposable {
         request.MsgId = _messageIdCounter++;
         //Create a pending request to map the response type to the caller.
         PendingRequest pendingRequest = new(request);
-        _pendingRequests[request.MsgId] = pendingRequest;
+        _pendingOutgoingRequests[request.MsgId] = pendingRequest;
 
         // Add the request to the queue in order for it to be trnasmissted.
         _requestQueue.Add(request);
@@ -326,10 +344,16 @@ public sealed partial class NvimAPI : IDisposable {
 
             if (t is MsgPackDefinitions.ResponseTypeId) {
                 NvimResponse? r = NvimResponse.FromMessagePackObject(obj);
+                Console.WriteLine("Received: {0}", r);
                 HandleResponse(r);
-            } else {
+            } else if (t is MsgPackDefinitions.NotificationTypeId) {
                 NvimNotification? n = NvimNotification.FromMessagePackObject(obj);
+                Console.WriteLine("Received: {0}", n);
                 HandleNotification(n);
+            } else {
+                NvimRequest? req = NvimRequest.FromMessagePackObject(obj);
+                Console.WriteLine("Received: {0}", req);
+                HandleIncomingRequest(req);
             }
         }
     }
@@ -339,7 +363,7 @@ public sealed partial class NvimAPI : IDisposable {
             return;
         }
 
-        bool ok = _pendingRequests.TryRemove(response.MsgId, out PendingRequest? pendingRequest);
+        bool ok = _pendingOutgoingRequests.TryRemove(response.MsgId, out PendingRequest? pendingRequest);
 
         if (!ok) {
             //TODO: Log failure here
@@ -362,6 +386,51 @@ public sealed partial class NvimAPI : IDisposable {
         // }
         //
         // pendingRequest?.Complete(response);
+    }
+
+    private void HandleIncomingRequest(NvimRequest? request) {
+
+        if (request is null) {
+            return;
+        }
+
+        object? result = null;
+        object? error = null;
+
+        try {
+            bool has_handler = _handlers.TryGetValue(request.Method, out NvimHandler? handler);
+            if (has_handler) {
+                object[] args = [.. request.Params.Select(ConvertFromMessagePackObject)];
+
+                // handler should send response
+                handler?.Invoke(request.MsgId, args);
+                return;
+            }
+
+            if (OnUnhandledRequest is not null) {
+                object[] args = [.. request.Params.Select(ConvertFromMessagePackObject)];
+                OnUnhandledRequest.Invoke(this, new NvimUnhandledRequestEventArgs(this, request.MsgId, request.Method, args));
+                return;
+            }
+
+            error = $"Unhandled request: {request.Method}";
+        } catch (Exception ex) {
+            error = ex.ToString();
+        }
+
+        // fallback response if no handler/exception
+        SendResponse(request.MsgId, result, error);
+
+        //TODO: Handle the request. Maybe I need PendingRequest with generics?
+
+        //bool ok = _pendingOutgoingRequests.TryRemove(request.MsgId, out PendingRequest? pendingRequest);
+
+        //if (!ok) {
+        //    //TODO: Log failure here
+        //    throw new InvalidOperationException($"Received response with unknown message ID \"{request.MsgId}\"");
+        //}
+
+        //pendingRequest?.Complete(request);
     }
 
 

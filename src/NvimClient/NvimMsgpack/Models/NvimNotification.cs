@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NvimClient.NvimMsgpack.Models;
 
-public class NvimNotification {
+public record NvimNotification {
     [MessagePackMember(0)]
     public byte Type { get; set; }
 

@@ -18,3 +18,9 @@ public static class MsgPackDefinitions {
     /// </summary>
     public const int NotificationTypeId = 2;
 }
+
+public enum NvimMessageType {
+    Request = 0,
+    Response = 1,
+    Notification = 2
+}

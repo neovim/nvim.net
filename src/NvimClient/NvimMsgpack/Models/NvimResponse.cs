@@ -13,7 +13,7 @@ namespace NvimClient.NvimMsgpack.Models;
 ///     This object should no be serialized as map. But as a single object for
 ///     array.
 /// </remarks>
-public class NvimResponse {
+public record NvimResponse {
     [MessagePackMember(0)]
     public byte Type { get; set; }
 
