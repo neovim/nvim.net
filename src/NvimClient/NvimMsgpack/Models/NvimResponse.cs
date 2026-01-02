@@ -33,8 +33,8 @@ public class NvimResponse {
 
         IList<MessagePackObject> list_items = obj.AsList();
 
-        //The nvim response consists of 3 or 4 elements
-        if (list_items.Count is 4) {
+        // The nvim response consists of 4 elements
+        if (list_items.Count is not 4) {
             return null;
         }
 
