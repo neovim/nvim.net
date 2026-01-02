@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -55,7 +54,7 @@ public class FunctionDoc {
             Function = memberDef.Element("name")!.Value,
             Summary = DoxygenParser.GetDocElements(doc_containers),
             Parameters = doc_parameters,
-            Return = DoxygenParser.GetDocElements([doc_return]),
+            Return = doc_return is null ? null : DoxygenParser.GetDocElements([doc_return]),
             Notes = DoxygenParser.GetDocElements(doc_notes),
             DoxygenFileOrigin = filename
         };

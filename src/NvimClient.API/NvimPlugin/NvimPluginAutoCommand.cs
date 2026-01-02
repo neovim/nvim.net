@@ -9,22 +9,18 @@ namespace NvimClient.API.NvimPlugin;
 internal class NvimPluginAutocmd : NvimPluginExport {
     private NvimAutocmdAttribute Attribute { get; }
 
-    public NvimPluginAutocmd(MethodInfo method, string pluginPath,
-      object pluginInstance, NvimAutocmdAttribute attribute) : base(
-      attribute.Name ?? method.Name, method, pluginPath,
-      pluginInstance) {
-        var evalParameterIndices = new List<int>(Method.GetParameters().Length);
-        var attributeVisitors = new Dictionary<Type, Action<int, object>>
-        {
-      {
-        typeof(NvimEvalAttribute),
-        (index, attr) => evalParameterIndices.Add(index)
-      }
-    };
+    public NvimPluginAutocmd(MethodInfo method, string? pluginPath, object? pluginInstance, NvimAutocmdAttribute attribute) : base(attribute.Name ?? method.Name, method, pluginPath, pluginInstance) {
+        List<int> evalParameterIndices = new(capacity: Method.GetParameters().Length);
+        Dictionary<Type, Action<int, object>> attributeVisitors = new() {
+            {
+              typeof(NvimEvalAttribute),
+              (index, attr) => evalParameterIndices.Add(index)
+            }
+        };
         VisitParameters(new Dictionary<Type, Action<int>>(), attributeVisitors);
 
-        var argumentConverters = new List<ArgumentConverter>();
-        if (evalParameterIndices.Any()) {
+        List<ArgumentConverter> argumentConverters = [];
+        if (evalParameterIndices.Count is not 0) {
             argumentConverters.Add(
               nvimArg => evalParameterIndices.Zip(
                 (object[])nvimArg, (index, arg) =>
@@ -44,7 +40,7 @@ internal class NvimPluginAutocmd : NvimPluginExport {
       $"{PluginPath}:autocmd:{Name}:{Attribute.Pattern}";
 
     internal override Dictionary<string, object> GetSpec() {
-        var opts = new Dictionary<string, string>();
+        Dictionary<string, string> opts = [];
 
         if (!string.IsNullOrEmpty(Attribute.Group)) {
             opts["group"] = Attribute.Group;

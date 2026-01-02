@@ -12,7 +12,7 @@ namespace NvimClient.NvimMsgpack.Models;
 ///     This object should no be serialized as map. But as a single object for
 ///     array.
 /// </remarks>
-public class NvimRequest {
+public record NvimRequest {
     /// <summary>
     /// The message type
     /// </summary>

@@ -19,10 +19,10 @@ namespace NvimClient.Test;
 public class NvimTests {
     [TestMethod]
     public void TestProcessStarts() {
-        Process? process = NvimProcess.NvimProcess.Start(new ProcessStartInfo {
-            Arguments = "--version",
+        ProcessStartInfo info = new("nvim", ["--clean", "--version"]) {
             RedirectStandardOutput = true
-        });
+        };
+        Process? process = Process.Start(info);
 
         Assert.IsNotNull(process);
 
@@ -42,7 +42,8 @@ public class NvimTests {
 
     [TestMethod]
     public void TestApiMetadataDeserialization() {
-        Process? process = Process.Start(new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless));
+        NvimProcessStartInfo nvim_info = new(nvimPath: null, ["--clean"], StartOption.ApiInfo | StartOption.Headless);
+        Process? process = Process.Start(nvim_info.ProcessStartInfo);
 
         Assert.IsNotNull(process);
 
@@ -59,26 +60,46 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public void TestMessageDeserialization() {
-        Process? process = Process.Start(new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless));
+        NvimProcessStartInfo nvim_info = new(nvimPath: null, ["--clean"], StartOption.Headless | StartOption.Embed);
+        Process? process = Process.Start(nvim_info.ProcessStartInfo);
 
         Assert.IsNotNull(process);
 
-        SerializationContext context = new();
-        _ = context.Serializers.Register(new NvimMessageSerializer(context));
-        MessagePackSerializer<NvimMessage> serializer = MessagePackSerializer.Get<NvimMessage>(context);
+        Console.WriteLine("Process Started");
+        Console.WriteLine("Command: {0}", process.StartInfo.FileName);
+        Console.WriteLine("Arguments: {0}", process.StartInfo.Arguments);
+        Console.WriteLine("Argument List: {0}", string.Join(" ", process.StartInfo.ArgumentList));
+
+
+        SerializationContext context = new() {
+            SerializationMethod = SerializationMethod.Array
+        };
+
+        MessagePackSerializer<NvimRequest> serializer = MessagePackSerializer.Get<NvimRequest>(context);
+        MessagePackSerializer<NvimResponse> resp_serializer = MessagePackSerializer.Get<NvimResponse>(context);
 
         const string testString = "hello world";
         NvimRequest request = new() {
-            MessageId = 42,
+            Type = MsgPackDefinitions.RequestTypeId,
+            MsgId = 42,
             Method = "nvim_eval",
-            Arguments = new MessagePackObject([$"'{testString}'"])
+            Params = [
+                new MessagePackObject($"'{testString}'")
+            ]
         };
+
+        Console.WriteLine("Serialized Request");
         serializer.Pack(process.StandardInput.BaseStream, request);
 
-        NvimResponse response = (NvimResponse)serializer.Unpack(process.StandardOutput.BaseStream);
+        // Ensure Neovim actually receives the request
+        process.StandardInput.BaseStream.Flush();
 
-        Assert.IsTrue(response.MessageId == request.MessageId
+
+        NvimResponse response = resp_serializer.Unpack(process.StandardOutput.BaseStream);
+
+        Assert.IsTrue(response.MsgId == request.MsgId
                       && response.Error == MessagePackObject.Nil
                       && response.Result == testString);
     }
@@ -99,15 +120,25 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestAsyncAPICall() {
-        NvimAPI api = new();
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI api = new(p);
         object result = await api.Eval("2 + 2");
         Assert.AreEqual(4L, result);
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestCallAndReply() {
-        NvimAPI api = new();
+
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI api = new(p);
+
         api.RegisterHandler("client-call", static args => {
             CollectionAssert.AreEqual(new[] { 1L, 2L, 3L }, args);
             return new[] { 4, 5, 6 };
@@ -121,10 +152,16 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestNvimUIEvent() {
         const string testString = "hello_world";
         ManualResetEvent titleSetEvent = new(false);
-        NvimAPI api = new();
+
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI api = new(p);
+
         await api.UiAttach(100, 200, new Dictionary<string, string>());
         api.SetTitleEvent += (sender, args) => {
             if (args.Title == testString) {
@@ -137,9 +174,15 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestPluginExports() {
         const string pluginPath = "/path/to/plugin.sln";
-        NvimAPI api = new();
+
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI api = new(p);
+
         await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
 
         await api.Command(
@@ -161,8 +204,13 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestTCPSocket() {
-        NvimAPI nvimStdio = new();
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI nvimStdio = new(p);
+
         string serverAddress = (string)await nvimStdio.CallFunction("serverstart", [System.Net.IPAddress.Loopback + ":"]);
 
         NvimAPI nvimTCPSocket = new(serverAddress);
@@ -170,8 +218,13 @@ public class NvimTests {
     }
 
     [TestMethod]
+    [Timeout(5000)]
     public async Task TestLocalSocket() {
-        NvimAPI nvimStdio = new();
+        NvimProcessStartInfo a = new(StartOption.Embed | StartOption.Headless);
+        Process? p = Process.Start(a.ProcessStartInfo);
+        Assert.IsNotNull(p);
+        NvimAPI nvimStdio = new(p);
+
         string serverAddress =
           (string)await nvimStdio.CallFunction("serverstart", []);
 

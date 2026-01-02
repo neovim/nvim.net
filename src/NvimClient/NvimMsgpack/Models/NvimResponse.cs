@@ -1,5 +1,6 @@
 using MsgPack;
 using MsgPack.Serialization;
+using System.Collections.Generic;
 
 namespace NvimClient.NvimMsgpack.Models;
 
@@ -24,4 +25,32 @@ public class NvimResponse {
 
     [MessagePackMember(3)]
     public MessagePackObject Result { get; set; }
+
+    public static NvimResponse? FromMessagePackObject(MessagePackObject obj) {
+        if (!obj.IsArray) {
+            return null;
+        }
+
+        IList<MessagePackObject> list_items = obj.AsList();
+
+        //The nvim response consists of 3 or 4 elements
+        if (list_items.Count is 4) {
+            return null;
+        }
+
+        byte Type = list_items[0].AsByte();
+
+        if (Type is not MsgPackDefinitions.ResponseTypeId or MsgPackDefinitions.NotificationTypeId) {
+            return null;
+        }
+
+        NvimResponse r = new() {
+            Type = Type,
+            MsgId = list_items[1].AsUInt32(),
+            Error = list_items[2],
+            Result = list_items[3],
+        };
+
+        return r;
+    }
 }

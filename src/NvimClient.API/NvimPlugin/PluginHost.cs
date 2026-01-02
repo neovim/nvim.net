@@ -49,9 +49,9 @@ public static class PluginHost {
           }, "plugin", methodsDictionary,
           new Dictionary<string, string>
           {
-            {"website", pluginAttribute.Website},
-            {"license", pluginAttribute.License},
-            {"logo", pluginAttribute.Logo}
+            {"website", pluginAttribute.Website is null ? "null" : pluginAttribute.Website},
+            {"license", pluginAttribute.License is null ? "null" : pluginAttribute.License},
+            {"logo", pluginAttribute.Logo is null ? "null" : pluginAttribute.Logo}
           });
 
         long channelID = (long)(await api.GetApiInfo())[0];
@@ -62,55 +62,45 @@ public static class PluginHost {
     }
 
     public static IReadOnlyCollection<Dictionary<string, object>> GetPluginSpecs(Type type) {
-        return GetPluginExports(type, null, null)
-      .Select(x => x.GetSpec()).ToArray();
+        return [.. GetPluginExports(type, null, null).Select(static x => x.GetSpec())];
     }
 
     public static NvimPluginExport[] RegisterPluginExports(NvimAPI api, string pluginPath,
       Type pluginType) {
-        var pluginInstance = Activator.CreateInstance(pluginType, api);
-        var exports = GetPluginExports(pluginType, pluginPath, pluginInstance)
-          .ToArray();
-        foreach (var export in exports) {
+        object? pluginInstance = Activator.CreateInstance(pluginType, api);
+        NvimPluginExport[] exports = [.. GetPluginExports(pluginType, pluginPath, pluginInstance)];
+        foreach (NvimPluginExport export in exports) {
             export.Register(api);
         }
 
         return exports;
     }
 
-    private static IEnumerable<NvimPluginExport> GetPluginExports(
-      Type pluginType, string pluginPath, object pluginInstance) {
-        foreach (var method in pluginType.GetMethods()) {
-            var functionAttribute =
-              method.GetCustomAttribute<NvimFunctionAttribute>();
-            if (functionAttribute != null) {
-                yield return new NvimPluginFunction(method, pluginPath,
-                  pluginInstance, functionAttribute);
+    private static IEnumerable<NvimPluginExport> GetPluginExports(Type pluginType, string? pluginPath, object? pluginInstance) {
+        foreach (MethodInfo method in pluginType.GetMethods()) {
+            NvimFunctionAttribute? functionAttribute = method.GetCustomAttribute<NvimFunctionAttribute>();
+            if (functionAttribute is not null) {
+                yield return new NvimPluginFunction(method, pluginPath, pluginInstance, functionAttribute);
             }
 
-            var commandAttribute =
-              method.GetCustomAttribute<NvimCommandAttribute>();
+            NvimCommandAttribute? commandAttribute = method.GetCustomAttribute<NvimCommandAttribute>();
             if (commandAttribute != null) {
-                yield return new NvimPluginCommand(method, pluginPath, pluginInstance,
-                  commandAttribute);
+                yield return new NvimPluginCommand(method, pluginPath, pluginInstance, commandAttribute);
             }
 
-            var autocmdAttribute =
-              method.GetCustomAttribute<NvimAutocmdAttribute>();
+            NvimAutocmdAttribute? autocmdAttribute = method.GetCustomAttribute<NvimAutocmdAttribute>();
             if (autocmdAttribute != null) {
-                yield return new NvimPluginAutocmd(method, pluginPath, pluginInstance,
-                  autocmdAttribute);
+                yield return new NvimPluginAutocmd(method, pluginPath, pluginInstance, autocmdAttribute);
             }
         }
     }
 
-    private static async Task RegisterPlugin(NvimAPI api, string pluginPath,
-      IEnumerable<NvimPluginExport> exports) {
-        await api.CallFunction("remote#host#RegisterPlugin",
-          new object[]
-          {
-        PluginHostName, pluginPath,
-        exports.Select(export => export.GetSpec()).ToArray()
-          });
+    private static async Task RegisterPlugin(NvimAPI api, string pluginPath, IEnumerable<NvimPluginExport> exports) {
+        _ = await api.CallFunction("remote#host#RegisterPlugin",
+          [
+            PluginHostName,
+            pluginPath,
+            exports.Select(static export => export.GetSpec()).ToArray()
+          ]);
     }
 }

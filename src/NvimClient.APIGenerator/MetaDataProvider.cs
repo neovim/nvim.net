@@ -19,7 +19,7 @@ public sealed class MetaDataProvider {
         NvimProcessStartInfo nvim_start = new(StartOption.ApiInfo | StartOption.Headless);
 
         //Use implicit conversion here
-        Process? process = Process.Start(nvim_start);
+        Process? process = Process.Start(nvim_start.ProcessStartInfo);
 
         if (process is null) {
             return null;
