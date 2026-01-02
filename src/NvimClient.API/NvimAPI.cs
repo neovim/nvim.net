@@ -21,7 +21,7 @@ namespace NvimClient.API;
 /// The C# exposed nvim api this is spread into two files one of which is
 /// generated.
 /// </summary>
-public partial class NvimAPI {
+public sealed partial class NvimAPI : IDisposable {
     /// <summary>
     /// An event that is fired when a nvim message is not handled by an NvimAPI instance
     /// </summary>
@@ -225,17 +225,41 @@ public partial class NvimAPI {
         _responseQueue.Add(response);
     }
 
-    private Task<NvimResponse> SendAndReceive(NvimRequest request) {
+
+
+    /// <summary>
+    /// Send one RPC request to Neovim and return a Task that completes when the
+    /// matching NvimResponse arrives. This is performed in three ways:
+    /// 1) Assign a message id
+    /// 2) Create a <see cref="PendingRequest"/> object store it by id
+    /// 3) Enqueue the request for the send loop
+    /// 4) Return the task representing the future response
+    /// </summary>
+    ///
+    /// <returns>
+    ///     A task that when completed provides a response.
+    /// </returns>
+    private Task<NvimResponse?> ScheduleRequestSend(NvimRequest request) {
         request.MsgId = _messageIdCounter++;
+        //Create a pending request to map the response type to the caller.
         PendingRequest pendingRequest = new(request);
         _pendingRequests[request.MsgId] = pendingRequest;
+
+        // Add the request to the queue in order for it to be trnasmissted.
         _requestQueue.Add(request);
-        return pendingRequest.GetResponse();
+        return pendingRequest.GetResponseReceptionTask();
     }
 
-    private Task<TResult> SendAndReceive<TResult>(NvimRequest request) {
-        return SendAndReceive(request).ContinueWith(task => {
-            NvimResponse response = task.Result;
+    /// <summary>
+    /// This function does the same as <see cref="ScheduleRequestSend(NvimRequest)"/> but
+    /// also converts the result to the given type.
+    /// </summary>
+    private Task<TResult?> SendAndReceive<TResult>(NvimRequest request) {
+        return ScheduleRequestSend(request).ContinueWith(task => {
+            NvimResponse? response = task.Result;
+            // if (response is null) {
+            //     return null;
+            // }
             object result = ConvertFromMessagePackObject(response.Result);
             if (typeof(TResult).IsArray) {
                 object[] objectArray = (object[])result;
@@ -248,6 +272,9 @@ public partial class NvimAPI {
         });
     }
 
+    /// <summary>
+    /// A loop that continously sends data to the nvim instance.
+    /// </summary>
     private async Task SendLoop(CancellationToken token) {
         Console.WriteLine("Starting Send Loop");
 
@@ -274,14 +301,6 @@ public partial class NvimAPI {
         }
     }
 
-    private void StartSendLoop() {
-        _ = Task.Run(async () => {
-            foreach (NvimRequest request in _requestQueue.GetConsumingEnumerable()) {
-                await _request_serializer.PackAsync(_nvim_input_stream, request);
-            }
-        }).ContinueWith(t => _waitEvent.Set());
-    }
-
     private async Task ReceiveLoop(CancellationToken token) {
 
         Console.WriteLine("Starting Receive Loop");
@@ -292,8 +311,10 @@ public partial class NvimAPI {
             try {
                 obj = await _response_mpo_serializer.UnpackAsync(_nvim_output_stream, token);
             } catch (OperationCanceledException) when (token.IsCancellationRequested) {
+                Console.WriteLine("Receive Operation Canceled");
                 break; // normal shutdown
             } catch (EndOfStreamException) {
+                Console.WriteLine("Receive end of stream detected");
                 break;
             }
 
@@ -313,96 +334,36 @@ public partial class NvimAPI {
         }
     }
 
-    private static void HandleResponse(NvimResponse? response) {
+    private void HandleResponse(NvimResponse? response) {
         if (response is null) {
             return;
         }
+
+        bool ok = _pendingRequests.TryRemove(response.MsgId, out PendingRequest? pendingRequest);
+
+        if (!ok) {
+            //TODO: Log failure here
+            throw new InvalidOperationException($"Received response with unknown message ID \"{response.MsgId}\"");
+        }
+
+        pendingRequest?.Complete(response);
     }
 
     private static void HandleNotification(NvimNotification? notification) {
         if (notification is null) {
             return;
         }
+
+        // bool ok = _pendingRequests.TryRemove(response.MsgId, out PendingRequest? pendingRequest);
+        //
+        // if (!ok) {
+        //     //TODO: Log failure here
+        //     throw new InvalidOperationException($"Received response with unknown message ID \"{response.MsgId}\"");
+        // }
+        //
+        // pendingRequest?.Complete(response);
     }
 
-    private void StartReceiveLoop() {
-        Receive();
-
-        async void Receive() {
-            // Nvim may sent multiple messages that may have a different schema
-            // those are always arrays that start with an integer. Thus we
-            MessagePackObject obj;
-            try {
-                obj = await _response_mpo_serializer.UnpackAsync(_nvim_output_stream);
-            } catch {
-                _ = _waitEvent.Set();
-                throw;
-            }
-
-            if (obj.IsArray) {
-                Console.WriteLine("Array Response Received with Value {0}", (int)obj.AsList()[0]);
-            } else {
-                Console.WriteLine("Non array Response Received!");
-            }
-
-            // switch (message.Type) {
-            //     case MsgPackDefinitions.NotificationTypeId: {
-            //            Console.WriteLine("Notification Received!");
-            //            if (notification.Method == "redraw") {
-            //                var uiEvents = notification.Arguments.AsEnumerable().SelectMany(
-            //                  uiEvent => {
-            //                      IList<MessagePackObject> data = uiEvent.AsList();
-            //                      string name = data.First().AsString();
-            //                      return data.Select(args => new { Name = name, Args = args })
-            //                 .Skip(1);
-            //                  });
-            //                foreach (var uiEvent in uiEvents) {
-            //                    CallUIEventHandler(uiEvent.Name,
-            //                      (object[])ConvertFromMessagePackObject(uiEvent.Args));
-            //                }
-            //            }
-            //
-            //            object[] arguments =
-            //              (object[])ConvertFromMessagePackObject(notification.Arguments);
-            //            if (_handlers.TryGetValue(notification.Method, out NvimHandler handler)) {
-            //                handler(null, arguments);
-            //            } else {
-            //                OnUnhandledNotification?.Invoke(this,
-            //                  new NvimUnhandledNotificationEventArgs(notification.Method,
-            //                    arguments));
-            //            }
-            //
-            //             break;
-            //         }
-            //     case NvimRequest request: {
-            //             object[] arguments =
-            //               (object[])ConvertFromMessagePackObject(request.Params);
-            //             if (_handlers.TryGetValue(request.Method, out NvimHandler handler)) {
-            //                 handler(request.MsgId, arguments);
-            //             } else {
-            //                 OnUnhandledRequest?.Invoke(this,
-            //                   new NvimUnhandledRequestEventArgs(this, request.MsgId,
-            //                     request.Method, arguments));
-            //             }
-            //
-            //             break;
-            //         }
-            //     case NvimResponse response:
-            //         if (!_pendingRequests.TryRemove(response.MsgId,
-            //           out PendingRequest pendingRequest)) {
-            //             throw new InvalidDataException($"Received response with unknown message ID \"{response.MsgId}\"");
-            //         }
-            //
-            //         pendingRequest.Complete(response);
-            //         break;
-            //     default:
-            //         throw new TypeLoadException(
-            //           $"Unknown message type \"{message.GetType()}\"");
-            // }
-
-            Receive();
-        }
-    }
 
     /// <summary>
     /// Waits for disconnect
@@ -465,13 +426,14 @@ public partial class NvimAPI {
     }
 
     /// <summary>
-    /// Converts boxed objects to message pack.
+    /// Converts an array of boxed objects to and array of <see cref="MessagePackObject"/> objects
     /// </summary>
     private static MessagePackObject[] GetRequestArguments(params object[] parameters) {
         MessagePackObject[] r = new MessagePackObject[parameters.Length];
         for (int i = 0; i < parameters.Length; i++) {
 
-
+            //Msgpack does not auto convert dictionaries. We will do the conversion
+            //ourselves.
             if (parameters[i] is IDictionary dictionary) {
 
                 MessagePackObjectDictionary map = [];
@@ -504,4 +466,12 @@ public partial class NvimAPI {
     /// </summary>
     [GeneratedRegex(@"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)")]
     private static partial Regex MyRegex();
+
+    public void Dispose() {
+        cts.Cancel();
+        transmitTask.Wait();
+        receiveTask.Wait();
+        cts.Dispose();
+        _waitEvent.Dispose();
+    }
 }

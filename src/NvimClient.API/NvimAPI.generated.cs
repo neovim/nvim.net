@@ -126,7 +126,7 @@ namespace NvimClient.API
    /// If multiple UI clients are attached, the global screen dimensions degrade to the smallest client. E.g. if client A requests 80x40 but client B requests 200x100, the global screen has size 80x40.
    /// </remarks>
    public Task UiAttach(long @width, long @height, IDictionary @options) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_attach",
        Params = GetRequestArguments(
@@ -139,7 +139,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task UiDetach() =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_detach",
        Params = GetRequestArguments(
@@ -147,7 +147,7 @@ namespace NvimClient.API
      });
 
    public Task UiTryResize(long @width, long @height) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_try_resize",
        Params = GetRequestArguments(
@@ -155,7 +155,7 @@ namespace NvimClient.API
      });
 
    public Task UiSetOption(string @name, object @value) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_set_option",
        Params = GetRequestArguments(
@@ -183,7 +183,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task UiTryResizeGrid(long @grid, long @width, long @height) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_try_resize_grid",
        Params = GetRequestArguments(
@@ -201,7 +201,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task UiPumSetHeight(long @height) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_pum_set_height",
        Params = GetRequestArguments(
@@ -234,7 +234,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task UiPumSetBounds(double @width, double @height, double @row, double @col) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_ui_pum_set_bounds",
        Params = GetRequestArguments(
@@ -280,7 +280,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Command(string @command) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_command",
        Params = GetRequestArguments(
@@ -377,7 +377,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetHl(long @nsId, string @name, IDictionary @val) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_hl",
        Params = GetRequestArguments(
@@ -405,7 +405,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Feedkeys(string @keys, string @mode, bool @escapeCsi) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_feedkeys",
        Params = GetRequestArguments(
@@ -477,7 +477,7 @@ namespace NvimClient.API
    /// Currently this doesn&apos;t support &quot;scripting&quot; multiple mouse events by calling it multiple times in a loop: the intermediate mouse positions will be ignored. It should be used to implement real-time mouse input in a GUI. The deprecated pseudokey form (&quot;&lt;LeftMouse&gt;&lt;col,row&gt;&quot;) of |nvim_input()| has the same limitation.
    /// </remarks>
    public Task InputMouse(string @button, string @action, string @modifier, long @grid, long @row, long @col) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_input_mouse",
        Params = GetRequestArguments(
@@ -737,7 +737,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCurrentDir(string @dir) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_current_dir",
        Params = GetRequestArguments(
@@ -773,7 +773,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCurrentLine(string @line) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_current_line",
        Params = GetRequestArguments(
@@ -786,7 +786,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task DelCurrentLine() =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_del_current_line",
        Params = GetRequestArguments(
@@ -832,7 +832,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetVar(string @name, object @value) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_var",
        Params = GetRequestArguments(
@@ -850,7 +850,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task DelVar(string @name) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_del_var",
        Params = GetRequestArguments(
@@ -896,7 +896,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetVvar(string @name, object @value) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_vvar",
        Params = GetRequestArguments(
@@ -983,7 +983,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetOption(string @name, object @value) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_option",
        Params = GetRequestArguments(
@@ -1011,7 +1011,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Echo(object[] @chunks, bool @history, IDictionary @opts) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_echo",
        Params = GetRequestArguments(
@@ -1029,7 +1029,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task OutWrite(string @str) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_out_write",
        Params = GetRequestArguments(
@@ -1047,7 +1047,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task ErrWrite(string @str) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_err_write",
        Params = GetRequestArguments(
@@ -1065,7 +1065,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task ErrWriteln(string @str) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_err_writeln",
        Params = GetRequestArguments(
@@ -1119,7 +1119,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCurrentBuf(NvimBuffer @buffer) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_current_buf",
        Params = GetRequestArguments(
@@ -1173,7 +1173,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCurrentWin(NvimWindow @window) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_current_win",
        Params = GetRequestArguments(
@@ -1252,7 +1252,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task ChanSend(long @chan, string @data) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_chan_send",
        Params = GetRequestArguments(
@@ -1339,7 +1339,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCurrentTabpage(NvimTabpage @tabpage) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_current_tabpage",
        Params = GetRequestArguments(
@@ -1450,7 +1450,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Put(string[] @lines, string @type, bool @after, bool @follow) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_put",
        Params = GetRequestArguments(
@@ -1468,7 +1468,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Subscribe(string @event) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_subscribe",
        Params = GetRequestArguments(
@@ -1486,7 +1486,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Unsubscribe(string @event) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_unsubscribe",
        Params = GetRequestArguments(
@@ -1642,7 +1642,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetKeymap(string @mode, string @lhs, string @rhs, IDictionary @opts) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_keymap",
        Params = GetRequestArguments(
@@ -1655,7 +1655,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task DelKeymap(string @mode, string @lhs) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_del_keymap",
        Params = GetRequestArguments(
@@ -1737,7 +1737,7 @@ namespace NvimClient.API
    /// &quot;Something is better than nothing&quot;. You don&apos;t need to include all the fields.
    /// </remarks>
    public Task SetClientInfo(string @name, IDictionary @version, string @type, IDictionary @methods, IDictionary @attributes) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_client_info",
        Params = GetRequestArguments(
@@ -1920,7 +1920,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SelectPopupmenuItem(long @item, bool @insert, bool @finish, IDictionary @opts) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_select_popupmenu_item",
        Params = GetRequestArguments(
@@ -1943,7 +1943,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetDecorationProvider(long @nsId, IDictionary @opts) =>
-     SendAndReceive(new NvimRequest
+     ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_set_decoration_provider",
        Params = GetRequestArguments(
@@ -2084,7 +2084,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetLines(long @start, long @end, bool @strictIndexing, string[] @replacement) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_lines",
        Params = GetRequestArguments(
@@ -2112,7 +2112,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetText(long @startRow, long @startCol, long @endRow, long @endCol, string[] @replacement) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_text",
        Params = GetRequestArguments(
@@ -2212,7 +2212,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task SetKeymap(string @mode, string @lhs, string @rhs, IDictionary @opts) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_keymap",
        Params = GetRequestArguments(
@@ -2225,7 +2225,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task DelKeymap(string @mode, string @lhs) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_del_keymap",
        Params = GetRequestArguments(
@@ -2271,7 +2271,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetVar(string @name, object @value) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_var",
        Params = GetRequestArguments(
@@ -2289,7 +2289,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task DelVar(string @name) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_del_var",
        Params = GetRequestArguments(
@@ -2335,7 +2335,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetOption(string @name, object @value) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_option",
        Params = GetRequestArguments(
@@ -2371,7 +2371,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetName(string @name) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_set_name",
        Params = GetRequestArguments(
@@ -2407,7 +2407,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Delete(IDictionary @opts) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_delete",
        Params = GetRequestArguments(
@@ -2659,7 +2659,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task ClearNamespace(long @nsId, long @lineStart, long @lineEnd) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_clear_namespace",
        Params = GetRequestArguments(
@@ -2687,7 +2687,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task ClearHighlight(long @nsId, long @lineStart, long @lineEnd) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_buf_clear_highlight",
        Params = GetRequestArguments(
@@ -2767,7 +2767,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetBuf(NvimBuffer @buffer) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_buf",
        Params = GetRequestArguments(
@@ -2803,7 +2803,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetCursor(long[] @pos) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_cursor",
        Params = GetRequestArguments(
@@ -2839,7 +2839,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetHeight(long @height) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_height",
        Params = GetRequestArguments(
@@ -2875,7 +2875,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetWidth(long @width) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_width",
        Params = GetRequestArguments(
@@ -2921,7 +2921,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetVar(string @name, object @value) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_var",
        Params = GetRequestArguments(
@@ -2939,7 +2939,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task DelVar(string @name) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_del_var",
        Params = GetRequestArguments(
@@ -2985,7 +2985,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetOption(string @name, object @value) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_option",
        Params = GetRequestArguments(
@@ -3075,7 +3075,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetConfig(IDictionary @config) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_set_config",
        Params = GetRequestArguments(
@@ -3106,7 +3106,7 @@ namespace NvimClient.API
    /// </para>
    /// </summary>
    public Task Hide() =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_hide",
        Params = GetRequestArguments(
@@ -3124,7 +3124,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task Close(bool @force) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_win_close",
        Params = GetRequestArguments(
@@ -3199,7 +3199,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task SetVar(string @name, object @value) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_tabpage_set_var",
        Params = GetRequestArguments(
@@ -3217,7 +3217,7 @@ namespace NvimClient.API
    /// </para>
    /// </param>
    public Task DelVar(string @name) =>
-     _api.SendAndReceive(new NvimRequest
+     _api.ScheduleRequestSend(new NvimRequest
      {
        Method = "nvim_tabpage_del_var",
        Params = GetRequestArguments(
