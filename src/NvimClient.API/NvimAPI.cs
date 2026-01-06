@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
@@ -52,6 +51,11 @@ public sealed partial class NvimAPI : IDisposable {
     private readonly MessagePackSerializer<NvimRequest> _request_serializer;
 
     /// <summary>
+    /// A serializer that serializes <see cref="NvimResponse"/> towards neovim.
+    /// </summary>
+    private readonly MessagePackSerializer<NvimResponse> _response_serializer;
+
+    /// <summary>
     /// A serializer that deserializes <see cref="NvimResponse"/> from neovim
     /// but nvim response has two different types.
     /// </summary>
@@ -94,6 +98,7 @@ public sealed partial class NvimAPI : IDisposable {
             SerializationMethod = SerializationMethod.Array
         };
         _request_serializer = MessagePackSerializer.Get<NvimRequest>(context);
+        _response_serializer = MessagePackSerializer.Get<NvimResponse>(context);
         _response_mpo_serializer = MessagePackSerializer.Get<MessagePackObject>(context);
         _nvim_input_stream = inputStream;
         _nvim_output_stream = outputStream;
@@ -208,39 +213,40 @@ public sealed partial class NvimAPI : IDisposable {
     }
 
     private void CallHandlerAndSendResponse(uint requestId, Delegate handler, object[] args) {
-        //NvimResponse response = new() {
-        //    MessageId = requestId
-        //};
+        object? result = null;
+        object? error = null;
 
-        //try {
-        //    object result = handler.DynamicInvoke([args]);
-        //    response.Result = ConvertToMessagePackObject(result);
-        //} catch (Exception exception) {
-        //    response.Error = exception.ToString();
-        //}
+        try {
+            object? handlerResult = handler.DynamicInvoke([args]);
+            if (handlerResult is Task task) {
+                task.GetAwaiter().GetResult();
+                if (handlerResult is Task<object> taskObject) {
+                    result = taskObject.GetAwaiter().GetResult();
+                }
+            } else {
+                result = handlerResult;
+            }
+        } catch (Exception exception) {
+            error = exception.ToString();
+        }
 
-        //_messageQueue.Add(response);
+        SendResponse(requestId, result, error);
     }
 
 
     internal void SendResponse(NvimUnhandledRequestEventArgs args, object? result, object? error) {
-        NvimResponse response = new() {
-            Type = MsgPackDefinitions.ResponseTypeId,
-            MsgId = args.RequestId,
-            Result = ConvertToMessagePackObject(result),
-            Error = ConvertToMessagePackObject(error)
-        };
-        _responseQueue.Add(response);
+        SendResponse(args.RequestId, result, error);
     }
 
     internal void SendResponse(uint msgid, object? result, object? error) {
         NvimResponse response = new() {
             Type = MsgPackDefinitions.ResponseTypeId,
             MsgId = msgid,
-            Result = ConvertToMessagePackObject(result),
-            Error = ConvertToMessagePackObject(error)
+            Result = result.ToMessagePackObject(),
+            Error = error.ToMessagePackObject()
         };
-        _responseQueue.Add(response);
+        _response_serializer.Pack(_nvim_input_stream, response);
+        _nvim_input_stream.Flush();
     }
 
 
@@ -310,7 +316,7 @@ public sealed partial class NvimAPI : IDisposable {
             //     It is the idiomatic BlockingCollection consumer
             foreach (NvimRequest request in _requestQueue.GetConsumingEnumerable(token)) {
                 await _request_serializer.PackAsync(_nvim_input_stream, request, token).ConfigureAwait(false);
-                Console.WriteLine("Sent Request: {0}", request);
+                //Console.WriteLine("Sent Request: {0}", request);
             }
         } catch (OperationCanceledException) when (token.IsCancellationRequested) {
             // Normal shutdown path: cancellation requested.
@@ -344,15 +350,15 @@ public sealed partial class NvimAPI : IDisposable {
 
             if (t is MsgPackDefinitions.ResponseTypeId) {
                 NvimResponse? r = NvimResponse.FromMessagePackObject(obj);
-                Console.WriteLine("Received: {0}", r);
+                //Console.WriteLine("Received: {0}", r);
                 HandleResponse(r);
             } else if (t is MsgPackDefinitions.NotificationTypeId) {
                 NvimNotification? n = NvimNotification.FromMessagePackObject(obj);
-                Console.WriteLine("Received: {0}", n);
+                //Console.WriteLine("Received: {0}", n);
                 HandleNotification(n);
             } else {
                 NvimRequest? req = NvimRequest.FromMessagePackObject(obj);
-                Console.WriteLine("Received: {0}", req);
+                //Console.WriteLine("Received: {0}", req);
                 HandleIncomingRequest(req);
             }
         }
@@ -373,19 +379,33 @@ public sealed partial class NvimAPI : IDisposable {
         pendingRequest?.Complete(response);
     }
 
-    private static void HandleNotification(NvimNotification? notification) {
+    private void HandleNotification(NvimNotification? notification) {
         if (notification is null) {
             return;
         }
 
-        // bool ok = _pendingRequests.TryRemove(response.MsgId, out PendingRequest? pendingRequest);
-        //
-        // if (!ok) {
-        //     //TODO: Log failure here
-        //     throw new InvalidOperationException($"Received response with unknown message ID \"{response.MsgId}\"");
-        // }
-        //
-        // pendingRequest?.Complete(response);
+        if (notification.Method == "redraw") {
+            var uiEvents = notification.Params.SelectMany(
+              uiEvent => {
+                  System.Collections.Generic.IList<MessagePackObject> data = uiEvent.AsList();
+                  string name = data.First().AsString();
+                  return data.Select(args => new { Name = name, Args = args })
+                                 .Skip(1);
+              });
+            foreach (var uiEvent in uiEvents) {
+                CallUIEventHandler(uiEvent.Name, (object[])ConvertFromMessagePackObject(uiEvent.Args));
+            }
+        }
+
+        bool has_handler = _handlers.TryGetValue(notification.Method, out NvimHandler? handler);
+        object[] arguments = (object[])ConvertFromMessagePackObject(notification.Params);
+
+        if (has_handler && handler is not null) {
+            handler.Invoke(requestId: null, arguments);
+        } else {
+            NvimUnhandledNotificationEventArgs args = new(notification.Method, arguments);
+            OnUnhandledNotification?.Invoke(this, args);
+        }
     }
 
     private void HandleIncomingRequest(NvimRequest? request) {
@@ -464,35 +484,13 @@ public sealed partial class NvimAPI : IDisposable {
         }
 
         object obj = msgPackObject.ToObject();
-        // if (obj is MessagePackExtendedTypeObject msgpackExtObj) {
-        //     return GetExtensionType(msgpackExtObj);
-        // }
+        if (obj is MessagePackExtendedTypeObject msgpackExtObj) {
+            return GetExtensionType(msgpackExtObj);
+        }
 
         return obj;
     }
 
-    private static MessagePackObject ConvertToMessagePackObject(object? obj) {
-        static IEnumerable<MessagePackObject> ConvertEnumerable(IEnumerable enumerable) {
-            return enumerable.Cast<object>().Select(ConvertToMessagePackObject);
-        }
-
-        if (obj is Array array) {
-            return MessagePackObject.FromObject(ConvertEnumerable(array));
-        }
-
-        if (obj is IDictionary dictionary) {
-            MessagePackObjectDictionary msgPackDictionary = [];
-            IEnumerable<(MessagePackObject key, MessagePackObject value)> keysAndValues = ConvertEnumerable(dictionary.Keys).Zip(ConvertEnumerable(dictionary.Values), static (key, value) => (key, value));
-
-            foreach ((MessagePackObject key, MessagePackObject value) in keysAndValues) {
-                msgPackDictionary.Add(key, value);
-            }
-
-            return MessagePackObject.FromObject(msgPackDictionary);
-        }
-
-        return MessagePackObject.FromObject(obj);
-    }
 
     /// <summary>
     /// Converts an array of boxed objects to and array of <see cref="MessagePackObject"/> objects
@@ -500,35 +498,18 @@ public sealed partial class NvimAPI : IDisposable {
     private static MessagePackObject[] GetRequestArguments(params object[] parameters) {
         MessagePackObject[] r = new MessagePackObject[parameters.Length];
         for (int i = 0; i < parameters.Length; i++) {
-
-            //Msgpack does not auto convert dictionaries. We will do the conversion
-            //ourselves.
-            if (parameters[i] is IDictionary dictionary) {
-
-                MessagePackObjectDictionary map = [];
-
-                foreach (KeyValuePair<string, string> kvp in dictionary) {
-                    map.Add(
-                        MessagePackObject.FromObject(kvp.Key),
-                        MessagePackObject.FromObject(kvp.Value)
-                    );
-                }
-
-                MessagePackObject mpo = new(map);
-                r[i] = mpo;
-            } else {
-                r[i] = MessagePackObject.FromObject(parameters[i]);
-            }
-
-
+            r[i] = parameters[i].ToMessagePackObject();
+            // //Msgpack does not auto convert dictionaries.
+            // //We will do the conversion ourselves.
+            // if (parameters[i] is IDictionary dictionary) {
+            //     r[i] = dictionary.ToMessagePackObject();
+            // } else {
+            //     r[i] = MessagePackObject.FromObject(parameters[i]);
+            // }
         }
-
         return r;
-
-        //return [.. parameters.Select(MessagePackObject.FromObject)];
-        //return ConvertToMessagePackObject(parameters);
-        //return MessagePackObject.FromObject(ConvertEnumerable(parameters));
     }
+
 
     /// <summary>
     /// Source generated regex for performance

@@ -27,7 +27,7 @@ public static class PluginHost {
         Dictionary<string, Dictionary<string, object>> methodsDictionary = [];
         NvimPluginExport[] exports = [.. GetPluginExports(pluginType, pluginPath, pluginInstance)];
         foreach (NvimPluginExport export in exports) {
-            export.Register(api);
+            export.RegisterToApi(api);
             if (export is NvimPluginFunction function) {
                 methodsDictionary[function.Name] = new Dictionary<string, object> {
                     {"async", !function.Sync},
@@ -40,19 +40,18 @@ public static class PluginHost {
 
         Version version = new(pluginAttribute.Version);
 
-        await api.SetClientInfo(pluginAttribute.Name ?? pluginType.Name,
-          new Dictionary<string, int>
-          {
-            {"major", version.Major},
-            {"minor", version.Minor},
-            {"patch", version.Build}
-          }, "plugin", methodsDictionary,
-          new Dictionary<string, string>
-          {
+        Dictionary<string, int> aversion = new() {
+            { "major", version.Major},
+            { "minor", version.Minor},
+            { "patch", version.Build}
+        };
+
+        Dictionary<string, string> web = new() {
             {"website", pluginAttribute.Website is null ? "null" : pluginAttribute.Website},
             {"license", pluginAttribute.License is null ? "null" : pluginAttribute.License},
-            {"logo", pluginAttribute.Logo is null ? "null" : pluginAttribute.Logo}
-          });
+            { "logo", pluginAttribute.Logo is null ? "null" : pluginAttribute.Logo}
+        };
+        await api.SetClientInfo(pluginAttribute.Name ?? pluginType.Name, aversion, "plugin", methodsDictionary, web);
 
         long channelID = (long)(await api.GetApiInfo())[0];
         _ = await api.CallFunction("remote#host#Register",
@@ -70,7 +69,7 @@ public static class PluginHost {
         object? pluginInstance = Activator.CreateInstance(pluginType, api);
         NvimPluginExport[] exports = [.. GetPluginExports(pluginType, pluginPath, pluginInstance)];
         foreach (NvimPluginExport export in exports) {
-            export.Register(api);
+            export.RegisterToApi(api);
         }
 
         return exports;

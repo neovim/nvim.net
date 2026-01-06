@@ -42,7 +42,7 @@ public abstract class NvimPluginExport {
 
     internal abstract Dictionary<string, object> GetSpec();
 
-    internal void Register(NvimAPI nvim) {
+    internal void RegisterToApi(NvimAPI nvim) {
         nvim.RegisterHandler(HandlerName, Handler);
     }
 
