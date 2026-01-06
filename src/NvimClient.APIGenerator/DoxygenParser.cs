@@ -11,7 +11,9 @@ using System.Xml.Linq;
 namespace NvimClient.APIGenerator;
 
 /// <summary>
-///   Generates and parses XML documentation from Doxygen.
+///   Call the doxygen process and Generates and generates XML documentation.
+///   This class also provides methods to parse generated XML documentation
+///   from Doxygen.
 /// </summary>
 public sealed class DoxygenParser : IDisposable {
     public const string DoxygenFilterArgument = "--doxygen-filter";
@@ -100,7 +102,7 @@ public sealed class DoxygenParser : IDisposable {
         }
     }
 
-    public static IEnumerable<IDocElement> GetDocElements(IEnumerable<XNode>? nodes) {
+    public static IEnumerable<IDoxygenElement> GetDocElements(IEnumerable<XNode>? nodes) {
         if (nodes == null) {
             yield break;
         }

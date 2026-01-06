@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace NvimClient.APIGenerator.Docs;
 
 /// <summary>
 /// Raw text documentation
 /// </summary>
-internal class Text : IDocElement {
+internal class Text : IDoxygenElement {
     /// <summary>
     /// The actual text
     /// </summary>
@@ -14,6 +16,10 @@ internal class Text : IDocElement {
     /// </summary>
     public Text(string text) {
         _text = text;
+    }
+
+    public List<string> StringContents() {
+        return [_text];
     }
 
     /// <summary>

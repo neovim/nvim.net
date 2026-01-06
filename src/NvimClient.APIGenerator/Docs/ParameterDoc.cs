@@ -16,7 +16,7 @@ public class ParameterDoc {
     /// <summary>
     /// The parameter description
     /// </summary>
-    public required IEnumerable<IDocElement> Description { get; set; }
+    public required IEnumerable<IDoxygenElement> Description { get; set; }
 
     public static ParameterDoc FromXElement(XElement param) {
         IEnumerable<XNode> parameter_nodes = param.Descendants("parameterdescription").First().Nodes();

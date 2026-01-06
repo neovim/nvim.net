@@ -61,7 +61,7 @@ public record CSFunction {
         return sb.ToString();
     }
 
-    public static CSFunction FromNvimMethod(NvimFunction fn, string? prefixToRemove, bool isVirtualMethod) {
+    public static CSFunction FromNvimFunction(NvimFunction fn, string? prefixToRemove, bool isVirtualMethod) {
         string name;
         if (prefixToRemove is not null) {
             if (!fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
@@ -108,6 +108,70 @@ public record CSFunction {
         //    Method = nvim_exec,
         //    Arguments = []
         //};
+
+    }
+
+    ///<summary>
+    ///     Generates a method for an nvim type.
+    ///</summary>
+    public static CSFunction FromNvimTypeMethod(NvimType t, NvimFunction fn, bool isVirtualMethod) {
+        string name;
+        string prefixToRemove = t.Prefix;
+        if (prefixToRemove is not null) {
+            if (!fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
+                throw new System.InvalidOperationException($"Function {fn.Name} does not have expected prefix \"{prefixToRemove}\"");
+            }
+            name = StringUtil.ConvertToCamelCase(fn.Name[prefixToRemove.Length..], true);
+        } else {
+            name = StringUtil.ConvertToCamelCase(fn.Name, true);
+        }
+
+        StringBuilder sb = new();
+        _ = sb.Append("_msgPackExtObj, ");
+        //Ommit the first parameter. Assume it's the type itself
+        for (int i = 1; i < fn.Parameters.Length; i++) {
+            _ = sb.Append('@').Append(fn.Parameters[i].ArgumentName);
+            if (i != fn.Parameters.Length - 1) {
+                _ = sb.Append(", ");
+            }
+        }
+
+        CSObjectDeclaration request_object = new() {
+            ObjectType = "NvimRequest",
+            ObjectName = "req",
+            InitializerList = new() {
+                { "Method", $"\"{fn.Name}\"" },
+                { "Arguments", $"[{sb}]" },
+            }
+        };
+
+        string csreturn = NvimTypesMap.GetCSharpType(fn.ReturnType);
+
+        string code;
+        if (csreturn is not "void") {
+            code = $$"""
+            {{request_object.ToCode(0)}}
+            _api.SendAndReceive<{{csreturn}}>(req);
+            """;
+        } else {
+            code = $$"""
+            {{request_object.ToCode(0)}}
+            _api.SendAndReceive(req);
+            """;
+        }
+
+
+
+        return new CSFunction() {
+            Specifiers = [
+                "public"
+            ],
+            ReturnType = csreturn is "void" ? "Task" : $"Task<{csreturn}>",
+            Name = name,
+            //Ommit the first argument
+            Arguments = [.. fn.Parameters[1..].Select(CSArgument.FromNvimParameter)],
+            Code = code
+        };
 
     }
 }

@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+
 namespace NvimClient.APIGenerator.Docs;
 
 /// <summary>
-/// Represents a documentation element. All doxygen documentation elements are
-/// IDocElements
+///     Represents a documentation element. All doxygen documentation elements
+///     are of type <see cref="IDoxygenElement/>
 /// </summary>
-public interface IDocElement {
+public interface IDoxygenElement {
+    List<string> StringContents();
 }

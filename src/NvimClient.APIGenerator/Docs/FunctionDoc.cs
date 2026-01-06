@@ -16,7 +16,7 @@ public class FunctionDoc {
     /// <summary>
     /// The summary of the function
     /// </summary>
-    public required IEnumerable<IDocElement> Summary { get; set; }
+    public required IEnumerable<IDoxygenElement> Summary { get; set; }
 
     /// <summary>
     /// Documentation about the function parameters
@@ -26,12 +26,12 @@ public class FunctionDoc {
     /// <summary>
     /// Documentation of the return value of the function
     /// </summary>
-    public required IEnumerable<IDocElement>? Return { get; set; }
+    public required IEnumerable<IDoxygenElement>? Return { get; set; }
 
     /// <summary>
     /// Additional notes of the function documentation
     /// </summary>
-    public required IEnumerable<IDocElement>? Notes { get; set; }
+    public required IEnumerable<IDoxygenElement>? Notes { get; set; }
 
     /// <summary>
     /// The origin file from which this documentation originated from
