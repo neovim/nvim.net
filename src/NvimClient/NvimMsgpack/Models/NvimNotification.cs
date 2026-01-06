@@ -1,6 +1,7 @@
 using MsgPack;
 using MsgPack.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NvimClient.NvimMsgpack.Models;
 
@@ -13,6 +14,18 @@ public record NvimNotification {
 
     [MessagePackMember(2)]
     public required MessagePackObject[] Params { get; set; }
+
+    /// <summary>
+    /// Just a property that makes <see cref="NvimNotification.Params" displayable
+    /// as a human readble string
+    /// </summary>
+    public string ParamsString() {
+        if (Params is null) {
+            return "null";
+        } else {
+            return "[" + string.Join(", ", Params.Select(static p => p.ToString())) + "]";
+        }
+    }
 
     public static NvimNotification? FromMessagePackObject(MessagePackObject obj) {
         if (!obj.IsArray) {

@@ -31,36 +31,42 @@ public class NvimAPIMetadata {
 
     public void Print() {
         Console.WriteLine("Version: {0}", Version);
-        Console.WriteLine("Functions:");
+        Console.WriteLine("========== Functions ========== ");
         foreach (NvimFunction f in Functions) {
             Console.WriteLine(f);
         }
         Console.WriteLine();
 
-        Console.WriteLine("UIEvents:");
+        Console.WriteLine("========== UIEvents ========== ");
         foreach (NvimUIEvent e in UIEvents) {
             Console.WriteLine(e);
         }
         Console.WriteLine();
 
         if (UIOptions is not null) {
-            Console.WriteLine("UIOptions");
+            Console.WriteLine("========== UIOptions ========== ");
             foreach (string s in UIOptions) {
                 Console.WriteLine(s);
             }
             Console.WriteLine();
         }
 
-        Console.WriteLine("ErrorCodes");
+        Console.WriteLine("========== ErrorCodes ==========");
         foreach (KeyValuePair<string, NvimErrorType> a in ErrorTypes) {
             Console.WriteLine("Key = {0}, Value = {1}", a.Key, a.Value);
         }
         Console.WriteLine();
 
-        Console.WriteLine("Types");
+        Console.WriteLine("========== NvimTypes ========== ");
         foreach (KeyValuePair<string, NvimType> a in Types) {
             Console.WriteLine("Key = {0}, Value = {1}", a.Key, a.Value);
         }
+
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("======== Nvim API Metadata Finish =========");
+        Console.WriteLine();
+        Console.WriteLine();
     }
 
 
@@ -78,5 +84,13 @@ public class NvimAPIMetadata {
     /// </summary>
     public IEnumerable<NvimFunction> SupportedFunctions() {
         return Functions.Where(static function => function.IsActive(OldestSupportedAPILevel) && !function.Method);
+    }
+
+    /// <summary>
+    /// Returns the <cref="NvimFunction"/> that are methods for a given nvim type and
+    /// Supported level;
+    /// </summary>
+    public IEnumerable<NvimFunction> SupportedMethods(NvimType t) {
+        return Functions.Where(function => function.IsActive(OldestSupportedAPILevel) && function.Method && function.Name.StartsWith(t.Prefix, StringComparison.Ordinal));
     }
 }

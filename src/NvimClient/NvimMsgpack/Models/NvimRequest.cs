@@ -46,13 +46,11 @@ public record NvimRequest {
     /// Just a property that makes <see cref="NvimRequest.Params" displayable as a
     /// human readble string
     /// </summary>
-    public string ParamsString {
-        get {
-            if (Params is null) {
-                return "null";
-            } else {
-                return "[" + string.Join(", ", Params.Select(static p => p.ToString())) + "]";
-            }
+    public string ParamsString() {
+        if (Params is null) {
+            return "null";
+        } else {
+            return "[" + string.Join(", ", Params.Select(static p => p.ToString())) + "]";
         }
     }
 
