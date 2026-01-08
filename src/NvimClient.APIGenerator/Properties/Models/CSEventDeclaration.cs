@@ -47,7 +47,7 @@ public record CSEventDeclaration {
                 "public"
             ],
             Parameters = param,
-            Name = name
+            Name = $"{name}Event"
         };
     }
 }

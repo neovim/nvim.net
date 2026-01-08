@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NvimClient.APIGenerator.Models;
+namespace NvimClient.APIGenerator.Properties.Models;
 
 /// <summary>
 /// Represents a C Sharp field

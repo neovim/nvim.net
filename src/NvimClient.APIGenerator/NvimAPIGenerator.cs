@@ -5,6 +5,8 @@ using NvimClient.APIGenerator.Models;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.APIGenerator.Properties.Models;
 using System;
+using NvimClient.NvimMsgpack;
+using System.Text;
 
 namespace NvimClient.APIGenerator;
 
@@ -39,6 +41,10 @@ public sealed class NvimAPIGenerator {
         GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata);
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
             GenerateNvimTypeClass($"Nvim{kvp.Key}.cs", $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
+        }
+
+        foreach (NvimUIEvent ev in apiMetadata.SupportedUIEvents()) {
+            GenerateNvimEventArgs($"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs", ev, apiMetadata);
         }
     }
 
@@ -76,6 +82,87 @@ public sealed class NvimAPIGenerator {
             cw.FunctionDeclarations.Add(fn);
         }
 
+        //    private void CallUIEventHandler(string eventName, object[] args)
+        CSFunction args = new() {
+            Specifiers = ["private"],
+            ReturnType = "void",
+            Name = "CallUIEventHandler",
+            Arguments = [
+                new CSArgument() {
+                    ArgumentType = "string",
+                    ArgumentName = "eventName"
+                },
+                new CSArgument() {
+                    ArgumentType = "object[]",
+                    ArgumentName = "args"
+                }
+            ],
+            Code = string.Empty
+        };
+
+        StringBuilder sb = new();
+        _ = sb.Append("switch (eventName) {\n");
+
+        foreach (NvimUIEvent ev in events) {
+            string name = StringUtil.ConvertToCamelCase(ev.Name, capitalizeFirstChar: true);
+            string nameEvent = $"{name}Event";
+            string nameArgs = $"{name}EventArgs";
+            _ = sb.Append("    case").Append(' ').Append('"').Append(ev.Name).Append('"').Append(':').Append('\n');
+
+            if (ev.Parameters.Length > 0) {
+
+                _ = sb.Append("        ").Append(nameArgs).Append(" args").Append(" = new() {\n");
+                foreach (NvimParameter aa in ev.Parameters) {
+                    //_ = sb.Append(
+                }
+                _ = sb.Append("        ").Append("}\n");
+                _ = sb.Append("        ").Append(nameEvent).Append('?').Append(".Invoke(this, args);\n");
+            } else {
+                _ = sb.Append("        ").Append(nameEvent).Append('?').Append(".Invoke(this, EventArgs.Empty);\n");
+            }
+            _ = sb.Append("        ").Append("break;\n\n");
+        }
+
+        args.Code = sb.ToString();
+
+        //        ModeInfoSetEvent?.Invoke(this, new ModeInfoSetEventArgs
+        //{
+        //  Enabled = (bool) args[0],
+        //  CursorStyles = (object[]) args[1]
+        //});
+        //break;
+
+
+        cw.FunctionDeclarations.Add(args);
+
+        cw.WriteClassFile();
+    }
+
+
+    ///<summary>
+    ///     Generates a C# class for a specific <see cref=NvimUIEvent/>
+    ///</summary>
+    public static void GenerateNvimEventArgs(string outputPath, NvimUIEvent theEvent, NvimAPIMetadata apiMetadata) {
+        ClassWriter cw = new(outputPath) {
+            IsSealedClass = false,
+            IsPartialClass = false,
+            ClassName = $"{StringUtil.ConvertToCamelCase(theEvent.Name, capitalizeFirstChar: true)}EventArgs",
+            BaseClasses = ["EventArgs"],
+            Namespace = "NvimClient.API",
+            Usings = [],
+            EventDeclarations = [],
+            FunctionDeclarations = [],
+            Properties = []
+        };
+
+        foreach (NvimParameter p in theEvent.Parameters) {
+            CSProperty prop = new() {
+                Specifiers = ["public"],
+                Type = NvimTypesMap.GetCSharpType(p.ArgumentType),
+                Name = StringUtil.ConvertToCamelCase(p.ArgumentName, capitalizeFirstChar: true)
+            };
+            cw.Properties.Add(prop);
+        }
         cw.WriteClassFile();
     }
 

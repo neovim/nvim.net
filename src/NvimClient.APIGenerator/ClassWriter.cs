@@ -11,14 +11,16 @@ namespace NvimClient.APIGenerator;
 /// </summary>
 public sealed class ClassWriter : IDisposable {
     public List<string>? Usings { get; set; }
+    public required string Namespace { get; set; }
+    public required string ClassName { get; set; }
+    public List<string>? BaseClasses { get; set; }
     public List<CSField>? Fields { get; set; }
+    public List<CSProperty>? Properties { get; set; }
 
     public List<CSEventDeclaration>? EventDeclarations { get; set; }
 
     public List<CSFunction>? FunctionDeclarations { get; set; }
 
-    public required string Namespace { get; set; }
-    public required string ClassName { get; set; }
     public required bool IsPartialClass { get; set; }
     public required bool IsSealedClass { get; set; }
 
@@ -65,11 +67,29 @@ public sealed class ClassWriter : IDisposable {
     /// Writes the opening line for the class
     /// </summary>
     public void ClassStart() {
+        streamWriter.Write("public ");
         if (IsPartialClass) {
-            streamWriter.WriteLine($"public partial sealed class {ClassName} {{");
-        } else {
-            streamWriter.WriteLine($"public sealed class {ClassName} {{");
+            streamWriter.Write("partial ");
         }
+
+        if (IsSealedClass) {
+            streamWriter.Write("sealed ");
+        }
+
+        streamWriter.Write($"class {ClassName} ");
+
+        if (BaseClasses is not null && BaseClasses.Count > 0) {
+            streamWriter.Write(": ");
+            for (int i = 0; i < BaseClasses.Count; i++) {
+                streamWriter.Write(BaseClasses[i]);
+                if (i != BaseClasses.Count - 1) {
+                    streamWriter.Write(", ");
+                }
+            }
+        }
+
+        streamWriter.Write(" {\n");
+
         identationLevel++;
     }
 
@@ -93,6 +113,13 @@ public sealed class ClassWriter : IDisposable {
             foreach (CSField f in Fields) {
                 WriteIdentation();
                 streamWriter.WriteLine(f.ToCode());
+            }
+        }
+
+        if (Properties is not null) {
+            foreach (CSProperty p in Properties) {
+                WriteIdentation();
+                streamWriter.WriteLine(p.ToCode());
             }
         }
 

@@ -69,8 +69,7 @@ public static class StringUtil {
     /// <param name="capitalizeFirstChar">
     /// Whether or not the first character should be capitalized.
     /// </param>
-    public static string ConvertToCamelCase(string str,
-      bool capitalizeFirstChar) {
+    public static string ConvertToCamelCase(string str, bool capitalizeFirstChar) {
         if (string.IsNullOrEmpty(str)) {
             return str;
         }
