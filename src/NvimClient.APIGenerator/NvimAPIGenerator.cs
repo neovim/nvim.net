@@ -7,6 +7,7 @@ using NvimClient.APIGenerator.Properties.Models;
 using System;
 using NvimClient.NvimMsgpack;
 using System.Text;
+using System.Globalization;
 
 namespace NvimClient.APIGenerator;
 
@@ -107,34 +108,36 @@ public sealed class NvimAPIGenerator {
             string name = StringUtil.ConvertToCamelCase(ev.Name, capitalizeFirstChar: true);
             string nameEvent = $"{name}Event";
             string nameArgs = $"{name}EventArgs";
-            _ = sb.Append("    case").Append(' ').Append('"').Append(ev.Name).Append('"').Append(':').Append('\n');
+            _ = sb.Append(CultureInfo.InvariantCulture, $"    case \"{ev.Name}\": {{\n");
 
             if (ev.Parameters.Length > 0) {
 
-                _ = sb.Append("        ").Append(nameArgs).Append(" args").Append(" = new() {\n");
+                _ = sb.Append("        ").Append(nameArgs).Append(" specificArgs").Append(" = new() {\n");
+                int index = 0;
                 foreach (NvimParameter aa in ev.Parameters) {
-                    //_ = sb.Append(
+                    string evType = NvimTypesMap.GetCSharpType(aa.ArgumentType);
+                    string evName = StringUtil.ConvertToCamelCase(aa.ArgumentName, capitalizeFirstChar: true);
+                    _ = sb.Append(CultureInfo.InvariantCulture, $"            {evName} = ({evType})args[{index++}]");
+                    if (index != ev.Parameters.Length) {
+                        _ = sb.Append(",\n");
+                    } else {
+                        _ = sb.Append('\n');
+                    }
                 }
-                _ = sb.Append("        ").Append("}\n");
-                _ = sb.Append("        ").Append(nameEvent).Append('?').Append(".Invoke(this, args);\n");
+                _ = sb.Append("        ").Append("};\n");
+                _ = sb.Append("        ").Append(nameEvent).Append('?').Append(".Invoke(this, specificArgs);\n");
             } else {
                 _ = sb.Append("        ").Append(nameEvent).Append('?').Append(".Invoke(this, EventArgs.Empty);\n");
             }
-            _ = sb.Append("        ").Append("break;\n\n");
+            _ = sb.Append("        ").Append("break;\n");
+            _ = sb.Append("    ").Append("}\n");
         }
+        _ = sb.Append("    ").Append("default:\n");
+        _ = sb.Append("        ").Append("break;\n");
+        _ = sb.Append("}\n");
 
         args.Code = sb.ToString();
-
-        //        ModeInfoSetEvent?.Invoke(this, new ModeInfoSetEventArgs
-        //{
-        //  Enabled = (bool) args[0],
-        //  CursorStyles = (object[]) args[1]
-        //});
-        //break;
-
-
         cw.FunctionDeclarations.Add(args);
-
         cw.WriteClassFile();
     }
 
