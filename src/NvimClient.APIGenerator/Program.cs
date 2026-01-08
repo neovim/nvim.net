@@ -49,7 +49,7 @@ internal static class Program {
         Console.WriteLine("Generated Files in {0}", gen.XMLOutputDirectory);
 
         DoxygenParser docs = new(gen.XMLOutputDirectory);
-        List<FunctionDoc> doxygenFunctionDocs = docs.ParseDoxygenDocumentation2();
+        List<FunctionDoc> doxygenFunctionDocs = docs.ParseDoxygenDocumentation();
 
 
         gen.CleanUpTemporaryFiles();

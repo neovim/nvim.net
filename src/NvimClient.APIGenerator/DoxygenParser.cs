@@ -21,33 +21,17 @@ public sealed class DoxygenParser {
         _xmlDirectory = xmlDocsDirectory;
     }
 
-    public static IEnumerable<string?> GetXMLFileNamesFromDoxygenCFilesIndex(XDocument indexDocument) {
-
-        //Get all compounds of kind file. Where the filename ends in .c but
-        //select the refid
-        IEnumerable<string?> xmlFilenames = indexDocument
-          .Descendants("compound")
-          .Where(static node => node.Attribute("kind")?.Value == "file")
-          .Where(static node => node.Element("name")?.Value.EndsWith(".c", StringComparison.Ordinal) ?? false)
-          .Select(static node => node.Attribute("refid")?.Value);
-
-        return xmlFilenames;
-    }
-
-    public static IEnumerable<XElement> GetNonStaticFunctionDefinitions(XDocument document) {
-
-        static bool NonStaticFunctionSelector(XElement element) {
-            bool isFunc = element.Attribute("kind")?.Value == "function";
-            bool notStatic = element.Attribute("static")?.Value == "no";
-
-            return isFunc && notStatic;
-        }
-
-        return document.Descendants("memberdef").Where(NonStaticFunctionSelector);
-    }
 
 
-    internal List<FunctionDoc> ParseDoxygenDocumentation2() {
+    ///<summary>
+    ///     Parse the complete doxygen documentation
+    ///</summary>
+    ///
+    ///<returns>
+    ///     A <see cref="List{FunctionDoc}"/> that contains the documentation of
+    ///     the functions.
+    ///</returns>
+    internal List<FunctionDoc> ParseDoxygenDocumentation() {
         //Inside the temp directory there will be an xml directory that contains all
         //the documentation
         string pa = Path.Combine(_xmlDirectory, "xml", "index.xml");
@@ -90,6 +74,48 @@ public sealed class DoxygenParser {
         }
 
         return results;
+    }
+
+
+    ///<summary>
+    ///     Retreives the XML files that constitute the complete documentation set
+    ///     of this project.
+    ///
+    ///     <paramref name="indexDocument">
+    ///         The <see cref="XDocument"/> of the index.xml file as loaded.
+    ///     </paramref>
+    ///</summary>
+    public static IEnumerable<string?> GetXMLFileNamesFromDoxygenCFilesIndex(XDocument indexDocument) {
+
+        //Get inside all compound nodes and get chilred. Select the file kind
+        //where the source filename ends in .c but select the refid which is
+        //the name of the xml file that needs to be parsed.
+        IEnumerable<string?> xmlFilenames = indexDocument
+          .Descendants("compound")
+          .Where(static node => node.Attribute("kind")?.Value == "file")
+          .Where(static node => node.Element("name")?.Value.EndsWith(".c", StringComparison.Ordinal) ?? false)
+          .Select(static node => node.Attribute("refid")?.Value);
+
+        return xmlFilenames;
+    }
+
+    ///<summary>
+    ///     Retrieves all the <see langword="public"/> c functions from the given
+    ///     <see cref="XDocument"/>.
+    ///</summary>
+    public static IEnumerable<XElement> GetNonStaticFunctionDefinitions(XDocument document) {
+        return document.Descendants("memberdef").Where(IsNonStaticFunction);
+    }
+
+    ///<summary>
+    ///     Indicdes if the <see cref="XElement"/> represents a non static function.
+    ///     In C static functions are <see langword="private"/> functions.
+    ///</summary>
+    private static bool IsNonStaticFunction(XElement element) {
+        bool isFunc = element.Attribute("kind")?.Value == "function";
+        bool notStatic = element.Attribute("static")?.Value == "no";
+
+        return isFunc && notStatic;
     }
 
     public static IEnumerable<IDoxygenElement> GetDocElements(IEnumerable<XNode>? nodes) {
@@ -144,6 +170,5 @@ public sealed class DoxygenParser {
             );
         }
     }
-
 
 }

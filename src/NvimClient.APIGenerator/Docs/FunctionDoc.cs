@@ -38,6 +38,14 @@ public record FunctionDoc {
     /// </summary>
     public string? DoxygenFileOrigin { get; set; }
 
+
+    /// <summary>
+    ///     Generates a Function documentation from a given <see cref="XElement"/>
+    /// </summary>
+    ///
+    /// <remarks>
+    ///
+    /// <remarks>
     public static FunctionDoc FromXElement(XElement memberDef, string? filename = null) {
 
         IEnumerable<XElement>? doc_containers = memberDef.Element("detaileddescription")?.Elements("para").Where(static para => para.Element("parameterlist") == null);
