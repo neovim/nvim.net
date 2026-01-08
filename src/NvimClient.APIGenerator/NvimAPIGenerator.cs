@@ -23,7 +23,7 @@ public sealed class NvimAPIGenerator {
         _functionDocs = funcDocs;
     }
 
-    public void GenerateCSharpFile(string outputPath) {
+    public void GenerateCSharpFile() {
         //_functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
         //
 

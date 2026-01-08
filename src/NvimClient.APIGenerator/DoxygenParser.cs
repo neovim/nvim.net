@@ -1,10 +1,8 @@
 using NvimClient.APIGenerator.Docs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -15,23 +13,12 @@ namespace NvimClient.APIGenerator;
 ///   This class also provides methods to parse generated XML documentation
 ///   from Doxygen.
 /// </summary>
-public sealed class DoxygenParser : IDisposable {
-    public const string DoxygenFilterArgument = "--doxygen-filter";
-    private readonly string _nvimSrcDirectory;
-    private readonly string _tempOutputDirectory;
+public sealed class DoxygenParser {
 
-    public DoxygenParser(string nvimSrcDirectory) {
-        _nvimSrcDirectory = nvimSrcDirectory;
-        _tempOutputDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-        _ = Directory.CreateDirectory(_tempOutputDirectory);
-    }
+    private readonly string _xmlDirectory;
 
-    public void Dispose() {
-        try {
-            Directory.Delete(_tempOutputDirectory, true);
-        } catch {
-            Console.WriteLine($"Failed to delete temporary directory: {_tempOutputDirectory}");
-        }
+    public DoxygenParser(string xmlDocsDirectory) {
+        _xmlDirectory = xmlDocsDirectory;
     }
 
     public static IEnumerable<string?> GetXMLFileNamesFromDoxygenCFilesIndex(XDocument indexDocument) {
@@ -59,18 +46,22 @@ public sealed class DoxygenParser : IDisposable {
         return document.Descendants("memberdef").Where(NonStaticFunctionSelector);
     }
 
-    internal IEnumerable<FunctionDoc> ParseDoxygenDocumentation() {
+
+    internal List<FunctionDoc> ParseDoxygenDocumentation2() {
         //Inside the temp directory there will be an xml directory that contains all
         //the documentation
-        string xmlDocsDirectory = Path.Combine(_tempOutputDirectory, "xml");
-        XDocument indexXml = XDocument.Load(Path.Combine(xmlDocsDirectory, "index.xml"));
+        string pa = Path.Combine(_xmlDirectory, "xml", "index.xml");
+        Console.WriteLine("Reading doxygen files from {0}", pa);
+        XDocument indexXml = XDocument.Load(pa);
         IEnumerable<string?> xmlFilenames = GetXMLFileNamesFromDoxygenCFilesIndex(indexXml);
+
+        List<FunctionDoc> results = [];
 
         foreach (string? xmlFilename in xmlFilenames) {
             if (xmlFilename is null) {
                 continue;
             }
-            string local_file = Path.Combine(xmlDocsDirectory, xmlFilename + ".xml");
+            string local_file = Path.Combine(_xmlDirectory, "xml", $"{xmlFilename}.xml");
             Console.WriteLine("Processing File: {0} will read file {1}", xmlFilename, local_file);
 
             XDocument docXml;
@@ -86,7 +77,6 @@ public sealed class DoxygenParser : IDisposable {
             IEnumerable<XElement> doxFunctionDocs = GetNonStaticFunctionDefinitions(docXml);
 
             //Omit Dict(cmd) for now. TODO: see what this does
-
             IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Where(ele => {
                 //Ommit empty types
                 XElement? typeElement = ele.Element("type");
@@ -96,10 +86,10 @@ public sealed class DoxygenParser : IDisposable {
                 return !string.IsNullOrWhiteSpace(typeElement.Value);
             }).Select(ele => FunctionDoc.FromXElement(ele, local_file));
 
-            foreach (FunctionDoc functionDoc in functionDocs) {
-                yield return functionDoc;
-            }
+            results.AddRange(functionDocs);
         }
+
+        return results;
     }
 
     public static IEnumerable<IDoxygenElement> GetDocElements(IEnumerable<XNode>? nodes) {
@@ -155,54 +145,5 @@ public sealed class DoxygenParser : IDisposable {
         }
     }
 
-    /// <summary>
-    /// Generates documentation by invoking the doxygen executable on the nvim
-    /// source
-    /// </summary>
-    public void CallDoxygenDocumentationGenerationProcess() {
-        string doxygenConfig = GetDoxygenConfig();
 
-        Console.WriteLine("Configuration Read is: {0}", doxygenConfig);
-        string inputDirectory = Path.Combine(_nvimSrcDirectory, "src/nvim/api");
-
-        //the - argument tells Doxygen to read its configuration from standard input
-        //instead of a file. We also take over the standard input and write the configuration
-        //template with the items replaced.
-        ProcessStartInfo doxy_process = new(fileName: "doxygen", arguments: "-") {
-            RedirectStandardInput = true
-        };
-
-        Process? process = Process.Start(doxy_process);
-        if (process is null) {
-            Console.WriteLine("Could not start doxygen process!");
-            return;
-        }
-
-
-        using (StreamWriter processStandardInput = process.StandardInput) {
-            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            string filter = $"dotnet \\\"{assemblyLocation}\\\" {DoxygenFilterArgument}";
-            processStandardInput.Write(
-                    doxygenConfig,
-                    _tempOutputDirectory,
-                    inputDirectory,
-                    filter);
-        }
-
-        process.WaitForExit();
-    }
-
-    /// <summary>
-    /// Reads the doxygen configuration
-    /// </summary>
-    private static string GetDoxygenConfig() {
-        const string configName = $"{nameof(NvimClient)}.{nameof(APIGenerator)}.doxygen.config";
-        Console.WriteLine("Reading configuration from: {0}", configName);
-        using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configName);
-        if (stream is null) {
-            throw new InvalidOperationException("Could not retreive Manifest resource stream of the the executing assembly");
-        }
-        using StreamReader reader = new(stream);
-        return reader.ReadToEnd();
-    }
 }

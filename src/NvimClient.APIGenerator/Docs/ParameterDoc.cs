@@ -7,7 +7,7 @@ namespace NvimClient.APIGenerator.Docs;
 /// <summary>
 /// Documentation that documents a parameter
 /// </summary>
-public class ParameterDoc {
+public record ParameterDoc {
     /// <summary>
     /// The parameter name
     /// </summary>

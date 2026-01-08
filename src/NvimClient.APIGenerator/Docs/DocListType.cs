@@ -4,6 +4,6 @@ namespace NvimClient.APIGenerator.Docs;
 /// Defines the list types that are used in documentation
 /// </summary>
 internal enum DocListType {
-  ItemizedList,
-  OrderedList
+    ItemizedList,
+    OrderedList
 }

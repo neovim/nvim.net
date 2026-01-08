@@ -7,7 +7,7 @@ namespace NvimClient.APIGenerator.Docs;
 /// <summary>
 /// Represents the documentation of the function
 /// </summary>
-public class FunctionDoc {
+public record FunctionDoc {
     /// <summary>
     /// The function name
     /// </summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NvimClient.APIGenerator.Docs;
+using NvimClient.APIGenerator.Doxygen;
 
 namespace NvimClient.APIGenerator;
 
@@ -18,7 +19,7 @@ internal static class Program {
             return 1;
         }
 
-        if (args.First() == DoxygenParser.DoxygenFilterArgument) {
+        if (args.First() == "--doxygen-filter") {
             DoxygenParser.FilterDoxygenInput(args[1]);
             return 0;
         }
@@ -41,31 +42,45 @@ internal static class Program {
         Console.WriteLine("==== Metadata ====");
         mdata.Print();
 
-        using DoxygenParser docs = new(nvimSrcDirectory);
-        docs.CallDoxygenDocumentationGenerationProcess();
-        IEnumerable<FunctionDoc> a = docs.ParseDoxygenDocumentation();
+        DoxygenGenerator gen = new();
+
+        gen.GenerateDoxy(nvimSrcDirectory);
+
+        Console.WriteLine("Generated Files in {0}", gen.XMLOutputDirectory);
+
+        DoxygenParser docs = new(gen.XMLOutputDirectory);
+        List<FunctionDoc> doxygenFunctionDocs = docs.ParseDoxygenDocumentation2();
+
+
+        gen.CleanUpTemporaryFiles();
+
+        Console.WriteLine("Parsed {0} Functions", doxygenFunctionDocs.Count);
 
         // foreach (FunctionDoc f in a) {
         //     Console.WriteLine("Process Function {0}", f.Function);
         // }
 
-        IEnumerable<IGrouping<string, FunctionDoc>> duplicates = a.GroupBy(static functionDoc => functionDoc.Function)
+        IEnumerable<IGrouping<string, FunctionDoc>> duplicates = doxygenFunctionDocs.GroupBy(static functionDoc => functionDoc.Function)
         .Where(static g => g.Count() > 1);
 
-        foreach (IGrouping<string, FunctionDoc> group in duplicates) {
-            Console.WriteLine($"Duplicate key: {group.Key}");
-            foreach (FunctionDoc doc in group) {
-                Console.WriteLine($"  {doc.Function} {doc.DoxygenFileOrigin}");
+        if (duplicates.Any()) {
+            foreach (IGrouping<string, FunctionDoc> group in duplicates) {
+                Console.WriteLine($"Duplicate key: {group.Key}");
+                foreach (FunctionDoc doc in group) {
+                    Console.WriteLine($"  {doc.Function} {doc.DoxygenFileOrigin}");
+                }
             }
         }
 
-        Dictionary<string, FunctionDoc>? b = a?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
+        Console.WriteLine(doxygenFunctionDocs.First());
+
+        Dictionary<string, FunctionDoc>? b = doxygenFunctionDocs.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
         if (b is null) {
             Console.WriteLine("Could not retreive source code documentation");
             return 1;
         }
         NvimAPIGenerator generator = new(mdata, b);
-        generator.GenerateCSharpFile(outputPath);
+        generator.GenerateCSharpFile();
         return 0;
     }
 }
