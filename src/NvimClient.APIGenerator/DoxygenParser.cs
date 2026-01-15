@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using NvimClient.APIGenerator.Properties.Models;
 
 namespace NvimClient.APIGenerator;
 
@@ -17,6 +18,13 @@ public sealed class DoxygenParser {
 
     private readonly string _xmlDirectory;
 
+    ///<summary>
+    /// Constructs a new parser.
+    ///</summary>
+    ///
+    ///<param name="xmlDocsDirectory">
+    /// The location where doxygen was generated
+    ///</param>
     public DoxygenParser(string xmlDocsDirectory) {
         _xmlDirectory = xmlDocsDirectory;
     }
@@ -59,6 +67,11 @@ public sealed class DoxygenParser {
             }
 
             IEnumerable<XElement> doxFunctionDocs = GetNonStaticFunctionDefinitions(docXml);
+
+            List<XElement> a = [.. doxFunctionDocs];
+
+            CSDocumentation doc = CSDocumentation.FromXElement(a.First());
+
 
             //Omit Dict(cmd) for now. TODO: see what this does
             IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Where(ele => {
@@ -109,11 +122,12 @@ public sealed class DoxygenParser {
 
     ///<summary>
     ///     Indicdes if the <see cref="XElement"/> represents a non static function.
-    ///     In C static functions are <see langword="private"/> functions.
+    ///     In C static functions are <see langword="private"/> functions. This is an XML
+    ///     memberdef tag.
     ///</summary>
     private static bool IsNonStaticFunction(XElement element) {
-        bool isFunc = element.Attribute("kind")?.Value == "function";
-        bool notStatic = element.Attribute("static")?.Value == "no";
+        bool isFunc = element.Attribute("kind")?.Value is "function";
+        bool notStatic = element.Attribute("static")?.Value is "no";
 
         return isFunc && notStatic;
     }
