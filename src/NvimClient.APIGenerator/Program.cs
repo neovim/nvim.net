@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NvimClient.APIGenerator.Docs;
 using NvimClient.APIGenerator.Doxygen;
+using NvimClient.APIGenerator.Properties.Models;
 
 namespace NvimClient.APIGenerator;
 
@@ -49,7 +50,7 @@ internal static class Program {
         Console.WriteLine("Generated Files in {0}", gen.XMLOutputDirectory);
 
         DoxygenParser docs = new(gen.XMLOutputDirectory);
-        List<FunctionDoc> doxygenFunctionDocs = docs.ParseDoxygenDocumentation();
+        List<CSDocumentation> doxygenFunctionDocs = docs.ParseDoxygenDocumentation();
 
 
         gen.CleanUpTemporaryFiles();
@@ -60,21 +61,21 @@ internal static class Program {
         //     Console.WriteLine("Process Function {0}", f.Function);
         // }
 
-        IEnumerable<IGrouping<string, FunctionDoc>> duplicates = doxygenFunctionDocs.GroupBy(static functionDoc => functionDoc.Function)
+        IEnumerable<IGrouping<string, CSDocumentation>> duplicates = doxygenFunctionDocs.GroupBy(static functionDoc => functionDoc.FunctionName)
         .Where(static g => g.Count() > 1);
 
-        if (duplicates.Any()) {
-            foreach (IGrouping<string, FunctionDoc> group in duplicates) {
-                Console.WriteLine($"Duplicate key: {group.Key}");
-                foreach (FunctionDoc doc in group) {
-                    Console.WriteLine($"  {doc.Function} {doc.DoxygenFileOrigin}");
-                }
-            }
-        }
+        //if (duplicates.Any()) {
+        //    foreach (IGrouping<string, CSDocumentation> group in duplicates) {
+        //        Console.WriteLine($"Duplicate key: {group.Key}");
+        //        foreach (CSDocumentation doc in group) {
+        //            Console.WriteLine($"  {doc.FunctionName} {doc.DoxygenFileOrigin}");
+        //        }
+        //    }
+        //}
 
         Console.WriteLine(doxygenFunctionDocs.First());
 
-        Dictionary<string, FunctionDoc>? b = doxygenFunctionDocs.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
+        Dictionary<string, CSDocumentation>? b = doxygenFunctionDocs.ToDictionary(static functionDoc => functionDoc.FunctionName, static funcDoc => funcDoc);
         if (b is null) {
             Console.WriteLine("Could not retreive source code documentation");
             return 1;

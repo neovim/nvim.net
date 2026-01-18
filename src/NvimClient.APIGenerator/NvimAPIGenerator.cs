@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using NvimClient.APIGenerator.Docs;
 using NvimClient.APIGenerator.Models;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.APIGenerator.Properties.Models;
@@ -15,10 +14,10 @@ namespace NvimClient.APIGenerator;
 /// A class that generates C# api source code from nvim source code
 /// </summary>
 public sealed class NvimAPIGenerator {
-    private readonly Dictionary<string, FunctionDoc> _functionDocs;
+    private readonly Dictionary<string, CSDocumentation> _functionDocs;
     private readonly NvimAPIMetadata apiMetadata;
 
-    public NvimAPIGenerator(NvimAPIMetadata mdata, Dictionary<string, FunctionDoc> funcDocs) {
+    public NvimAPIGenerator(NvimAPIMetadata mdata, Dictionary<string, CSDocumentation> funcDocs) {
         apiMetadata = mdata;
         _functionDocs = funcDocs;
     }
@@ -30,16 +29,16 @@ public sealed class NvimAPIGenerator {
         // Filter out functions only callable from Lua.
         apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.ArgumentType == "LuaRef")).ToArray();
 
-        GenerateNvimAPIClass("hola_test.cs", apiMetadata);
-        GenerateCSharpClasses(apiMetadata);
+        GenerateNvimAPIClass("hola_test.cs", apiMetadata, _functionDocs);
+        GenerateCSharpClasses(apiMetadata, _functionDocs);
     }
 
 
     ///<summary>
     ///    Generates one NvimAPI class as well as nvim type classes
     ///</summary>
-    private static void GenerateCSharpClasses(NvimAPIMetadata apiMetadata) {
-        GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata);
+    private static void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
+        GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata, docs);
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
             GenerateNvimTypeClass($"Nvim{kvp.Key}.cs", $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
         }
@@ -49,7 +48,7 @@ public sealed class NvimAPIGenerator {
         }
     }
 
-    public static void GenerateNvimAPIClass(string outputPath, NvimAPIMetadata apiMetadata) {
+    public static void GenerateNvimAPIClass(string outputPath, NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
         ClassWriter cw = new(outputPath) {
             IsSealedClass = true,
             IsPartialClass = true,
@@ -80,6 +79,7 @@ public sealed class NvimAPIGenerator {
         IEnumerable<NvimFunction> funcs = apiMetadata.SupportedFunctions();
         foreach (NvimFunction f in funcs) {
             CSFunction fn = CSFunction.FromNvimFunction(f, "nvim_", isVirtualMethod: false);
+            fn.Documentation = docs[f.Name];
             cw.FunctionDeclarations.Add(fn);
         }
 

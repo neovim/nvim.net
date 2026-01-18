@@ -39,7 +39,7 @@ public sealed class DoxygenParser {
     ///     A <see cref="List{FunctionDoc}"/> that contains the documentation of
     ///     the functions.
     ///</returns>
-    internal List<FunctionDoc> ParseDoxygenDocumentation() {
+    internal List<CSDocumentation> ParseDoxygenDocumentation() {
         //Inside the temp directory there will be an xml directory that contains all
         //the documentation
         string pa = Path.Combine(_xmlDirectory, "xml", "index.xml");
@@ -47,7 +47,8 @@ public sealed class DoxygenParser {
         XDocument indexXml = XDocument.Load(pa);
         IEnumerable<string?> xmlFilenames = GetXMLFileNamesFromDoxygenCFilesIndex(indexXml);
 
-        List<FunctionDoc> results = [];
+        List<CSDocumentation> results = [];
+        //List<FunctionDoc> results = [];
 
         foreach (string? xmlFilename in xmlFilenames) {
             if (xmlFilename is null) {
@@ -70,20 +71,31 @@ public sealed class DoxygenParser {
 
             List<XElement> a = [.. doxFunctionDocs];
 
-            CSDocumentation doc = CSDocumentation.FromXElement(a.First());
+            CSDocumentation doc = CSDocumentation.FromMemberDefXElement(a.First());
 
-
-            //Omit Dict(cmd) for now. TODO: see what this does
-            IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Where(ele => {
+            IEnumerable<CSDocumentation> functionDocs = doxFunctionDocs.Where(static ele => {
                 //Ommit empty types
                 XElement? typeElement = ele.Element("type");
                 if (typeElement is null) {
                     return false;
                 }
                 return !string.IsNullOrWhiteSpace(typeElement.Value);
-            }).Select(ele => FunctionDoc.FromXElement(ele, local_file));
+            }).Select(CSDocumentation.FromMemberDefXElement);
 
             results.AddRange(functionDocs);
+
+
+            ////Omit Dict(cmd) for now. TODO: see what this does
+            //IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Where(ele => {
+            //    //Ommit empty types
+            //    XElement? typeElement = ele.Element("type");
+            //    if (typeElement is null) {
+            //        return false;
+            //    }
+            //    return !string.IsNullOrWhiteSpace(typeElement.Value);
+            //}).Select(ele => FunctionDoc.FromXElement(ele, local_file));
+            //
+            //results.AddRange(functionDocs);
         }
 
         return results;

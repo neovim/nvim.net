@@ -31,6 +31,7 @@ public sealed class ClassWriter : IDisposable {
 
     public ClassWriter(string filename) {
         streamWriter = new StreamWriter(filename);
+        streamWriter.NewLine = "\n";
     }
 
     /// <summary>

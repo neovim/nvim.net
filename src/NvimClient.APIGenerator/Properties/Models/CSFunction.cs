@@ -10,6 +10,7 @@ namespace NvimClient.APIGenerator.Properties.Models;
 /// Represents a C Sharp field
 /// </summary>
 public record CSFunction {
+    public CSDocumentation? Documentation { get; set; }
     public required List<string> Specifiers { get; set; }
     public required string ReturnType { get; set; }
     public required string Name { get; set; }
@@ -29,6 +30,12 @@ public record CSFunction {
 
     public string ToCode(int identationLevel) {
         StringBuilder sb = new();
+
+        if (Documentation is not null && Documentation.Summary is not null) {
+            string doc = Documentation.ToCode(identationLevel)!;
+            _ = sb.Append(doc);
+        }
+
 
         WriteIdentation(sb, identationLevel);
 
@@ -103,11 +110,6 @@ public record CSFunction {
             Arguments = [.. fn.Parameters.Select(CSArgument.FromNvimParameter)],
             Code = code
         };
-
-        //            public string Exec() {NvimRequest req = new() {
-        //    Method = nvim_exec,
-        //    Arguments = []
-        //};
 
     }
 
