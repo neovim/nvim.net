@@ -11,6 +11,7 @@ namespace NvimClient.APIGenerator.Properties.Models;
 /// </summary>
 public record CSFunction {
     public CSDocumentation? Documentation { get; set; }
+    public CSFunctionAttributeDescription? Attribute { get; set; }
     public required List<string> Specifiers { get; set; }
     public required string ReturnType { get; set; }
     public required string Name { get; set; }
@@ -37,15 +38,23 @@ public record CSFunction {
         }
 
 
-        WriteIdentation(sb, identationLevel);
+        if (Attribute is not null) {
+            WriteIdentation(sb, identationLevel);
+            _ = sb.Append(Attribute.ToCode()).Append('\n');
+        }
 
+        WriteIdentation(sb, identationLevel);
         foreach (string s in Specifiers) {
             _ = sb.Append(s).Append(' ');
         }
 
         _ = sb.Append(ReturnType).Append(' ').Append(Name).Append('(');
         for (int i = 0; i < Arguments.Count; i++) {
-            _ = sb.Append(Arguments[i].ArgumentType).Append(' ').Append('@').Append(Arguments[i].ArgumentName);
+            _ = sb.Append(Arguments[i].ArgumentType).Append(' ');
+            if (CSKeywordChecker.IsKeyword(Arguments[i].ArgumentName)) {
+                _ = sb.Append('@');
+            }
+            _ = sb.Append(Arguments[i].ArgumentName);
             if (i != Arguments.Count - 1) {
                 _ = sb.Append(',').Append(' ');
             }
@@ -70,18 +79,31 @@ public record CSFunction {
 
     public static CSFunction FromNvimFunction(NvimFunction fn, string? prefixToRemove, bool isVirtualMethod) {
         string name;
-        if (prefixToRemove is not null) {
-            if (!fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
-                throw new System.InvalidOperationException($"Function {fn.Name} does not have expected prefix \"{prefixToRemove}\"");
-            }
-            name = StringUtil.ConvertToCamelCase(fn.Name[prefixToRemove.Length..], true);
-        } else {
+        //if (prefixToRemove is not null) {
+        //    if (!fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
+        //        throw new System.InvalidOperationException($"Function {fn.Name} does not have expected prefix \"{prefixToRemove}\"");
+        //    }
+        //    name = StringUtil.ConvertToCamelCase(fn.Name[prefixToRemove.Length..], true);
+        //} else {
+        //    name = StringUtil.ConvertToCamelCase(fn.Name, true);
+        //}
+
+        if (prefixToRemove is null) {
             name = StringUtil.ConvertToCamelCase(fn.Name, true);
+        } else {
+            if (fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
+                name = StringUtil.ConvertToCamelCase(fn.Name[prefixToRemove.Length..], true);
+            } else {
+                name = StringUtil.ConvertToCamelCase(fn.Name, true);
+            }
         }
 
         StringBuilder sb = new();
         for (int i = 0; i < fn.Parameters.Length; i++) {
-            _ = sb.Append('@').Append(fn.Parameters[i].ArgumentName);
+            if (CSKeywordChecker.IsKeyword(fn.Parameters[i].ArgumentName)) {
+                _ = sb.Append('@');
+            }
+            _ = sb.Append(fn.Parameters[i].ArgumentName);
             if (i != fn.Parameters.Length - 1) {
                 _ = sb.Append(',');
             }

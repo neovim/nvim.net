@@ -31,6 +31,25 @@ public record CSDocumentation {
             WriteIdentation(sb, identationLevel);
             _ = sb.Append("/// ").Append(l1).Append('\n');
         }
+
+        if (ParameterReferences is not null && ParameterReferences.Length > 0) {
+            Console.WriteLine("Adding {0} Parameters to function documentation for function {1}", ParameterReferences.Length, FunctionName);
+
+            WriteIdentation(sb, identationLevel);
+            _ = sb.Append("///\n");
+
+            WriteIdentation(sb, identationLevel);
+            _ = sb.Append("///\n");
+
+            foreach (string l in ParameterReferences) {
+                string l1 = l.Replace("\r", string.Empty);
+                WriteIdentation(sb, identationLevel);
+                _ = sb.Append("/// ").Append(l1).Append('\n');
+            }
+        } else {
+            Console.WriteLine("No Parameter to Add to documentation for function {0}", FunctionName);
+        }
+
         return sb.ToString();
     }
 
@@ -45,34 +64,82 @@ public record CSDocumentation {
     public static CSDocumentation FromMemberDefXElement(XElement memberdef) {
         //Console.WriteLine(element.Value);
 
-        XElement? desc = memberdef.Element("detaileddescription");
-        if (desc is null) {
+        XElement? detailed_description = memberdef.Element("detaileddescription");
+        if (detailed_description is null) {
             throw new InvalidOperationException("Expecting a \"detaileddescription\" tag but none was found");
         }
 
-        XElement summary = ParseDetailedDescription(desc);
+        XElement summary = ParseDetailedDescription(detailed_description);
 
         Console.WriteLine("Detailed Description:");
         Console.WriteLine(summary.ToString());
 
-        //Popoulate any parameters documentation for the function
-        foreach (XElement param in memberdef.Descendants("param")) {
-            XElement? name_elem = param.Element("declname");
 
-            if (name_elem is not null) {
-                XElement csparam = new("param");
-                csparam.SetAttributeValue("name", name_elem.Value);
+        XElement? paramlist = GetParameterListElement(detailed_description);
 
-                csparam.SetValue("Hello");
+        List<string> paramReferences = [];
+        if (paramlist is not null) {
+
+
+            //Popoulate any parameters documentation for the function. Param gets
+            //the parameter name and parameter type
+            foreach (XElement param in memberdef.Descendants("param")) {
+                XElement? param_name = param.Element("declname");
+                XElement? param_type = param.Element("type");
+
+                if (param_name is not null && param_type is not null) {
+                    //Csharp code is the following --> <param name="name">description</param>
+                    XElement? desc = GetParameterDescriptionByName(paramlist, param_name.Value);
+                    //In the following path detaileddescription/para/parameterlist we can get information
+                    if (desc is not null) {
+                        XElement csparam = new("param");
+                        csparam.SetAttributeValue("name", param_name.Value);
+                        csparam.Add(desc);
+                        string s = csparam.ToString();
+                        paramReferences.Add(s);
+                    }
+
+                }
+
             }
-
         }
+
+
 
         return new CSDocumentation() {
             FunctionName = memberdef.Element("name")!.Value,
             Summary = summary.ToString(),
-            ParameterReferences = null
+            ParameterReferences = [.. paramReferences]
         };
+    }
+
+    public static XElement? GetParameterListElement(XElement detailedDescription) {
+        foreach (XElement para_element in detailedDescription.Descendants("para")) {
+            foreach (XElement el in para_element.Elements()) {
+                if (el.Name.LocalName is "parameterlist") {
+                    return el;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static XElement? GetParameterDescriptionByName(XElement paramlist, string paramname) {
+        foreach (XElement parameter_item in paramlist.Elements()) {
+            XElement? paramnamelist = parameter_item.Element("parameternamelist");
+            if (paramnamelist is null) {
+                continue;
+            }
+            string? inner_name = paramnamelist.Element("parametername")?.Value;
+
+            if (inner_name is null) {
+                continue;
+            }
+            if (inner_name == paramname) {
+                return parameter_item.Element("paramaeterdescription");
+            }
+        }
+        return null;
     }
 
     /// <summary>

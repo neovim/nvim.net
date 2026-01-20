@@ -29,8 +29,15 @@ public sealed class NvimAPIGenerator {
         // Filter out functions only callable from Lua.
         apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.ArgumentType == "LuaRef")).ToArray();
 
-        GenerateNvimAPIClass("hola_test.cs", apiMetadata, _functionDocs);
         GenerateCSharpClasses(apiMetadata, _functionDocs);
+    }
+
+    public static void PrintFileLog(string filename) {
+        Console.Write("Generating File: ");
+        ConsoleColor currentcolor = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("{0}", filename);
+        Console.ForegroundColor = currentcolor;
     }
 
 
@@ -38,13 +45,19 @@ public sealed class NvimAPIGenerator {
     ///    Generates one NvimAPI class as well as nvim type classes
     ///</summary>
     private static void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
+        PrintFileLog("NvimAPI.Generated.cs");
         GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata, docs);
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
-            GenerateNvimTypeClass($"Nvim{kvp.Key}.cs", $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
+            string filename = $"Nvim{kvp.Key}.cs";
+            PrintFileLog(filename);
+            GenerateNvimTypeClass(filename, $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
+
         }
 
         foreach (NvimUIEvent ev in apiMetadata.SupportedUIEvents()) {
-            GenerateNvimEventArgs($"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs", ev, apiMetadata);
+            string filename = $"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs";
+            PrintFileLog(filename);
+            GenerateNvimEventArgs(filename, ev, apiMetadata);
         }
     }
 
@@ -76,10 +89,20 @@ public sealed class NvimAPIGenerator {
             cw.EventDeclarations.Add(ev);
         }
 
-        IEnumerable<NvimFunction> funcs = apiMetadata.SupportedFunctions();
+        IEnumerable<NvimFunction> funcs = apiMetadata.AvailableFunctions();
         foreach (NvimFunction f in funcs) {
             CSFunction fn = CSFunction.FromNvimFunction(f, "nvim_", isVirtualMethod: false);
-            fn.Documentation = docs[f.Name];
+            if (f.DeprecatedSince is not null) {
+                CSFunctionAttributeDescription attr = new() {
+                    AttributeName = "Obsolete"
+                };
+                fn.Attribute = attr;
+            }
+
+            if (docs.TryGetValue(f.Name, out CSDocumentation? value)) {
+                fn.Documentation = value;
+            }
+
             cw.FunctionDeclarations.Add(fn);
         }
 

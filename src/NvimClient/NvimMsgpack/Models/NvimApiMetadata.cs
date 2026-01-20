@@ -82,8 +82,8 @@ public class NvimAPIMetadata {
     /// Returns the <cref="NvimFunction"/> that are suppored for the current
     /// SuppurderAPI level;
     /// </summary>
-    public IEnumerable<NvimFunction> SupportedFunctions() {
-        return Functions.Where(static function => function.IsActive(OldestSupportedAPILevel) && !function.Method);
+    public IEnumerable<NvimFunction> AvailableFunctions() {
+        return Functions.Where(static function => !function.Method);
     }
 
     /// <summary>
