@@ -23,8 +23,6 @@ public sealed class NvimAPIGenerator {
     }
 
     public void GenerateCSharpFile() {
-        //_functionDocs = functionDocs?.ToDictionary(static functionDoc => functionDoc.Function, static funcDoc => funcDoc);
-        //
 
         // Filter out functions only callable from Lua.
         apiMetadata.Functions = apiMetadata.Functions.Where(static f => !f.Parameters.Any(static p => p.ArgumentType == "LuaRef")).ToArray();
@@ -47,13 +45,15 @@ public sealed class NvimAPIGenerator {
     private static void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
         PrintFileLog("NvimAPI.Generated.cs");
         GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata, docs);
+
+        ConsoleUtils.BlueWriteLine("=========== Generating Nvim Types ===========");
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
             string filename = $"Nvim{kvp.Key}.cs";
             PrintFileLog(filename);
             GenerateNvimTypeClass(filename, $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
-
         }
 
+        ConsoleUtils.BlueWriteLine("=========== Generating Nvim Events ===========");
         foreach (NvimUIEvent ev in apiMetadata.SupportedUIEvents()) {
             string filename = $"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs";
             PrintFileLog(filename);
