@@ -12,15 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NvimClient\NvimClient.csproj" />
-    <ProjectReference Include="..\..\src\NvimClient.APIGenerator\NvimClient.APIGenerator.csproj" />
+    <ProjectReference Include="..\..\NvimClient.API\NvimClient.API.csproj" />
+    <ProjectReference Include="..\..\NvimClient\NvimClient.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-      <Content Include="NvimDoxygen\**\*">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-  </ItemGroup>
-
 
 </Project>
