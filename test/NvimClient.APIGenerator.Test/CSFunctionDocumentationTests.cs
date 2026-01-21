@@ -64,10 +64,15 @@ public class CSFunctionDocumentationTests {
         XElement actual = CSDocumentation.DeNestShallowElement(input);
         System.Console.WriteLine(actual.ToString());
 
-        XElement expected = XElement.Parse(source);
+        string expect_source = """
+            <para>
+                This was originally a deeply nested element
+            </para>
+            """;
+        XElement expected = XElement.Parse(expect_source);
 
-        Assert.IsFalse(actual.HasElements);
-        Assert.IsFalse(actual.IsEmpty);
+        Assert.IsTrue(XNode.DeepEquals(actual, expected));
+
     }
 
 
