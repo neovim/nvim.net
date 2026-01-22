@@ -169,7 +169,7 @@ public record CSDocumentation {
 
 
     /// <summary>
-    /// Converts a doxygen paragraph into a
+    /// Converts a doxygen paragraph into a cs documentation
     /// </summary>
     public static XElement? ConvertParagraph(XElement para) {
         if (para.IsEmpty) {

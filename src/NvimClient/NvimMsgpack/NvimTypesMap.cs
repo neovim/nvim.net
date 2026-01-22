@@ -24,12 +24,12 @@ public static class NvimTypesMap {
 
     private static Dictionary<string, string> _nvimTypesMap {
         get {
-            return _types.ToDictionary(type => type.NvimTypeName, type => type.CSharpTypeName);
+            return _types.ToDictionary(static type => type.NvimTypeName, static type => type.CSharpTypeName);
         }
     }
 
     private static readonly HashSet<Type> _validCSharpTypes =
-      new HashSet<Type>(_types.Select(type => type.CSharpType));
+      [.. _types.Select(static type => type.CSharpType)];
 
     public static string GetCSharpType(string nvimType) {
         if (_nvimTypesMap.TryGetValue(nvimType, out string? csharpType)) {
@@ -53,10 +53,41 @@ public static class NvimTypesMap {
     }
 
     public static bool IsValidType(Type type) {
-        return _validCSharpTypes.Contains(type)
-      || type.IsArray && IsValidType(type.GetElementType())
-      || type.IsGenericType
-      && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
-      && type.GetGenericArguments().All(IsValidType);
+        return _validCSharpTypes.Contains(type) || IsValidArrayType(type) || IsValidGenericType(type);
+    }
+
+    public static bool IsValidArrayType(Type type) {
+        if (!type.IsArray) {
+            return false;
+        }
+        Type? elementType = type.GetElementType();
+        if (elementType is null) {
+            return false;
+        }
+
+        //We can now check the simple type. Or recurse if it is a nested
+        //array.
+        return IsValidType(elementType);
+    }
+
+    public static bool IsValidGenericType(Type type) {
+        if (!type.IsGenericType) {
+            return false;
+        }
+        Type theType = type.GetGenericTypeDefinition();
+        if (theType != typeof(IDictionary<,>)) {
+            return false;
+        }
+
+        //Check if each of the arguments is of valid type here
+        Type[] a = type.GetGenericArguments();
+        foreach (Type t in a) {
+            bool isvalid = IsValidType(t);
+            if (!isvalid) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

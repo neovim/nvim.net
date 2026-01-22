@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,27 +14,36 @@ namespace NvimPluginHost;
 // https://www.codeproject.com/Articles/1194332/Resolving-Assemblies-in-NET-Core
 
 /// <summary>
-/// Resolves all the assemblies that are required for execution of the assembly
+/// Resolves all the dependent assemblies that are required for execution of the assembly
 /// in a given path.
 /// </summary>
 internal sealed class AssemblyResolver : IDisposable {
 
     private readonly CompositeCompilationAssemblyResolver _assemblyResolver;
-    private readonly DependencyContext _dependencyContext;
+    private readonly DependencyContext? _dependencyContext;
     private readonly AssemblyLoadContext? _loadContext;
 
     public Assembly Assembly { get; }
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public AssemblyResolver(string path) {
         Assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
         _dependencyContext = DependencyContext.Load(Assembly);
 
-        _assemblyResolver = new CompositeCompilationAssemblyResolver
-        ([
-             new AppBaseCompilationAssemblyResolver(Path.GetDirectoryName(path)),
+        string? directoryName = Path.GetDirectoryName(path);
+        if (directoryName is null) {
+            throw new InvalidOperationException($"Cannot Get Directory Name for {path}");
+        }
+
+        ICompilationAssemblyResolver[] resolvers = [
+             new AppBaseCompilationAssemblyResolver(directoryName),
              new ReferenceAssemblyPathResolver(),
              new PackageCompilationAssemblyResolver()
-         ]);
+        ];
+
+        _assemblyResolver = new CompositeCompilationAssemblyResolver(resolvers);
 
         _loadContext = AssemblyLoadContext.GetLoadContext(Assembly);
         if (_loadContext is not null) {
@@ -54,6 +64,10 @@ internal sealed class AssemblyResolver : IDisposable {
         bool NamesMatch(RuntimeLibrary runtime) {
             return string.Equals(runtime.Name, name.Name,
               StringComparison.OrdinalIgnoreCase);
+        }
+
+        if (_dependencyContext is null) {
+            return null;
         }
 
         RuntimeLibrary? library = _dependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);

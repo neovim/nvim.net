@@ -278,22 +278,25 @@ public sealed partial class NvimAPI : IDisposable {
     /// This function does the same as <see cref="ScheduleRequestSend(NvimRequest)"/> but
     /// also converts the result to the given type.
     /// </summary>
-    private Task<TResult?> SendAndReceive<TResult>(NvimRequest request) {
-        return ScheduleRequestSend(request).ContinueWith(task => {
-            NvimResponse? response = task.Result;
-            // if (response is null) {
-            //     return null;
-            // }
-            object result = ConvertFromMessagePackObject(response.Result);
-            if (typeof(TResult).IsArray) {
-                object[] objectArray = (object[])result;
-                Array resultArray = Array.CreateInstance(typeof(TResult).GetElementType()!, objectArray.Length);
-                Array.Copy(objectArray, resultArray, resultArray.Length);
-                return (TResult)(object)resultArray;
-            }
+    private async Task<TResult> SendAndReceive<TResult>(NvimRequest request) {
+        NvimResponse? response = await ScheduleRequestSend(request);
 
-            return (TResult)result;
-        });
+        if (response is null) {
+            throw new InvalidOperationException("Neovim request returned no response.");
+        }
+
+        object result = ConvertFromMessagePackObject(response.Result);
+
+        if (typeof(TResult).IsArray) {
+            object[] objectArray = (object[])result;
+            Array resultArray = Array.CreateInstance(typeof(TResult).GetElementType()!, objectArray.Length);
+            Array.Copy(objectArray, resultArray, resultArray.Length);
+            return (TResult)(object)resultArray;
+        }
+
+        return (TResult)result;
+
+
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ internal static class Program {
         nvim.OnUnhandledRequest += (sender, request) => {
             // Load the plugin and get the handler asynchronously
             _ = Task.Run(() => {
-                Func<object[], object>? handler = GetPluginHandler(nvim, request.MethodName);
+                Func<object[], object?>? handler = GetPluginHandler(nvim, request.MethodName);
                 if (handler is null) {
                     string error = $"Could not find request handler for {request.MethodName}";
                     request.SendResponse(null, error);
@@ -29,8 +29,13 @@ internal static class Program {
 
                 Log.WriteLine($"Loaded handler for \"{request.MethodName}\"");
                 try {
-                    object result = handler(request.Arguments);
-                    request.SendResponse(result);
+                    object? result = handler(request.Arguments);
+                    if (result is null) {
+                        InvalidOperationException ex = new($"Handler for {request.MethodName} produced null");
+                        request.SendResponse(null, ex);
+                    } else {
+                        request.SendResponse(result);
+                    }
                 } catch (Exception exception) {
                     request.SendResponse(null, exception);
                 }
@@ -57,7 +62,7 @@ internal static class Program {
         Log.WriteLine("Plugin host stopping");
     }
 
-    private static Func<object[], object>? GetPluginHandler(NvimAPI nvim, string methodName) {
+    private static Func<object[], object?>? GetPluginHandler(NvimAPI nvim, string methodName) {
         string[] methodNameSplit = methodName.Split(':');
         // On Windows absolute paths contain a colon after the drive letter, so the first two elements must
         // be joined together to obtain the file path.

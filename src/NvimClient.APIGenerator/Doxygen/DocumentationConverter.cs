@@ -73,7 +73,7 @@ public sealed class DocumentationConverter {
                 yield return "</list>";
                 yield break;
             default:
-                yield return SecurityElement.Escape(element.ToString());
+                yield return SecurityElement.Escape(element.ToString()) ?? "";
                 yield break;
         }
     }
