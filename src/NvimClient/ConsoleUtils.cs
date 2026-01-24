@@ -1,12 +1,19 @@
 using System;
 
-namespace NvimClient.APIGenerator;
+namespace NvimClient;
 
 public static class ConsoleUtils {
     public static void ColorWrite(ConsoleColor color, string format, params object?[]? arg) {
         ConsoleColor a = Console.ForegroundColor;
         Console.ForegroundColor = color;
         Console.Write(format, arg);
+        Console.ForegroundColor = a;
+    }
+
+    public static void ColorWriteLine(ConsoleColor color, string format, params object?[]? arg) {
+        ConsoleColor a = Console.ForegroundColor;
+        Console.ForegroundColor = color;
+        Console.WriteLine(format, arg);
         Console.ForegroundColor = a;
     }
 

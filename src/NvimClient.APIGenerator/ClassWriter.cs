@@ -1,4 +1,3 @@
-using NvimClient.APIGenerator.Models;
 using NvimClient.APIGenerator.Properties.Models;
 using System;
 using System.Collections.Generic;

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using NvimClient.APIGenerator.Models;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.APIGenerator.Properties.Models;
 using System;
 using NvimClient.NvimMsgpack;
 using System.Text;
 using System.Globalization;
+using System.IO;
 
 namespace NvimClient.APIGenerator;
 
@@ -16,10 +16,12 @@ namespace NvimClient.APIGenerator;
 public sealed class NvimAPIGenerator {
     private readonly Dictionary<string, CSDocumentation> _functionDocs;
     private readonly NvimAPIMetadata apiMetadata;
+    private readonly string outputDir;
 
-    public NvimAPIGenerator(NvimAPIMetadata mdata, Dictionary<string, CSDocumentation> funcDocs) {
+    public NvimAPIGenerator(string outputDir, NvimAPIMetadata mdata, Dictionary<string, CSDocumentation> funcDocs) {
         apiMetadata = mdata;
         _functionDocs = funcDocs;
+        this.outputDir = outputDir;
     }
 
     public void GenerateCSharpFile() {
@@ -30,11 +32,15 @@ public sealed class NvimAPIGenerator {
         GenerateCSharpClasses(apiMetadata, _functionDocs);
     }
 
-    public static void PrintFileLog(string filename) {
+    public static void PrintFileLog(string filename, bool withLF) {
         Console.Write("Generating File: ");
         ConsoleColor currentcolor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("{0}", filename);
+        if (withLF) {
+            Console.WriteLine("{0}", filename);
+        } else {
+            Console.Write("{0}", filename);
+        }
         Console.ForegroundColor = currentcolor;
     }
 
@@ -42,22 +48,28 @@ public sealed class NvimAPIGenerator {
     ///<summary>
     ///    Generates one NvimAPI class as well as nvim type classes
     ///</summary>
-    private static void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
-        PrintFileLog("NvimAPI.Generated.cs");
-        GenerateNvimAPIClass("NvimAPI.Generated.cs", apiMetadata, docs);
+    private void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
+        ConsoleUtils.BlueWriteLine("=========== Starting Code Generation ===========");
+        string api_generated = Path.Combine(outputDir, "NvimAPI.Generated.cs");
+        PrintFileLog(api_generated, withLF: true);
+        GenerateNvimAPIClass(api_generated, apiMetadata, docs);
+        Console.Write("\n\n");
 
         ConsoleUtils.BlueWriteLine("=========== Generating Nvim Types ===========");
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
-            string filename = $"Nvim{kvp.Key}.cs";
-            PrintFileLog(filename);
+            string filename = Path.Combine(outputDir, $"Nvim{kvp.Key}.cs");
+            //The line will be change from GenerateNvimTypeClass
+            PrintFileLog(filename, withLF: false);
             GenerateNvimTypeClass(filename, $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
         }
+        Console.Write("\n\n");
 
         ConsoleUtils.BlueWriteLine("=========== Generating Nvim Events ===========");
         foreach (NvimUIEvent ev in apiMetadata.SupportedUIEvents()) {
             string filename = $"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs";
-            PrintFileLog(filename);
-            GenerateNvimEventArgs(filename, ev, apiMetadata);
+            string full_filename = Path.Combine(outputDir, filename);
+            PrintFileLog(full_filename, withLF: true);
+            GenerateNvimEventArgs(full_filename, ev, apiMetadata);
         }
     }
 
@@ -248,7 +260,11 @@ public sealed class NvimAPIGenerator {
             cw.FunctionDeclarations.Add(fn);
         }
 
-        Console.WriteLine("{0} Functions selected for {1}", cw.FunctionDeclarations.Count, classname);
+        if (cw.FunctionDeclarations.Count is 1) {
+            Console.WriteLine(" Containing {0} Function for {1}", cw.FunctionDeclarations.Count, classname);
+        } else {
+            Console.WriteLine(" Containing {0} Functions selected for {1}", cw.FunctionDeclarations.Count, classname);
+        }
 
 
         cw.WriteClassFile();

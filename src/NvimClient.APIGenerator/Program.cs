@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
 using NvimClient.APIGenerator.Doxygen;
 using NvimClient.APIGenerator.Properties.Models;
 
@@ -10,14 +10,13 @@ namespace NvimClient.APIGenerator;
 internal static class Program {
     private static int Main(string[] args) {
         if (args.Length is 0 or > 2) {
-            string? projectName = Assembly.GetExecutingAssembly().GetName().Name;
             string message = """
               Generates a C# class file containing wrappers for Neovim API functions and events.
-              Usage: NvimClient.APIGenerator.exe [output.cs] [nvim src]"
+              Usage: NvimClient.APIGenerator.exe [outdir] [nvim src]"
 
               Where:
 
-              [output.cs] is the output directory where the generated C# class files
+              [outdir] is the output directory where the generated C# class files
               will reside.
 
               [nvim src] the src directory inside the Neovim source directory.
@@ -26,7 +25,16 @@ internal static class Program {
             return 1;
         }
 
-        string outputPath = args.First();
+        string outputDir = args.First();
+        bool ok = Directory.Exists(outputDir);
+        if (!ok) {
+            Console.Write("Directory ");
+            ConsoleUtils.RedWrite(outputDir);
+            Console.Write(" does not exist");
+            return 1;
+        }
+
+
         string? nvimSrcDirectory = args.ElementAtOrDefault(1);
         if (nvimSrcDirectory is null) {
             Console.WriteLine("No neovim source provided");
@@ -43,7 +51,24 @@ internal static class Program {
         }
 
         Console.WriteLine("==== Metadata ====");
-        mdata.Print();
+        mdata.PrettyPrint();
+
+        Dictionary<string, CSDocumentation> docsDictionary = GenerateDoxygen(nvimSrcDirectory);
+
+        NvimAPIGenerator generator = new(outputDir, mdata, docsDictionary);
+        generator.GenerateCSharpFile();
+        return 0;
+    }
+
+    /// <summary>
+    /// Generate doxygen documentation from a newovim source directory.
+    /// </summary>
+    ///
+    /// <param name="nvimSrcDirectory">
+    ///     The rool location of the nvim source code. In other words the directory that
+    ///     contains the .git directory of the neovim repository.
+    /// </param>
+    private static Dictionary<string, CSDocumentation> GenerateDoxygen(string nvimSrcDirectory) {
 
         DoxygenGenerator gen = new();
 
@@ -59,16 +84,14 @@ internal static class Program {
 
         Console.WriteLine("Parsed {0} Functions", doxygenFunctionDocs.Count);
 
-        IEnumerable<IGrouping<string, CSDocumentation>> duplicates = doxygenFunctionDocs.GroupBy(static functionDoc => functionDoc.FunctionName)
-        .Where(static g => g.Count() > 1);
 
         Dictionary<string, CSDocumentation>? docsDictionary = doxygenFunctionDocs.ToDictionary(static functionDoc => functionDoc.FunctionName, static funcDoc => funcDoc);
-        if (docsDictionary is null) {
-            Console.WriteLine("Could not retreive source code documentation");
-            return 1;
-        }
-        NvimAPIGenerator generator = new(mdata, docsDictionary);
-        generator.GenerateCSharpFile();
-        return 0;
+        //if (docsDictionary is null) {
+        //    Console.WriteLine("Could not retreive source code documentation");
+        //    return 1;
+        //}
+
+        return docsDictionary;
+
     }
 }

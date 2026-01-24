@@ -32,7 +32,9 @@ public sealed class DoxygenParser {
 
 
     ///<summary>
-    ///     Parse the complete doxygen documentation
+    ///     Parse the complete doxygen xml documentation that has been generated
+    ///     from the doxygen process. Convert the entries to CSharp documentation
+    ///     xml.
     ///</summary>
     ///
     ///<returns>
@@ -69,10 +71,6 @@ public sealed class DoxygenParser {
 
             IEnumerable<XElement> doxFunctionDocs = GetNonStaticFunctionDefinitions(docXml);
 
-            List<XElement> a = [.. doxFunctionDocs];
-
-            CSDocumentation doc = CSDocumentation.FromMemberDefXElement(a.First());
-
             IEnumerable<CSDocumentation> functionDocs = doxFunctionDocs.Where(static ele => {
                 //Ommit empty types
                 XElement? typeElement = ele.Element("type");
@@ -84,18 +82,6 @@ public sealed class DoxygenParser {
 
             results.AddRange(functionDocs);
 
-
-            ////Omit Dict(cmd) for now. TODO: see what this does
-            //IEnumerable<FunctionDoc> functionDocs = doxFunctionDocs.Where(ele => {
-            //    //Ommit empty types
-            //    XElement? typeElement = ele.Element("type");
-            //    if (typeElement is null) {
-            //        return false;
-            //    }
-            //    return !string.IsNullOrWhiteSpace(typeElement.Value);
-            //}).Select(ele => FunctionDoc.FromXElement(ele, local_file));
-            //
-            //results.AddRange(functionDocs);
         }
 
         return results;

@@ -29,37 +29,55 @@ public class NvimAPIMetadata {
     [MessagePackMember(5)]
     public required Dictionary<string, NvimType> Types { get; set; }
 
-    public void Print() {
+    private static void PrintSectionTitle(string title) {
+        Console.Write("========== ");
+        ConsoleUtils.ColorWrite(ConsoleColor.Blue, title);
+        Console.Write(" ==========\n");
+    }
+
+    public void PrettyPrint() {
         Console.WriteLine("Version: {0}", Version);
-        Console.WriteLine("========== Functions ========== ");
+        PrintSectionTitle("Functions");
         foreach (NvimFunction f in Functions) {
-            Console.WriteLine(f);
+            Console.Write("Nvim Function:   ");
+            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-30}", f.Name);
+            if (f.DeprecatedSince is null) {
+                ConsoleUtils.ColorWriteLine(ConsoleColor.DarkGreen, "{0,10}", " Active");
+            } else {
+                ConsoleUtils.ColorWrite(ConsoleColor.Red, "{0,15}", " Deprecated ");
+                Console.WriteLine("Since Api Level {0}", f.DeprecatedSince.Value);
+            }
         }
         Console.WriteLine();
 
-        Console.WriteLine("========== UIEvents ========== ");
+        PrintSectionTitle("Nvim UI Events");
         foreach (NvimUIEvent e in UIEvents) {
-            Console.WriteLine(e);
+            Console.Write("Nvim UI Event:   ");
+            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-25}", e.Name);
+            Console.WriteLine("Since Api Level {0}", e.Since);
         }
         Console.WriteLine();
 
         if (UIOptions is not null) {
-            Console.WriteLine("========== UIOptions ========== ");
+            PrintSectionTitle("Nvim UI Options");
             foreach (string s in UIOptions) {
-                Console.WriteLine(s);
+                ConsoleUtils.ColorWriteLine(ConsoleColor.Green, s);
             }
+
             Console.WriteLine();
         }
 
-        Console.WriteLine("========== ErrorCodes ==========");
+        PrintSectionTitle("ErrorCodes");
         foreach (KeyValuePair<string, NvimErrorType> a in ErrorTypes) {
-            Console.WriteLine("Key = {0}, Value = {1}", a.Key, a.Value);
+            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-15}", a.Key);
+            ConsoleUtils.ColorWriteLine(ConsoleColor.DarkYellow, " Value: {0,-15}", a.Value.Id);
         }
         Console.WriteLine();
 
-        Console.WriteLine("========== NvimTypes ========== ");
+        PrintSectionTitle("NvimTypes");
         foreach (KeyValuePair<string, NvimType> a in Types) {
-            Console.WriteLine("Key = {0}, Value = {1}", a.Key, a.Value);
+            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-15}", a.Key);
+            ConsoleUtils.ColorWriteLine(ConsoleColor.DarkYellow, " Value: {0,-15}", a.Value.Id);
         }
 
         Console.WriteLine();
