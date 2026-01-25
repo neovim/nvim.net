@@ -3,7 +3,16 @@ Nvim.NET
 
 [![Test Workflow Status](https://github.com/neovim/nvim.net/actions/workflows/test.yml/badge.svg)](https://github.com/neovim/nvim.net/actions/workflows/test.yml)
 
-.NET client for [Neovim](https://github.com/neovim/neovim)
+This repository contains a set of C# projects that constitute the .NET client for
+[Neovim](https://github.com/neovim/neovim) this repository contains the
+following C# projects:
+
+1. `NvimClient` a common implementation of nvim primitives for .net
+1. `NvimClient.API` An nvim API implementation. This is the API that is called from
+   C# source code in order to interact with neovim.
+1. `NvimClient.APIGenerator` An API generator that provides source code for
+   `NvimClient.API`.
+1. `NvimPluginHost` a .net plugin that loads the produced plugin dll.
 
 Plugin Host Install
 ------------------------
