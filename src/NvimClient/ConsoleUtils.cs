@@ -8,7 +8,7 @@ namespace NvimClient;
 public static class ConsoleUtils {
     /// <summary>
     /// A general method for writing to console using a specified color. Similar to
-    /// <see cref="Console.Write(string, object?[]?)"> but with an aditional color
+    /// <see cref="Console.Write(string, object[])"/> but with an aditional color
     /// argumen
     /// </summary>
     public static void ColorWrite(ConsoleColor color, string format, params object?[]? arg) {
@@ -20,7 +20,7 @@ public static class ConsoleUtils {
 
     /// <summary>
     /// A general method for writing to console using a specified color. Similar to
-    /// <see cref="Console.WriteLine(string, object?[]?)"> but with an aditional color
+    /// <see cref="Console.WriteLine(string, object[])"/> but with an aditional color
     /// argumen
     /// </summary>
     public static void ColorWriteLine(ConsoleColor color, string format, params object?[]? arg) {
@@ -31,7 +31,7 @@ public static class ConsoleUtils {
     }
 
     /// <summary>
-    /// A <see cref="Console.Write(string, object?[]?)"/> implementation that writes
+    /// A <see cref="Console.Write(string, object[])"/> implementation that writes
     /// with <see cref="ConsoleColor.Red"/> color to the console.
     /// </summary>
     public static void RedWrite(string format, params object?[]? arg) {
@@ -42,7 +42,7 @@ public static class ConsoleUtils {
     }
 
     /// <summary>
-    /// A <see cref="Console.WriteLine(string, object?[]?)"/> implementation that writes
+    /// A <see cref="Console.WriteLine(string, object[])"/> implementation that writes
     /// with <see cref="ConsoleColor.Red"/> color to the console.
     /// </summary>
     public static void RedWriteLine(string format, params object?[]? arg) {
@@ -53,7 +53,7 @@ public static class ConsoleUtils {
     }
 
     /// <summary>
-    /// A <see cref="Console.WriteLine(string, object?[]?)"/> implementation that writes
+    /// A <see cref="Console.WriteLine(string, object[])"/> implementation that writes
     /// with <see cref="ConsoleColor.Blue"/> color to the console.
     /// </summary>
     public static void BlueWriteLine(string format, params object?[]? arg) {

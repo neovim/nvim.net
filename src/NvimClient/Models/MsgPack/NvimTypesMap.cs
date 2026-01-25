@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace NvimClient.Models.MsgPack;
 
+/// <summary>
+/// A class the provides mappings between nvim types and C# types
+/// </summary>
 public static class NvimTypesMap {
     /// <summary>
     /// A global map between the Nvim Types, and the CSharp types both in name and type
@@ -28,9 +31,16 @@ public static class NvimTypesMap {
         }
     }
 
-    private static readonly HashSet<Type> _validCSharpTypes =
-      [.. _types.Select(static type => type.CSharpType)];
+    /// <summary>
+    /// The set of valid C# types
+    /// </summary>
+    private static readonly HashSet<Type> _validCSharpTypes = [.. _types.Select(static type => type.CSharpType)];
 
+    /// <summary>
+    /// Gets the C# type as string
+    /// </summary>
+    ///
+    /// <param name="nvimType">The nvim type for which the mapping is requested</param>
     public static string GetCSharpType(string nvimType) {
         if (_nvimTypesMap.TryGetValue(nvimType, out string? csharpType)) {
             return csharpType;
@@ -52,10 +62,17 @@ public static class NvimTypesMap {
         return "Nvim" + nvimType;
     }
 
+
+    /// <summary>
+    /// Indicates if this type is a valid C# type
+    /// </summary>
     public static bool IsValidType(Type type) {
         return _validCSharpTypes.Contains(type) || IsValidArrayType(type) || IsValidGenericType(type);
     }
 
+    /// <summary>
+    /// Indicates if this type is a valid array type
+    /// </summary>
     public static bool IsValidArrayType(Type type) {
         if (!type.IsArray) {
             return false;
@@ -70,6 +87,9 @@ public static class NvimTypesMap {
         return IsValidType(elementType);
     }
 
+    /// <summary>
+    /// Indicates if this type is a valid generic type
+    /// </summary>
     public static bool IsValidGenericType(Type type) {
         if (!type.IsGenericType) {
             return false;

@@ -44,7 +44,7 @@ public class CSFunctionDocumentationTests {
         Assert.IsNotNull(para);
         Assert.IsFalse(para.IsEmpty);
         System.Console.WriteLine(para.ToString());
-        Assert.IsFalse(true);
+        Assert.Fail();
 
     }
 

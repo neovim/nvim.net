@@ -16,7 +16,13 @@ namespace NvimClient.Test;
 [TestClass]
 public class NvimTests {
 
+#pragma warning disable CS8618
+    /// <summary>
+    /// The <see cref="Microsoft.VisualStudio.TestTools.UnitTesting.TestContext/>
+    /// that is automaticaly populaed by the framework.
+    /// </summary>
     public TestContext TestContext { get; set; }
+#pragma warning restore CS8618
 
 
     [TestMethod]

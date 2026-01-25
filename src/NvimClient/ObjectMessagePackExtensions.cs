@@ -13,7 +13,7 @@ namespace NvimClient;
 /// <remarks>
 ///     Neovim uses lua with provides dynamic objects. Thus there is a lot of boxing
 ///     involved.
-/// </remark>
+/// </remarks>
 public static class ObjectMessagePackExtensions {
 
     /// <summary>
@@ -83,7 +83,7 @@ public static class ObjectMessagePackExtensions {
 
 
     /// <summary>
-    /// Converts an <see cref="IEnumerable"/> of objects to a <see cref="List<MessagePackObject>"/>
+    /// Converts an <see cref="IEnumerable"/> of objects to a <see cref="List{MessagePackObject}"/>
     /// </summary>
     private static List<MessagePackObject> ToMessagePackEnumerable(this IEnumerable<object> enumerable) {
         List<MessagePackObject> list = [];

@@ -6,26 +6,47 @@ using System.Linq;
 namespace NvimClient.Models.Nvim;
 
 /// <summary>
-/// NVIM API metadata
+///     NVIM API metadata
 /// </summary>
 public class NvimAPIMetadata {
+    /// <summary>
+    /// The oldest supported nvim api level
+    /// </summary>
     public const int OLDEST_SUPPORTED_API_LEVEL = 4;
 
+    /// <summary>
+    /// The nvim vesion that provided the metadata contained in this class
+    /// </summary>
     [MessagePackMember(0)]
     public required NvimVersion Version { get; set; }
 
+    /// <summary>
+    /// An array of the available nvim functions
+    /// </summary>
     [MessagePackMember(1)]
     public required NvimFunction[] Functions { get; set; }
 
+    /// <summary>
+    /// An array of the available nvim ui events
+    /// </summary>
     [MessagePackMember(2)]
     public required NvimUIEvent[] UIEvents { get; set; }
 
+    /// <summary>
+    /// An array of the available nvim ui options
+    /// </summary>
     [MessagePackMember(3)]
     public List<string>? UIOptions { get; set; }
 
+    /// <summary>
+    /// A mapping of the available nvim errors
+    /// </summary>
     [MessagePackMember(4)]
     public required Dictionary<string, NvimErrorType> ErrorTypes { get; set; }
 
+    /// <summary>
+    /// A mapping of the nvim types that are exposed by nvim
+    /// </summary>
     [MessagePackMember(5)]
     public required Dictionary<string, NvimType> Types { get; set; }
 
@@ -35,6 +56,9 @@ public class NvimAPIMetadata {
         Console.Write(" ==========\n");
     }
 
+    /// <summary>
+    /// Pretty prints this metadata. This function uses colors
+    /// </summary>
     public void PrettyPrint() {
         Console.WriteLine("Version: {0}", Version);
         PrintSectionTitle("Functions");
@@ -89,7 +113,7 @@ public class NvimAPIMetadata {
 
 
     /// <summary>
-    /// Returns the <cref="NvimUIEvent"/> that are suppored for the current
+    /// Returns the <see cref="NvimUIEvent"/> that are suppored for the current
     /// SuppurderAPI level;
     /// </summary>
     public IEnumerable<NvimUIEvent> SupportedUIEvents() {
@@ -97,7 +121,7 @@ public class NvimAPIMetadata {
     }
 
     /// <summary>
-    /// Returns the <cref="NvimFunction"/> that are suppored for the current
+    /// Returns the <see cref="NvimFunction"/> that are suppored for the current
     /// SuppurderAPI level;
     /// </summary>
     public IEnumerable<NvimFunction> AvailableFunctions() {
@@ -105,7 +129,7 @@ public class NvimAPIMetadata {
     }
 
     /// <summary>
-    /// Returns the <cref="NvimFunction"/> that are methods for a given nvim type and
+    /// Returns the <see cref="NvimFunction"/> that are methods for a given nvim type and
     /// Supported level;
     /// </summary>
     public IEnumerable<NvimFunction> SupportedMethods(NvimType t) {

@@ -17,7 +17,7 @@ public record NvimNotification {
     public required MessagePackObject[] Params { get; set; }
 
     /// <summary>
-    /// Just a property that makes <see cref="Params" displayable
+    /// Just a property that makes <see cref="Params"/> displayable
     /// as a human readble string
     /// </summary>
     public string ParamsString() {
@@ -28,6 +28,9 @@ public record NvimNotification {
         }
     }
 
+    /// <summary>
+    /// Convert a <see cref="MessagePackObject"/> object to an <see cref="NvimNotification"/>
+    /// </summary>
     public static NvimNotification? FromMessagePackObject(MessagePackObject obj) {
         if (!obj.IsArray) {
             return null;

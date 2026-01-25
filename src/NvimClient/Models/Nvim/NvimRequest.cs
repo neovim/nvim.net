@@ -44,7 +44,7 @@ public record NvimRequest {
 
 
     /// <summary>
-    /// Just a property that makes <see cref="Params" displayable as a
+    /// Just a property that makes <see cref="Params"/> displayable as a
     /// human readble string
     /// </summary>
     public string ParamsString() {
