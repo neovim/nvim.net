@@ -29,25 +29,26 @@ public sealed class ClassWriter : IDisposable {
     private readonly StreamWriter streamWriter;
 
     public ClassWriter(string filename) {
-        streamWriter = new StreamWriter(filename);
-        streamWriter.NewLine = "\n";
+        streamWriter = new StreamWriter(filename) {
+            NewLine = "\n"
+        };
     }
 
     /// <summary>
-    /// Writes the usings of the file as well as it's namespace
+    /// Writes the usings and the namespace of the class.
     /// </summary>
     public void WriteHeader() {
-        if (Usings is null) {
-            return;
+        if (Usings is not null) {
+
+            foreach (string u in Usings) {
+                string s = $"using {u};";
+                streamWriter.WriteLine(s);
+            }
+
+            streamWriter.WriteLine();
+            streamWriter.WriteLine();
         }
 
-        foreach (string u in Usings) {
-            string s = $"using {u};";
-            streamWriter.WriteLine(s);
-        }
-
-        streamWriter.WriteLine();
-        streamWriter.WriteLine();
 
         streamWriter.WriteLine($"namespace {Namespace};");
 
@@ -109,21 +110,21 @@ public sealed class ClassWriter : IDisposable {
         WriteHeader();
         ClassStart();
 
-        if (Fields is not null) {
+        if (Fields is not null && Fields.Count > 0) {
             foreach (CSField f in Fields) {
                 WriteIdentation();
                 streamWriter.WriteLine(f.ToCode());
             }
         }
 
-        if (Properties is not null) {
+        if (Properties is not null && Properties.Count > 0) {
             foreach (CSProperty p in Properties) {
                 WriteIdentation();
                 streamWriter.WriteLine(p.ToCode());
             }
         }
 
-        if (EventDeclarations is not null) {
+        if (EventDeclarations is not null && EventDeclarations.Count > 0) {
             streamWriter.WriteLine();
             streamWriter.WriteLine();
             foreach (CSEventDeclaration e in EventDeclarations) {
@@ -133,13 +134,11 @@ public sealed class ClassWriter : IDisposable {
         }
 
 
-        if (FunctionDeclarations is not null) {
+        if (FunctionDeclarations is not null && FunctionDeclarations.Count > 0) {
             streamWriter.WriteLine();
             streamWriter.WriteLine();
             foreach (CSFunction f in FunctionDeclarations) {
                 streamWriter.WriteLine(f.ToCode(identationLevel));
-                streamWriter.WriteLine();
-                streamWriter.WriteLine();
             }
         }
 

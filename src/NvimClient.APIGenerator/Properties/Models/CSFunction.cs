@@ -29,6 +29,9 @@ public record CSFunction {
         }
     }
 
+    /// <summary>
+    /// Converts the <see cref="CSFunction"/> object to code
+    /// </summary>
     public string ToCode(int identationLevel) {
         StringBuilder sb = new();
 
@@ -79,14 +82,6 @@ public record CSFunction {
 
     public static CSFunction FromNvimFunction(NvimFunction fn, string? prefixToRemove, bool isVirtualMethod) {
         string name;
-        //if (prefixToRemove is not null) {
-        //    if (!fn.Name.StartsWith(prefixToRemove, System.StringComparison.Ordinal)) {
-        //        throw new System.InvalidOperationException($"Function {fn.Name} does not have expected prefix \"{prefixToRemove}\"");
-        //    }
-        //    name = StringUtil.ConvertToCamelCase(fn.Name[prefixToRemove.Length..], true);
-        //} else {
-        //    name = StringUtil.ConvertToCamelCase(fn.Name, true);
-        //}
 
         if (prefixToRemove is null) {
             name = StringUtil.ConvertToCamelCase(fn.Name, true);
@@ -123,7 +118,16 @@ public record CSFunction {
             SendAndReceive<string>(req);
             """;
 
+
+        CSFunctionAttributeDescription? potentially_deprecated = null;
+        if (fn.DeprecatedSince is not null) {
+            potentially_deprecated = new CSFunctionAttributeDescription() {
+                AttributeName = "Obsolete"
+            };
+        }
+
         return new CSFunction() {
+            Attribute = potentially_deprecated,
             Specifiers = [
                 "public"
             ],
@@ -185,8 +189,16 @@ public record CSFunction {
         }
 
 
+        CSFunctionAttributeDescription? potentially_deprecated = null;
+        if (fn.DeprecatedSince is not null) {
+            potentially_deprecated = new CSFunctionAttributeDescription() {
+                AttributeName = "Obsolete"
+            };
+        }
+
 
         return new CSFunction() {
+            Attribute = potentially_deprecated,
             Specifiers = [
                 "public"
             ],

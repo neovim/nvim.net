@@ -66,9 +66,11 @@ public class NvimAPIMetadata {
             Console.Write("Nvim Function:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-30}", f.Name);
             if (f.DeprecatedSince is null) {
-                ConsoleUtils.ColorWriteLine(ConsoleColor.DarkGreen, "{0,10}", " Active");
+                ConsoleUtils.ColorWrite(ConsoleColor.DarkGreen, " Active");
+                Console.Write(" Since Api Level ");
+                ConsoleUtils.ColorWriteLine(ConsoleColor.Blue, " {0,-5}", f.Since);
             } else {
-                ConsoleUtils.ColorWrite(ConsoleColor.Red, "{0,15}", " Deprecated ");
+                ConsoleUtils.ColorWrite(ConsoleColor.Red, "{0,12}", " Deprecated ");
                 Console.WriteLine("Since Api Level {0}", f.DeprecatedSince.Value);
             }
         }
@@ -78,7 +80,7 @@ public class NvimAPIMetadata {
         foreach (NvimUIEvent e in UIEvents) {
             Console.Write("Nvim UI Event:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-25}", e.Name);
-            Console.WriteLine("Since Api Level {0}", e.Since);
+            Console.WriteLine("Active Since Api Level {0}", e.Since);
         }
         Console.WriteLine();
 

@@ -69,7 +69,7 @@ public sealed class NvimAPIGenerator {
             string filename = $"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs";
             string full_filename = Path.Combine(outputDir, filename);
             PrintFileLog(full_filename, withLF: true);
-            GenerateNvimEventArgs(full_filename, ev, apiMetadata);
+            GenerateNvimEventArgs(full_filename, ev);
         }
     }
 
@@ -180,7 +180,7 @@ public sealed class NvimAPIGenerator {
     ///<summary>
     ///     Generates a C# class for a specific <see cref=NvimUIEvent/>
     ///</summary>
-    public static void GenerateNvimEventArgs(string outputPath, NvimUIEvent theEvent, NvimAPIMetadata apiMetadata) {
+    public static void GenerateNvimEventArgs(string outputPath, NvimUIEvent theEvent) {
         ClassWriter cw = new(outputPath) {
             IsSealedClass = false,
             IsPartialClass = false,
@@ -260,10 +260,21 @@ public sealed class NvimAPIGenerator {
             cw.FunctionDeclarations.Add(fn);
         }
 
+        //One function is the constructor
         if (cw.FunctionDeclarations.Count is 1) {
-            Console.WriteLine(" Containing {0} Function for {1}", cw.FunctionDeclarations.Count, classname);
+            Console.WriteLine(" Containing no Functions for {0}", classname);
         } else {
-            Console.WriteLine(" Containing {0} Functions selected for {1}", cw.FunctionDeclarations.Count, classname);
+            Console.WriteLine(" Containing {0} Functions selected for {1}", cw.FunctionDeclarations.Count - 1, classname);
+        }
+
+        foreach (NvimFunction f in funcs) {
+            Console.Write("Member {0,30}", f.Name);
+            if (f.DeprecatedSince is null) {
+                ConsoleUtils.ColorWriteLine(ConsoleColor.DarkGreen, " Active Sinde Api Level {0,5}", f.Since);
+            } else {
+                ConsoleUtils.ColorWrite(ConsoleColor.Red, "{0,15}", " Deprecated ");
+                Console.WriteLine("Since Api Level {0}", f.DeprecatedSince.Value);
+            }
         }
 
 
