@@ -93,7 +93,7 @@ public sealed class NvimAPIGenerator {
                 "System.Threading.Tasks",
                 "System.Runtime.Serialization",
                 "MsgPack",
-                "NvimClient.NvimMsgpack.Models"
+                "NvimClient.Models.MsgPack"
             ],
             EventDeclarations = [],
             FunctionDeclarations = []
@@ -109,10 +109,11 @@ public sealed class NvimAPIGenerator {
         foreach (NvimFunction f in funcs) {
             CSFunction fn = CSFunction.FromNvimFunction(f, "nvim_", isVirtualMethod: false);
             if (f.DeprecatedSince is not null) {
-                CSFunctionAttributeDescription attr = new() {
-                    AttributeName = "Obsolete"
-                };
-                fn.Attribute = attr;
+                continue;
+                //CSFunctionAttributeDescription attr = new() {
+                //    AttributeName = "Obsolete"
+                //};
+                //fn.Attribute = attr;
             }
 
             if (docs.TryGetValue(f.Name, out CSDocumentation? value)) {
@@ -191,7 +192,7 @@ public sealed class NvimAPIGenerator {
             ClassName = $"{StringUtil.ConvertToCamelCase(theEvent.Name, capitalizeFirstChar: true)}EventArgs",
             BaseClasses = ["EventArgs"],
             Namespace = "NvimClient.API",
-            Usings = [],
+            Usings = ["System"],
             EventDeclarations = [],
             FunctionDeclarations = [],
             Properties = []
@@ -204,6 +205,9 @@ public sealed class NvimAPIGenerator {
                 Name = StringUtil.ConvertToCamelCase(p.ArgumentName, capitalizeFirstChar: true)
             };
             cw.Properties.Add(prop);
+            if(prop.Type is "IDictionary") {
+                cw.Usings.Add("System.Collections.Generic");
+            }
         }
         cw.WriteClassFile();
     }
@@ -217,7 +221,11 @@ public sealed class NvimAPIGenerator {
             IsPartialClass = false,
             ClassName = classname,
             Namespace = "NvimClient.API",
-            Usings = [],
+            Usings = [
+                "System",
+                "System.Threading.Tasks",
+                "MsgPack"
+            ],
             EventDeclarations = [],
             FunctionDeclarations = [],
             Fields = [

@@ -70,12 +70,13 @@ public sealed class ClassWriter : IDisposable {
     /// </summary>
     public void ClassStart() {
         streamWriter.Write("public ");
-        if (IsPartialClass) {
-            streamWriter.Write("partial ");
-        }
 
         if (IsSealedClass) {
             streamWriter.Write("sealed ");
+        }
+
+        if (IsPartialClass) {
+            streamWriter.Write("partial ");
         }
 
         streamWriter.Write($"class {ClassName} ");

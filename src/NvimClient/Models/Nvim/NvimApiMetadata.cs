@@ -80,6 +80,11 @@ public class NvimAPIMetadata {
         foreach (NvimUIEvent e in UIEvents) {
             Console.Write("Nvim UI Event:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-25}", e.Name);
+            if(e.Parameters.Length > 0) {
+                foreach(NvimParameter par in e.Parameters) {
+                    ConsoleUtils.ColorWrite(ConsoleColor.Green, " {0} ", par.ArgumentType);
+                }
+            }
             Console.WriteLine("Active Since Api Level {0}", e.Since);
         }
         Console.WriteLine();
