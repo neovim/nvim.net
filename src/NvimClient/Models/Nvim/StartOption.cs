@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace NvimClient.NvimProcess;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
-/// Neovim starup arguments. Actual string values are decorated
-/// as attributes.
+///     Neovim starup arguments. Actual string values are decorated
+///     as attributes.
 /// </summary>
+///
+/// <remarks>
+///     This is a flag type enum. Meaning that multiple enum values may be present
+///     in a single enum instance.
+/// </remarks>
 [Flags]
 public enum StartOption {
     None = 0,
@@ -30,6 +35,9 @@ public enum StartOption {
 
 public static class StartOptionExtensions {
 
+    /// <summary>
+    /// Converts a <see cref="StartOption"/> to a list of arguments for nvim
+    /// </summary>
     public static IReadOnlyList<string> ToNvimStringArguments(this StartOption options) {
         if (options == StartOption.None) {
             return [];
@@ -50,10 +58,15 @@ public static class StartOptionExtensions {
             result.Add("--api-info");
         }
 
-        // Optional: detect unknown bits (helps catch bugs when enum evolves)
+        // detect unknown bits (helps catch bugs when enum evolves)
         StartOption known = StartOption.Embed | StartOption.Headless | StartOption.ApiInfo;
+
+        //We do that by accumulating all the flags in the line above. Then using
+        //two's complement if the bitwise AND produces even one non zero bit then
+        //we have an unknown flag.
+
         StartOption unknown = options & ~known;
-        if (unknown != 0) {
+        if (unknown is not 0) {
             throw new ArgumentOutOfRangeException(nameof(options), options, $"Unknown StartOption bits: {unknown}");
         }
 

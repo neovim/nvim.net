@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
@@ -11,8 +10,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MsgPack;
+using NvimClient.Models.Nvim;
+using NvimClient.Models.MsgPack;
 using MsgPack.Serialization;
-using NvimClient.NvimMsgpack.Models;
 
 namespace NvimClient.API;
 

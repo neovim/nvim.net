@@ -5,10 +5,22 @@ using System.Collections.Generic;
 
 namespace NvimClient;
 
+/// <summary>
+///     A class the provides extensions to the <see cref="object"/> class for dealing
+///     with <see cref="MessagePackObject"/>.
+/// </summary>
+///
+/// <remarks>
+///     Neovim uses lua with provides dynamic objects. Thus there is a lot of boxing
+///     involved.
+/// </remark>
 public static class ObjectMessagePackExtensions {
+
+    /// <summary>
+    /// Converts an <see cref="object"/> to a <see cref="MessagePackObject"/>
+    /// </summary>
     public static MessagePackObject ToMessagePackObject(this object? obj) {
-
-
+        //If Array or Dictionary use specific extensions for conversion
         if (obj is Array array) {
             return array.ToMessagePackObject();
         }
@@ -20,7 +32,9 @@ public static class ObjectMessagePackExtensions {
         return MessagePackObject.FromObject(obj);
     }
 
-
+    /// <summary>
+    /// Converts an <see cref="Array"/> of objects to an array of <see cref="MessagePackObject"/>
+    /// </summary>
     private static MessagePackObject[] ToMessagePackArray(this Array inputArray) {
         MessagePackObject[] list = new MessagePackObject[inputArray.Length];
 
@@ -31,6 +45,9 @@ public static class ObjectMessagePackExtensions {
         return list;
     }
 
+    /// <summary>
+    /// Converts an <see cref="Array"/> of objects to a single <see cref="MessagePackObject"/>
+    /// </summary>
     private static MessagePackObject ToMessagePackObject(this Array inputArray) {
         List<MessagePackObject> list = [];
 
@@ -42,6 +59,10 @@ public static class ObjectMessagePackExtensions {
         return MessagePackObject.FromObject(list);
     }
 
+
+    /// <summary>
+    /// Converts an <see cref="IDictionary"/> of objects to a single <see cref="MessagePackObject"/>
+    /// </summary>
     private static MessagePackObject ToMessagePackObject(this IDictionary dictionary) {
 
         MessagePackObjectDictionary map = [];
@@ -61,6 +82,9 @@ public static class ObjectMessagePackExtensions {
     }
 
 
+    /// <summary>
+    /// Converts an <see cref="IEnumerable"/> of objects to a <see cref="List<MessagePackObject>"/>
+    /// </summary>
     private static List<MessagePackObject> ToMessagePackEnumerable(this IEnumerable<object> enumerable) {
         List<MessagePackObject> list = [];
 

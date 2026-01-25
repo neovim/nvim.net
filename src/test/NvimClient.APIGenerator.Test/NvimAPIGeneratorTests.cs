@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NvimClient.NvimMsgpack.Models;
+using NvimClient.Models.Nvim;
 using System;
 
 namespace NvimClient.APIGenerator.Test;

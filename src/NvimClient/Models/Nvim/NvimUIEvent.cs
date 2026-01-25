@@ -1,7 +1,7 @@
 using MsgPack.Serialization;
 using System.Linq;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// Represents an nvim UI Event

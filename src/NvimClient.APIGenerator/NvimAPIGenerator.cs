@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using NvimClient.NvimMsgpack.Models;
 using NvimClient.APIGenerator.Properties.Models;
 using System;
-using NvimClient.NvimMsgpack;
+using NvimClient.Models.Nvim;
 using System.Text;
 using System.Globalization;
 using System.IO;
+using NvimClient.Models.MsgPack;
 
 namespace NvimClient.APIGenerator;
 

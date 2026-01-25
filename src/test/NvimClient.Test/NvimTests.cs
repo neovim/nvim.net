@@ -8,9 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
 using MsgPack.Serialization;
 using NvimClient.API;
-using NvimClient.NvimMsgpack;
-using NvimClient.NvimMsgpack.Models;
-using NvimClient.NvimProcess;
+using NvimClient.Models.MsgPack;
+using NvimClient.Models.Nvim;
 
 namespace NvimClient.Test;
 

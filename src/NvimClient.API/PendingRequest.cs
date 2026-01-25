@@ -1,8 +1,9 @@
-using NvimClient.NvimMsgpack.Models;
+using NvimClient.Models.MsgPack;
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using NvimClient.Models.Nvim;
 
 namespace NvimClient.API;
 

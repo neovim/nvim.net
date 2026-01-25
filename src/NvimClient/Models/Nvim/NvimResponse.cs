@@ -1,8 +1,9 @@
 using MsgPack;
 using MsgPack.Serialization;
+using NvimClient.Models.MsgPack;
 using System.Collections.Generic;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 ///     Represents an RPC response from nvim. This can either be a request or a

@@ -1,4 +1,4 @@
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// Represents the version information that Neovim Exposes

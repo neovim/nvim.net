@@ -1,4 +1,4 @@
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// Defines the Nvim Error type. This is required for the deserialisation schema

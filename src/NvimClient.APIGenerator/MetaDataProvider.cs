@@ -1,6 +1,5 @@
+using NvimClient.Models.Nvim;
 using MsgPack.Serialization;
-using NvimClient.NvimMsgpack.Models;
-using NvimClient.NvimProcess;
 using System.Diagnostics;
 
 namespace NvimClient.APIGenerator;

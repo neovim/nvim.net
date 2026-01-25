@@ -1,6 +1,6 @@
 using MsgPack.Serialization;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// Nvim Parameters as defined by the metadata

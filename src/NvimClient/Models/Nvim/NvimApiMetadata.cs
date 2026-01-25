@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// NVIM API metadata
 /// </summary>
 public class NvimAPIMetadata {
-    public const int OldestSupportedAPILevel = 4;
+    public const int OLDEST_SUPPORTED_API_LEVEL = 4;
 
     [MessagePackMember(0)]
     public required NvimVersion Version { get; set; }
@@ -93,7 +93,7 @@ public class NvimAPIMetadata {
     /// SuppurderAPI level;
     /// </summary>
     public IEnumerable<NvimUIEvent> SupportedUIEvents() {
-        return UIEvents.Where(static uiEvent => uiEvent.IsActive(OldestSupportedAPILevel));
+        return UIEvents.Where(static uiEvent => uiEvent.IsActive(OLDEST_SUPPORTED_API_LEVEL));
     }
 
     /// <summary>
@@ -109,6 +109,6 @@ public class NvimAPIMetadata {
     /// Supported level;
     /// </summary>
     public IEnumerable<NvimFunction> SupportedMethods(NvimType t) {
-        return Functions.Where(function => function.IsActive(OldestSupportedAPILevel) && function.Method && function.Name.StartsWith(t.Prefix, StringComparison.Ordinal));
+        return Functions.Where(function => function.IsActive(OLDEST_SUPPORTED_API_LEVEL) && function.Method && function.Name.StartsWith(t.Prefix, StringComparison.Ordinal));
     }
 }

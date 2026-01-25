@@ -1,5 +1,5 @@
+using NvimClient.Models.Nvim;
 using System.Diagnostics;
-using NvimClient.NvimProcess;
 
 namespace NvimClient.Test;
 

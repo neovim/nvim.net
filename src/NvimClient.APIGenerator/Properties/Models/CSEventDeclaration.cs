@@ -1,4 +1,4 @@
-using NvimClient.NvimMsgpack.Models;
+using NvimClient.Models.Nvim;
 using System.Collections.Generic;
 using System.Text;
 

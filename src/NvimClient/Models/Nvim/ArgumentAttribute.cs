@@ -1,6 +1,6 @@
 using System;
 
-namespace NvimClient.NvimProcess;
+namespace NvimClient.Models.Nvim;
 
 [AttributeUsage(AttributeTargets.Field)]
 internal class ArgumentAttribute : Attribute {

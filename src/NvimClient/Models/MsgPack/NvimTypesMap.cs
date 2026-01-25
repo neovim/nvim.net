@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NvimClient.NvimMsgpack;
+namespace NvimClient.Models.MsgPack;
 
 public static class NvimTypesMap {
     /// <summary>

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace NvimClient.NvimProcess;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 ///   A wrapper for <see cref="System.Diagnostics.ProcessStartInfo" />
@@ -10,14 +10,18 @@ namespace NvimClient.NvimProcess;
 /// </summary>
 public class NvimProcessStartInfo {
     /// <summary>
-    ///   The underlying ProcessStartInfo that may be passed to
-    ///   <see cref="Process.Start(ProcessStartInfo)" />.
+    ///   The underlying <see cref="System.Diagnostics.ProcessStartInfo"/> that
+    ///   may be passed to <see cref="Process.Start(ProcessStartInfo)" />.
     /// </summary>
     public ProcessStartInfo ProcessStartInfo { get; set; }
 
     /// <summary>
     ///   Gets or sets the address the Nvim RPC server will listen on.
     /// </summary>
+    ///
+    /// <remarks>
+    ///     This set's and reads an environment variable
+    /// </remarks>
     public string? ListenAddress {
         get => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"];
         set => ProcessStartInfo.Environment["NVIM_LISTEN_ADDRESS"] = value;
@@ -25,9 +29,9 @@ public class NvimProcessStartInfo {
 
 
     /// <summary>
-    ///   Initializes a new instance of the NvimProcessStartInfo class that
-    ///   specifies the path, arguments, and start options to use for starting
-    ///   the Nvim process.
+    ///   Initializes a new instance of the <see cref="NvimProcessStartInfo"/>
+    ///   class that specifies the path, arguments, and start options to use for
+    ///   starting a new nvim process.
     /// </summary>
     ///
     /// <param name="nvimPath">
@@ -49,7 +53,7 @@ public class NvimProcessStartInfo {
 
         IEnumerable<string> finalArgs = arguments is null ? extra : extra.Concat(arguments);
 
-        this.ProcessStartInfo = new ProcessStartInfo(command, finalArgs) {
+        ProcessStartInfo = new ProcessStartInfo(command, finalArgs) {
             UseShellExecute = false,
             CreateNoWindow = startOptions.HasFlag(StartOption.Headless) || startOptions.HasFlag(StartOption.Embed),
             RedirectStandardInput = redirectStandardIO,

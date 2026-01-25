@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using MsgPack;
-using NvimClient.NvimMsgpack.Models;
+using NvimClient.Models.MsgPack;
+using NvimClient.Models.Nvim;
 
 namespace NvimClient.API
 {

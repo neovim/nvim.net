@@ -1,9 +1,10 @@
 using MsgPack;
 using MsgPack.Serialization;
+using NvimClient.Models.MsgPack;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 public record NvimNotification {
     [MessagePackMember(0)]
@@ -16,7 +17,7 @@ public record NvimNotification {
     public required MessagePackObject[] Params { get; set; }
 
     /// <summary>
-    /// Just a property that makes <see cref="NvimNotification.Params" displayable
+    /// Just a property that makes <see cref="Params" displayable
     /// as a human readble string
     /// </summary>
     public string ParamsString() {

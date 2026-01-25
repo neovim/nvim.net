@@ -1,3 +1,5 @@
+namespace NvimClient.Models.MsgPack;
+
 /// <summary>
 /// MsgPack constants definitions based on
 /// https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md

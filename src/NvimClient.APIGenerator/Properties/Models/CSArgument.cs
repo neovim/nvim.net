@@ -1,5 +1,5 @@
-using NvimClient.NvimMsgpack;
-using NvimClient.NvimMsgpack.Models;
+using NvimClient.Models.MsgPack;
+using NvimClient.Models.Nvim;
 
 namespace NvimClient.APIGenerator.Properties.Models;
 

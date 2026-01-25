@@ -1,4 +1,4 @@
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 /// Nvim types as required by the metadata.

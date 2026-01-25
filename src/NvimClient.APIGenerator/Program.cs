@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using NvimClient.APIGenerator.Doxygen;
 using NvimClient.APIGenerator.Properties.Models;
+using NvimClient.Models.Nvim;
 
 namespace NvimClient.APIGenerator;
 
@@ -44,7 +45,7 @@ internal static class Program {
             ConsoleUtils.BlueWriteLine("{0}", nvimSrcDirectory);
         }
 
-        NvimMsgpack.Models.NvimAPIMetadata? mdata = MetaDataProvider.GetAPIMetadata();
+        NvimAPIMetadata? mdata = MetaDataProvider.GetAPIMetadata();
         if (mdata is null) {
             Console.WriteLine("Could not retreive API meta data");
             return 1;

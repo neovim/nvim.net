@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NvimClient.API.NvimPlugin.Attributes;
-using NvimClient.NvimMsgpack;
+using NvimClient.Models.MsgPack;
 
 namespace NvimClient.API.NvimPlugin;
 

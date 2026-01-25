@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MsgPack;
 using MsgPack.Serialization;
+using NvimClient.Models.MsgPack;
 
-namespace NvimClient.NvimMsgpack.Models;
+namespace NvimClient.Models.Nvim;
 
 /// <summary>
 ///     Represents an RPC message towards nvim. This can either be a request or a
@@ -43,7 +44,7 @@ public record NvimRequest {
 
 
     /// <summary>
-    /// Just a property that makes <see cref="NvimRequest.Params" displayable as a
+    /// Just a property that makes <see cref="Params" displayable as a
     /// human readble string
     /// </summary>
     public string ParamsString() {
