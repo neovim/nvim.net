@@ -49,15 +49,19 @@ public sealed class NvimAPIGenerator {
     ///    Generates one NvimAPI class as well as nvim type classes
     ///</summary>
     private void GenerateCSharpClasses(NvimAPIMetadata apiMetadata, Dictionary<string, CSDocumentation> docs) {
+        _ = Directory.CreateDirectory(Path.Combine(outputDir, "Generated"));
+        _ = Directory.CreateDirectory(Path.Combine(outputDir, "Generated", "Types"));
+        _ = Directory.CreateDirectory(Path.Combine(outputDir, "Generated", "EventArgs"));
+
         ConsoleUtils.BlueWriteLine("=========== Starting Code Generation ===========");
-        string api_generated = Path.Combine(outputDir, "NvimAPI.Generated.cs");
+        string api_generated = Path.Combine(outputDir, "Generated", "NvimAPI.Generated.cs");
         PrintFileLog(api_generated, withLF: true);
         GenerateNvimAPIClass(api_generated, apiMetadata, docs);
         Console.Write("\n\n");
 
         ConsoleUtils.BlueWriteLine("=========== Generating Nvim Types ===========");
         foreach (KeyValuePair<string, NvimType> kvp in apiMetadata.Types) {
-            string filename = Path.Combine(outputDir, $"Nvim{kvp.Key}.cs");
+            string filename = Path.Combine(outputDir, "Generated", "Types", $"Nvim{kvp.Key}.cs");
             //The line will be change from GenerateNvimTypeClass
             PrintFileLog(filename, withLF: false);
             GenerateNvimTypeClass(filename, $"Nvim{kvp.Key}", kvp.Value, apiMetadata);
@@ -67,7 +71,7 @@ public sealed class NvimAPIGenerator {
         ConsoleUtils.BlueWriteLine("=========== Generating Nvim Events ===========");
         foreach (NvimUIEvent ev in apiMetadata.SupportedUIEvents()) {
             string filename = $"{StringUtil.ConvertToCamelCase(ev.Name, true)}EventArgs.cs";
-            string full_filename = Path.Combine(outputDir, filename);
+            string full_filename = Path.Combine(outputDir, "Generated", "EventArgs", filename);
             PrintFileLog(full_filename, withLF: true);
             GenerateNvimEventArgs(full_filename, ev);
         }
