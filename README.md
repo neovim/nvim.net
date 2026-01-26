@@ -7,11 +7,12 @@ This repository contains a set of C# projects that constitute the .NET client fo
 [Neovim](https://github.com/neovim/neovim) this repository contains the
 following C# projects:
 
-1. `NvimClient` a common implementation of nvim primitives for .net
+1. `NvimClient` a common implementation of nvim primitives and models for .net
+   types like `NvimRequest` and `NvimResponse`
 1. `NvimClient.API` An nvim API implementation. This is the API that is called from
-   C# source code in order to interact with neovim.
-1. `NvimClient.APIGenerator` An API generator that provides source code for
-   `NvimClient.API`.
+   C# source code (i.e Plugin code) in order to interact with a neovim instance.
+1. `NvimClient.APIGenerator` An API generator that generates source code for the
+   `NvimClient.API` project.
 1. `NvimPluginHost` a .net plugin that loads the produced plugin dll.
 
 Plugin Host Install
@@ -26,12 +27,16 @@ Quickstart for Linux
 
 1. [Install dotnet](https://www.microsoft.com/net/download/linux-package-manager/ubuntu16-04/sdk-current)
 2. Clone the Nvim .NET client (this repo):
-   ```
+   ```bash
    git clone https://github.com/neovim/nvim.net
    ```
-3. Run the tests, to check that everything is working:
+3. Change to the newly created directory:
+   ```bash
+   cd nvim.net
    ```
-   dotnet test test/NvimClient.Test/NvimClient.Test.csproj
+3. Run the tests, to check that everything is working:
+   ```bash
+   dotnet test
    ```
 
 Plugin Development with C#
@@ -101,24 +106,14 @@ Build
 Generate API
 -----
 
-The API generator takes two arguments: the output path of the generated C# class
-file and the path to the Neovim source directory. `nvim` and `doxygen` must be
-in the `PATH`.
+The API generator takes two arguments: and output directory where the generated C#
+source files will be placed and the path to the Neovim source directory. `nvim` and
+`doxygen` must be in the `PATH`.
 
      dotnet run --project src/NvimClient.APIGenerator/NvimClient.APIGenerator.csproj
        src/NvimClient.API/NvimAPI.generated.cs
        /usr/local/src/neovim/
 
-Test
-----
-
-Run all tests (`nvim` must be in the `PATH`):
-
-    dotnet test test/NvimClient.Test/NvimClient.Test.csproj
-
-Run only the `TestMessageDeserialization` test:
-
-    dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
 
 Release
 -----
