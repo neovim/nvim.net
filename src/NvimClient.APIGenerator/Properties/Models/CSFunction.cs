@@ -95,28 +95,45 @@ public record CSFunction {
 
         StringBuilder sb = new();
         for (int i = 0; i < fn.Parameters.Length; i++) {
-            if (CSKeywordChecker.IsKeyword(fn.Parameters[i].ArgumentName)) {
+            string arg_name = fn.Parameters[i].ArgumentName;
+            if (CSKeywordChecker.IsKeyword(arg_name)) {
                 _ = sb.Append('@');
             }
-            _ = sb.Append(fn.Parameters[i].ArgumentName);
+            _ = sb.Append(arg_name);
+            if (fn.Parameters[i].ArgumentType is "Dictionary" or "Dict") {
+                _ = sb.Append(".ToMessagePackObject()");
+            }
             if (i != fn.Parameters.Length - 1) {
                 _ = sb.Append(',');
             }
         }
 
+
+        string ret = NvimTypesMap.GetCSharpType(fn.ReturnType);
         CSObjectDeclaration request_object = new() {
-            ObjectType = "NvimRequest",
+            ObjectType = nameof(NvimRequest),
             ObjectName = "req",
             InitializerList = new() {
-                { "Method", $"\"{fn.Name}\"" },
-                { "Arguments", $"[{sb}]" },
+                { nameof(NvimRequest.Method), $"\"{fn.Name}\"" },
+                { nameof(NvimRequest.Params), $"[{sb}]" },
             }
         };
 
-        string code = $$"""
+        //if(fn.Parameters)
+
+
+        string code;
+        if (ret is "void") {
+            code = $$"""
             {{request_object.ToCode(0)}}
-            SendAndReceive<string>(req);
+            return SendAndReceive(req);
             """;
+        } else {
+            code = $$"""
+            {{request_object.ToCode(0)}}
+            return SendAndReceive<{{ret}}>(req);
+            """;
+        }
 
 
         CSFunctionAttributeDescription? potentially_deprecated = null;
@@ -131,7 +148,7 @@ public record CSFunction {
             Specifiers = [
                 "public"
             ],
-            ReturnType = NvimTypesMap.GetCSharpType(fn.ReturnType),
+            ReturnType = ret is "void" ? "Task" : $"Task<{ret}>",
             Name = name,
             Arguments = [.. fn.Parameters.Select(CSArgument.FromNvimParameter)],
             Code = code
@@ -168,8 +185,8 @@ public record CSFunction {
             ObjectType = "NvimRequest",
             ObjectName = "req",
             InitializerList = new() {
-                { "Method", $"\"{fn.Name}\"" },
-                { "Arguments", $"[{sb}]" },
+                { nameof(NvimRequest.Method), $"\"{fn.Name}\"" },
+                { nameof(NvimRequest.Params), $"[{sb}]" },
             }
         };
 
@@ -179,12 +196,12 @@ public record CSFunction {
         if (csreturn is not "void") {
             code = $$"""
             {{request_object.ToCode(0)}}
-            _api.SendAndReceive<{{csreturn}}>(req);
+            return _api.SendAndReceive<{{csreturn}}>(req);
             """;
         } else {
             code = $$"""
             {{request_object.ToCode(0)}}
-            _api.SendAndReceive(req);
+            return _api.SendAndReceive<string>(req);
             """;
         }
 

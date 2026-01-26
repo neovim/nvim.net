@@ -63,9 +63,43 @@ public class NvimAPIMetadata {
         Console.WriteLine("Version: {0}", Version);
         PrintSectionTitle("Functions");
         foreach (NvimFunction f in Functions) {
+
+            if (f.Name is "nvim_get_autocmds") {
+                Console.WriteLine(f);
+                Console.WriteLine(f);
+                Console.WriteLine(f);
+                Console.WriteLine(f);
+                Console.WriteLine(f);
+            }
+
+
             Console.Write("Nvim Function:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-30}", f.Name);
             if (f.DeprecatedSince is null) {
+
+                if (f.Parameters.Length > 0) {
+                    Console.Write("[ ");
+                    for (int i = 0; i < f.Parameters.Length; i++) {
+                        NvimParameter par = f.Parameters[i];
+                        if (i != f.Parameters.Length - 1) {
+                            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0}, ", par.ArgumentType);
+                        } else {
+                            ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0}", par.ArgumentType);
+                        }
+                    }
+                    Console.Write(" ] ");
+                    Console.Write("Returns: ");
+                    ConsoleUtils.ColorWrite(ConsoleColor.Yellow, f.ReturnType);
+                } else {
+                    Console.Write("[ ");
+                    ConsoleUtils.ColorWrite(ConsoleColor.Red, "None");
+                    Console.Write(" ] ");
+                    Console.Write("Returns: ");
+                    ConsoleUtils.ColorWrite(ConsoleColor.Yellow, f.ReturnType);
+                }
+
+
+
                 ConsoleUtils.ColorWrite(ConsoleColor.DarkGreen, " Active");
                 Console.Write(" Since Api Level ");
                 ConsoleUtils.ColorWriteLine(ConsoleColor.Blue, " {0,-5}", f.Since);
@@ -77,13 +111,25 @@ public class NvimAPIMetadata {
         Console.WriteLine();
 
         PrintSectionTitle("Nvim UI Events");
+
         foreach (NvimUIEvent e in UIEvents) {
             Console.Write("Nvim UI Event:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-25}", e.Name);
-            if(e.Parameters.Length > 0) {
-                foreach(NvimParameter par in e.Parameters) {
-                    ConsoleUtils.ColorWrite(ConsoleColor.Green, " {0} ", par.ArgumentType);
+            if (e.Parameters.Length > 0) {
+                Console.Write("[ ");
+                for (int i = 0; i < e.Parameters.Length; i++) {
+                    NvimParameter par = e.Parameters[i];
+                    if (i != e.Parameters.Length - 1) {
+                        ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0}, ", par.ArgumentType);
+                    } else {
+                        ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0}", par.ArgumentType);
+                    }
                 }
+                Console.Write(" ] ");
+            } else {
+                Console.Write("[ ");
+                ConsoleUtils.ColorWrite(ConsoleColor.Red, "None");
+                Console.Write(" ] ");
             }
             Console.WriteLine("Active Since Api Level {0}", e.Since);
         }

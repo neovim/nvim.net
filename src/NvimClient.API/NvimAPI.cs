@@ -278,7 +278,7 @@ public sealed partial class NvimAPI : IDisposable {
     /// This function does the same as <see cref="ScheduleRequestSend(NvimRequest)"/> but
     /// also converts the result to the given type.
     /// </summary>
-    private async Task<TResult> SendAndReceive<TResult>(NvimRequest request) {
+    public async Task<TResult> SendAndReceive<TResult>(NvimRequest request) {
         NvimResponse? response = await ScheduleRequestSend(request);
 
         if (response is null) {

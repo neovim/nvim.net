@@ -1,5 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NvimClient.APIGenerator.Docs;
 using System.Collections.Generic;
 using System.Xml.Linq;
 

@@ -15,14 +15,15 @@ public static class NvimTypesMap {
     /// </summary>
     private static readonly (string NvimTypeName, string CSharpTypeName, Type CSharpType)[] _types =
     [
-        ("Array",           "object[]",            typeof(object[])),
-        ("Boolean",         "bool",                typeof(bool)),
-        ("Dictionary",      "IDictionary",         typeof(IDictionary)),
-        ("Float",           "double",              typeof(double)),
-        ("Integer",         "long",                typeof(long)),
-        ("Object",          "object",              typeof(object)),
-        ("String",          "string",              typeof(string)),
-        ("void",            "void",                typeof(void))
+        ("Array",           "object[]",                                      typeof(object[])),
+        ("Boolean",         "bool",                                          typeof(bool)),
+        ("Dict",            "Dictionary<string, object?>",         typeof(IDictionary)),
+        ("Dictionary",      "Dictionary<string, object?>",         typeof(IDictionary)),
+        ("Float",           "double",                                        typeof(double)),
+        ("Integer",         "long",                                          typeof(long)),
+        ("Object",          "object",                                        typeof(object)),
+        ("String",          "string",                                        typeof(string)),
+        ("void",            "void",                                          typeof(void))
     ];
 
     private static Dictionary<string, string> _nvimTypesMap {

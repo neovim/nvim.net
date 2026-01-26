@@ -93,6 +93,7 @@ public sealed class NvimAPIGenerator {
                 "System.Threading.Tasks",
                 "System.Runtime.Serialization",
                 "MsgPack",
+                "NvimClient.Models.Nvim",
                 "NvimClient.Models.MsgPack"
             ],
             EventDeclarations = [],
@@ -205,8 +206,9 @@ public sealed class NvimAPIGenerator {
                 Name = StringUtil.ConvertToCamelCase(p.ArgumentName, capitalizeFirstChar: true)
             };
             cw.Properties.Add(prop);
-            if(prop.Type is "IDictionary") {
+            if (p.ArgumentType is "Dictionary") {
                 cw.Usings.Add("System.Collections.Generic");
+                cw.Usings.Add("MsgPack");
             }
         }
         cw.WriteClassFile();
@@ -224,6 +226,8 @@ public sealed class NvimAPIGenerator {
             Usings = [
                 "System",
                 "System.Threading.Tasks",
+                "NvimClient",
+                "NvimClient.Models.Nvim",
                 "MsgPack"
             ],
             EventDeclarations = [],
@@ -270,6 +274,13 @@ public sealed class NvimAPIGenerator {
         foreach (NvimFunction f in funcs) {
             CSFunction fn = CSFunction.FromNvimTypeMethod(theType, f, isVirtualMethod: false);
             cw.FunctionDeclarations.Add(fn);
+            foreach (NvimParameter p in f.Parameters) {
+                if (p.ArgumentType is "Dictionary" or "Dict") {
+                    if (!cw.Usings.Contains("System.Collections.Generic")) {
+                        cw.Usings.Add("System.Collections.Generic");
+                    }
+                }
+            }
         }
 
         //One function is the constructor
