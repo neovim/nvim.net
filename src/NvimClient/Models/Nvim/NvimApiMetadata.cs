@@ -64,15 +64,6 @@ public class NvimAPIMetadata {
         PrintSectionTitle("Functions");
         foreach (NvimFunction f in Functions) {
 
-            if (f.Name is "nvim_get_autocmds") {
-                Console.WriteLine(f);
-                Console.WriteLine(f);
-                Console.WriteLine(f);
-                Console.WriteLine(f);
-                Console.WriteLine(f);
-            }
-
-
             Console.Write("Nvim Function:   ");
             ConsoleUtils.ColorWrite(ConsoleColor.Green, "{0,-30}", f.Name);
             if (f.DeprecatedSince is null) {
