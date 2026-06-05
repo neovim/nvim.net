@@ -22,8 +22,6 @@ namespace NvimClient.Test
     public long CountLines(NvimRange range)
     {
       var lineCount = range.LastLine - range.FirstLine + 1;
-      _nvim.OutWrite(
-        $"Function {nameof(CountLines)} called with {lineCount} lines in range");
       CountLinesReturn = lineCount;
       return lineCount;
     }
@@ -44,9 +42,6 @@ namespace NvimClient.Test
     public void OnBufEnter([NvimEval("expand('<afile>')")] string filename,
       [NvimEval("&shiftwidth")] long shiftWidth)
     {
-      var indent = new string(' ', (int)shiftWidth);
-      _nvim.SetCurrentLine(
-        indent + $"{nameof(OnBufEnter)} called with {filename}");
       AutocmdCalled = true;
     }
   }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
@@ -130,24 +129,34 @@ namespace NvimClient.Test
     }
 
     [TestMethod]
+    [Timeout(15000)]
     public async Task TestNvimUIEvent()
     {
       const string testString = "hello_world";
-      var titleSetEvent = new ManualResetEvent(false);
+      var titleSetTask = new TaskCompletionSource<bool>(
+        TaskCreationOptions.RunContinuationsAsynchronously);
       var api = new NvimAPI();
-      await api.UiAttach(100, 200, new Dictionary<string, string>());
       api.SetTitleEvent += (sender, args) =>
       {
         if (args.Title == testString)
         {
-          titleSetEvent.Set();
+          titleSetTask.TrySetResult(true);
         }
       };
-      await api.Command($"set titlestring={testString} | set title");
-      Assert.IsTrue(titleSetEvent.WaitOne(TimeSpan.FromSeconds(5)));
+      var objects = await api.GetApiInfo();
+      var channelID = (long)objects.First();
+      var serverAddress = (string)await api.CallFunction("serverstart",
+        new object[] { System.Net.IPAddress.Loopback + ":" });
+      var sender = new NvimAPI(serverAddress);
+      await sender.Command(
+        $"call rpcnotify({channelID}, 'redraw', ['set_title', ['{testString}']])");
+      Assert.AreEqual(titleSetTask.Task,
+        await Task.WhenAny(titleSetTask.Task, Task.Delay(TimeSpan.FromSeconds(5))));
+      Assert.IsTrue(await titleSetTask.Task);
     }
 
     [TestMethod]
+    [Timeout(15000)]
     public async Task TestPluginExports()
     {
       const string pluginPath = "/path/to/plugin.sln";
