@@ -115,4 +115,11 @@ Release
 -----
 
 1. Update version as necessary in `src/NvimClient.API/NvimClient.API.csproj`.
-2. Run the [publish workflow](https://github.com/neovim/nvim.net/actions/workflows/publish.yml).
+2. Ensure the repository secret `NUGET_API_KEY` is set to a nuget.org API key
+   with package push permission. No extra GitHub Packages secret is required;
+   the workflow uses the built-in `GITHUB_TOKEN`.
+3. Run the [publish workflow](https://github.com/neovim/nvim.net/actions/workflows/publish.yml)
+   from the branch or tag to release. Leave `package-version` empty to use the
+   project version, or set it to override `PackageVersion` for that run.
+4. The workflow builds, packs, uploads the `.nupkg` and `.snupkg` artifacts,
+   then pushes the `.nupkg` packages to GitHub Packages and nuget.org.

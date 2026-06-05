@@ -1,36 +1,54 @@
 name: Test
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
-  build:
-
+  test:
+    name: Build and test
     runs-on: ubuntu-latest
 
+    env:
+      CONFIGURATION: Release
+      TEST_PROJECT: test/NvimClient.Test/NvimClient.Test.csproj
+
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v6
 
-    - name: Install nvim binary
-      uses: rhysd/action-setup-vim@v1
-      if: steps.cache-nvim.outputs.cache-hit != 'true' || steps.cache-nvim-windows.outputs.cache-hit != 'true'
-      with:
-        neovim: true
-        version: nightly
+      - name: Install Neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            10.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Build
+        run: >
+          dotnet build
+          --configuration "$CONFIGURATION"
+          --no-restore
+          -p:ContinuousIntegrationBuild=true
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal test/NvimClient.Test/NvimClient.Test.csproj
+      - name: Test
+        run: >
+          dotnet test
+          -p:TestTfmsInParallel=false
+          "$TEST_PROJECT"
+          --configuration "$CONFIGURATION"
+          --no-build
+          --verbosity normal
+          --blame-hang
+          --blame-hang-timeout 60s
