@@ -9,6 +9,6 @@ endfunction
 function! provider#dotnet#Register()
   " The glob pattern '../../*.sln' will be appended to 'rplugin/dotnet/' and
   " used to find dotnet solution files in the root of the plugin directories.
-  call remote#host#Register('dotnet', '../../*.sln',
+  call remote#host#Register('dotnet', '../../*.{sln,slnx}',
     \ function('provider#dotnet#Require'))
 endfunction
