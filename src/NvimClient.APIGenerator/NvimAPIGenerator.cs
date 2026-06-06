@@ -37,8 +37,13 @@ namespace NvimClient
     public static void GenerateCSharpFile(string outputPath,
       IEnumerable<FunctionDoc> functionDocs)
     {
-      _functionDocs = functionDocs?.ToDictionary(functionDoc => functionDoc.Function,
-        funcDoc => funcDoc);
+      _functionDocs = functionDocs
+        .GroupBy(x => x.Function)
+        .ToDictionary(
+          functionDoc => functionDoc.Key,
+          funcDoc => funcDoc.First()
+        );
+
       var apiMetadata = GetAPIMetadata();
 
       // Filter out functions only callable from Lua.

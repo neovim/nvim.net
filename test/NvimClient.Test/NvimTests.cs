@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -213,6 +214,7 @@ namespace NvimClient.Test
     [DataRow(typeof(object[]), true)]
     [DataRow(typeof(long[]), true)]
     [DataRow(typeof(int[]), false)]
+    [DataRow(typeof(IDictionary), true)]
     [DataRow(typeof(IDictionary<object, object>), true)]
     [DataRow(typeof(IDictionary<long, string>), true)]
     [DataRow(typeof(IDictionary<string, DateTime>), false)]
@@ -225,6 +227,10 @@ namespace NvimClient.Test
     [DataTestMethod]
     [DataRow("Boolean", "bool")]
     [DataRow("Array", "object[]")]
+    [DataRow("Dict", "IDictionary")]
+    [DataRow("DictAs(get_mode)", "IDictionary")]
+    [DataRow("DictOf(Integer)", "IDictionary")]
+    [DataRow("Dict(win_config)", "IDictionary")]
     [DataRow("Dictionary", "IDictionary")]
     [DataRow("ArrayOf(Float)", "double[]")]
     [DataRow("ArrayOf(Integer, 2)", "long[]")]

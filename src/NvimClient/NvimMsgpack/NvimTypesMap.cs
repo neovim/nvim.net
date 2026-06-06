@@ -13,6 +13,7 @@ namespace NvimClient.NvimMsgpack
       {
         ("Array",           "object[]",            typeof(object[])),
         ("Boolean",         "bool",                typeof(bool)),
+        ("Dict",            "IDictionary",         typeof(IDictionary)),
         ("Dictionary",      "IDictionary",         typeof(IDictionary)),
         ("Float",           "double",              typeof(double)),
         ("Integer",         "long",                typeof(long)),
@@ -51,6 +52,20 @@ namespace NvimClient.NvimMsgpack
         var valueType =
           GetCSharpType(dictionaryRegexMatch.Groups["ValueType"].Value);
         return $"IDictionary<{keyType}, {valueType}>";
+      }
+
+      var dictOfRegexMatch = Regex.Match(nvimType,
+        @"^DictOf\((?<ValueType>.+)\)$");
+      if (dictOfRegexMatch.Success)
+      {
+        return "IDictionary";
+      }
+
+      var keyDictRegexMatch = Regex.Match(nvimType,
+        @"^Dict(?:As)?\(.+\)$");
+      if (keyDictRegexMatch.Success)
+      {
+        return "IDictionary";
       }
 
       return "Nvim" + nvimType;
