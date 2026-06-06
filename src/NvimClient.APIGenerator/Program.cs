@@ -14,10 +14,11 @@ namespace NvimClient.APIGenerator
         var projectName = Assembly.GetExecutingAssembly().GetName().Name;
         Console.WriteLine(
           "Generates a C# class file containing wrappers for Neovim API "
-        + "functions and events.\n\n"
-        + $"Usage: dotnet run --project {projectName}.csproj output.cs [nvim src]\n\n"
-        + "output.cs\t\toutput path of the generated C# class file" +
-          "nvim src\t\tpath to the Neovim source directory for generating documentation");
+            + "functions and events.\n\n"
+            + $"Usage: dotnet run --project {projectName}.csproj output.cs [nvim src]\n\n"
+            + "output.cs\t\toutput path of the generated C# class file"
+            + "nvim src\t\tpath to the Neovim source directory for generating documentation"
+        );
         return 1;
       }
 
@@ -29,12 +30,16 @@ namespace NvimClient.APIGenerator
 
       var outputPath = args.First();
       var nvimSrcDirectory = args.ElementAtOrDefault(1);
-      using (var docs = string.IsNullOrEmpty(nvimSrcDirectory)
-        ? null
-        : new DoxygenParser(nvimSrcDirectory))
+      using (
+        var docs = string.IsNullOrEmpty(nvimSrcDirectory)
+          ? null
+          : new DoxygenParser(nvimSrcDirectory)
+      )
       {
-        NvimAPIGenerator.GenerateCSharpFile(outputPath,
-          docs?.GetDocumentation());
+        NvimAPIGenerator.GenerateCSharpFile(
+          outputPath,
+          docs?.GetDocumentation()
+        );
       }
       return 0;
     }

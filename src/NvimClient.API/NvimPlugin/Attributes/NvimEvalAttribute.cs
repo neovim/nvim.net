@@ -11,6 +11,7 @@ namespace NvimClient.API.NvimPlugin.Attributes
   public class NvimEvalAttribute : Attribute
   {
     public NvimEvalAttribute(string value) => Value = value;
+
     public string Value { get; }
   }
 }

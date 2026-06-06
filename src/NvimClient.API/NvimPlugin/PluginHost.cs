@@ -11,19 +11,24 @@ namespace NvimClient.API.NvimPlugin
   {
     private const string PluginHostName = "dotnet";
 
-    public static async Task
-      RegisterPlugin<T>(NvimAPI api, string pluginPath) =>
-      await RegisterPlugin(api, pluginPath, typeof(T));
+    public static async Task RegisterPlugin<T>(
+      NvimAPI api,
+      string pluginPath
+    ) => await RegisterPlugin(api, pluginPath, typeof(T));
 
-    public static async Task RegisterPlugin(NvimAPI api, string pluginPath,
-      Type pluginType)
+    public static async Task RegisterPlugin(
+      NvimAPI api,
+      string pluginPath,
+      Type pluginType
+    )
     {
       var pluginAttribute =
         pluginType.GetCustomAttribute<NvimPluginAttribute>();
       if (pluginAttribute == null)
       {
         throw new Exception(
-          $"Type \"{pluginType}\" must have the NvimPlugin attribute");
+          $"Type \"{pluginType}\" must have the NvimPlugin attribute"
+        );
       }
 
       var pluginInstance = Activator.CreateInstance(pluginType, api);
@@ -36,46 +41,52 @@ namespace NvimClient.API.NvimPlugin
         export.Register(api);
         if (export is NvimPluginFunction function)
         {
-          methodsDictionary[function.Name] =
-            new Dictionary<string, object>
-            {
-              {"async", !function.Sync},
-              {"nargs", function.Method.GetParameters().Length}
-            };
+          methodsDictionary[function.Name] = new Dictionary<string, object>
+          {
+            { "async", !function.Sync },
+            { "nargs", function.Method.GetParameters().Length },
+          };
         }
       }
 
       await RegisterPlugin(api, pluginPath, exports);
 
       var version = new Version(pluginAttribute.Version);
-      await api.SetClientInfo(pluginAttribute.Name ?? pluginType.Name,
+      await api.SetClientInfo(
+        pluginAttribute.Name ?? pluginType.Name,
         new Dictionary<string, int>
         {
-          {"major", version.Major},
-          {"minor", version.Minor},
-          {"patch", version.Build}
-        }, "plugin", methodsDictionary,
+          { "major", version.Major },
+          { "minor", version.Minor },
+          { "patch", version.Build },
+        },
+        "plugin",
+        methodsDictionary,
         new Dictionary<string, string>
         {
-          {"website", pluginAttribute.Website},
-          {"license", pluginAttribute.License},
-          {"logo", pluginAttribute.Logo}
-        });
+          { "website", pluginAttribute.Website },
+          { "license", pluginAttribute.License },
+          { "logo", pluginAttribute.Logo },
+        }
+      );
 
       var channelID = (long)(await api.GetApiInfo())[0];
-      await api.CallFunction("remote#host#Register",
-        new object[]
-        {
-          PluginHostName, "*", channelID
-        });
+      await api.CallFunction(
+        "remote#host#Register",
+        new object[] { PluginHostName, "*", channelID }
+      );
     }
 
-    public static IReadOnlyCollection<Dictionary<string, object>>
-      GetPluginSpecs(Type type) => GetPluginExports(type, null, null)
-      .Select(x => x.GetSpec()).ToArray();
+    public static IReadOnlyCollection<
+      Dictionary<string, object>
+    > GetPluginSpecs(Type type) =>
+      GetPluginExports(type, null, null).Select(x => x.GetSpec()).ToArray();
 
-    public static NvimPluginExport[] RegisterPluginExports(NvimAPI api, string pluginPath,
-      Type pluginType)
+    public static NvimPluginExport[] RegisterPluginExports(
+      NvimAPI api,
+      string pluginPath,
+      Type pluginType
+    )
     {
       var pluginInstance = Activator.CreateInstance(pluginType, api);
       var exports = GetPluginExports(pluginType, pluginPath, pluginInstance)
@@ -89,7 +100,10 @@ namespace NvimClient.API.NvimPlugin
     }
 
     private static IEnumerable<NvimPluginExport> GetPluginExports(
-      Type pluginType, string pluginPath, object pluginInstance)
+      Type pluginType,
+      string pluginPath,
+      object pluginInstance
+    )
     {
       foreach (var method in pluginType.GetMethods())
       {
@@ -97,37 +111,55 @@ namespace NvimClient.API.NvimPlugin
           method.GetCustomAttribute<NvimFunctionAttribute>();
         if (functionAttribute != null)
         {
-          yield return new NvimPluginFunction(method, pluginPath,
-            pluginInstance, functionAttribute);
+          yield return new NvimPluginFunction(
+            method,
+            pluginPath,
+            pluginInstance,
+            functionAttribute
+          );
         }
 
         var commandAttribute =
           method.GetCustomAttribute<NvimCommandAttribute>();
         if (commandAttribute != null)
         {
-          yield return new NvimPluginCommand(method, pluginPath, pluginInstance,
-            commandAttribute);
+          yield return new NvimPluginCommand(
+            method,
+            pluginPath,
+            pluginInstance,
+            commandAttribute
+          );
         }
 
         var autocmdAttribute =
           method.GetCustomAttribute<NvimAutocmdAttribute>();
         if (autocmdAttribute != null)
         {
-          yield return new NvimPluginAutocmd(method, pluginPath, pluginInstance,
-            autocmdAttribute);
+          yield return new NvimPluginAutocmd(
+            method,
+            pluginPath,
+            pluginInstance,
+            autocmdAttribute
+          );
         }
       }
     }
 
-    private static async Task RegisterPlugin(NvimAPI api, string pluginPath,
-      IEnumerable<NvimPluginExport> exports)
+    private static async Task RegisterPlugin(
+      NvimAPI api,
+      string pluginPath,
+      IEnumerable<NvimPluginExport> exports
+    )
     {
-      await api.CallFunction("remote#host#RegisterPlugin",
+      await api.CallFunction(
+        "remote#host#RegisterPlugin",
         new object[]
         {
-          PluginHostName, pluginPath,
-          exports.Select(export => export.GetSpec()).ToArray()
-        });
+          PluginHostName,
+          pluginPath,
+          exports.Select(export => export.GetSpec()).ToArray(),
+        }
+      );
     }
   }
 }

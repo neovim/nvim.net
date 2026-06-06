@@ -9,22 +9,27 @@ namespace NvimClient.API.NvimPlugin
 {
   internal class NvimPluginFunction : NvimPluginExport
   {
-    internal NvimPluginFunction(MethodInfo method, string pluginPath,
-      object pluginInstance, NvimFunctionAttribute attribute) : base(
-      attribute.Name ?? method.Name, method, pluginPath, pluginInstance)
+    internal NvimPluginFunction(
+      MethodInfo method,
+      string pluginPath,
+      object pluginInstance,
+      NvimFunctionAttribute attribute
+    )
+      : base(attribute.Name ?? method.Name, method, pluginPath, pluginInstance)
     {
-      var functionParameterIndices =
-        new List<int>(Method.GetParameters().Length);
+      var functionParameterIndices = new List<int>(
+        Method.GetParameters().Length
+      );
       var parameterVisitors = new Dictionary<Type, Action<int>>
       {
-        {
-          typeof(NvimRange),
-          index => RangeParameterIndex = index
-        },
+        { typeof(NvimRange), index => RangeParameterIndex = index },
         {
           typeof(object),
-          index => { functionParameterIndices.Add(index); }
-        }
+          index =>
+          {
+            functionParameterIndices.Add(index);
+          }
+        },
       };
       var evalParameterIndices = new List<int>(Method.GetParameters().Length);
       var attributeVisitors = new Dictionary<Type, Action<int, object>>
@@ -32,19 +37,17 @@ namespace NvimClient.API.NvimPlugin
         {
           typeof(NvimEvalAttribute),
           (index, attr) => evalParameterIndices.Add(index)
-        }
+        },
       };
       VisitParameters(parameterVisitors, attributeVisitors);
 
       var argumentConverters = new List<ArgumentConverter>
       {
-        nvimArg => functionParameterIndices.Zip(
-          (object[]) nvimArg, (index, arg) =>
-            new PluginArgument
-            {
-              Value = arg,
-              Index = index
-            })
+        nvimArg =>
+          functionParameterIndices.Zip(
+            (object[])nvimArg,
+            (index, arg) => new PluginArgument { Value = arg, Index = index }
+          ),
       };
       if (RangeParameterIndex.HasValue)
       {
@@ -59,23 +62,20 @@ namespace NvimClient.API.NvimPlugin
               Value = new NvimRange
               {
                 FirstLine = range[0],
-                LastLine  = range[1]
-              }
-            }
+                LastLine = range[1],
+              },
+            },
           };
         });
       }
 
       if (evalParameterIndices.Any())
       {
-        argumentConverters.Add(
-          nvimArg => evalParameterIndices.Zip(
-            (object[])nvimArg, (index, arg) =>
-             new PluginArgument
-             {
-               Value = arg,
-               Index = index
-             })
+        argumentConverters.Add(nvimArg =>
+          evalParameterIndices.Zip(
+            (object[])nvimArg,
+            (index, arg) => new PluginArgument { Value = arg, Index = index }
+          )
         );
       }
 
@@ -101,10 +101,10 @@ namespace NvimClient.API.NvimPlugin
 
       return new Dictionary<string, object>
       {
-        {"type", "function"},
-        {"name", Name},
-        {"sync", Sync ? "1" : "0"},
-        {"opts", opts}
+        { "type", "function" },
+        { "name", Name },
+        { "sync", Sync ? "1" : "0" },
+        { "opts", opts },
       };
     }
   }

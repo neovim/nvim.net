@@ -6,6 +6,7 @@ namespace NvimClient.NvimMsgpack
   internal class NvimMessageTypeAttribute : Attribute
   {
     public NvimMessageTypeAttribute(byte id) => Id = id;
+
     public byte Id { get; }
   }
 }

@@ -17,8 +17,10 @@ namespace NvimPluginHost
     {
       Log.WriteLine("Plugin host started");
 
-      var nvim = new NvimAPI(Console.OpenStandardOutput(),
-        Console.OpenStandardInput());
+      var nvim = new NvimAPI(
+        Console.OpenStandardOutput(),
+        Console.OpenStandardInput()
+      );
       nvim.OnUnhandledRequest += (sender, request) =>
       {
         // Load the plugin and get the handler asynchronously
@@ -58,36 +60,44 @@ namespace NvimPluginHost
       };
 
       nvim.RegisterHandler("poll", args => "ok");
-      nvim.RegisterHandler("specs", args =>
-      {
-        var slnFilePath = (string)args.First();
-        var pluginType = GetPluginFromSolutionPath(slnFilePath);
-        return pluginType == null
-          ? null
-          : PluginHost.GetPluginSpecs(pluginType);
-      });
+      nvim.RegisterHandler(
+        "specs",
+        args =>
+        {
+          var slnFilePath = (string)args.First();
+          var pluginType = GetPluginFromSolutionPath(slnFilePath);
+          return pluginType == null
+            ? null
+            : PluginHost.GetPluginSpecs(pluginType);
+        }
+      );
 
       nvim.WaitForDisconnect();
 
       Log.WriteLine("Plugin host stopping");
     }
 
-    private static Func<object[], object> GetPluginHandler(NvimAPI nvim,
-      string methodName)
+    private static Func<object[], object> GetPluginHandler(
+      NvimAPI nvim,
+      string methodName
+    )
     {
       var methodNameSplit = methodName.Split(':');
       // On Windows absolute paths contain a colon after
       // the drive letter, so the first two elements must
       // be joined together to obtain the file path.
-      var slnFilePath =
-        RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-          ? $"{methodNameSplit[0]}:{methodNameSplit[1]}"
-          : methodNameSplit[0];
+      var slnFilePath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+        ? $"{methodNameSplit[0]}:{methodNameSplit[1]}"
+        : methodNameSplit[0];
       var pluginType = GetPluginFromSolutionPath(slnFilePath);
-      var exports =
-        PluginHost.RegisterPluginExports(nvim, slnFilePath, pluginType);
-      return exports.FirstOrDefault(export =>
-        export.HandlerName == methodName)?.Handler;
+      var exports = PluginHost.RegisterPluginExports(
+        nvim,
+        slnFilePath,
+        pluginType
+      );
+      return exports
+        .FirstOrDefault(export => export.HandlerName == methodName)
+        ?.Handler;
     }
 
     private static Type GetPluginFromSolutionPath(string slnFilePath)
@@ -103,11 +113,12 @@ namespace NvimPluginHost
           CreateNoWindow = true,
           RedirectStandardError = true,
           RedirectStandardOutput = true,
-        });
+        }
+      );
       buildProcess?.WaitForExit();
 
-      var plugin = slnFileInfo.Directory.EnumerateFiles(
-          "*.dll", SearchOption.AllDirectories)
+      var plugin = slnFileInfo
+        .Directory.EnumerateFiles("*.dll", SearchOption.AllDirectories)
         .SelectMany(dll =>
         {
           try

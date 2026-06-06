@@ -21,8 +21,10 @@ namespace NvimClient.APIGenerator.Docs
     public DoxygenParser(string nvimSrcDirectory)
     {
       _nvimSrcDirectory = nvimSrcDirectory;
-      _tempOutputDirectory =
-        Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+      _tempOutputDirectory = Path.Combine(
+        Path.GetTempPath(),
+        Path.GetRandomFileName()
+      );
       Directory.CreateDirectory(_tempOutputDirectory);
     }
 
@@ -35,7 +37,8 @@ namespace NvimClient.APIGenerator.Docs
       catch
       {
         Console.WriteLine(
-          $"Failed to delete temporary directory: {_tempOutputDirectory}");
+          $"Failed to delete temporary directory: {_tempOutputDirectory}"
+        );
       }
     }
 
@@ -44,52 +47,65 @@ namespace NvimClient.APIGenerator.Docs
       GenerateDocumentation();
 
       var xmlDocsDirectory = Path.Combine(_tempOutputDirectory, "xml");
-      var indexXml =
-        XDocument.Load(Path.Combine(xmlDocsDirectory, "index.xml"));
+      var indexXml = XDocument.Load(
+        Path.Combine(xmlDocsDirectory, "index.xml")
+      );
       var xmlFilenames = indexXml
         .Descendants("compound")
-        .Where(node =>
-          node.Attribute("kind")?.Value == "file")
-        .Where(node =>
-          node.Element("name")?.Value.EndsWith(".c")
-          ?? false).Select(node =>
-          node.Attribute("refid")?.Value);
+        .Where(node => node.Attribute("kind")?.Value == "file")
+        .Where(node => node.Element("name")?.Value.EndsWith(".c") ?? false)
+        .Select(node => node.Attribute("refid")?.Value);
       foreach (var xmlFilename in xmlFilenames)
       {
-        var docXml =
-          XDocument.Load(Path.Combine(xmlDocsDirectory, xmlFilename + ".xml"));
-        var functionDocs = docXml.Descendants("memberdef")
+        var docXml = XDocument.Load(
+          Path.Combine(xmlDocsDirectory, xmlFilename + ".xml")
+        );
+        var functionDocs = docXml
+          .Descendants("memberdef")
           .Where(memberDef =>
             memberDef.Attribute("kind")?.Value == "function"
-            && memberDef.Attribute("static")?.Value == "no").Select(
-            memberDef => new FunctionDoc
-            {
-              Function = memberDef.Element("name").Value,
-              Summary = GetDocElements(memberDef.Element("detaileddescription")
+            && memberDef.Attribute("static")?.Value == "no"
+          )
+          .Select(memberDef => new FunctionDoc
+          {
+            Function = memberDef.Element("name").Value,
+            Summary = GetDocElements(
+              memberDef
+                .Element("detaileddescription")
                 .Elements("para")
-                .Where(para => para.Element("parameterlist") == null)),
-              Parameters = memberDef
-                             .Descendants("parameterlist")
-                             .FirstOrDefault()
-                             ?.Elements("parameteritem").Select(
-                               param => new ParameterDoc
-                               {
-                                 Name = param.Descendants("parametername")
-                                   .First().Value,
-                                 Description =
-                                   GetDocElements(param
-                                     .Descendants("parameterdescription")
-                                     .First().Nodes())
-                               }) ?? Enumerable.Empty<ParameterDoc>(),
-              Return = GetDocElements(memberDef.Element("detaileddescription")
-                ?.Descendants("simplesect").FirstOrDefault(simplesect =>
-                  simplesect.Attribute("kind")?.Value == "return")
-                ?.Nodes()),
-              Notes = GetDocElements(memberDef.Element("detaileddescription")
-                ?.Descendants("simplesect").Where(simplesect =>
-                  simplesect.Attribute("kind")?.Value == "note"))
-            }
-          );
+                .Where(para => para.Element("parameterlist") == null)
+            ),
+            Parameters =
+              memberDef
+                .Descendants("parameterlist")
+                .FirstOrDefault()
+                ?.Elements("parameteritem")
+                .Select(param => new ParameterDoc
+                {
+                  Name = param.Descendants("parametername").First().Value,
+                  Description = GetDocElements(
+                    param.Descendants("parameterdescription").First().Nodes()
+                  ),
+                })
+              ?? Enumerable.Empty<ParameterDoc>(),
+            Return = GetDocElements(
+              memberDef
+                .Element("detaileddescription")
+                ?.Descendants("simplesect")
+                .FirstOrDefault(simplesect =>
+                  simplesect.Attribute("kind")?.Value == "return"
+                )
+                ?.Nodes()
+            ),
+            Notes = GetDocElements(
+              memberDef
+                .Element("detaileddescription")
+                ?.Descendants("simplesect")
+                .Where(simplesect =>
+                  simplesect.Attribute("kind")?.Value == "note"
+                )
+            ),
+          });
         foreach (var functionDoc in functionDocs)
         {
           yield return functionDoc;
@@ -98,7 +114,8 @@ namespace NvimClient.APIGenerator.Docs
     }
 
     private static IEnumerable<IDocElement> GetDocElements(
-      IEnumerable<XNode> nodes)
+      IEnumerable<XNode> nodes
+    )
     {
       if (nodes == null)
       {
@@ -116,12 +133,16 @@ namespace NvimClient.APIGenerator.Docs
             yield return new Paragraph(GetDocElements(element.Nodes()));
             yield break;
           case XElement element when element.Name == "itemizedlist":
-            yield return new DocList(DocListType.ItemizedList,
-              GetDocElements(element.Elements("listitem")));
+            yield return new DocList(
+              DocListType.ItemizedList,
+              GetDocElements(element.Elements("listitem"))
+            );
             yield break;
           case XElement element when element.Name == "orderedlist":
-            yield return new DocList(DocListType.OrderedList,
-              GetDocElements(element.Elements("listitem")));
+            yield return new DocList(
+              DocListType.OrderedList,
+              GetDocElements(element.Elements("listitem"))
+            );
             yield break;
           case XElement element:
             yield return new Text(element.Value);
@@ -151,10 +172,13 @@ namespace NvimClient.APIGenerator.Docs
           while ((line = streamReader.ReadLine()) != null)
           {
             Console.WriteLine(
-              Regex.Replace(line, @"^(ArrayOf|DictionaryOf)(\(.*?\))",
-                m => m.Groups[1]
-                     + string.Join('_',
-                       Regex.Split(m.Groups[2].Value, @"[^\w]+")))
+              Regex.Replace(
+                line,
+                @"^(ArrayOf|DictionaryOf)(\(.*?\))",
+                m =>
+                  m.Groups[1]
+                  + string.Join('_', Regex.Split(m.Groups[2].Value, @"[^\w]+"))
+              )
             );
           }
         }
@@ -165,16 +189,18 @@ namespace NvimClient.APIGenerator.Docs
     {
       var doxygenConfig = GetDoxygenConfig();
       var inputDirectory = Path.Combine(_nvimSrcDirectory, "src/nvim/api");
-      var process = Process.Start(new ProcessStartInfo("doxygen", "-")
-      {
-        RedirectStandardInput = true
-      });
+      var process = Process.Start(
+        new ProcessStartInfo("doxygen", "-") { RedirectStandardInput = true }
+      );
       using (var processStandardInput = process.StandardInput)
       {
         var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-        processStandardInput.Write(doxygenConfig, _tempOutputDirectory,
+        processStandardInput.Write(
+          doxygenConfig,
+          _tempOutputDirectory,
           inputDirectory,
-          $"dotnet \"{assemblyLocation}\" {DoxygenFilterArgument}");
+          $"dotnet \"{assemblyLocation}\" {DoxygenFilterArgument}"
+        );
       }
 
       process.WaitForExit();
@@ -182,10 +208,13 @@ namespace NvimClient.APIGenerator.Docs
 
     private static string GetDoxygenConfig()
     {
-      const string configName = nameof(NvimClient) + "." + nameof(APIGenerator)
-                                + ".doxygen.config";
-      using (var stream = Assembly.GetExecutingAssembly()
-        .GetManifestResourceStream(configName))
+      const string configName =
+        nameof(NvimClient) + "." + nameof(APIGenerator) + ".doxygen.config";
+      using (
+        var stream = Assembly
+          .GetExecutingAssembly()
+          .GetManifestResourceStream(configName)
+      )
       {
         using (var reader = new StreamReader(stream))
         {

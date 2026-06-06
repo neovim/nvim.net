@@ -39,8 +39,10 @@ namespace NvimClient.Test
     }
 
     [NvimAutocmd("BufEnter", Pattern = "*.cs")]
-    public void OnBufEnter([NvimEval("expand('<afile>')")] string filename,
-      [NvimEval("&shiftwidth")] long shiftWidth)
+    public void OnBufEnter(
+      [NvimEval("expand('<afile>')")] string filename,
+      [NvimEval("&shiftwidth")] long shiftWidth
+    )
     {
       AutocmdCalled = true;
     }

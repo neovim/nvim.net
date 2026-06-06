@@ -10,10 +10,13 @@ namespace NvimClient.API.NvimPlugin
   {
     private NvimAutocmdAttribute Attribute { get; }
 
-    public NvimPluginAutocmd(MethodInfo method, string pluginPath,
-      object pluginInstance, NvimAutocmdAttribute attribute) : base(
-      attribute.Name ?? method.Name, method, pluginPath,
-      pluginInstance)
+    public NvimPluginAutocmd(
+      MethodInfo method,
+      string pluginPath,
+      object pluginInstance,
+      NvimAutocmdAttribute attribute
+    )
+      : base(attribute.Name ?? method.Name, method, pluginPath, pluginInstance)
     {
       var evalParameterIndices = new List<int>(Method.GetParameters().Length);
       var attributeVisitors = new Dictionary<Type, Action<int, object>>
@@ -21,28 +24,24 @@ namespace NvimClient.API.NvimPlugin
         {
           typeof(NvimEvalAttribute),
           (index, attr) => evalParameterIndices.Add(index)
-        }
+        },
       };
       VisitParameters(new Dictionary<Type, Action<int>>(), attributeVisitors);
 
       var argumentConverters = new List<ArgumentConverter>();
       if (evalParameterIndices.Any())
       {
-        argumentConverters.Add(
-          nvimArg => evalParameterIndices.Zip(
-            (object[])nvimArg, (index, arg) =>
-             new PluginArgument
-             {
-               Value = arg,
-               Index = index
-             })
+        argumentConverters.Add(nvimArg =>
+          evalParameterIndices.Zip(
+            (object[])nvimArg,
+            (index, arg) => new PluginArgument { Value = arg, Index = index }
+          )
         );
       }
 
       Attribute = attribute;
       ArgumentConverters = argumentConverters;
     }
-
 
     public override string HandlerName =>
       $"{PluginPath}:autocmd:{Name}:{Attribute.Pattern}";
@@ -69,12 +68,12 @@ namespace NvimClient.API.NvimPlugin
       AddEvalOption(opts);
 
       return new Dictionary<string, object>
-             {
-               {"type", "autocmd"},
-               {"name", Name},
-               {"sync", Sync ? "1" : "0"},
-               {"opts", opts}
-             };
+      {
+        { "type", "autocmd" },
+        { "name", Name },
+        { "sync", Sync ? "1" : "0" },
+        { "opts", opts },
+      };
     }
   }
 }

@@ -18,25 +18,28 @@ namespace NvimClient.NvimMsgpack
       long GetTypeId(Type type)
       {
         var attribute = type.GetCustomAttribute<NvimMessageTypeAttribute>();
-        return attribute?.Id ??
-               throw new TypeLoadException(
-                 $"{type} does not have {nameof(NvimMessageTypeAttribute)}");
+        return attribute?.Id
+          ?? throw new TypeLoadException(
+            $"{type} does not have {nameof(NvimMessageTypeAttribute)}"
+          );
       }
 
       var baseType = typeof(NvimMessage);
-      NvimMessageTypes = baseType.Assembly.GetTypes()
-                                 .Where(type => type.IsSubclassOf(baseType))
-                                 .ToDictionary(GetTypeId);
+      NvimMessageTypes = baseType
+        .Assembly.GetTypes()
+        .Where(type => type.IsSubclassOf(baseType))
+        .ToDictionary(GetTypeId);
     }
 
-    public NvimMessageSerializer(SerializationContext ctx) : base(ctx)
-    {
-    }
+    public NvimMessageSerializer(SerializationContext ctx)
+      : base(ctx) { }
 
     protected override void PackToCore(Packer packer, NvimMessage message)
     {
-      message.TypeId = message.GetType()
-        .GetCustomAttribute<NvimMessageTypeAttribute>().Id;
+      message.TypeId = message
+        .GetType()
+        .GetCustomAttribute<NvimMessageTypeAttribute>()
+        .Id;
 
       packer.PackObject(message);
       packer.Flush();
@@ -53,11 +56,15 @@ namespace NvimClient.NvimMsgpack
       var messageTypeId = messagePackObject.AsEnumerable().First().AsInt64();
       if (!NvimMessageTypes.TryGetValue(messageTypeId, out var messageType))
       {
-        throw new SerializationException($"Unknown message type (id {messageTypeId})");
+        throw new SerializationException(
+          $"Unknown message type (id {messageTypeId})"
+        );
       }
 
-      return (NvimMessage)OwnerContext.GetSerializer(messageType)
-        .FromMessagePackObject(messagePackObject);
+      return (NvimMessage)
+        OwnerContext
+          .GetSerializer(messageType)
+          .FromMessagePackObject(messagePackObject);
     }
   }
 }

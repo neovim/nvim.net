@@ -28,8 +28,9 @@ namespace NvimClient.NvimProcess
     /// </param>
     /// <returns></returns>
     public static Process Start(
-      string nvimPath, string arguments,
-      StartOption startOptions = StartOption.None) => Start(
-      new NvimProcessStartInfo(nvimPath, arguments, startOptions));
+      string nvimPath,
+      string arguments,
+      StartOption startOptions = StartOption.None
+    ) => Start(new NvimProcessStartInfo(nvimPath, arguments, startOptions));
   }
 }
