@@ -288,8 +288,11 @@ namespace NvimClient.API
           yield return "</para>";
           yield break;
         case InlineCode inlineCode:
-          yield return
-            $"<c>${SecurityElement.Escape(inlineCode.ToString())}</c>";
+          foreach (var line in EscapeDocLines(inlineCode.ToString()))
+          {
+            yield return $"<c>{line}</c>";
+          }
+
           yield break;
         case DocList list:
           yield return
@@ -310,10 +313,20 @@ namespace NvimClient.API
           yield return "</list>";
           yield break;
         default:
-          yield return SecurityElement.Escape(element.ToString());
+          foreach (var line in EscapeDocLines(element.ToString()))
+          {
+            yield return line;
+          }
+
           yield break;
       }
     }
+
+    private static IEnumerable<string> EscapeDocLines(string text) =>
+      (SecurityElement.Escape(text) ?? string.Empty)
+      .Replace("\r\n", "\n")
+      .Replace('\r', '\n')
+      .Split('\n');
 
     private static string
       GenerateNvimTypeCases(Dictionary<string, NvimType> apiMetadata) =>
