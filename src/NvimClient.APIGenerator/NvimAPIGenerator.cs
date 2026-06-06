@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security;
+using CSharpier.Core.CSharp;
 using MsgPack.Serialization;
 using NvimClient.APIGenerator.Docs;
 using NvimClient.NvimMsgpack;
@@ -34,8 +35,10 @@ namespace NvimClient
       return apiMetadata;
     }
 
-    public static void GenerateCSharpFile(string outputPath,
-      IEnumerable<FunctionDoc> functionDocs)
+    public static void GenerateCSharpFile(
+      string outputPath,
+      IEnumerable<FunctionDoc> functionDocs
+    )
     {
       _functionDocs = functionDocs
         .GroupBy(x => x.Function)
@@ -47,10 +50,22 @@ namespace NvimClient
       var apiMetadata = GetAPIMetadata();
 
       // Filter out functions only callable from Lua.
-      apiMetadata.Functions = apiMetadata.Functions.Where(f => !f.Parameters.Where(p => p.Type == "LuaRef").Any()).ToArray();
+      apiMetadata.Functions = apiMetadata
+        .Functions.Where(f =>
+          !f.Parameters.Where(p => p.Type == "LuaRef").Any()
+        )
+        .ToArray();
 
-      var csharpClass = GenerateCSharpClass(apiMetadata);
-      File.WriteAllText(outputPath, csharpClass);
+      var csharpFormatResult = CSharpFormatter
+        .Format(GenerateCSharpClass(apiMetadata))
+        .ToCSharpierResult();
+
+      if (csharpFormatResult.IsExceptional)
+      {
+        throw csharpFormatResult.Exception;
+      }
+
+      File.WriteAllText(outputPath, csharpFormatResult.Code);
     }
 
     private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) => @"
