@@ -1,17 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <RepositoryUrl>https://github.com/neovim/nvim.net</RepositoryUrl>
     <Version>0.20.0</Version>
+    <TargetFrameworks>netstandard2.0;$(TargetFrameworks)</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MsgPack.Cli" Version="0.9.2" />
+    <PackageReference Include="MsgPack.Cli" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NvimClient\NvimClient.csproj" />
   </ItemGroup>
-
 </Project>
