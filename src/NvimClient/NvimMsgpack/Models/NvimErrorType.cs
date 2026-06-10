@@ -1,6 +1,4 @@
 namespace NvimClient.NvimMsgpack.Models
 {
-  public class NvimErrorType : NvimTypeBase
-  {
-  }
+  public class NvimErrorType : NvimTypeBase { }
 }

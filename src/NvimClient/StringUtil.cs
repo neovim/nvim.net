@@ -63,8 +63,10 @@ namespace NvimClient
           stringBuilder.Append(char.ToLower(previousChar));
         }
 
-        AppendWithUnderscores(enumerator.Current,
-          currentCharUpper && previousCharUpper);
+        AppendWithUnderscores(
+          enumerator.Current,
+          currentCharUpper && previousCharUpper
+        );
       }
 
       return stringBuilder.ToString();
@@ -77,8 +79,10 @@ namespace NvimClient
     /// <param name="capitalizeFirstChar">
     /// Whether or not the first character should be capitalized.
     /// </param>
-    public static string ConvertToCamelCase(string str,
-      bool capitalizeFirstChar)
+    public static string ConvertToCamelCase(
+      string str,
+      bool capitalizeFirstChar
+    )
     {
       if (string.IsNullOrEmpty(str))
       {
@@ -101,9 +105,11 @@ namespace NvimClient
         var isUnderscore = currentChar == '_';
         if (!isUnderscore)
         {
-          stringBuilder.Append(capitalizeFirstChar
-            ? char.ToUpper(currentChar)
-            : char.ToLower(currentChar));
+          stringBuilder.Append(
+            capitalizeFirstChar
+              ? char.ToUpper(currentChar)
+              : char.ToLower(currentChar)
+          );
           return;
         }
 
@@ -123,9 +129,11 @@ namespace NvimClient
         var isUnderscore = currentChar == '_';
         if (!isUnderscore)
         {
-          stringBuilder.Append(previousUnderscore
-            ? char.ToUpper(currentChar)
-            : char.ToLower(currentChar));
+          stringBuilder.Append(
+            previousUnderscore
+              ? char.ToUpper(currentChar)
+              : char.ToLower(currentChar)
+          );
         }
 
         AppendWithUpperChars(isUnderscore);

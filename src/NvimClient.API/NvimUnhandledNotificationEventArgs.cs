@@ -4,8 +4,10 @@ namespace NvimClient.API
 {
   public class NvimUnhandledNotificationEventArgs : EventArgs
   {
-    internal NvimUnhandledNotificationEventArgs(string methodName,
-      object[] arguments)
+    internal NvimUnhandledNotificationEventArgs(
+      string methodName,
+      object[] arguments
+    )
     {
       MethodName = methodName;
       Arguments = arguments;

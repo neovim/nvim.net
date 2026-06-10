@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security;
+using CSharpier.Core.CSharp;
 using MsgPack.Serialization;
 using NvimClient.APIGenerator.Docs;
 using NvimClient.NvimMsgpack;
@@ -24,7 +25,8 @@ namespace NvimClient
     public static NvimAPIMetadata GetAPIMetadata()
     {
       var process = Process.Start(
-        new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless));
+        new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless)
+      );
 
       var context = new SerializationContext();
       context.DictionarySerlaizationOptions.KeyTransformer =
@@ -34,21 +36,41 @@ namespace NvimClient
       return apiMetadata;
     }
 
-    public static void GenerateCSharpFile(string outputPath,
-      IEnumerable<FunctionDoc> functionDocs)
+    public static void GenerateCSharpFile(
+      string outputPath,
+      IEnumerable<FunctionDoc> functionDocs
+    )
     {
-      _functionDocs = functionDocs?.ToDictionary(functionDoc => functionDoc.Function,
-        funcDoc => funcDoc);
+      _functionDocs = functionDocs
+        .GroupBy(x => x.Function)
+        .ToDictionary(
+          functionDoc => functionDoc.Key,
+          funcDoc => funcDoc.First()
+        );
+
       var apiMetadata = GetAPIMetadata();
 
       // Filter out functions only callable from Lua.
-      apiMetadata.Functions = apiMetadata.Functions.Where(f => !f.Parameters.Where(p => p.Type == "LuaRef").Any()).ToArray();
+      apiMetadata.Functions = apiMetadata
+        .Functions.Where(f =>
+          !f.Parameters.Where(p => p.Type == "LuaRef").Any()
+        )
+        .ToArray();
 
-      var csharpClass = GenerateCSharpClass(apiMetadata);
-      File.WriteAllText(outputPath, csharpClass);
+      var csharpFormatResult = CSharpFormatter
+        .Format(GenerateCSharpClass(apiMetadata))
+        .ToCSharpierResult();
+
+      if (csharpFormatResult.IsExceptional)
+      {
+        throw csharpFormatResult.Exception;
+      }
+
+      File.WriteAllText(outputPath, csharpFormatResult.Code);
     }
 
-    private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) => @"
+    private static string GenerateCSharpClass(NvimAPIMetadata apiMetadata) =>
+      @"
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,22 +83,37 @@ namespace NvimClient.API
 {
   public partial class NvimAPI
   {
-" +
-    GenerateNvimUIEvents(
-      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
-" + GenerateNvimMethods(
-      apiMetadata.Functions.Where(function =>
-        !IsDeprecated(function) && !function.Method),
-      "nvim_", false) + @"
-" + GenerateNvimTypes(apiMetadata) + @"
-" + GenerateNvimUIEventArgs(
-      apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+"
+      + GenerateNvimUIEvents(
+        apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))
+      )
+      + @"
+"
+      + GenerateNvimMethods(
+        apiMetadata.Functions.Where(function =>
+          !IsDeprecated(function) && !function.Method
+        ),
+        "nvim_",
+        false
+      )
+      + @"
+"
+      + GenerateNvimTypes(apiMetadata)
+      + @"
+"
+      + GenerateNvimUIEventArgs(
+        apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))
+      )
+      + @"
     private void CallUIEventHandler(string eventName, object[] args)
     {
       switch (eventName)
       {
-  " + GenerateNvimUIEventCalls(
-        apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))) + @"
+  "
+      + GenerateNvimUIEventCalls(
+        apiMetadata.UIEvents.Where(uiEvent => !IsDeprecated(uiEvent))
+      )
+      + @"
       }
     }
 
@@ -84,7 +121,9 @@ namespace NvimClient.API
     {
       switch (msgPackExtObj.TypeCode)
       {
-" + GenerateNvimTypeCases(apiMetadata.Types) + @"
+"
+      + GenerateNvimTypeCases(apiMetadata.Types)
+      + @"
         default:
           throw new SerializationException(
             $""Unknown extension type id {msgPackExtObj.TypeCode}"");
@@ -94,12 +133,15 @@ namespace NvimClient.API
 }";
 
     private static string GenerateNvimUIEventCalls(
-      IEnumerable<NvimUIEvent> uiEvents) =>
-      string.Join("", uiEvents.Select(uiEvent =>
-      {
-        var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
-        var eventArgs = uiEvent.Parameters.Any()
-          ? $@"new {camelCaseName}EventArgs
+      IEnumerable<NvimUIEvent> uiEvents
+    ) =>
+      string.Join(
+        "",
+        uiEvents.Select(uiEvent =>
+        {
+          var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+          var eventArgs = uiEvent.Parameters.Any()
+            ? $@"new {camelCaseName}EventArgs
           {{
 {
               string.Join(",\n", uiEvent.Parameters.Select((param, index) =>
@@ -110,17 +152,20 @@ namespace NvimClient.API
               }))
             }
           }}"
-          : "EventArgs.Empty";
-        return $@"
+            : "EventArgs.Empty";
+          return $@"
       case ""{uiEvent.Name}"":
           {camelCaseName}Event?.Invoke(this, {eventArgs});
           break;
 ";
-      }));
+        })
+      );
 
     private static string GenerateNvimUIEvents(
-      IEnumerable<NvimUIEvent> uiEvents) =>
-      string.Join("\n",
+      IEnumerable<NvimUIEvent> uiEvents
+    ) =>
+      string.Join(
+        "\n",
         uiEvents.Select(uiEvent =>
         {
           var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
@@ -128,15 +173,20 @@ namespace NvimClient.API
             ? $"<{camelCaseName}EventArgs>"
             : string.Empty;
           return $"    public event EventHandler{genericTypeParam} {camelCaseName}Event;";
-        }));
+        })
+      );
 
     private static string GenerateNvimUIEventArgs(
-      IEnumerable<NvimUIEvent> uiEvents) =>
-      string.Join("", uiEvents.Where(uiEvent => uiEvent.Parameters.Any())
-                              .Select(uiEvent =>
-      {
-        var eventName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
-        return $@"
+      IEnumerable<NvimUIEvent> uiEvents
+    ) =>
+      string.Join(
+        "",
+        uiEvents
+          .Where(uiEvent => uiEvent.Parameters.Any())
+          .Select(uiEvent =>
+          {
+            var eventName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+            return $@"
   public class {eventName}EventArgs : EventArgs
   {{
 {
@@ -148,14 +198,17 @@ namespace NvimClient.API
       }))
 }
   }}";
-      }));
+          })
+      );
 
     private static string GenerateNvimTypes(NvimAPIMetadata apiMetadata)
     {
-      return string.Join("", apiMetadata.Types.Select(type =>
-      {
-        var name = "Nvim" + StringUtil.ConvertToCamelCase(type.Key, true);
-        return $@"
+      return string.Join(
+        "",
+        apiMetadata.Types.Select(type =>
+        {
+          var name = "Nvim" + StringUtil.ConvertToCamelCase(type.Key, true);
+          return $@"
   public class {name}
   {{
     private readonly NvimAPI _api;
@@ -173,45 +226,53 @@ namespace NvimClient.API
       type.Value.Prefix, true)
     }
   }}";
-      }));
+        })
+      );
     }
 
     private static string GenerateNvimMethods(
-      IEnumerable<NvimFunction> functions, string prefixToRemove,
-      bool isVirtualMethod) =>
-      string.Join("", functions.Select(function =>
-      {
-        if (!function.Name.StartsWith(prefixToRemove))
+      IEnumerable<NvimFunction> functions,
+      string prefixToRemove,
+      bool isVirtualMethod
+    ) =>
+      string.Join(
+        "",
+        functions.Select(function =>
         {
-          throw new Exception(
-            $"Function {function.Name} does not "
-            + $"have expected prefix \"{prefixToRemove}\"");
-        }
-
-        FunctionDoc doc = null;
-        _functionDocs?.TryGetValue(function.Name, out doc);
-        var camelCaseName =
-          StringUtil.ConvertToCamelCase(
-            function.Name.Substring(prefixToRemove.Length), true);
-        var sendAccess = function.Method ? "_api." : string.Empty;
-        var returnType = NvimTypesMap.GetCSharpType(function.ReturnType);
-        var genericTypeParam =
-          returnType == "void" ? string.Empty : $"<{returnType}>";
-        var parameters =
-          (isVirtualMethod ? function.Parameters.Skip(1) : function.Parameters)
-          .Select(param =>
-          new
+          if (!function.Name.StartsWith(prefixToRemove))
           {
-            param.Type,
-            // Prefix every parameter name with the verbatim identifier `@`
-            // to prevent them from being interpreted as keywords.
-            // In the future, it might be worth considering adding a list
-            // of all C# keywords and only adding the prefix to parameter
-            // names that are in the list.
-            Name = "@" + StringUtil.ConvertToCamelCase(param.Name, false)
-          }).ToArray();
+            throw new Exception(
+              $"Function {function.Name} does not "
+                + $"have expected prefix \"{prefixToRemove}\""
+            );
+          }
 
-        return $@"{string.Join(string.Empty,
+          FunctionDoc doc = null;
+          _functionDocs?.TryGetValue(function.Name, out doc);
+          var camelCaseName = StringUtil.ConvertToCamelCase(
+            function.Name.Substring(prefixToRemove.Length),
+            true
+          );
+          var sendAccess = function.Method ? "_api." : string.Empty;
+          var returnType = NvimTypesMap.GetCSharpType(function.ReturnType);
+          var genericTypeParam =
+            returnType == "void" ? string.Empty : $"<{returnType}>";
+          var parameters = (
+            isVirtualMethod ? function.Parameters.Skip(1) : function.Parameters
+          )
+            .Select(param => new
+            {
+              param.Type,
+              // Prefix every parameter name with the verbatim identifier `@`
+              // to prevent them from being interpreted as keywords.
+              // In the future, it might be worth considering adding a list
+              // of all C# keywords and only adding the prefix to parameter
+              // names that are in the list.
+              Name = "@" + StringUtil.ConvertToCamelCase(param.Name, false),
+            })
+            .ToArray();
+
+          return $@"{string.Join(string.Empty,
           GetDocElement("summary", doc?.Summary).Concat(
             doc?.Parameters
               .Where(param =>
@@ -238,18 +299,23 @@ namespace NvimClient.API
             .Concat(parameters.Select(param => param.Name)))})
       }});
 ";
-      }));
+        })
+      );
 
-    private static IEnumerable<string> GetDocElement(string tag,
-      IEnumerable<IDocElement> elements, string tagAttributes = null)
+    private static IEnumerable<string> GetDocElement(
+      string tag,
+      IEnumerable<IDocElement> elements,
+      string tagAttributes = null
+    )
     {
       if (elements == null)
       {
         yield break;
       }
 
-      using (var lineEnumerator =
-        elements.SelectMany(GetDocLines).GetEnumerator())
+      using (
+        var lineEnumerator = elements.SelectMany(GetDocLines).GetEnumerator()
+      )
       {
         if (!lineEnumerator.MoveNext())
         {
@@ -283,12 +349,14 @@ namespace NvimClient.API
           yield return "</para>";
           yield break;
         case InlineCode inlineCode:
-          yield return
-            $"<c>${SecurityElement.Escape(inlineCode.ToString())}</c>";
+          foreach (var line in EscapeDocLines(inlineCode.ToString()))
+          {
+            yield return $"<c>{line}</c>";
+          }
+
           yield break;
         case DocList list:
-          yield return
-            "<list type=\""
+          yield return "<list type=\""
             + (list.ListType == DocListType.ItemizedList ? "bullet" : "number")
             + "\">";
           foreach (var listItemLines in list.Children.Select(GetDocLines))
@@ -305,18 +373,33 @@ namespace NvimClient.API
           yield return "</list>";
           yield break;
         default:
-          yield return SecurityElement.Escape(element.ToString());
+          foreach (var line in EscapeDocLines(element.ToString()))
+          {
+            yield return line;
+          }
+
           yield break;
       }
     }
 
-    private static string
-      GenerateNvimTypeCases(Dictionary<string, NvimType> apiMetadata) =>
-      string.Join(string.Empty, apiMetadata.Select(type => $@"
+    private static IEnumerable<string> EscapeDocLines(string text) =>
+      (SecurityElement.Escape(text) ?? string.Empty)
+        .Replace("\r\n", "\n")
+        .Replace('\r', '\n')
+        .Split('\n');
+
+    private static string GenerateNvimTypeCases(
+      Dictionary<string, NvimType> apiMetadata
+    ) =>
+      string.Join(
+        string.Empty,
+        apiMetadata.Select(type =>
+          $@"
         case {type.Value.Id}:
           return new Nvim{
             StringUtil.ConvertToCamelCase(type.Key, true)
-            }(this, msgPackExtObj);")
+            }(this, msgPackExtObj);"
+        )
       );
   }
 }

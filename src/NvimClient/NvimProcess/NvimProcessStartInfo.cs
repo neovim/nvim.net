@@ -16,10 +16,8 @@ namespace NvimClient.NvimProcess
     ///   the specified start options.
     /// </summary>
     /// <param name="startOptions">The options for starting Nvim.</param>
-    public NvimProcessStartInfo(StartOption startOptions) : this(null, null,
-      startOptions)
-    {
-    }
+    public NvimProcessStartInfo(StartOption startOptions)
+      : this(null, null, startOptions) { }
 
     /// <summary>
     ///   Initializes a new instance of the NvimProcessStartInfo class that
@@ -31,11 +29,12 @@ namespace NvimClient.NvimProcess
     /// </param>
     /// <param name="arguments">The arguments to pass to Nvim.</param>
     /// <param name="startOptions">The options for starting Nvim.</param>
-    public NvimProcessStartInfo(string nvimPath, string arguments,
-      StartOption startOptions = StartOption.None) : this(
-      GetProcessStartInfo(nvimPath, arguments, startOptions))
-    {
-    }
+    public NvimProcessStartInfo(
+      string nvimPath,
+      string arguments,
+      StartOption startOptions = StartOption.None
+    )
+      : this(GetProcessStartInfo(nvimPath, arguments, startOptions)) { }
 
     /// <summary>
     ///   Initializes a new instance of the NvimProcessStartInfo class with
@@ -68,37 +67,53 @@ namespace NvimClient.NvimProcess
     }
 
     public static implicit operator NvimProcessStartInfo(
-      ProcessStartInfo startInfo) => new NvimProcessStartInfo(startInfo);
+      ProcessStartInfo startInfo
+    ) => new NvimProcessStartInfo(startInfo);
 
     public static implicit operator ProcessStartInfo(
-      NvimProcessStartInfo startInfo) => startInfo.ProcessStartInfo;
+      NvimProcessStartInfo startInfo
+    ) => startInfo.ProcessStartInfo;
 
-    private static ProcessStartInfo GetProcessStartInfo(string nvimPath,
-      string arguments, StartOption startOptions = StartOption.None)
+    private static ProcessStartInfo GetProcessStartInfo(
+      string nvimPath,
+      string arguments,
+      StartOption startOptions = StartOption.None
+    )
     {
-      var redirectStandardIO = startOptions.HasFlag(StartOption.ApiInfo) ||
-                               startOptions.HasFlag(StartOption.Embed);
+      var redirectStandardIO =
+        startOptions.HasFlag(StartOption.ApiInfo)
+        || startOptions.HasFlag(StartOption.Embed);
       return new ProcessStartInfo(
-        nvimPath, string.Join(" ",
-          GetFlagsForOptions(startOptions).Append(arguments)
-            .Where(argument => !string.IsNullOrEmpty(argument))))
+        nvimPath,
+        string.Join(
+          " ",
+          GetFlagsForOptions(startOptions)
+            .Append(arguments)
+            .Where(argument => !string.IsNullOrEmpty(argument))
+        )
+      )
       {
-        CreateNoWindow = startOptions.HasFlag(StartOption.Headless) ||
-                         startOptions.HasFlag(StartOption.Embed),
+        CreateNoWindow =
+          startOptions.HasFlag(StartOption.Headless)
+          || startOptions.HasFlag(StartOption.Embed),
         RedirectStandardInput = redirectStandardIO,
         RedirectStandardOutput = redirectStandardIO,
-        RedirectStandardError = redirectStandardIO
+        RedirectStandardError = redirectStandardIO,
       };
     }
 
-    private static IEnumerable<string>
-      GetFlagsForOptions(StartOption startOptions)
+    private static IEnumerable<string> GetFlagsForOptions(
+      StartOption startOptions
+    )
     {
-      return Enum.GetValues(typeof(StartOption)).Cast<StartOption>()
+      return Enum.GetValues(typeof(StartOption))
+        .Cast<StartOption>()
         .Where(option =>
-          option != StartOption.None && startOptions.HasFlag(option))
+          option != StartOption.None && startOptions.HasFlag(option)
+        )
         .Select(option =>
-          EnumUtil.GetAttribute<ArgumentAttribute>(option).Flag);
+          EnumUtil.GetAttribute<ArgumentAttribute>(option).Flag
+        );
     }
   }
 }

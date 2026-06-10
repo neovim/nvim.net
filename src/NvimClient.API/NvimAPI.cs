@@ -22,15 +22,16 @@ namespace NvimClient.API
   public partial class NvimAPI
   {
     public event EventHandler<NvimUnhandledRequestEventArgs> OnUnhandledRequest;
-    public event EventHandler<NvimUnhandledNotificationEventArgs>
-      OnUnhandledNotification;
+    public event EventHandler<NvimUnhandledNotificationEventArgs> OnUnhandledNotification;
 
     private readonly Stream _inputStream;
     private readonly Stream _outputStream;
     private readonly MessagePackSerializer<NvimMessage> _serializer;
     private readonly BlockingCollection<NvimMessage> _messageQueue;
-    private readonly ConcurrentDictionary<long, PendingRequest>
-      _pendingRequests;
+    private readonly ConcurrentDictionary<
+      long,
+      PendingRequest
+    > _pendingRequests;
     private delegate void NvimHandler(uint? requestId, object[] arguments);
     private readonly ConcurrentDictionary<string, NvimHandler> _handlers;
     private uint _messageIdCounter;
@@ -40,37 +41,42 @@ namespace NvimClient.API
     /// Starts a new Nvim process and communicates
     /// with it through stdin and stdout streams.
     /// </summary>
-    public NvimAPI() : this(Process.Start(
-        new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless)))
-    {
-    }
+    public NvimAPI()
+      : this(
+        Process.Start(
+          new NvimProcessStartInfo(StartOption.Embed | StartOption.Headless)
+        )
+      ) { }
 
     /// <summary>
     /// Communicates with an already-running Nvim
     /// process through its stdin and stdout streams.
     /// </summary>
     /// <param name="process"></param>
-    public NvimAPI(Process process) : this(process.StandardInput.BaseStream,
-      process.StandardOutput.BaseStream)
-    {
-    }
+    public NvimAPI(Process process)
+      : this(
+        process.StandardInput.BaseStream,
+        process.StandardOutput.BaseStream
+      ) { }
 
     /// <summary>
     /// Communicates with Nvim through the specified server address.
     /// </summary>
     /// <param name="serverAddress"></param>
-    public NvimAPI(string serverAddress) : this(
-      GetStreamFromServerAddress(serverAddress))
-    {
-    }
+    public NvimAPI(string serverAddress)
+      : this(GetStreamFromServerAddress(serverAddress)) { }
 
     private static Stream GetStreamFromServerAddress(string serverAddress)
     {
       var lastColonIndex = serverAddress.LastIndexOf(':');
-      if (lastColonIndex != -1 && lastColonIndex != 0
-                               && int.TryParse(
-                                    serverAddress.Substring(lastColonIndex + 1),
-                                    out var port))
+      if (
+        lastColonIndex != -1
+        && lastColonIndex != 0
+        && int.TryParse(
+          serverAddress.Substring(lastColonIndex + 1),
+          out var port
+        )
+      )
       {
         // TCP socket
         var tcpClient = new TcpClient();
@@ -83,19 +89,28 @@ namespace NvimClient.API
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
         // Named Pipe on Windows
-        var match = Regex.Match(serverAddress,
-          @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)");
+        var match = Regex.Match(
+          serverAddress,
+          @"\\\\(?'serverName'[^\\]+)\\pipe\\(?'pipeName'[^\\]+)"
+        );
         var serverName = match.Groups["serverName"].Value;
         var pipeName = match.Groups["pipeName"].Value;
-        var pipeStream = new NamedPipeClientStream(serverName, pipeName,
-          PipeDirection.InOut, PipeOptions.Asynchronous);
+        var pipeStream = new NamedPipeClientStream(
+          serverName,
+          pipeName,
+          PipeDirection.InOut,
+          PipeOptions.Asynchronous
+        );
         pipeStream.Connect();
         return pipeStream;
       }
 
       // Unix Domain Socket on other OSes
-      var unixDomainSocket = new Socket(AddressFamily.Unix,
-        SocketType.Stream, ProtocolType.Unspecified);
+      var unixDomainSocket = new Socket(
+        AddressFamily.Unix,
+        SocketType.Stream,
+        ProtocolType.Unspecified
+      );
       unixDomainSocket.Connect(new UnixDomainSocketEndPoint(serverAddress));
       return new NetworkStream(unixDomainSocket, true);
     }
@@ -104,10 +119,8 @@ namespace NvimClient.API
     /// Communicates with Nvim through the provided stream.
     /// </summary>
     /// <param name="inputOutputStream">The stream to use.</param>
-    public NvimAPI(Stream inputOutputStream) : this(inputOutputStream,
-      inputOutputStream)
-    {
-    }
+    public NvimAPI(Stream inputOutputStream)
+      : this(inputOutputStream, inputOutputStream) { }
 
     /// <summary>
     /// Communicates with Nvim through the
@@ -136,11 +149,32 @@ namespace NvimClient.API
     public void RegisterHandler(string name, Action<object[]> handler) =>
       RegisterHandler(name, (Delegate)handler);
 
-    public void RegisterHandler(string name,
-      Func<object[], Task<object>> handler) => RegisterHandler(name,
-      (requestId, args) =>
-      {
-        Task.Run(() =>
+    public void RegisterHandler(
+      string name,
+      Func<object[], Task<object>> handler
+    ) =>
+      RegisterHandler(
+        name,
+        (requestId, args) =>
+        {
+          Task.Run(() =>
+          {
+            if (requestId.HasValue)
+            {
+              CallHandlerAndSendResponse(requestId.Value, handler, args);
+            }
+            else
+            {
+              handler(args);
+            }
+          });
+        }
+      );
+
+    private void RegisterHandler(string name, Delegate handler) =>
+      RegisterHandler(
+        name,
+        (requestId, args) =>
         {
           if (requestId.HasValue)
           {
@@ -148,35 +182,24 @@ namespace NvimClient.API
           }
           else
           {
-            handler(args);
+            handler.DynamicInvoke(args);
           }
-        });
-      });
-
-    private void RegisterHandler(string name, Delegate handler) =>
-      RegisterHandler(name, (requestId, args) =>
-      {
-        if (requestId.HasValue)
-        {
-          CallHandlerAndSendResponse(requestId.Value, handler, args);
         }
-        else
-        {
-          handler.DynamicInvoke(args);
-        }
-      });
+      );
 
     private void RegisterHandler(string name, NvimHandler handler)
     {
       if (!_handlers.TryAdd(name, handler))
       {
-        throw new Exception(
-          $"Handler for \"{name}\" is already registered");
+        throw new Exception($"Handler for \"{name}\" is already registered");
       }
     }
 
-    private void CallHandlerAndSendResponse(uint requestId, Delegate handler,
-      object[] args)
+    private void CallHandlerAndSendResponse(
+      uint requestId,
+      Delegate handler,
+      object[] args
+    )
     {
       var response = new NvimResponse { MessageId = requestId };
       try
@@ -192,15 +215,17 @@ namespace NvimClient.API
       _messageQueue.Add(response);
     }
 
-
-    internal void SendResponse(NvimUnhandledRequestEventArgs args, object result,
-      object error)
+    internal void SendResponse(
+      NvimUnhandledRequestEventArgs args,
+      object result,
+      object error
+    )
     {
       var response = new NvimResponse
       {
         MessageId = args.RequestId,
         Result = ConvertToMessagePackObject(result),
-        Error = ConvertToMessagePackObject(error)
+        Error = ConvertToMessagePackObject(error),
       };
       _messageQueue.Add(response);
     }
@@ -226,7 +251,8 @@ namespace NvimClient.API
             var objectArray = (object[])result;
             var resultArray = Array.CreateInstance(
               typeof(TResult).GetElementType(),
-              objectArray.Length);
+              objectArray.Length
+            );
             Array.Copy(objectArray, resultArray, resultArray.Length);
             return (TResult)(object)resultArray;
           }
@@ -238,12 +264,13 @@ namespace NvimClient.API
     private void StartSendLoop()
     {
       Task.Run(async () =>
-      {
-        foreach (var request in _messageQueue.GetConsumingEnumerable())
         {
-          await _serializer.PackAsync(_inputStream, request);
-        }
-      }).ContinueWith(t => _waitEvent.Set());
+          foreach (var request in _messageQueue.GetConsumingEnumerable())
+          {
+            await _serializer.PackAsync(_inputStream, request);
+          }
+        })
+        .ContinueWith(t => _waitEvent.Set());
     }
 
     private void StartReceiveLoop()
@@ -256,7 +283,6 @@ namespace NvimClient.API
         try
         {
           message = await _serializer.UnpackAsync(_outputStream);
-
         }
         catch
         {
@@ -267,70 +293,91 @@ namespace NvimClient.API
         switch (message)
         {
           case NvimNotification notification:
+          {
+            if (notification.Method == "redraw")
             {
-              if (notification.Method == "redraw")
-              {
-                var uiEvents = notification.Arguments.AsEnumerable().SelectMany(
-                  uiEvent =>
-                  {
-                    var data = uiEvent.AsList();
-                    var name = data.First().AsString();
-                    return data.Select(args => new { Name = name, Args = args })
-                               .Skip(1);
-                  });
-                foreach (var uiEvent in uiEvents)
+              var uiEvents = notification
+                .Arguments.AsEnumerable()
+                .SelectMany(uiEvent =>
                 {
-                  CallUIEventHandler(uiEvent.Name,
-                    (object[])ConvertFromMessagePackObject(uiEvent.Args));
-                }
-              }
-
-              var arguments =
-                (object[])ConvertFromMessagePackObject(notification.Arguments);
-              if (_handlers.TryGetValue(notification.Method, out var handler))
+                  var data = uiEvent.AsList();
+                  var name = data.First().AsString();
+                  return data.Select(args => new { Name = name, Args = args })
+                    .Skip(1);
+                });
+              foreach (var uiEvent in uiEvents)
               {
-                handler(null, arguments);
+                CallUIEventHandler(
+                  uiEvent.Name,
+                  (object[])ConvertFromMessagePackObject(uiEvent.Args)
+                );
               }
-              else
-              {
-                OnUnhandledNotification?.Invoke(this,
-                  new NvimUnhandledNotificationEventArgs(notification.Method,
-                    arguments));
-              }
-
-              break;
             }
-          case NvimRequest request:
+
+            var arguments = (object[])ConvertFromMessagePackObject(
+              notification.Arguments
+            );
+            if (_handlers.TryGetValue(notification.Method, out var handler))
             {
-              var arguments =
-                (object[])ConvertFromMessagePackObject(request.Arguments);
-              if (_handlers.TryGetValue(request.Method, out var handler))
-              {
-                handler(request.MessageId, arguments);
-              }
-              else
-              {
-                OnUnhandledRequest?.Invoke(this,
-                  new NvimUnhandledRequestEventArgs(this, request.MessageId,
-                    request.Method, arguments));
-              }
-
-              break;
+              handler(null, arguments);
             }
+            else
+            {
+              OnUnhandledNotification?.Invoke(
+                this,
+                new NvimUnhandledNotificationEventArgs(
+                  notification.Method,
+                  arguments
+                )
+              );
+            }
+
+            break;
+          }
+          case NvimRequest request:
+          {
+            var arguments = (object[])ConvertFromMessagePackObject(
+              request.Arguments
+            );
+            if (_handlers.TryGetValue(request.Method, out var handler))
+            {
+              handler(request.MessageId, arguments);
+            }
+            else
+            {
+              OnUnhandledRequest?.Invoke(
+                this,
+                new NvimUnhandledRequestEventArgs(
+                  this,
+                  request.MessageId,
+                  request.Method,
+                  arguments
+                )
+              );
+            }
+
+            break;
+          }
           case NvimResponse response:
-            if (!_pendingRequests.TryRemove(response.MessageId,
-              out var pendingRequest))
+            if (
+              !_pendingRequests.TryRemove(
+                response.MessageId,
+                out var pendingRequest
+              )
+            )
             {
               throw new Exception(
                 "Received response with "
-                + $"unknown message ID \"{response.MessageId}\"");
+                  + $"unknown message ID \"{response.MessageId}\""
+              );
             }
 
             pendingRequest.Complete(response);
             break;
           default:
             throw new TypeLoadException(
-              $"Unknown message type \"{message.GetType()}\"");
+              $"Unknown message type \"{message.GetType()}\""
+            );
         }
 
         Receive();
@@ -353,23 +400,30 @@ namespace NvimClient.API
         var taskCompletionSource = new TaskCompletionSource<NvimResponse>();
 
         void RegisterResponseEvent(TimeSpan timeout) =>
-          ThreadPool.RegisterWaitForSingleObject(_receivedResponseEvent,
+          ThreadPool.RegisterWaitForSingleObject(
+            _receivedResponseEvent,
             (state, timedOut) =>
             {
               if (timedOut)
               {
-                Debug.WriteLine("Warning: response was not received "
-                                + $"within {timeout.TotalSeconds} seconds");
+                Debug.WriteLine(
+                  "Warning: response was not received "
+                    + $"within {timeout.TotalSeconds} seconds"
+                );
                 // Continue waiting without a timeout
                 RegisterResponseEvent(Timeout.InfiniteTimeSpan);
               }
               else
               {
                 taskCompletionSource.SetResult(
-                  ((PendingRequest)state)._response);
+                  ((PendingRequest)state)._response
+                );
               }
             },
-            this, timeout, true);
+            this,
+            timeout,
+            true
+          );
 
         RegisterResponseEvent(_responseTimeout);
 
@@ -397,7 +451,9 @@ namespace NvimClient.API
 
       if (msgPackObject.IsArray)
       {
-        return msgPackObject.AsEnumerable().Select(ConvertFromMessagePackObject)
+        return msgPackObject
+          .AsEnumerable()
+          .Select(ConvertFromMessagePackObject)
           .ToArray();
       }
 
@@ -406,7 +462,8 @@ namespace NvimClient.API
         var msgPackDictionary = msgPackObject.AsDictionary();
         return msgPackDictionary.ToDictionary(
           keyValuePair => ConvertFromMessagePackObject(keyValuePair.Key),
-          keyValuePair => ConvertFromMessagePackObject(keyValuePair.Value));
+          keyValuePair => ConvertFromMessagePackObject(keyValuePair.Value)
+        );
       }
 
       var obj = msgPackObject.ToObject();
@@ -420,9 +477,9 @@ namespace NvimClient.API
 
     private static MessagePackObject ConvertToMessagePackObject(object obj)
     {
-      IEnumerable<MessagePackObject>
-      ConvertEnumerable(IEnumerable enumerable) =>
-        enumerable.Cast<object>().Select(ConvertToMessagePackObject);
+      IEnumerable<MessagePackObject> ConvertEnumerable(
+        IEnumerable enumerable
+      ) => enumerable.Cast<object>().Select(ConvertToMessagePackObject);
 
       if (obj is Array array)
       {
@@ -432,8 +489,11 @@ namespace NvimClient.API
       if (obj is IDictionary dictionary)
       {
         var msgPackDictionary = new MessagePackObjectDictionary();
-        var keysAndValues = ConvertEnumerable(dictionary.Keys).Zip(
-          ConvertEnumerable(dictionary.Values), (key, value) => (key, value));
+        var keysAndValues = ConvertEnumerable(dictionary.Keys)
+          .Zip(
+            ConvertEnumerable(dictionary.Values),
+            (key, value) => (key, value)
+          );
         foreach (var (key, value) in keysAndValues)
         {
           msgPackDictionary.Add(key, value);
@@ -446,7 +506,7 @@ namespace NvimClient.API
     }
 
     private static MessagePackObject GetRequestArguments(
-      params object[] parameters) =>
-      ConvertToMessagePackObject(parameters);
+      params object[] parameters
+    ) => ConvertToMessagePackObject(parameters);
   }
 }

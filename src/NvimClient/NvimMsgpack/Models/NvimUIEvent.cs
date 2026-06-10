@@ -1,6 +1,4 @@
 namespace NvimClient.NvimMsgpack.Models
 {
-  public class NvimUIEvent : NvimFunctionEventBase
-  {
-  }
+  public class NvimUIEvent : NvimFunctionEventBase { }
 }

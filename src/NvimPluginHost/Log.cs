@@ -17,6 +17,7 @@ namespace NvimPluginHost
     }
 
     public static void WriteLine(string text) => _writer?.WriteLine(text);
+
     public static void Write(string text) => _writer?.Write(text);
   }
 }

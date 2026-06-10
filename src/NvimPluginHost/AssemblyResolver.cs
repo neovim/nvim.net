@@ -19,17 +19,17 @@ namespace NvimPluginHost
 
     public AssemblyResolver(string path)
     {
-      Assembly =
-        AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+      Assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
       _dependencyContext = DependencyContext.Load(Assembly);
 
-      _assemblyResolver = new CompositeCompilationAssemblyResolver
-      (new ICompilationAssemblyResolver[]
-       {
-         new AppBaseCompilationAssemblyResolver(Path.GetDirectoryName(path)),
-         new ReferenceAssemblyPathResolver(),
-         new PackageCompilationAssemblyResolver()
-       });
+      _assemblyResolver = new CompositeCompilationAssemblyResolver(
+        new ICompilationAssemblyResolver[]
+        {
+          new AppBaseCompilationAssemblyResolver(Path.GetDirectoryName(path)),
+          new ReferenceAssemblyPathResolver(),
+          new PackageCompilationAssemblyResolver(),
+        }
+      );
 
       _loadContext = AssemblyLoadContext.GetLoadContext(Assembly);
       _loadContext.Resolving += OnResolving;
@@ -46,12 +46,16 @@ namespace NvimPluginHost
     {
       bool NamesMatch(RuntimeLibrary runtime)
       {
-        return string.Equals(runtime.Name, name.Name,
-          StringComparison.OrdinalIgnoreCase);
+        return string.Equals(
+          runtime.Name,
+          name.Name,
+          StringComparison.OrdinalIgnoreCase
+        );
       }
 
-      var library =
-        _dependencyContext.RuntimeLibraries.FirstOrDefault(NamesMatch);
+      var library = _dependencyContext.RuntimeLibraries.FirstOrDefault(
+        NamesMatch
+      );
       if (library != null)
       {
         var wrapper = new CompilationLibrary(
@@ -61,7 +65,8 @@ namespace NvimPluginHost
           library.Hash,
           library.RuntimeAssemblyGroups.SelectMany(g => g.AssetPaths),
           library.Dependencies,
-          library.Serviceable);
+          library.Serviceable
+        );
 
         var assemblies = new List<string>();
         _assemblyResolver.TryResolveAssemblyPaths(wrapper, assemblies);

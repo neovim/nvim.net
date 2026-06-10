@@ -8,24 +8,32 @@ namespace NvimClient.NvimMsgpack
 {
   public static class NvimTypesMap
   {
-    private static readonly
-      (string NvimTypeName, string CSharpTypeName, Type CSharpType)[] _types =
-      {
-        ("Array",           "object[]",            typeof(object[])),
-        ("Boolean",         "bool",                typeof(bool)),
-        ("Dictionary",      "IDictionary",         typeof(IDictionary)),
-        ("Float",           "double",              typeof(double)),
-        ("Integer",         "long",                typeof(long)),
-        ("Object",          "object",              typeof(object)),
-        ("String",          "string",              typeof(string)),
-        ("void",            "void",                typeof(void))
-      };
+    private static readonly (
+      string NvimTypeName,
+      string CSharpTypeName,
+      Type CSharpType
+    )[] _types =
+    {
+      ("Array", "object[]", typeof(object[])),
+      ("Boolean", "bool", typeof(bool)),
+      ("Dict", "IDictionary", typeof(IDictionary)),
+      ("Dictionary", "IDictionary", typeof(IDictionary)),
+      ("Float", "double", typeof(double)),
+      ("Integer", "long", typeof(long)),
+      ("Object", "object", typeof(object)),
+      ("String", "string", typeof(string)),
+      ("void", "void", typeof(void)),
+    };
 
     private static Dictionary<string, string> _nvimTypesMap =>
-      _types.ToDictionary(type => type.NvimTypeName, type => type.CSharpTypeName);
+      _types.ToDictionary(
+        type => type.NvimTypeName,
+        type => type.CSharpTypeName
+      );
 
-    private static readonly HashSet<Type> _validCSharpTypes =
-      new HashSet<Type>(_types.Select(type => type.CSharpType));
+    private static readonly HashSet<Type> _validCSharpTypes = new HashSet<Type>(
+      _types.Select(type => type.CSharpType)
+    );
 
     public static string GetCSharpType(string nvimType)
     {
@@ -34,23 +42,44 @@ namespace NvimClient.NvimMsgpack
         return csharpType;
       }
 
-      var arrayRegexMatch = Regex.Match(nvimType,
-        @"^ArrayOf\((?:(?<ElementType>.+), (?<Size>\d+)|(?<ElementType>.+))\)$");
+      var arrayRegexMatch = Regex.Match(
+        nvimType,
+        @"^ArrayOf\((?:(?<ElementType>.+), (?<Size>\d+)|(?<ElementType>.+))\)$"
+      );
       if (arrayRegexMatch.Success)
       {
         var elementType = arrayRegexMatch.Groups["ElementType"].Value;
         return GetCSharpType(elementType) + "[]";
       }
 
-      var dictionaryRegexMatch = Regex.Match(nvimType,
-        @"^DictionaryOf\((?<KeyType>.+), (?<ValueType>.+)?\)$");
+      var dictionaryRegexMatch = Regex.Match(
+        nvimType,
+        @"^DictionaryOf\((?<KeyType>.+), (?<ValueType>.+)?\)$"
+      );
       if (dictionaryRegexMatch.Success)
       {
-        var keyType =
-          GetCSharpType(dictionaryRegexMatch.Groups["KeyType"].Value);
-        var valueType =
-          GetCSharpType(dictionaryRegexMatch.Groups["ValueType"].Value);
+        var keyType = GetCSharpType(
+          dictionaryRegexMatch.Groups["KeyType"].Value
+        );
+        var valueType = GetCSharpType(
+          dictionaryRegexMatch.Groups["ValueType"].Value
+        );
         return $"IDictionary<{keyType}, {valueType}>";
+      }
+
+      var dictOfRegexMatch = Regex.Match(
+        nvimType,
+        @"^DictOf\((?<ValueType>.+)\)$"
+      );
+      if (dictOfRegexMatch.Success)
+      {
+        return "IDictionary";
+      }
+
+      var keyDictRegexMatch = Regex.Match(nvimType, @"^Dict(?:As)?\(.+\)$");
+      if (keyDictRegexMatch.Success)
+      {
+        return "IDictionary";
       }
 
       return "Nvim" + nvimType;
@@ -60,7 +89,7 @@ namespace NvimClient.NvimMsgpack
       _validCSharpTypes.Contains(type)
       || type.IsArray && IsValidType(type.GetElementType())
       || type.IsGenericType
-      && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
-      && type.GetGenericArguments().All(IsValidType);
+        && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+        && type.GetGenericArguments().All(IsValidType);
   }
 }

@@ -1,0 +1,30 @@
+name: Formatting
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  format:
+    name: Check formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install CSharpier
+        run: dotnet tool install --tool-path ./.tools CSharpier --version 1.2.6
+
+      - name: Check formatting
+        run: |
+          mapfile -t files < <(git ls-files '*.cs' '*.csx' '*.csproj' '*.props' '*.targets' '*.xml' '*.slnx')
+          ./.tools/csharpier check "${files[@]}"

@@ -6,8 +6,12 @@ namespace NvimClient.API
   {
     private readonly NvimAPI _nvim;
 
-    internal NvimUnhandledRequestEventArgs(NvimAPI nvim, uint requestId,
-      string methodName, object[] arguments)
+    internal NvimUnhandledRequestEventArgs(
+      NvimAPI nvim,
+      uint requestId,
+      string methodName,
+      object[] arguments
+    )
     {
       _nvim = nvim;
       RequestId = requestId;

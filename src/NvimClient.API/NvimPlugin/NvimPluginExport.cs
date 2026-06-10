@@ -11,25 +11,27 @@ namespace NvimClient.API.NvimPlugin
 {
   public abstract class NvimPluginExport
   {
-    protected NvimPluginExport(string name, MethodInfo method,
-      string pluginPath, object pluginInstance)
+    protected NvimPluginExport(
+      string name,
+      MethodInfo method,
+      string pluginPath,
+      object pluginInstance
+    )
     {
       Name = name;
       Method = method;
       PluginPath = pluginPath;
       PluginInstance = pluginInstance;
-      Sync = method.GetCustomAttribute<AsyncStateMachineAttribute>() == null
-             && method.ReturnType != typeof(Task)
-             && (!method.ReturnType.IsGenericType
-                 || method.ReturnType.GetGenericTypeDefinition()
-                 != typeof(Task<>));
+      Sync =
+        method.GetCustomAttribute<AsyncStateMachineAttribute>() == null
+        && method.ReturnType != typeof(Task)
+        && (
+          !method.ReturnType.IsGenericType
+          || method.ReturnType.GetGenericTypeDefinition() != typeof(Task<>)
+        );
     }
 
-    protected IReadOnlyCollection<ArgumentConverter> ArgumentConverters
-    {
-      get;
-      set;
-    }
+    protected IReadOnlyCollection<ArgumentConverter> ArgumentConverters { get; set; }
 
     internal bool Sync { get; }
     public abstract string HandlerName { get; }
@@ -39,26 +41,32 @@ namespace NvimClient.API.NvimPlugin
     public string Name { get; }
 
     public Func<object[], object> Handler =>
-      args => Method.Invoke(PluginInstance,
-        ConvertPluginArguments(args).ToArray());
+      args =>
+        Method.Invoke(PluginInstance, ConvertPluginArguments(args).ToArray());
 
     internal abstract Dictionary<string, object> GetSpec();
 
     internal void Register(NvimAPI nvim) =>
       nvim.RegisterHandler(HandlerName, Handler);
 
-    private IEnumerable<object>
-      ConvertPluginArguments(IEnumerable<object> nvimArguments) =>
-      ArgumentConverters.Zip(nvimArguments, (converter, arg) => converter(arg))
-        .SelectMany(arg => arg).OrderBy(arg => arg.Index)
+    private IEnumerable<object> ConvertPluginArguments(
+      IEnumerable<object> nvimArguments
+    ) =>
+      ArgumentConverters
+        .Zip(nvimArguments, (converter, arg) => converter(arg))
+        .SelectMany(arg => arg)
+        .OrderBy(arg => arg.Index)
         .Select(arg => arg.Value);
 
     protected void AddEvalOption(Dictionary<string, string> opts)
     {
-      var evalExpressions = string.Join(",", Method.GetParameters().Select(
-          param =>
-            param.GetCustomAttribute<NvimEvalAttribute>()?.Value)
-        .Where(eval => eval != null));
+      var evalExpressions = string.Join(
+        ",",
+        Method
+          .GetParameters()
+          .Select(param => param.GetCustomAttribute<NvimEvalAttribute>()?.Value)
+          .Where(eval => eval != null)
+      );
       if (!string.IsNullOrEmpty(evalExpressions))
       {
         opts["eval"] = $"[{evalExpressions}]";
@@ -77,38 +85,53 @@ namespace NvimClient.API.NvimPlugin
     /// </param>
     protected void VisitParameters(
       IReadOnlyDictionary<Type, Action<int>> typeVisitors,
-      IReadOnlyDictionary<Type, Action<int, object>> attributeVisitors)
+      IReadOnlyDictionary<Type, Action<int, object>> attributeVisitors
+    )
     {
-      foreach (var param in Method.GetParameters()
-        .Select((param, index) =>
-          new
-          {
-            Index = index,
-            Type = param.ParameterType,
-            Attributes = param.GetCustomAttributes()
-          }))
+      foreach (
+        var param in Method
+          .GetParameters()
+          .Select(
+            (param, index) =>
+              new
+              {
+                Index = index,
+                Type = param.ParameterType,
+                Attributes = param.GetCustomAttributes(),
+              }
+          )
+      )
       {
         var isValidAPIType = NvimTypesMap.IsValidType(param.Type);
-        var isValidPluginType =
-          typeVisitors.TryGetValue(param.Type, out var visitor);
+        var isValidPluginType = typeVisitors.TryGetValue(
+          param.Type,
+          out var visitor
+        );
         if (!isValidAPIType && !isValidPluginType)
         {
           throw new Exception(
-            $"Plugin export has invalid parameter type \"{param.Type.Name}\"");
+            $"Plugin export has invalid parameter type \"{param.Type.Name}\""
+          );
         }
 
-        if (visitor != null
-            // If there is not a visitor for the specific type,
-            // try to use the "object" visitor as a default
-            || typeVisitors.TryGetValue(typeof(object), out visitor))
+        if (
+          visitor != null
+          // If there is not a visitor for the specific type,
+          // try to use the "object" visitor as a default
+          || typeVisitors.TryGetValue(typeof(object), out visitor)
+        )
         {
           visitor(param.Index);
         }
 
         foreach (var attribute in param.Attributes)
         {
-          if (attributeVisitors.TryGetValue(attribute.GetType(),
-            out var attributeVisitor))
+          if (
+            attributeVisitors.TryGetValue(
+              attribute.GetType(),
+              out var attributeVisitor
+            )
+          )
           {
             attributeVisitor(param.Index, attribute);
           }
@@ -128,6 +151,7 @@ namespace NvimClient.API.NvimPlugin
     /// <param name="nvimArgument">Argument from Nvim.</param>
     /// <returns>Arguments to invoke the plugin method with.</returns>
     protected delegate IEnumerable<PluginArgument> ArgumentConverter(
-      object nvimArgument);
+      object nvimArgument
+    );
   }
 }

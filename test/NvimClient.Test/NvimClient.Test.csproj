@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,5 +13,4 @@
     <ProjectReference Include="..\..\src\NvimClient.API\NvimClient.API.csproj" />
     <ProjectReference Include="..\..\src\NvimClient\NvimClient.csproj" />
   </ItemGroup>
-
 </Project>
