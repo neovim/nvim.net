@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
@@ -35,17 +36,6 @@ namespace NvimClient.Test
       );
     }
 
-    [DataTestMethod]
-    [DataRow("aaaa", "aaaa")]
-    [DataRow("AAAA", "aaaa")]
-    [DataRow("aaAa", "aa_aa")]
-    [DataRow("aaAA", "aa_aa")]
-    [DataRow("AAaa", "a_aaa")]
-    public void TestConvertToSnakeCase(string input, string expected)
-    {
-      Assert.AreEqual(expected, StringUtil.ConvertToSnakeCase(input));
-    }
-
     [TestMethod]
     public void TestApiMetadataDeserialization()
     {
@@ -54,8 +44,9 @@ namespace NvimClient.Test
       );
 
       var context = new SerializationContext();
-      context.DictionarySerlaizationOptions.KeyTransformer =
-        StringUtil.ConvertToSnakeCase;
+      context.DictionarySerlaizationOptions.KeyTransformer = JsonNamingPolicy
+        .SnakeCaseLower
+        .ConvertName;
       var serializer = context.GetSerializer<NvimAPIMetadata>();
       var apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
 
@@ -97,27 +88,6 @@ namespace NvimClient.Test
         response.MessageId == request.MessageId
           && response.Error == MessagePackObject.Nil
           && response.Result == testString
-      );
-    }
-
-    [DataTestMethod]
-    [DataRow("aaaa", "Aaaa", true)]
-    [DataRow("aaaa", "aaaa", false)]
-    [DataRow("_aaaa_", "Aaaa", true)]
-    [DataRow("_aaaa_", "aaaa", false)]
-    [DataRow("aa_aa", "AaAa", true)]
-    [DataRow("aa_aa", "aaAa", false)]
-    [DataRow("aaa_a", "AaaA", true)]
-    [DataRow("aaa_a", "aaaA", false)]
-    public void TestConvertToCamelCase(
-      string input,
-      string expected,
-      bool capitalizeFirstChar
-    )
-    {
-      Assert.AreEqual(
-        expected,
-        StringUtil.ConvertToCamelCase(input, capitalizeFirstChar)
       );
     }
 
