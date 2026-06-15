@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -87,7 +86,8 @@ namespace NvimClient.NvimProcess
         nvimPath,
         string.Join(
           " ",
-          GetFlagsForOptions(startOptions)
+          NvimStartOptions
+            .ToFlags(startOptions)
             .Append(arguments)
             .Where(argument => !string.IsNullOrEmpty(argument))
         )
@@ -100,20 +100,6 @@ namespace NvimClient.NvimProcess
         RedirectStandardOutput = redirectStandardIO,
         RedirectStandardError = redirectStandardIO,
       };
-    }
-
-    private static IEnumerable<string> GetFlagsForOptions(
-      StartOption startOptions
-    )
-    {
-      return Enum.GetValues(typeof(StartOption))
-        .Cast<StartOption>()
-        .Where(option =>
-          option != StartOption.None && startOptions.HasFlag(option)
-        )
-        .Select(option =>
-          EnumUtil.GetAttribute<ArgumentAttribute>(option).Flag
-        );
     }
   }
 }

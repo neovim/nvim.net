@@ -7,13 +7,10 @@ namespace NvimClient.NvimProcess
   {
     None = 0,
 
-    [Argument("--embed")]
     Embed = 1,
 
-    [Argument("--headless")]
     Headless = 2,
 
-    [Argument("--api-info")]
     ApiInfo = 4,
   }
 }

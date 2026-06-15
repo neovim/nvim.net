@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using CSharpier.Core;
 using Microsoft.CodeAnalysis;
@@ -25,7 +26,10 @@ internal static class CSharpierExtensions
 internal readonly record struct CSharpierResult
 {
   public string Code { get; }
+
   public AggregateException? Exception { get; }
+
+  [MemberNotNullWhen(true, nameof(Exception))]
   public bool IsExceptional { get; }
 
   private CSharpierResult(

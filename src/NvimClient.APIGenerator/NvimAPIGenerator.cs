@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text.Json;
 using CSharpier.Core.CSharp;
 using MsgPack.Serialization;
 using NvimClient.APIGenerator.Docs;
@@ -15,7 +16,7 @@ namespace NvimClient
 {
   public class NvimAPIGenerator
   {
-    private static Dictionary<string, FunctionDoc> _functionDocs;
+    private static Dictionary<string, FunctionDoc> _functionDocs = [];
     private const int OldestSupportedAPILevel = 4;
 
     private static bool IsDeprecated<T>(T functionOrEvent)
@@ -24,13 +25,18 @@ namespace NvimClient
 
     public static NvimAPIMetadata GetAPIMetadata()
     {
-      var process = Process.Start(
-        new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless)
-      );
+      var process =
+        Process.Start(
+          new NvimProcessStartInfo(StartOption.ApiInfo | StartOption.Headless)
+        )
+        ?? throw new InvalidOperationException(
+          "Failed to start neovim subprocess"
+        );
 
       var context = new SerializationContext();
-      context.DictionarySerlaizationOptions.KeyTransformer =
-        StringUtil.ConvertToSnakeCase;
+      context.DictionarySerlaizationOptions.KeyTransformer = JsonNamingPolicy
+        .SnakeCaseLower
+        .ConvertName;
       var serializer = context.GetSerializer<NvimAPIMetadata>();
       var apiMetadata = serializer.Unpack(process.StandardOutput.BaseStream);
       return apiMetadata;
@@ -139,14 +145,18 @@ namespace NvimClient.API
         "",
         uiEvents.Select(uiEvent =>
         {
-          var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+          var camelCaseName = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+            uiEvent.Name
+          );
           var eventArgs = uiEvent.Parameters.Any()
             ? $@"new {camelCaseName}EventArgs
           {{
 {
               string.Join(",\n", uiEvent.Parameters.Select((param, index) =>
               {
-                var name = StringUtil.ConvertToCamelCase(param.Name, true);
+                var name = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+                  param.Name
+                );
                 var type = NvimTypesMap.GetCSharpType(param.Type);
                 return $@"            {name} = ({type}) args[{index}]";
               }))
@@ -168,7 +178,9 @@ namespace NvimClient.API
         "\n",
         uiEvents.Select(uiEvent =>
         {
-          var camelCaseName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+          var camelCaseName = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+            uiEvent.Name
+          );
           var genericTypeParam = uiEvent.Parameters.Any()
             ? $"<{camelCaseName}EventArgs>"
             : string.Empty;
@@ -185,7 +197,9 @@ namespace NvimClient.API
           .Where(uiEvent => uiEvent.Parameters.Any())
           .Select(uiEvent =>
           {
-            var eventName = StringUtil.ConvertToCamelCase(uiEvent.Name, true);
+            var eventName = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+              uiEvent.Name
+            );
             return $@"
   public class {eventName}EventArgs : EventArgs
   {{
@@ -193,7 +207,9 @@ namespace NvimClient.API
       string.Join("", uiEvent.Parameters.Select(param =>
       {
         var type = NvimTypesMap.GetCSharpType(param.Type);
-        var paramName = StringUtil.ConvertToCamelCase(param.Name, true);
+        var paramName = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+          param.Name
+        );
         return $"    public {type} {paramName} {{ get; set; }}\n";
       }))
 }
@@ -207,7 +223,8 @@ namespace NvimClient.API
         "",
         apiMetadata.Types.Select(type =>
         {
-          var name = "Nvim" + StringUtil.ConvertToCamelCase(type.Key, true);
+          var name =
+            "Nvim" + CSharpIdentifierNames.FromSnakeCaseToPascalCase(type.Key);
           return $@"
   public class {name}
   {{
@@ -247,11 +264,10 @@ namespace NvimClient.API
             );
           }
 
-          FunctionDoc doc = null;
+          FunctionDoc? doc = null;
           _functionDocs?.TryGetValue(function.Name, out doc);
-          var camelCaseName = StringUtil.ConvertToCamelCase(
-            function.Name.Substring(prefixToRemove.Length),
-            true
+          var camelCaseName = CSharpIdentifierNames.FromSnakeCaseToPascalCase(
+            function.Name.Substring(prefixToRemove.Length)
           );
           var sendAccess = function.Method ? "_api." : string.Empty;
           var returnType = NvimTypesMap.GetCSharpType(function.ReturnType);
@@ -268,7 +284,8 @@ namespace NvimClient.API
               // In the future, it might be worth considering adding a list
               // of all C# keywords and only adding the prefix to parameter
               // names that are in the list.
-              Name = "@" + StringUtil.ConvertToCamelCase(param.Name, false),
+              Name = "@"
+                + CSharpIdentifierNames.FromSnakeCaseToCamelCase(param.Name),
             })
             .ToArray();
 
@@ -282,7 +299,7 @@ namespace NvimClient.API
               .SelectMany(param =>
                 GetDocElement("param", param.Description,
                   $@"name=""{
-                    StringUtil.ConvertToCamelCase(param.Name, false)}"""))
+                    CSharpIdentifierNames.FromSnakeCaseToCamelCase(param.Name)}"""))
             ?? Enumerable.Empty<string>()).Concat(
             GetDocElement("returns", doc?.Return)).Concat(
             GetDocElement("remarks", doc?.Notes)).Select(docLine => $@"
@@ -304,8 +321,8 @@ namespace NvimClient.API
 
     private static IEnumerable<string> GetDocElement(
       string tag,
-      IEnumerable<IDocElement> elements,
-      string tagAttributes = null
+      IEnumerable<IDocElement>? elements,
+      string tagAttributes = ""
     )
     {
       if (elements == null)
@@ -313,26 +330,25 @@ namespace NvimClient.API
         yield break;
       }
 
-      using (
-        var lineEnumerator = elements.SelectMany(GetDocLines).GetEnumerator()
-      )
+      using var lineEnumerator = elements
+        .SelectMany(GetDocLines)
+        .GetEnumerator();
+
+      if (!lineEnumerator.MoveNext())
       {
-        if (!lineEnumerator.MoveNext())
-        {
-          // Do not output a tag when it would be empty
-          yield break;
-        }
-
-        yield return string.IsNullOrEmpty(tagAttributes)
-          ? $"<{tag}>"
-          : $"<{tag} {tagAttributes}>";
-        do
-        {
-          yield return lineEnumerator.Current;
-        } while (lineEnumerator.MoveNext());
-
-        yield return $"</{tag}>";
+        // Do not output a tag when it would be empty
+        yield break;
       }
+
+      yield return string.IsNullOrEmpty(tagAttributes)
+        ? $"<{tag}>"
+        : $"<{tag} {tagAttributes}>";
+      do
+      {
+        yield return lineEnumerator.Current;
+      } while (lineEnumerator.MoveNext());
+
+      yield return $"</{tag}>";
     }
 
     private static IEnumerable<string> GetDocLines(IDocElement element)
@@ -382,7 +398,7 @@ namespace NvimClient.API
       }
     }
 
-    private static IEnumerable<string> EscapeDocLines(string text) =>
+    private static IEnumerable<string> EscapeDocLines(string? text) =>
       (SecurityElement.Escape(text) ?? string.Empty)
         .Replace("\r\n", "\n")
         .Replace('\r', '\n')
@@ -397,7 +413,7 @@ namespace NvimClient.API
           $@"
         case {type.Value.Id}:
           return new Nvim{
-            StringUtil.ConvertToCamelCase(type.Key, true)
+            CSharpIdentifierNames.FromSnakeCaseToPascalCase(type.Key)
             }(this, msgPackExtObj);"
         )
       );
