@@ -15,7 +15,7 @@ Quickstart for Linux
    ```
 3. Run the tests, to check that everything is working:
    ```
-   dotnet test test/NvimClient.Test/NvimClient.Test.csproj
+   dotnet test --solution NvimClient.slnx
    ```
 
 Plugin Example
@@ -100,11 +100,7 @@ Test
 
 Run all tests (`nvim` must be in the `PATH`):
 
-    dotnet test test/NvimClient.Test/NvimClient.Test.csproj
-
-Run only the `TestMessageDeserialization` test:
-
-    dotnet test --filter TestMessageDeserialization test/NvimClient.Test/NvimClient.Test.csproj
+    dotnet test --solution NvimClient.slnx
 
 Release
 -----

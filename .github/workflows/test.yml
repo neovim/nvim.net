@@ -45,10 +45,9 @@ jobs:
       - name: Test
         run: >
           dotnet test
-          -p:TestTfmsInParallel=false
-          "$TEST_PROJECT"
+          --project "$TEST_PROJECT"
           --configuration "$CONFIGURATION"
           --no-build
-          --verbosity normal
-          --blame-hang
-          --blame-hang-timeout 60s
+          --no-restore
+          --minimum-expected-tests 1
+          --timeout 60s
