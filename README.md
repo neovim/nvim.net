@@ -18,53 +18,66 @@ Quickstart for Linux
    dotnet test test/NvimClient.Test/NvimClient.Test.csproj
    ```
 
-Neovim RPC module
------------------
+Plugin Example
+--------------
 
-Install the `NvimClient.API` package in an executable project. Its standard
-output is the MessagePack RPC stream: write diagnostics only to standard error.
+The following is a complete, working RPC module. It adds an `:ExampleAdd`
+command that prints `3`.
 
-```csharp
-using System;
-using NvimClient.API;
+1. From the repository root, create a console project and reference
+   `NvimClient.API`:
+   ```sh
+   dotnet new console --output NvimNetExample
+   dotnet add NvimNetExample/NvimNetExample.csproj reference src/NvimClient.API/NvimClient.API.csproj
+   cd NvimNetExample
+   ```
+2. Replace `Program.cs` with:
+   ```csharp
+   using System;
+   using NvimClient.API;
 
-internal static class Program
-{
-  private static void Main()
-  {
-    var nvim = NvimAPI.CreateFromStandardIO();
-    nvim.RegisterHandler(
-      "example.add",
-      args => (long)args[0] + (long)args[1]
-    );
-    nvim.RegisterHandler(
-      "example.buf-enter",
-      args => Console.Error.WriteLine($"Opened {args[0]}")
-    );
-    nvim.WaitForDisconnect();
-  }
-}
-```
+   var nvim = NvimAPI.CreateFromStandardIO();
+   nvim.RegisterHandler(
+     "example.add",
+     args => (long)args[0] + (long)args[1]
+   );
+   Console.Error.WriteLine("ready");
+   nvim.WaitForDisconnect();
+   ```
+   Standard output is the MessagePack RPC stream. Write diagnostics only to
+   standard error.
+3. Publish the module:
+   ```sh
+   dotnet publish --output publish
+   ```
+4. Create `example.lua` in the project directory:
+   ```lua
+   local module_path = vim.fn.getcwd() .. "/publish/NvimNetExample.dll"
+   local ready = false
+   local channel = vim.fn.jobstart(
+     { "dotnet", module_path },
+     {
+       rpc = true,
+       on_stderr = function(_, data)
+         if vim.tbl_contains(data, "ready") then
+           ready = true
+         end
+       end,
+     }
+   )
+   assert(channel > 0, "failed to start the .NET module")
+   assert(vim.wait(5000, function()
+     return ready
+   end), "timed out waiting for the .NET module")
 
-Start the module from Lua and own the Neovim bindings there:
-
-```lua
-local channel = vim.fn.jobstart(
-  { "dotnet", "run", "--project", "/path/to/MyModule.csproj" },
-  { rpc = true }
-)
-
-vim.api.nvim_create_user_command("ExampleAdd", function()
-  print(vim.fn.rpcrequest(channel, "example.add", 1, 2))
-end, {})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.cs",
-  callback = function(args)
-    vim.fn.rpcnotify(channel, "example.buf-enter", args.file)
-  end,
-})
-```
+   vim.api.nvim_create_user_command("ExampleAdd", function()
+     print(vim.fn.rpcrequest(channel, "example.add", 1, 2))
+   end, {})
+   ```
+5. Start Neovim from the project directory and run `:ExampleAdd`:
+   ```sh
+   nvim --clean -u example.lua
+   ```
 
 Build
 -----
