@@ -9,7 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MsgPack;
 using MsgPack.Serialization;
 using NvimClient.API;
-using NvimClient.API.NvimPlugin;
 using NvimClient.NvimMsgpack;
 using NvimClient.NvimMsgpack.Models;
 using NvimClient.NvimProcess;
@@ -159,32 +158,46 @@ namespace NvimClient.Test
 
     [TestMethod]
     [Timeout(15000)]
-    public async Task TestPluginExports()
+    public void TestCreateFromStandardIO()
     {
-      const string pluginPath = "/path/to/plugin.sln";
-      var api = new NvimAPI();
-      await PluginHost.RegisterPlugin<TestPlugin>(api, pluginPath);
-
-      await api.Command(
-        $"let g:result = {nameof(TestPlugin.AddNumbers)}(1, 2)"
-      );
-      var result = await api.GetVar("result");
-      Assert.AreEqual(3L, result);
-
-      await api.Command($"{nameof(TestPlugin.TestCommand1)} a b c");
-      CollectionAssert.AreEqual(
-        new[] { "a", "b", "c" },
-        TestPlugin.Command1Args
+      using var process = Process.Start(
+        new ProcessStartInfo
+        {
+          FileName = "dotnet",
+          Arguments = $"\"{typeof(Module.Program).Assembly.Location}\"",
+          RedirectStandardInput = true,
+          RedirectStandardOutput = true,
+          UseShellExecute = false,
+        }
       );
 
-      await api.Command($"{nameof(TestPlugin.TestCommand2)} 1 2 3");
-      Assert.AreEqual("1 2 3", TestPlugin.Command2Args);
+      try
+      {
+        var context = new SerializationContext();
+        context.Serializers.Register(new NvimMessageSerializer(context));
+        var serializer = MessagePackSerializer.Get<NvimMessage>(context);
+        var request = new NvimRequest
+        {
+          MessageId = 42,
+          Method = "example.add",
+          Arguments = new MessagePackObject(new MessagePackObject[] { 1L, 2L }),
+        };
 
-      await api.Command("edit test.cs");
-      Assert.IsTrue(TestPlugin.AutocmdCalled);
+        serializer.Pack(process.StandardInput.BaseStream, request);
+        var response = (NvimResponse)
+          serializer.Unpack(process.StandardOutput.BaseStream);
 
-      await api.Command($"call {nameof(TestPlugin.CountLines)}()");
-      Assert.IsTrue(TestPlugin.CountLinesReturn == 1);
+        Assert.AreEqual(request.MessageId, response.MessageId);
+        Assert.AreEqual(MessagePackObject.Nil, response.Error);
+        Assert.AreEqual(3L, response.Result);
+      }
+      finally
+      {
+        if (!process.HasExited)
+        {
+          process.Kill(true);
+        }
+      }
     }
 
     [TestMethod]
