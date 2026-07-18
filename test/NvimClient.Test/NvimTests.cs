@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -167,12 +168,15 @@ namespace NvimClient.Test
           Arguments = $"\"{typeof(Module.Program).Assembly.Location}\"",
           RedirectStandardInput = true,
           RedirectStandardOutput = true,
+          RedirectStandardError = true,
           UseShellExecute = false,
         }
       );
 
       try
       {
+        Assert.AreEqual("ready", process.StandardError.ReadLine());
+
         var context = new SerializationContext();
         context.Serializers.Register(new NvimMessageSerializer(context));
         var serializer = MessagePackSerializer.Get<NvimMessage>(context);
@@ -197,6 +201,99 @@ namespace NvimClient.Test
         {
           process.Kill(true);
         }
+      }
+    }
+
+    [TestMethod]
+    [Timeout(15000)]
+    public async Task TestCreateFromStandardIOWithNvimRpc()
+    {
+      var scriptPath = Path.GetTempFileName();
+      await File.WriteAllTextAsync(
+        scriptPath,
+        """
+        local channel
+        local ready = false
+
+        local ok, error_message = xpcall(function()
+          channel = vim.fn.jobstart(
+            { "dotnet", vim.env.NVIM_CLIENT_TEST_MODULE },
+            {
+              rpc = true,
+              on_stderr = function(_, data)
+                if vim.tbl_contains(data, "ready") then
+                  ready = true
+                end
+              end,
+            }
+          )
+          assert(channel > 0, "failed to start the .NET module")
+          assert(
+            vim.wait(5000, function()
+              return ready
+            end),
+            "timed out waiting for the .NET module"
+          )
+          assert(
+            vim.fn.rpcrequest(channel, "example.add", 1, 2) == 3,
+            "example.add returned an unexpected result"
+          )
+        end, debug.traceback)
+
+        if channel and channel > 0 then
+          vim.fn.jobstop(channel)
+        end
+
+        if not ok then
+          vim.api.nvim_err_writeln(error_message)
+          vim.cmd("cquit")
+        end
+
+        vim.cmd("quitall")
+        """
+      );
+
+      var startInfo = new ProcessStartInfo
+      {
+        FileName = "nvim",
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false,
+      };
+      startInfo.ArgumentList.Add("--clean");
+      startInfo.ArgumentList.Add("--headless");
+      startInfo.ArgumentList.Add("-c");
+      startInfo.ArgumentList.Add("lua dofile(vim.env.NVIM_CLIENT_TEST_SCRIPT)");
+      startInfo.Environment["NVIM_CLIENT_TEST_MODULE"] = typeof(Module.Program)
+        .Assembly
+        .Location;
+      startInfo.Environment["NVIM_CLIENT_TEST_SCRIPT"] = scriptPath;
+
+      using var process = Process.Start(startInfo);
+
+      try
+      {
+        var standardOutputTask = process.StandardOutput.ReadToEndAsync();
+        var standardErrorTask = process.StandardError.ReadToEndAsync();
+
+        await process.WaitForExitAsync();
+
+        var standardOutput = await standardOutputTask;
+        var standardError = await standardErrorTask;
+        Assert.AreEqual(
+          0,
+          process.ExitCode,
+          $"Neovim failed.\nstdout:\n{standardOutput}\nstderr:\n{standardError}"
+        );
+      }
+      finally
+      {
+        if (!process.HasExited)
+        {
+          process.Kill(true);
+        }
+
+        File.Delete(scriptPath);
       }
     }
 

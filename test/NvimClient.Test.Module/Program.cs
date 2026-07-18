@@ -1,3 +1,4 @@
+using System;
 using NvimClient.API;
 
 namespace NvimClient.Test.Module
@@ -11,6 +12,7 @@ namespace NvimClient.Test.Module
         "example.add",
         args => (long)args[0] + (long)args[1]
       );
+      Console.Error.WriteLine("ready");
       nvim.WaitForDisconnect();
     }
   }
