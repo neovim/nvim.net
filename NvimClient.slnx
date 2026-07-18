@@ -2,6 +2,5 @@
   <Project Path="src/NvimClient.API/NvimClient.API.csproj" />
   <Project Path="src/NvimClient.APIGenerator/NvimClient.APIGenerator.csproj" />
   <Project Path="src/NvimClient/NvimClient.csproj" />
-  <Project Path="src/NvimPluginHost/NvimPluginHost.csproj" />
   <Project Path="test/NvimClient.Test/NvimClient.Test.csproj" />
 </Solution>

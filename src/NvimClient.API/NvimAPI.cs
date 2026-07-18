@@ -38,6 +38,12 @@ namespace NvimClient.API
     private readonly ManualResetEvent _waitEvent = new ManualResetEvent(false);
 
     /// <summary>
+    /// Communicates through this process's standard input and output streams.
+    /// </summary>
+    public static NvimAPI CreateFromStandardIO() =>
+      new NvimAPI(Console.OpenStandardOutput(), Console.OpenStandardInput());
+
+    /// <summary>
     /// Starts a new Nvim process and communicates
     /// with it through stdin and stdout streams.
     /// </summary>

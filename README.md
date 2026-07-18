@@ -5,13 +5,6 @@ Nvim.NET
 
 .NET client for [Neovim](https://github.com/neovim/neovim)
 
-Plugin Host Install
-------------------------
-
-Using [vim-plug](https://github.com/junegunn/vim-plug):
-
-    Plug 'neovim/nvim.net'
-
 Quickstart for Linux
 --------------------
 
@@ -25,64 +18,53 @@ Quickstart for Linux
    dotnet test test/NvimClient.Test/NvimClient.Test.csproj
    ```
 
-Plugin Development with C#
---------------------------
+Neovim RPC module
+-----------------
 
-1. Create a new solution and class library project.
-   ```
-   mkdir my-plugin
-   dotnet new sln
-   dotnet new classlib --output my-plugin
-   dotnet sln add my-plugin/my-plugin.csproj
-   ```
-2. Install the `NvimClient.API` NuGet package
-   ```
-   dotnet add my-plugin/my-plugin.csproj package NvimClient.API
-   ```
-3. Create a class like this
-   ```csharp
-   using NvimClient.API;
-   using NvimClient.API.NvimPlugin.Attributes;
-   using NvimClient.API.NvimPlugin.Parameters;
+Install the `NvimClient.API` package in an executable project. Its standard
+output is the MessagePack RPC stream: write diagnostics only to standard error.
 
-   namespace MyPlugin {
-     // Make sure the class is public and has the NvimPlugin attribute.
-     [NvimPlugin]
-     public class MyPlugin {
-       private readonly NvimAPI _nvim;
-       // Constructor with exactly one `NvimAPI` parameter.
-       public MyPlugin(NvimAPI nvim) {
-         _nvim = nvim;
-       }
-       // Use attributes to expose functions, commands, and autocommands.
-       // Valid parameter types and return types are:
-       //   string, bool, long, double, T[], and IDictionary<T, T>
-       [NvimFunction]
-       public long MyFunction(long num1, long num2) {
-         return num1 + num2;
-       }
-       [NvimCommand(Range = ".", NArgs = "*")]
-       public void MyCommand(long[] range, params object[] args) {
-         _nvim.SetCurrentLine(
-           $"Command with args: {args}, range: {range[0]}-{range[1]}");
-       }
-       [NvimAutocmd("BufEnter", Pattern = "*.cs")]
-       public void OnBufEnter(
-           [NvimEval("expand('<afile>')")] string filename) {
-         _nvim.OutWrite($"my-plugin is in '{filename}'\n");
-       }
-     }
-   }
-   ```
-4. Make the directory `rplugin/dotnet` in the same directory as the solution file.
-   If you are using git, you will need to create a file inside the directory
-   so it can be tracked.
-   ```
-   mkdir rplugin/dotnet
-   echo '' > rplugin/dotnet/.keep
-   git add rplugin/dotnet
-   ```
-5. Start `nvim` and run `:UpdateRemotePlugins`.
+```csharp
+using System;
+using NvimClient.API;
+
+internal static class Program
+{
+  private static void Main()
+  {
+    var nvim = NvimAPI.CreateFromStandardIO();
+    nvim.RegisterHandler(
+      "example.add",
+      args => (long)args[0] + (long)args[1]
+    );
+    nvim.RegisterHandler(
+      "example.buf-enter",
+      args => Console.Error.WriteLine($"Opened {args[0]}")
+    );
+    nvim.WaitForDisconnect();
+  }
+}
+```
+
+Start the module from Lua and own the Neovim bindings there:
+
+```lua
+local channel = vim.fn.jobstart(
+  { "dotnet", "run", "--project", "/path/to/MyModule.csproj" },
+  { rpc = true }
+)
+
+vim.api.nvim_create_user_command("ExampleAdd", function()
+  print(vim.fn.rpcrequest(channel, "example.add", 1, 2))
+end, {})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.cs",
+  callback = function(args)
+    vim.fn.rpcnotify(channel, "example.buf-enter", args.file)
+  end,
+})
+```
 
 Build
 -----
