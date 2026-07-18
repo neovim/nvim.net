@@ -212,12 +212,13 @@ namespace NvimClient.Test
       await File.WriteAllTextAsync(
         scriptPath,
         """
+        local module_path = assert(arg[1], "missing .NET module path")
         local channel
         local ready = false
 
         local ok, error_message = xpcall(function()
           channel = vim.fn.jobstart(
-            { "dotnet", vim.env.NVIM_CLIENT_TEST_MODULE },
+            { "dotnet", module_path },
             {
               rpc = true,
               on_stderr = function(_, data)
@@ -262,12 +263,9 @@ namespace NvimClient.Test
       };
       startInfo.ArgumentList.Add("--clean");
       startInfo.ArgumentList.Add("--headless");
-      startInfo.ArgumentList.Add("-c");
-      startInfo.ArgumentList.Add("lua dofile(vim.env.NVIM_CLIENT_TEST_SCRIPT)");
-      startInfo.Environment["NVIM_CLIENT_TEST_MODULE"] = typeof(Module.Program)
-        .Assembly
-        .Location;
-      startInfo.Environment["NVIM_CLIENT_TEST_SCRIPT"] = scriptPath;
+      startInfo.ArgumentList.Add("-l");
+      startInfo.ArgumentList.Add(scriptPath);
+      startInfo.ArgumentList.Add(typeof(Module.Program).Assembly.Location);
 
       using var process = Process.Start(startInfo);
 
