@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Nvim.Client</PackageId>
+    <Version>0.20.0</Version>
     <AssemblyName>Nvim.Client</AssemblyName>
     <Description>A lifecycle-safe MessagePack-RPC client for Neovim.</Description>
     <RepositoryUrl>https://github.com/neovim/nvim.net</RepositoryUrl>

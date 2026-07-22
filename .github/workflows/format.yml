@@ -27,4 +27,4 @@ jobs:
       - name: Check formatting
         run: |
           mapfile -t files < <(git ls-files '*.cs' '*.csx' '*.csproj' '*.props' '*.targets' '*.xml' '*.slnx')
-          ./.tools/csharpier check "${files[@]}"
+          ./.tools/csharpier check --include-generated "${files[@]}"

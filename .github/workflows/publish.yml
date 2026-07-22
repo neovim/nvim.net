@@ -18,7 +18,7 @@ jobs:
 
     env:
       CONFIGURATION: Release
-      PACKAGE_PROJECT: src/NvimClient.API/NvimClient.API.csproj
+      PACKAGE_PROJECT: src/Nvim.Client/Nvim.Client.csproj
       PACKAGE_OUTPUT: artifacts/packages
       GITHUB_PACKAGE_SOURCE: https://nuget.pkg.github.com/neovim/index.json
       NUGET_ORG_SOURCE: https://api.nuget.org/v3/index.json

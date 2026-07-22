@@ -11,6 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nvim.Client\Nvim.Client.csproj" />
     <ProjectReference Include="..\..\src\Nvim.Client.Generator\Nvim.Client.Generator.csproj" />
-    <ProjectReference Include="..\NvimClient.Test.Module\NvimClient.Test.Module.csproj" />
+    <ProjectReference Include="..\Nvim.Client.Test.Module\Nvim.Client.Test.Module.csproj" />
   </ItemGroup>
 </Project>

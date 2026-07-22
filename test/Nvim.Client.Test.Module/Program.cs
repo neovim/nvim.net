@@ -1,6 +1,6 @@
 using System;
 
-namespace NvimClient.Test.Module;
+namespace Nvim.Client.Test.Module;
 
 public static class Program
 {

@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Nvim.Client;
 using Xunit;
 
 namespace Nvim.Client.Test;
@@ -15,7 +14,7 @@ public sealed class NvimIntegrationTests
   [Fact]
   public async Task EmbeddedClientRoundTripsRequestsAndHandlers()
   {
-    using var client = Nvim.Client.NvimClient.Start();
+    using var client = NvimClient.Start();
     var cancellationToken = TestContext.Current.CancellationToken;
 
     var evaluated = await client.EvalAsync(
@@ -108,7 +107,7 @@ public sealed class NvimIntegrationTests
     );
 
     Assert.Collection(
-      failure.Value,
+      failure.Items,
       value => Assert.False(Assert.IsType<NvimBoolean>(value).Value),
       value =>
         Assert.Contains(errorMessage, Assert.IsType<NvimString>(value).Value)
@@ -175,7 +174,7 @@ public sealed class NvimIntegrationTests
   [Fact]
   public async Task StandardIoModuleHandlesInboundRequest()
   {
-    var module = typeof(global::NvimClient.Test.Module.Program)
+    var module = typeof(global::Nvim.Client.Test.Module.Program)
       .Assembly
       .Location;
     using var process = Process.Start(
@@ -188,6 +187,13 @@ public sealed class NvimIntegrationTests
       }
     )!;
     using var client = Nvim.Client.NvimClient.Attach(process);
+
+    Assert.Equal(
+      "ready",
+      await process.StandardError.ReadLineAsync(
+        TestContext.Current.CancellationToken
+      )
+    );
 
     var value = await client.RequestAsync(
       "example.add",
