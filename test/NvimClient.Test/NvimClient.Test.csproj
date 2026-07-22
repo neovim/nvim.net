@@ -4,14 +4,13 @@
     <OutputType>Exe</OutputType>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="xunit.v3.mtp-v2" />
+    <PackageReference Include="CSharpier.Core" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NvimClient.API\NvimClient.API.csproj" />
-    <ProjectReference Include="..\..\src\NvimClient\NvimClient.csproj" />
+    <ProjectReference Include="..\..\src\Nvim.Client\Nvim.Client.csproj" />
+    <ProjectReference Include="..\..\src\Nvim.Client.Generator\Nvim.Client.Generator.csproj" />
     <ProjectReference Include="..\NvimClient.Test.Module\NvimClient.Test.Module.csproj" />
   </ItemGroup>
 </Project>

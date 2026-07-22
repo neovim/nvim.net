@@ -1,19 +1,22 @@
 using System;
-using NvimClient.API;
 
-namespace NvimClient.Test.Module
+namespace NvimClient.Test.Module;
+
+public static class Program
 {
-  public static class Program
+  public static void Main()
   {
-    public static void Main()
-    {
-      var nvim = NvimAPI.CreateFromStandardIO();
-      nvim.RegisterHandler(
-        "example.add",
-        args => (long)args[0] + (long)args[1]
-      );
-      Console.Error.WriteLine("ready");
-      nvim.WaitForDisconnect();
-    }
+    using var nvim = NvimClient.AttachToStandardIO();
+    using var registration = nvim.RegisterRequestHandler(
+      "example.add",
+      (args, _) =>
+        System.Threading.Tasks.Task.FromResult<NvimValue>(
+          new NvimInteger(
+            ((NvimInteger)args[0]).Value + ((NvimInteger)args[1]).Value
+          )
+        )
+    );
+    Console.Error.WriteLine("ready");
+    nvim.Completion.GetAwaiter().GetResult();
   }
 }

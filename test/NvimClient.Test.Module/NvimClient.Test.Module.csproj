@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NvimClient.API\NvimClient.API.csproj" />
+    <ProjectReference Include="..\..\src\Nvim.Client\Nvim.Client.csproj" />
   </ItemGroup>
 </Project>

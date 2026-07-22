@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Nvim.Client</PackageId>
+    <AssemblyName>Nvim.Client</AssemblyName>
+    <Description>A lifecycle-safe MessagePack-RPC client for Neovim.</Description>
+    <RepositoryUrl>https://github.com/neovim/nvim.net</RepositoryUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MessagePack" />
+  </ItemGroup>
+</Project>
