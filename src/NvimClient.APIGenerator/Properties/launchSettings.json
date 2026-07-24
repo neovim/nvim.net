@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "NvimClient.APIGenerator": {
-      "commandName": "Project",
-      "commandLineArgs": "$(SolutionDir)/src/NvimClient.API/NvimAPI.generated.cs"
-    }
-  }
-}

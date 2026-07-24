@@ -22,9 +22,9 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Install CSharpier
-        run: dotnet tool install --tool-path ./.tools CSharpier --version 1.2.6
+        run: dotnet tool install --tool-path ./.tools CSharpier --version 1.3.0
 
       - name: Check formatting
         run: |
           mapfile -t files < <(git ls-files '*.cs' '*.csx' '*.csproj' '*.props' '*.targets' '*.xml' '*.slnx')
-          ./.tools/csharpier check "${files[@]}"
+          ./.tools/csharpier check --include-generated "${files[@]}"

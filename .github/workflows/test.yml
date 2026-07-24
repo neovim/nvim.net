@@ -14,7 +14,7 @@ jobs:
 
     env:
       CONFIGURATION: Release
-      TEST_PROJECT: test/NvimClient.Test/NvimClient.Test.csproj
+      TEST_PROJECT: test/Nvim.Client.Test/Nvim.Client.Test.csproj
 
     steps:
       - name: Checkout
